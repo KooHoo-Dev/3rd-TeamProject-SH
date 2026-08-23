@@ -1,0 +1,61 @@
+KeywordId	GenreType	GenreName	KeywordName
+01	Place	장소	학교
+02	Place	장소	병원
+03	Place	장소	공항
+04	Place	장소	도서관
+05	Place	장소	영화관
+06	Place	장소	놀이공원
+07	Place	장소	해수욕장
+08	Place	장소	캠핑장
+09	Place	장소	축구장
+10	Place	장소	스키장
+11	Job	직업	의사
+12	Job	직업	요리사
+13	Job	직업	경찰관
+14	Job	직업	소방관
+15	Job	직업	교사
+16	Job	직업	농부
+17	Job	직업	미용사
+18	Job	직업	목수
+19	Job	직업	과학자
+20	Job	직업	가수
+21	Sport	스포츠	축구
+22	Sport	스포츠	야구
+23	Sport	스포츠	농구
+24	Sport	스포츠	배구
+25	Sport	스포츠	테니스
+26	Sport	스포츠	수영
+27	Sport	스포츠	복싱
+28	Sport	스포츠	양궁
+29	Sport	스포츠	펜싱
+30	Sport	스포츠	스키
+31	Animal	동물	강아지
+32	Animal	동물	고양이
+33	Animal	동물	토끼
+34	Animal	동물	판다
+35	Animal	동물	원숭이
+36	Animal	동물	다람쥐
+37	Animal	동물	펭귄
+38	Animal	동물	벌
+39	Animal	동물	소
+40	Animal	동물	닭
+41	Movie	영화	기생충
+42	Movie	영화	타이타닉
+43	Movie	영화	해리 포터
+44	Movie	영화	겨울왕국
+45	Movie	영화	토이 스토리
+46	Movie	영화	쥬라기 공원
+47	Movie	영화	어벤져스
+48	Movie	영화	나 홀로 집에
+49	Movie	영화	부산행
+50	Movie	영화	센과 치히로의 행방불명
+51	Game	게임	마인크래프트
+52	Game	게임	리그 오브 레전드
+53	Game	게임	배틀그라운드
+54	Game	게임	오버워치
+55	Game	게임	포켓몬스터
+56	Game	게임	슈퍼 마리오
+57	Game	게임	젤다의 전설
+58	Game	게임	동물의 숲
+59	Game	게임	스타크래프트
+60	Game	게임	테트리스
