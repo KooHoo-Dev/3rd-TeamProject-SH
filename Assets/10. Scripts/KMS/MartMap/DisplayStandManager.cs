@@ -1,6 +1,7 @@
 ﻿using Study.MiniDefence;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class DisplayStandManager : MonoBehaviour
@@ -42,11 +43,13 @@ public class DisplayStandManager : MonoBehaviour
         AllArea.Add(Area3);
         AllArea.Add(Area4);
         SetRandomCategoryForArea();
+        await UniTask.WaitUntil(() => DataManager.Instance.IsReady);
         SetItemDefs();
         IsReady = true;
     }
-    public void RegisterDisplayStand(DisplayStand displayStand)
+    public async UniTask RegisterDisplayStand(DisplayStand displayStand)
     {
+        await UniTask.WaitUntil(() => IsReady);
         if (AllArea[(int)displayStand.areaNum].Contains(displayStand) == false)
         {
             AllArea[(int)displayStand.areaNum].Add(displayStand);
@@ -149,7 +152,7 @@ public class DisplayStandManager : MonoBehaviour
             CategoryType categoryType = CategoryDic.FirstOrDefault(x => x.Value == (AreaNum)i).Key;
             
             List<ItemDef> itemDefs = DataManager.Instance.GetItemDefsByCategory(categoryType);
-            Debug.Log($"[디스플레이 스탠드 매니저] : 데이터 매니저의 상태 {DataManager.Instance?.IsReady}에서 카테고리 {categoryType}에 대한 아이템 {itemDefs.Count}개를 가져왔습니다.");
+
             List<ItemDef> shuffledItemDefs = ShuffleList(itemDefs);
             switch ((AreaNum)i)
             {
@@ -166,7 +169,7 @@ public class DisplayStandManager : MonoBehaviour
                     Area4ItmeBuffer = shuffledItemDefs;
                     break;
             }
-             Debug.Log($"[DisplayStandManager] : Area {(AreaNum)i}에 {shuffledItemDefs.Count}개의 아이템을 설정 완료. 카테고리: {categoryType}");
+
         }
     }
     private void SetCategoryItemInStend(DisplayStand displayStand)
@@ -206,7 +209,6 @@ public class DisplayStandManager : MonoBehaviour
                 }
                 break;
         }
-        Debug.Log($"[DisplayStandManager] : 아이템 설정 완료.");
     }
     private List<T> ShuffleList<T>(List<T> list)
     {
