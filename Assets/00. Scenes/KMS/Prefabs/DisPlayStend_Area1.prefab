@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 297503611011896691}
   - component: {fileID: 6895314343002565836}
   m_Layer: 0
-  m_Name: Dummy_Prefab
+  m_Name: DisPlayStend_Area1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,3 +129,4 @@ MonoBehaviour:
   width: 0
   height: 0
   depth: 0
+  <areaNum>k__BackingField: 0
