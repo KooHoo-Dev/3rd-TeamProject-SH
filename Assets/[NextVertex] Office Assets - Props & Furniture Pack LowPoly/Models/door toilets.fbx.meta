@@ -1,0 +1,204 @@
+fileFormatVersion: 2
+guid: 87f8f2dcd4bd2d24685a0541ef9ce137
+labels:
+- Furniture
+- Office
+- OfficeAsset
+- Props
+timeCreated: 1499153712
+licenseType: Store
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Char_E_1
+    100002: Char_I_1
+    100004: Char_L_1
+    100006: Char_O_1
+    100008: Char_S_1
+    100010: Char_T_1
+    100012: Char_T_2
+    100014: curve1
+    100016: curve2
+    100018: curve3
+    100020: curve4
+    100022: curve5
+    100024: curve6
+    100026: curve7
+    100028: curve8
+    100030: pCube101
+    100032: pCube102
+    100034: pCube103
+    100036: pCube104
+    100038: pCube105
+    100040: pCube106
+    100042: porte
+    100044: //RootNode
+    100046: Text_TOILETS_1
+    100048: transform1
+    100050: transform2
+    100052: transform3
+    100054: transform4
+    100056: transform5
+    100058: transform6
+    100060: transform7
+    100062: Trim_Char_E_1_1
+    100064: Trim_Char_I_1_1
+    100066: Trim_Char_L_1_1
+    100068: Trim_Char_O_1_1
+    100070: Trim_Char_S_1_1
+    100072: Trim_Char_T_1_1
+    100074: Trim_Char_T_2_1
+    100076: Trim_Text_TOILETS_1_1
+    100078: Trim_Text_TOILETS_1_2
+    400000: Char_E_1
+    400002: Char_I_1
+    400004: Char_L_1
+    400006: Char_O_1
+    400008: Char_S_1
+    400010: Char_T_1
+    400012: Char_T_2
+    400014: curve1
+    400016: curve2
+    400018: curve3
+    400020: curve4
+    400022: curve5
+    400024: curve6
+    400026: curve7
+    400028: curve8
+    400030: pCube101
+    400032: pCube102
+    400034: pCube103
+    400036: pCube104
+    400038: pCube105
+    400040: pCube106
+    400042: porte
+    400044: //RootNode
+    400046: Text_TOILETS_1
+    400048: transform1
+    400050: transform2
+    400052: transform3
+    400054: transform4
+    400056: transform5
+    400058: transform6
+    400060: transform7
+    400062: Trim_Char_E_1_1
+    400064: Trim_Char_I_1_1
+    400066: Trim_Char_L_1_1
+    400068: Trim_Char_O_1_1
+    400070: Trim_Char_S_1_1
+    400072: Trim_Char_T_1_1
+    400074: Trim_Char_T_2_1
+    400076: Trim_Text_TOILETS_1_1
+    400078: Trim_Text_TOILETS_1_2
+    2300000: pCube101
+    2300002: pCube102
+    2300004: pCube103
+    2300006: pCube104
+    2300008: pCube105
+    2300010: pCube106
+    2300012: Trim_Text_TOILETS_1_2
+    3300000: pCube101
+    3300002: pCube102
+    3300004: pCube103
+    3300006: pCube104
+    3300008: pCube105
+    3300010: pCube106
+    3300012: Trim_Text_TOILETS_1_2
+    4300000: pCube101
+    4300002: pCube102
+    4300004: pCube103
+    4300006: pCube104
+    4300008: pCube105
+    4300010: pCube106
+    4300012: Trim_Text_TOILETS_1_2
+    6400000: pCube101
+    6400002: pCube102
+    6400004: pCube103
+    6400006: pCube104
+    6400008: pCube105
+    6400010: pCube106
+    6400012: Trim_Text_TOILETS_1_2
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 1
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95170
+  packageName: Office Assets - Props & Furniture Pack LowPoly
+  packageVersion: 2.0
+  assetPath: Assets/[NextVertex] Office Assets - Props & Furniture Pack LowPoly/Models/door
+    toilets.fbx
+  uploadId: 255014

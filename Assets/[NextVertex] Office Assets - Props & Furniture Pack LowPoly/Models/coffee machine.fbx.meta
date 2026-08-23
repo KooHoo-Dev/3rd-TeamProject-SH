@@ -1,0 +1,140 @@
+fileFormatVersion: 2
+guid: f48f2cb7f5baee741ac43ae75977df84
+labels:
+- Furniture
+- Office
+- OfficeAsset
+- Props
+timeCreated: 1499153714
+licenseType: Store
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: pCube112
+    100004: pCube113
+    100006: pCube114
+    100008: pCylinder21
+    100010: pCylinder22
+    100012: pCylinder23
+    100014: pCylinder24
+    400000: //RootNode
+    400002: pCube112
+    400004: pCube113
+    400006: pCube114
+    400008: pCylinder21
+    400010: pCylinder22
+    400012: pCylinder23
+    400014: pCylinder24
+    2300000: pCube112
+    2300002: pCube113
+    2300004: pCube114
+    2300006: pCylinder21
+    2300008: pCylinder22
+    2300010: pCylinder23
+    2300012: pCylinder24
+    3300000: pCube112
+    3300002: pCube113
+    3300004: pCube114
+    3300006: pCylinder21
+    3300008: pCylinder22
+    3300010: pCylinder23
+    3300012: pCylinder24
+    4300000: pCube112
+    4300002: pCylinder21
+    4300004: pCylinder22
+    4300006: pCylinder23
+    4300008: pCube113
+    4300010: pCylinder24
+    4300012: pCube114
+    6400000: pCube112
+    6400002: pCube113
+    6400004: pCube114
+    6400006: pCylinder21
+    6400008: pCylinder22
+    6400010: pCylinder23
+    6400012: pCylinder24
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 1
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95170
+  packageName: Office Assets - Props & Furniture Pack LowPoly
+  packageVersion: 2.0
+  assetPath: Assets/[NextVertex] Office Assets - Props & Furniture Pack LowPoly/Models/coffee
+    machine.fbx
+  uploadId: 255014

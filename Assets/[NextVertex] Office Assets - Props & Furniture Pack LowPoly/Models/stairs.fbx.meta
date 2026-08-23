@@ -1,0 +1,167 @@
+fileFormatVersion: 2
+guid: 2138992fd3f6d20499f62779faa0e23e
+labels:
+- Furniture
+- Office
+- OfficeAsset
+- Props
+timeCreated: 1499153710
+licenseType: Store
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: pCube1585
+    100004: pCube1586
+    100006: pCube1587
+    100008: pCube1588
+    100010: pCube1589
+    100012: pCube1590
+    100014: pCube1591
+    100016: pCube1592
+    100018: pCube1593
+    100020: pCube1594
+    100022: pCube1595
+    100024: pCube1596
+    100026: pCube1597
+    100028: pCylinder63
+    400000: //RootNode
+    400002: pCube1585
+    400004: pCube1586
+    400006: pCube1587
+    400008: pCube1588
+    400010: pCube1589
+    400012: pCube1590
+    400014: pCube1591
+    400016: pCube1592
+    400018: pCube1593
+    400020: pCube1594
+    400022: pCube1595
+    400024: pCube1596
+    400026: pCube1597
+    400028: pCylinder63
+    2300000: pCube1585
+    2300002: pCube1586
+    2300004: pCube1587
+    2300006: pCube1588
+    2300008: pCube1589
+    2300010: pCube1590
+    2300012: pCube1591
+    2300014: pCube1592
+    2300016: pCube1593
+    2300018: pCube1594
+    2300020: pCube1595
+    2300022: pCube1596
+    2300024: pCube1597
+    2300026: pCylinder63
+    3300000: pCube1585
+    3300002: pCube1586
+    3300004: pCube1587
+    3300006: pCube1588
+    3300008: pCube1589
+    3300010: pCube1590
+    3300012: pCube1591
+    3300014: pCube1592
+    3300016: pCube1593
+    3300018: pCube1594
+    3300020: pCube1595
+    3300022: pCube1596
+    3300024: pCube1597
+    3300026: pCylinder63
+    4300000: pCylinder63
+    4300002: pCube1585
+    4300004: pCube1586
+    4300006: pCube1587
+    4300008: pCube1588
+    4300010: pCube1589
+    4300012: pCube1590
+    4300014: pCube1591
+    4300016: pCube1592
+    4300018: pCube1593
+    4300020: pCube1594
+    4300022: pCube1595
+    4300024: pCube1596
+    4300026: pCube1597
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95170
+  packageName: Office Assets - Props & Furniture Pack LowPoly
+  packageVersion: 2.0
+  assetPath: Assets/[NextVertex] Office Assets - Props & Furniture Pack LowPoly/Models/stairs.fbx
+  uploadId: 255014

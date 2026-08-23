@@ -1,0 +1,193 @@
+fileFormatVersion: 2
+guid: 8aa34c96ddc84864ca5ec705dd32579a
+labels:
+- Furniture
+- Office
+- OfficeAsset
+- Props
+timeCreated: 1499153712
+licenseType: Store
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: polySurface6247
+    100004: polySurface6248
+    100006: polySurface6249
+    100008: polySurface6250
+    100010: polySurface6251
+    100012: polySurface6252
+    100014: polySurface6253
+    100016: polySurface6254
+    100018: polySurface6255
+    100020: polySurface6256
+    100022: polySurface6257
+    100024: polySurface6258
+    100026: polySurface6259
+    100028: polySurface6260
+    100030: polySurface6261
+    100032: polySurface6262
+    100034: polySurface6263
+    100036: polySurface6264
+    100038: polySurface6265
+    400000: //RootNode
+    400002: polySurface6247
+    400004: polySurface6248
+    400006: polySurface6249
+    400008: polySurface6250
+    400010: polySurface6251
+    400012: polySurface6252
+    400014: polySurface6253
+    400016: polySurface6254
+    400018: polySurface6255
+    400020: polySurface6256
+    400022: polySurface6257
+    400024: polySurface6258
+    400026: polySurface6259
+    400028: polySurface6260
+    400030: polySurface6261
+    400032: polySurface6262
+    400034: polySurface6263
+    400036: polySurface6264
+    400038: polySurface6265
+    2300000: polySurface6247
+    2300002: polySurface6248
+    2300004: polySurface6249
+    2300006: polySurface6250
+    2300008: polySurface6251
+    2300010: polySurface6252
+    2300012: polySurface6253
+    2300014: polySurface6254
+    2300016: polySurface6255
+    2300018: polySurface6256
+    2300020: polySurface6257
+    2300022: polySurface6258
+    2300024: polySurface6259
+    2300026: polySurface6260
+    2300028: polySurface6261
+    2300030: polySurface6262
+    2300032: polySurface6263
+    2300034: polySurface6264
+    2300036: polySurface6265
+    3300000: polySurface6247
+    3300002: polySurface6248
+    3300004: polySurface6249
+    3300006: polySurface6250
+    3300008: polySurface6251
+    3300010: polySurface6252
+    3300012: polySurface6253
+    3300014: polySurface6254
+    3300016: polySurface6255
+    3300018: polySurface6256
+    3300020: polySurface6257
+    3300022: polySurface6258
+    3300024: polySurface6259
+    3300026: polySurface6260
+    3300028: polySurface6261
+    3300030: polySurface6262
+    3300032: polySurface6263
+    3300034: polySurface6264
+    3300036: polySurface6265
+    4300000: polySurface6247
+    4300002: polySurface6248
+    4300004: polySurface6249
+    4300006: polySurface6250
+    4300008: polySurface6251
+    4300010: polySurface6252
+    4300012: polySurface6253
+    4300014: polySurface6254
+    4300016: polySurface6255
+    4300018: polySurface6256
+    4300020: polySurface6257
+    4300022: polySurface6258
+    4300024: polySurface6259
+    4300026: polySurface6260
+    4300028: polySurface6261
+    4300030: polySurface6262
+    4300032: polySurface6263
+    4300034: polySurface6264
+    4300036: polySurface6265
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95170
+  packageName: Office Assets - Props & Furniture Pack LowPoly
+  packageVersion: 2.0
+  assetPath: Assets/[NextVertex] Office Assets - Props & Furniture Pack LowPoly/Models/chair
+    1.fbx
+  uploadId: 255014

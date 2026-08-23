@@ -1,0 +1,142 @@
+fileFormatVersion: 2
+guid: c764fe1cd37745642a30f0cb99caac16
+labels:
+- Furniture
+- Office
+- OfficeAsset
+- Props
+timeCreated: 1499153713
+licenseType: Store
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: polySurface7671
+    100004: polySurface7672
+    100006: polySurface7673
+    100008: polySurface7674
+    100010: polySurface7675
+    100012: polySurface7676
+    100014: polySurface7677
+    100016: polySurface7678
+    100018: polySurface9295
+    400000: //RootNode
+    400002: polySurface7671
+    400004: polySurface7672
+    400006: polySurface7673
+    400008: polySurface7674
+    400010: polySurface7675
+    400012: polySurface7676
+    400014: polySurface7677
+    400016: polySurface7678
+    400018: polySurface9295
+    2300000: polySurface7671
+    2300002: polySurface7672
+    2300004: polySurface7673
+    2300006: polySurface7674
+    2300008: polySurface7675
+    2300010: polySurface7676
+    2300012: polySurface7677
+    2300014: polySurface7678
+    2300016: polySurface9295
+    3300000: polySurface7671
+    3300002: polySurface7672
+    3300004: polySurface7673
+    3300006: polySurface7674
+    3300008: polySurface7675
+    3300010: polySurface7676
+    3300012: polySurface7677
+    3300014: polySurface7678
+    3300016: polySurface9295
+    4300000: polySurface9295
+    4300002: polySurface7671
+    4300004: polySurface7672
+    4300006: polySurface7673
+    4300008: polySurface7674
+    4300010: polySurface7675
+    4300012: polySurface7676
+    4300014: polySurface7677
+    4300016: polySurface7678
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95170
+  packageName: Office Assets - Props & Furniture Pack LowPoly
+  packageVersion: 2.0
+  assetPath: Assets/[NextVertex] Office Assets - Props & Furniture Pack LowPoly/Models/sink.fbx
+  uploadId: 255014

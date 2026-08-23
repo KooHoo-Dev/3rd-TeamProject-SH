@@ -1,0 +1,242 @@
+fileFormatVersion: 2
+guid: ddf44a9762dbf5f4594d4d66b37b33d3
+labels:
+- Furniture
+- Office
+- OfficeAsset
+- Props
+timeCreated: 1499153713
+licenseType: Store
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: pCube100
+    100004: pCube72
+    100006: pCube73
+    100008: pCube74
+    100010: pCube75
+    100012: pCube76
+    100014: pCube77
+    100016: pCube78
+    100018: pCube79
+    100020: pCube80
+    100022: pCube81
+    100024: pCube82
+    100026: pCube83
+    100028: pCube84
+    100030: pCube85
+    100032: pCube86
+    100034: pCube87
+    100036: pCube88
+    100038: pCube89
+    100040: pCube90
+    100042: pCube91
+    100044: pCube92
+    100046: pCube93
+    100048: pCube94
+    100050: pCube95
+    100052: pCube96
+    100054: pCube97
+    100056: pCube98
+    100058: pCube99
+    400000: //RootNode
+    400002: pCube100
+    400004: pCube72
+    400006: pCube73
+    400008: pCube74
+    400010: pCube75
+    400012: pCube76
+    400014: pCube77
+    400016: pCube78
+    400018: pCube79
+    400020: pCube80
+    400022: pCube81
+    400024: pCube82
+    400026: pCube83
+    400028: pCube84
+    400030: pCube85
+    400032: pCube86
+    400034: pCube87
+    400036: pCube88
+    400038: pCube89
+    400040: pCube90
+    400042: pCube91
+    400044: pCube92
+    400046: pCube93
+    400048: pCube94
+    400050: pCube95
+    400052: pCube96
+    400054: pCube97
+    400056: pCube98
+    400058: pCube99
+    2300000: pCube100
+    2300002: pCube72
+    2300004: pCube73
+    2300006: pCube74
+    2300008: pCube75
+    2300010: pCube76
+    2300012: pCube77
+    2300014: pCube78
+    2300016: pCube79
+    2300018: pCube80
+    2300020: pCube81
+    2300022: pCube82
+    2300024: pCube83
+    2300026: pCube84
+    2300028: pCube85
+    2300030: pCube86
+    2300032: pCube87
+    2300034: pCube88
+    2300036: pCube89
+    2300038: pCube90
+    2300040: pCube91
+    2300042: pCube92
+    2300044: pCube93
+    2300046: pCube94
+    2300048: pCube95
+    2300050: pCube96
+    2300052: pCube97
+    2300054: pCube98
+    2300056: pCube99
+    3300000: pCube100
+    3300002: pCube72
+    3300004: pCube73
+    3300006: pCube74
+    3300008: pCube75
+    3300010: pCube76
+    3300012: pCube77
+    3300014: pCube78
+    3300016: pCube79
+    3300018: pCube80
+    3300020: pCube81
+    3300022: pCube82
+    3300024: pCube83
+    3300026: pCube84
+    3300028: pCube85
+    3300030: pCube86
+    3300032: pCube87
+    3300034: pCube88
+    3300036: pCube89
+    3300038: pCube90
+    3300040: pCube91
+    3300042: pCube92
+    3300044: pCube93
+    3300046: pCube94
+    3300048: pCube95
+    3300050: pCube96
+    3300052: pCube97
+    3300054: pCube98
+    3300056: pCube99
+    4300000: pCube74
+    4300002: pCube75
+    4300004: pCube76
+    4300006: pCube77
+    4300008: pCube78
+    4300010: pCube79
+    4300012: pCube80
+    4300014: pCube81
+    4300016: pCube82
+    4300018: pCube83
+    4300020: pCube84
+    4300022: pCube85
+    4300024: pCube86
+    4300026: pCube87
+    4300028: pCube88
+    4300030: pCube89
+    4300032: pCube90
+    4300034: pCube91
+    4300036: pCube92
+    4300038: pCube93
+    4300040: pCube94
+    4300042: pCube95
+    4300044: pCube96
+    4300046: pCube97
+    4300048: pCube98
+    4300050: pCube99
+    4300052: pCube100
+    4300054: pCube72
+    4300056: pCube73
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95170
+  packageName: Office Assets - Props & Furniture Pack LowPoly
+  packageVersion: 2.0
+  assetPath: Assets/[NextVertex] Office Assets - Props & Furniture Pack LowPoly/Models/window.fbx
+  uploadId: 255014
