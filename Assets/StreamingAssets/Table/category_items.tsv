@@ -1,61 +1,61 @@
-ItemId	CategoryType	ItemName
-01	Food	사과
-02	Food	바나나
-03	Food	오렌지
-04	Food	당근
-05	Food	빵
-06	Food	우유
-07	Food	달걀
-08	Food	고기
-09	Food	생선
-10	Food	치즈
-11	Kitchenware	프라이팬
-12	Kitchenware	냄비
-13	Kitchenware	접시
-14	Kitchenware	그릇
-15	Kitchenware	컵
-16	Kitchenware	숟가락
-17	Kitchenware	포크
-18	Kitchenware	식칼
-19	Kitchenware	주전자
-20	Kitchenware	도마
-21	Household	휴지
-22	Household	비누
-23	Household	샴푸
-24	Household	칫솔
-25	Household	수건
-26	Household	빗자루
-27	Household	양동이
-28	Household	세제
-29	Household	쓰레기통
-30	Household	손전등
-31	Stationery	책
-32	Stationery	공책
-33	Stationery	연필
-34	Stationery	볼펜
-35	Stationery	지우개
-36	Stationery	가위
-37	Stationery	자
-38	Stationery	풀
-39	Stationery	테이프
-40	Stationery	계산기
-41	Tool	망치
-42	Tool	드라이버
-43	Tool	톱
-44	Tool	삽
-45	Tool	렌치
-46	Tool	펜치
-47	Tool	전동드릴
-48	Tool	줄자
-49	Tool	도끼
-50	Tool	사다리
-51	ToyLeisure	공
-52	ToyLeisure	곰인형
-53	ToyLeisure	물총
-54	ToyLeisure	장난감 자동차
-55	ToyLeisure	쌍안경
-56	ToyLeisure	장난감 로봇
-57	ToyLeisure	낚싯대
-58	ToyLeisure	스케이트보드
-59	ToyLeisure	튜브
-60	ToyLeisure	라켓
+ItemId	CategoryType	CategoryName	ItemName	PrefabKey
+01	Food	식품	사과	Prefabs/Items/Food/Apple
+02	Food	식품	바나나	Prefabs/Items/Food/Banana
+03	Food	식품	오렌지	Prefabs/Items/Food/Orange
+04	Food	식품	당근	Prefabs/Items/Food/Carrot
+05	Food	식품	빵	Prefabs/Items/Food/Bread
+06	Food	식품	우유	Prefabs/Items/Food/Milk
+07	Food	식품	달걀	Prefabs/Items/Food/Egg
+08	Food	식품	고기	Prefabs/Items/Food/Meat
+09	Food	식품	생선	Prefabs/Items/Food/Fish
+10	Food	식품	치즈	Prefabs/Items/Food/Cheese
+11	Kitchenware	주방용품	프라이팬	Prefabs/Items/Kitchenware/FryingPan
+12	Kitchenware	주방용품	냄비	Prefabs/Items/Kitchenware/Pot
+13	Kitchenware	주방용품	접시	Prefabs/Items/Kitchenware/Plate
+14	Kitchenware	주방용품	그릇	Prefabs/Items/Kitchenware/Bowl
+15	Kitchenware	주방용품	컵	Prefabs/Items/Kitchenware/Cup
+16	Kitchenware	주방용품	숟가락	Prefabs/Items/Kitchenware/Spoon
+17	Kitchenware	주방용품	포크	Prefabs/Items/Kitchenware/Fork
+18	Kitchenware	주방용품	식칼	Prefabs/Items/Kitchenware/KitchenKnife
+19	Kitchenware	주방용품	주전자	Prefabs/Items/Kitchenware/Kettle
+20	Kitchenware	주방용품	도마	Prefabs/Items/Kitchenware/CuttingBoard
+21	Household	생활용품	휴지	Prefabs/Items/Household/ToiletPaper
+22	Household	생활용품	비누	Prefabs/Items/Household/Soap
+23	Household	생활용품	샴푸	Prefabs/Items/Household/Shampoo
+24	Household	생활용품	칫솔	Prefabs/Items/Household/Toothbrush
+25	Household	생활용품	수건	Prefabs/Items/Household/Towel
+26	Household	생활용품	빗자루	Prefabs/Items/Household/Broom
+27	Household	생활용품	양동이	Prefabs/Items/Household/Bucket
+28	Household	생활용품	세제	Prefabs/Items/Household/Detergent
+29	Household	생활용품	쓰레기통	Prefabs/Items/Household/TrashCan
+30	Household	생활용품	손전등	Prefabs/Items/Household/Flashlight
+31	Stationery	문구	컴퍼스	Prefabs/Items/Stationery/Compass
+32	Stationery	문구	공책	Prefabs/Items/Stationery/Notebook
+33	Stationery	문구	연필	Prefabs/Items/Stationery/Pencil
+34	Stationery	문구	볼펜	Prefabs/Items/Stationery/Pen
+35	Stationery	문구	지우개	Prefabs/Items/Stationery/Eraser
+36	Stationery	문구	가위	Prefabs/Items/Stationery/Scissors
+37	Stationery	문구	자	Prefabs/Items/Stationery/Ruler
+38	Stationery	문구	풀	Prefabs/Items/Stationery/Glue
+39	Stationery	문구	테이프	Prefabs/Items/Stationery/Tape
+40	Stationery	문구	계산기	Prefabs/Items/Stationery/Calculator
+41	Tool	공구	망치	Prefabs/Items/Tool/Hammer
+42	Tool	공구	드라이버	Prefabs/Items/Tool/Screwdriver
+43	Tool	공구	톱	Prefabs/Items/Tool/Saw
+44	Tool	공구	삽	Prefabs/Items/Tool/Shovel
+45	Tool	공구	렌치	Prefabs/Items/Tool/Wrench
+46	Tool	공구	펜치	Prefabs/Items/Tool/Pliers
+47	Tool	공구	전동드릴	Prefabs/Items/Tool/PowerDrill
+48	Tool	공구	줄자	Prefabs/Items/Tool/TapeMeasure
+49	Tool	공구	도끼	Prefabs/Items/Tool/Axe
+50	Tool	공구	사다리	Prefabs/Items/Tool/Ladder
+51	ToyLeisure	완구/레저	공	Prefabs/Items/ToyLeisure/Ball
+52	ToyLeisure	완구/레저	곰인형	Prefabs/Items/ToyLeisure/TeddyBear
+53	ToyLeisure	완구/레저	물총	Prefabs/Items/ToyLeisure/WaterGun
+54	ToyLeisure	완구/레저	장난감 자동차	Prefabs/Items/ToyLeisure/ToyCar
+55	ToyLeisure	완구/레저	쌍안경	Prefabs/Items/ToyLeisure/Binoculars
+56	ToyLeisure	완구/레저	장난감 로봇	Prefabs/Items/ToyLeisure/ToyRobot
+57	ToyLeisure	완구/레저	낚싯대	Prefabs/Items/ToyLeisure/FishingRod
+58	ToyLeisure	완구/레저	스케이트보드	Prefabs/Items/ToyLeisure/Skateboard
+59	ToyLeisure	완구/레저	튜브	Prefabs/Items/ToyLeisure/SwimRing
+60	ToyLeisure	완구/레저	라켓	Prefabs/Items/ToyLeisure/Racket
