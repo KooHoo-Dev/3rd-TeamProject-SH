@@ -24,8 +24,8 @@ public class PlayerAnimTest : MonoBehaviour
         PutDownItem();
         
         moveVec = new Vector3();
-        moveVec.z = SimpleInput.GetAxisVerticalRaw();
         moveVec.x = SimpleInput.GetAxisHorizontalRaw();
+        moveVec.z = SimpleInput.GetAxisVerticalRaw();
         if(moveVec.sqrMagnitude > 1f) moveVec = moveVec.normalized;
         if (moveVec != Vector3.zero) anim.gameObject.transform.forward = moveVec;
 
