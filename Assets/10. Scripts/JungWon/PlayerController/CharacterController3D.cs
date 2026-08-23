@@ -163,6 +163,7 @@ namespace JunWon.Scripts
         
         public MartItem TryGetItemFromStand()
         {
+            /*
             // 1. 플레이어의 현재 위치(target)를 기준으로 어떤 진열대에 들어와 있는지 확인
             DisplayStand currentStand = DisplayStandManager.Instance.CheckWhenStend(transform.position);
 
@@ -186,7 +187,7 @@ namespace JunWon.Scripts
             {
                 Debug.Log("현재 위치에는 어떠한 진열대도 없습니다.");
             }
-
+            */
             return null;
         }
         
