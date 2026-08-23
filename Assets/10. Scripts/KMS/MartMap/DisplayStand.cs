@@ -3,15 +3,12 @@
 /// <summary>
 /// 임시 카테고리. 나중에 데이터 테이블 쪽에서 정의될 예정
 /// </summary>
-public enum ItemCategory
+public enum AreaNum
 {
-    Food,
-    Drink,
-    Snack,
-    Household,
-    Electronics,
-    Clothing,
-    Other
+    Area1,
+    Area2,
+    Area3,
+    Area4,
 }
 public class DisplayStand : MonoBehaviour
 {
@@ -23,29 +20,25 @@ public class DisplayStand : MonoBehaviour
     float depthScale = 1f;
     MeshFilter meshFilter;
 
-    Grid grid;
+    GridCell grid;
 
-    public Grid Grid => grid ??= new Grid(0, 0, transform.position);
+    public GridCell Grid => grid ??= new GridCell(0, 0, transform.position);
 
-    // 임시로 아이템 타입을 Item으로 지정. 나중에 새 아이템 클래스가 정의되면 해당 클래스로 변경될 예정
-    public MartItem Item { get; private set; }
 
-    [field: SerializeField] public ItemCategory category { get; private set; } = ItemCategory.Other;
+    public ItemDef Item { get; private set; }
+
+    [field: SerializeField] public AreaNum areaNum { get; private set; } = AreaNum.Area1;
+    public CategoryType CategoryType { get; set; } = CategoryType.None;
     void Awake()
     {
         InitSize();
     }
-    private void OnEnable()
-    {
-        if (grid != null)
-            DisplayStandManager.Instance.RegisterDisplayStand(this);
-    }
+
     void Start()
     {
-        if(grid != null)
         DisplayStandManager.Instance.RegisterDisplayStand(this);
     }
-    void OnDestroy()
+    void OnDisable()
     {
         DisplayStandManager.Instance.UnregisterDisplayStand(this);
     }
@@ -68,9 +61,13 @@ public class DisplayStand : MonoBehaviour
     }
     void InitGrid()
     {
-        grid = new Grid(width, depth, transform.position);
+        grid = new GridCell(width, depth, transform.position);
     }
-
+    public void SetItem(ItemDef item)
+    {
+        Item = item;
+        CategoryType = item.CategoryType;
+    }
     public bool IsStay(Vector3 target)
     {
         return grid.IsStay(target);

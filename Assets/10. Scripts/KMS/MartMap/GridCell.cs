@@ -2,7 +2,7 @@
 /// <summary>
 /// 자신의 2차원 범위 안에 들어와 있는지 확인하는 클래스 
 /// </summary>
-public class Grid
+public class GridCell
 {
     private float halfWidth;
     private float halfHeight;
@@ -12,7 +12,7 @@ public class Grid
     private float boundaryMaxX;
     private float boundaryMaxZ;
 
-    public Grid(float width, float height, Vector3 centerPosition)
+    public GridCell(float width, float height, Vector3 centerPosition)
     {
         this.halfWidth = width / 2f;
         this.halfHeight = height / 2f;
