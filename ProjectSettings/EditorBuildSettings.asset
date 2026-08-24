@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/00. Scenes/KJW/Scenes/TitleScene.unity
     guid: 4266e156bef0982409d4037a08b541a0
   - enabled: 1
-    path: Assets/KIMJINWOO/Scenes/GenerateRoomScene.unity
-    guid: e34220d2f632f1b43a5ebe8b71530d21
+    path: Assets/00. Scenes/KJW/Scenes/GenerateRoomScene.unity
+    guid: da3b4197d3a62ed4bbae54f1718f7068
   - enabled: 1
-    path: Assets/KIMJINWOO/Scenes/EnterRoomScene.unity
-    guid: deae92ddba08a074c8036d83ae17fe13
+    path: Assets/00. Scenes/KJW/Scenes/EnterRoomScene.unity
+    guid: c8ac87a468c3ff44aba8317067ba14fa
   - enabled: 1
     path: Assets/00. Scenes/KJW/Scenes/LobyScene.unity
     guid: d2b7f609588958142ae047e5d829266e
