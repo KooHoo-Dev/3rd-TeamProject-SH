@@ -18,6 +18,11 @@ public class DisplayStandManager : MonoBehaviour
     List<ItemDef> Area2ItmeBuffer = new List<ItemDef>();
     List<ItemDef> Area3ItmeBuffer = new List<ItemDef>();
     List<ItemDef> Area4ItmeBuffer = new List<ItemDef>();
+
+    List<int> Area1ItemIdBuffer = new List<int>();
+    List<int> Area2ItemIdBuffer = new List<int>();
+    List<int> Area3ItemIdBuffer = new List<int>();
+    List<int> Area4ItemIdBuffer = new List<int>();
     public bool IsReady { get; private set; } = false;
 
 
@@ -42,9 +47,12 @@ public class DisplayStandManager : MonoBehaviour
         AllArea.Add(Area2);
         AllArea.Add(Area3);
         AllArea.Add(Area4);
+        
+
         SetRandomCategoryForArea();
         await UniTask.WaitUntil(() => DataManager.Instance.IsReady);
-        SetItemDefs();
+        SetItemIdBufferForAreaWithoutServer(); // 임시로 서버 없이 굴러가도록 설정해놓는 함수
+        SetShuffledItemDefs();
         IsReady = true;
     }
     public async UniTask RegisterDisplayStand(DisplayStand displayStand)
@@ -62,7 +70,7 @@ public class DisplayStandManager : MonoBehaviour
 
             SetCategoryItemInStend(displayStand); 
         } 
-        Debug.Log($"[DisplayStandManager] : 매대 {displayStand?.name} 등록 완료. 상태: {displayStand?.CategoryType}, 가진 아이템{displayStand?.Item?.ItemName}");
+        Debug.Log($"[DisplayStandManager] : 매대 {displayStand?.name} 등록 완료. 상태 : {displayStand?.CategoryType}, 가진 아이템 : {displayStand?.Item?.ItemName}");
     }
     public void UnregisterDisplayStand(DisplayStand displayStand)
     {
@@ -145,6 +153,20 @@ public class DisplayStandManager : MonoBehaviour
 
         return null;
     }
+    // 서버에서 랜덤으로 중복되지 않게 카테고리를 주입해줘야 함
+    public void SetCategoryAllArea(CategoryType[] categoryTypes)
+    {
+        if (categoryTypes.Length != AllArea.Count)
+        {
+            Debug.LogError($"[DisplayStandManager] : SetCategoryAllArea failed. categoryTypes length {categoryTypes.Length} does not match AllArea count {AllArea.Count}.");
+            return;
+        }
+        for (int i = 0; i < categoryTypes.Length; i++)
+        {
+            CategoryDic[categoryTypes[i]] = (AreaNum)i;
+        }
+    }
+    // 이 로직은 쓸 수 없음
     private void SetRandomCategoryForArea()
     {
         List<CategoryType> OldCategoryTypes = new List<CategoryType>();
@@ -178,7 +200,48 @@ public class DisplayStandManager : MonoBehaviour
 
         }
     }
-    private void SetItemDefs()
+    // 서버에서 랜덤으로 중복되지 않게 아이템을 주입해줘야 함
+    // 생각하고 있는 방식은 구역마다 로드된 아이템 갯수만큼
+    // 서버에서 List<int>(index 0,1,2...)를 만들어서, 랜덤으로 섞은 후,
+    // 이 클래스의 아이템 버퍼의 인덱스로 사용해 순서대로 아이템을 주입하는 방식
+    public void SetItemIdBufferForArea(AreaNum areaNum, List<int> itemIds)
+    {
+        switch (areaNum)
+        {
+            case AreaNum.Area1:
+                Area1ItemIdBuffer = itemIds;
+                break;
+            case AreaNum.Area2:
+                Area2ItemIdBuffer = itemIds;
+                break;
+            case AreaNum.Area3:
+                Area3ItemIdBuffer = itemIds;
+                break;
+            case AreaNum.Area4:
+                Area4ItemIdBuffer = itemIds;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 임시로 서버 없이 굴러가도록 설정해놓는 함수
+    /// </summary>
+    private void SetItemIdBufferForAreaWithoutServer()
+    {
+        for (int i = 0; i < AllArea.Count; i++)
+        {
+            CategoryType categoryType = CategoryDic.FirstOrDefault(x => x.Value == (AreaNum)i).Key;
+            List<ItemDef> itemDefs = DataManager.Instance.GetItemDefsByCategory(categoryType);
+            List<int> itemIdBuffer = new List<int>();
+            for (int j = 0; j < itemDefs.Count; j++)
+            {
+                itemIdBuffer.Add(j);
+            }
+            SetItemIdBufferForArea((AreaNum)i, itemIdBuffer);
+        }
+    }
+
+    private void SetShuffledItemDefs()
     {
         for (int i = 0; i < AllArea.Count; i++)
         {
@@ -187,23 +250,11 @@ public class DisplayStandManager : MonoBehaviour
             
             List<ItemDef> itemDefs = DataManager.Instance.GetItemDefsByCategory(categoryType);
 
-            List<ItemDef> shuffledItemDefs = ShuffleList(itemDefs);
-            switch ((AreaNum)i)
-            {
-                case AreaNum.Area1:
-                    Area1ItmeBuffer = shuffledItemDefs;
-                    break;
-                case AreaNum.Area2:
-                    Area2ItmeBuffer = shuffledItemDefs;
-                    break;
-                case AreaNum.Area3:
-                    Area3ItmeBuffer = shuffledItemDefs;
-                    break;
-                case AreaNum.Area4:
-                    Area4ItmeBuffer = shuffledItemDefs;
-                    break;
-            }
+            List<ItemDef> shuffledItemDefs = ShuffleList(itemDefs, (AreaNum)i);
+            GetItemBufferByArea((AreaNum)i).Clear();
+            GetItemBufferByArea((AreaNum)i).AddRange(shuffledItemDefs);
 
+            Debug.Log($"[DisplayStandManager] : Area {(AreaNum)i} shuffled itemDefs set. Count: {GetItemBufferByArea((AreaNum)i).Count}");
         }
     }
     private void SetCategoryItemInStend(DisplayStand displayStand)
@@ -241,21 +292,50 @@ public class DisplayStandManager : MonoBehaviour
                 break;
         }
     }
-    private List<T> ShuffleList<T>(List<T> list)
+    // 이 로직은 서버에서 랜덤으로 섞은 아이템 ID 버퍼를 기반으로, 해당 구역의 아이템 정의 리스트를 섞는 역할을 합니다.
+    private List<ItemDef> ShuffleList(List<ItemDef> list, AreaNum areaNum)
     {
-        int random1, random2;
-        T temp;
-
-        for (int i = 0; i < list.Count; ++i)
+        ItemDef temp = new ItemDef();
+        List<ItemDef> shuffledList = new List<ItemDef>(list);
+        List<int> idBuffer = GetIdBufferByArea(areaNum);
+        for (int i = 0; i < idBuffer.Count; i++)
         {
-            random1 = Random.Range(0, list.Count);
-            random2 = Random.Range(0, list.Count);
-
-            temp = list[random1];
-            list[random1] = list[random2];
-            list[random2] = temp;
+           temp = shuffledList[idBuffer[i]];
+            shuffledList[idBuffer[i]] = shuffledList[i];
+            shuffledList[i] = temp;
         }
-
-        return list;
+        return shuffledList;
+    }
+    private List<int> GetIdBufferByArea(AreaNum areaNum)
+    {
+        switch (areaNum)
+        {
+            case AreaNum.Area1:
+                return Area1ItemIdBuffer;
+            case AreaNum.Area2:
+                return Area2ItemIdBuffer;
+            case AreaNum.Area3:
+                return Area3ItemIdBuffer;
+            case AreaNum.Area4:
+                return Area4ItemIdBuffer;
+            default:
+                return null;
+        }
+    }
+    private List<ItemDef> GetItemBufferByArea(AreaNum areaNum)
+    {
+        switch (areaNum)
+        {
+            case AreaNum.Area1:
+                return Area1ItmeBuffer;
+            case AreaNum.Area2:
+                return Area2ItmeBuffer;
+            case AreaNum.Area3:
+                return Area3ItmeBuffer;
+            case AreaNum.Area4:
+                return Area4ItmeBuffer;
+            default:
+                return null;
+        }
     }
 }
