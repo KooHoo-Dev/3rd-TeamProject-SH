@@ -11,6 +11,7 @@ namespace JunWon.Scripts
         public LayerMask collisionLayer;
 
         private Collider col;
+        public Collider targetcol;
         private Rigidbody rBody;
         
         private float moveX;
@@ -30,11 +31,9 @@ namespace JunWon.Scripts
 
         #region 이벤트
         public event Action StartPush;
-        public event Action EndPush;
-        public event Action StartGetItem;
-        public event Action EndGetItem;
-        public event Action StartPutDownItem;
-        public event Action EndPutDownItem;
+        public event Action<ItemDef> OnStartGetItem;
+        public event Action<ItemDef> StartPutDownItem;
+
         #endregion
 
         private void Awake()
@@ -74,6 +73,7 @@ namespace JunWon.Scripts
             if (externalVelocity.z < 0.0f) externalVelocity.z = 0.0f;
 
             rBody.MovePosition(transform.position + moveVector);
+            TryGetItem();
         }
         
         #region Public Methods (명령 통로)
@@ -158,24 +158,34 @@ namespace JunWon.Scripts
             // 여기 방법이 2가지인데, 현재 collider설정 사용중이니 box충돌한 아이템 정보를 가져오거나
             // static map데이터 접근해서 현재 타일위치 및 정보 받아와서 해당 타일위치의 아이템 정보 가져오는건데, 
             // 현재 map데이터 코드가 없으므로 보류.
-            TryGetItemFromStand(); 
+            ItemDef Item = TryGetItemFromStand();
+            
+            if (Item != null)
+            {
+                OnStartGetItem.Invoke(Item);
+                Debug.Log($"{Item.ItemId}\n" +
+                          $"{Item.ItemName}\n" +
+                          $"{Item.CategoryName}\n" +
+                          $"{Item.CategoryType}\n");
+                
+            }
         }
         
-        public MartItem TryGetItemFromStand()
+        public ItemDef TryGetItemFromStand()
         {
-            /*
+            
             // 1. 플레이어의 현재 위치(target)를 기준으로 어떤 진열대에 들어와 있는지 확인
-            DisplayStand currentStand = DisplayStandManager.Instance.CheckWhenStend(transform.position);
-
+            DisplayStand currentStand = DisplayStandManager.Instance.CheckWhenStend(targetcol.transform.position);
+            Debug.Log($"아이템 이름 확인" + currentStand?.name);
             // 2. 플레이어 위치에 진열대가 존재하는지 검사
             if (currentStand != null)
             {
                 // 3. 해당 진열대에 배치된 아이템 가져오기
-                MartItem item = currentStand.Item;
+                ItemDef item = currentStand.Item;
 
                 if (item != null)
                 {
-                    Debug.Log($"[{currentStand.category}] 카테고리의 아이템을 찾았습니다!");
+                    Debug.Log($"[{currentStand.Item}] 카테고리의 아이템을 찾았습니다!");
                     return item;
                 }
                 else
@@ -187,7 +197,7 @@ namespace JunWon.Scripts
             {
                 Debug.Log("현재 위치에는 어떠한 진열대도 없습니다.");
             }
-            */
+            
             return null;
         }
         

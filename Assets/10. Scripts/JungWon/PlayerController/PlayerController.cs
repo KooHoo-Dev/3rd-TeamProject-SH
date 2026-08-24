@@ -15,17 +15,21 @@ namespace JunWon.Scripts
         private Player player;
         private CharacterController3D Controller3D { get; set; }
         
+        private ItemDef handItem;
+        
         //private PushPlayer pushPlayer { get; set; }
 
         private void Awake()
         {
             Animator = GetComponentInChildren<Animator>();
             Controller3D = GetComponent<CharacterController3D>();
+            
+            Controller3D.OnStartGetItem += GetItem;
         }
 
         private void Update()
         {
-            GetItem();
+            TryGetItem();
             PutDownItem();
             
             Vector3 moveVec = new Vector3();
@@ -37,19 +41,26 @@ namespace JunWon.Scripts
             if (moveVec != Vector3.zero) Animator.gameObject.transform.forward = moveVec;
         }
         
-        private void GetItem()
+        private void TryGetItem()
         {
-            if (SimpleInput.GetKeyDown(Key.Digit1))
+            if (SimpleInput.GetKeyDown(Key.Digit1) && handItem == null)
             {
-                Animator.SetLayerWeight(1,1);
-                Animator.SetBool(GET_ITEM, true);
+                Controller3D.RequestGetItem();
             }
+        }
+
+        private void GetItem(ItemDef Item)
+        {
+            handItem = Item;
+            Animator.SetLayerWeight(1,1);
+            Animator.SetBool(GET_ITEM, true);
         }
         
         private void PutDownItem()
         {
-            if (SimpleInput.GetKeyDown(Key.Digit2))
+            if (SimpleInput.GetKeyDown(Key.Digit2) && handItem != null)
             {
+                handItem = null;
                 Animator.SetLayerWeight(0,0);
                 Animator.SetBool(GET_ITEM, false);
                 Animator.SetTrigger(PUT_DOWN);
