@@ -10,12 +10,15 @@ namespace JunWon.Scripts
         private static readonly int GET_ITEM = Animator.StringToHash("GetItem");
         private static readonly int PUT_DOWN = Animator.StringToHash("PutDown");
         private static readonly int IS_PUSH = Animator.StringToHash("IsPush");
+        private static readonly int IsSitting = Animator.StringToHash("IsSitting");
 
         public Animator Animator { get; private set; }
         private Player player;
-        private CharacterController3D Controller3D { get; set; }
+        public CharacterController3D Controller3D { get; private set; }
         
         private ItemDef handItem;
+
+        [SerializeField] private bool canMove = true;
         
         //private PushPlayer pushPlayer { get; set; }
 
@@ -29,6 +32,11 @@ namespace JunWon.Scripts
 
         private void Update()
         {
+            if (canMove == false)
+            {
+                // 나중에 여기에  return 빼고 회의실에서의 동작 넣어야함
+                return;
+            }
             TryGetItem();
             PutDownItem();
             
@@ -66,10 +74,23 @@ namespace JunWon.Scripts
                 Animator.SetTrigger(PUT_DOWN);
             }
         }
-
+        
         public void PushPlayer(Vector3 hitDirection, float power)
         {
             Controller3D.ApplyPush(hitDirection, power);
+        }
+
+        public void ApplyMartPlayer()
+        {
+            canMove = true;
+            Animator.SetBool(IsSitting, false);
+        }
+        
+        public void ApplyMeetingPlayer()
+        {
+            canMove = false;
+            Animator.SetLayerWeight(0, 0);
+            Animator.SetBool(IsSitting, true);
         }
     }
 }

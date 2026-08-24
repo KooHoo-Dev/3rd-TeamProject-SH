@@ -16,21 +16,21 @@ namespace JunWon.Scripts
         
         private float moveX;
         private float moveZ;
-        
-        [Header("외부 이동값 설정")]
+
+        [Header("외부 이동값 설정")] 
+        public int pushPower = 6;
         public float externalDrag = 12.0f;
         private Vector3 externalVelocity = Vector3.zero; //외부 충격 이동값
 
         [Header("입력 요청 설정")] 
         private bool getItemRequested = false;
-        private bool pushRequested = false;
+        private bool putDownItemRequested = false;
         
         [Header("내부 설정")]
         public float HorizontalVelocity { get; private set; } = 0.0f; // 최종 x값
         public float VerticalVelocity { get; private set; } = 0.0f; // 최종 z값
 
         #region 이벤트
-        public event Action StartPush;
         public event Action<ItemDef> OnStartGetItem;
         public event Action<ItemDef> StartPutDownItem;
 
@@ -70,7 +70,7 @@ namespace JunWon.Scripts
                 Vector3.zero,
                 externalDrag * Time.fixedDeltaTime);
             
-            if (externalVelocity.z < 0.0f) externalVelocity.z = 0.0f;
+            //if (externalVelocity.z < 0.0f) externalVelocity.z = 0.0f;
 
             rBody.MovePosition(transform.position + moveVector);
             TryGetItem();
@@ -98,11 +98,11 @@ namespace JunWon.Scripts
             if (getItemRequested) return;
             getItemRequested = true;
         }
-        
-        public void RequestPush()
+
+        public void RequestPutDownItem()
         {
-            if (pushRequested) return;
-            pushRequested = true;
+            if (putDownItemRequested) return;
+            putDownItemRequested = true;
         }
         
         #endregion
@@ -201,10 +201,12 @@ namespace JunWon.Scripts
             return null;
         }
         
-        public void ApplyPush()
+        public void ApplyPutDownItem()
         {
-            if (pushRequested == false) return;
-            pushRequested = false;
+            if (putDownItemRequested == false) return;
+            putDownItemRequested = false;
+            
+            //여기에서 가방 좌표 검사 코드 넣어야함
         }
         
         #region ResolveAxisMovement 시각화 코드

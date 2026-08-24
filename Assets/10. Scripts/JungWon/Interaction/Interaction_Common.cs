@@ -6,8 +6,9 @@ namespace JunWon.Scripts
     {
         public struct InteractionEvent
         {
-            public int Amount;
             public Vector3 Position;
+            public Vector3 HitDirection;
+            public float PushPower;
         }
         
         public interface IInteractionObserver
