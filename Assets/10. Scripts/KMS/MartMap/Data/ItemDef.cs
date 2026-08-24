@@ -28,5 +28,5 @@ public class ItemDef
     public CategoryType CategoryType;
     public string CategoryName;
     public string ItemName;
-    public string PrefabKey;
+    public MartItem PrefabKey;
 }

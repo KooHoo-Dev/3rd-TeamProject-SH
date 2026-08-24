@@ -60,8 +60,8 @@ public class DisplayStandManager : MonoBehaviour
             CategoryType categoryType = CategoryDic.FirstOrDefault(x => x.Value == displayStand.areaNum).Key;
             displayStand.CategoryType = categoryType;
 
-            SetCategoryItemInStend(displayStand);
-        }
+            SetCategoryItemInStend(displayStand); 
+        } 
         Debug.Log($"[DisplayStandManager] : 매대 {displayStand?.name} 등록 완료. 상태: {displayStand?.CategoryType}, 가진 아이템{displayStand?.Item?.ItemName}");
     }
     public void UnregisterDisplayStand(DisplayStand displayStand)
@@ -83,6 +83,40 @@ public class DisplayStandManager : MonoBehaviour
             for (int j = 0; j < AllArea[i].Count; j++)
             {
                 if (AllArea[i][j].IsStay(target))
+                {
+                    return AllArea[i][j];
+                }
+            }
+        }
+        return null;
+    }
+    public DisplayStand CheckWhenStend(Vector3 origin ,Vector3 target)
+    {
+        for (int i = 0; i < AllArea.Count; i++)
+        {
+            for (int j = 0; j < AllArea[i].Count; j++)
+            {
+                if (AllArea[i][j].IsStay(target))
+                {
+                    return AllArea[i][j];
+                }
+            }
+        }
+        return null;
+    }
+    /// <summary>
+    ///  원점 (origin)에서 목표(target)까지의 레이를 쏴서, 어떤 스탠드와 충돌하는지 검사합니다. 충돌한다면 해당 스탠드를 반환합니다. 없다면 null을 반환합니다.
+    /// </summary>
+    /// <param name="origin"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public DisplayStand CheckWhenStendRay(Vector3 origin, Vector3 target)
+    {
+        for (int i = 0; i < AllArea.Count; i++)
+        {
+            for (int j = 0; j < AllArea[i].Count; j++)
+            {
+                if (AllArea[i][j].RayCheck(origin, target))
                 {
                     return AllArea[i][j];
                 }
@@ -181,7 +215,6 @@ public class DisplayStandManager : MonoBehaviour
                 {
                     displayStand.SetItem(Area1ItmeBuffer[0]);
                     Area1ItmeBuffer.RemoveAt(0);
-                    Debug.Log($"[DisplayStendManager] : Area1ItmeBuffer에서 아이템 {displayStand?.Item?.ItemName}을 매대 {displayStand?.name}에 설정 완료.");
                 }
                 break;
             case AreaNum.Area2:
@@ -189,7 +222,6 @@ public class DisplayStandManager : MonoBehaviour
                 {
                     displayStand.SetItem(Area2ItmeBuffer[0]);
                     Area2ItmeBuffer.RemoveAt(0);
-                    Debug.Log($"[DisplayStendManager] : Area2ItmeBuffer에서 아이템 {displayStand?.Item?.ItemName}을 매대 {displayStand?.name}에 설정 완료.");
                 }
                 break;
             case AreaNum.Area3:
@@ -197,7 +229,6 @@ public class DisplayStandManager : MonoBehaviour
                 {
                     displayStand.SetItem(Area3ItmeBuffer[0]);
                     Area3ItmeBuffer.RemoveAt(0);
-                    Debug.Log($"[DisplayStendManager] : Area3ItmeBuffer에서 아이템 {displayStand?.Item?.ItemName}을 매대 {displayStand?.name}에 설정 완료.");
                 }
                 break;
             case AreaNum.Area4:
@@ -205,7 +236,7 @@ public class DisplayStandManager : MonoBehaviour
                 {
                     displayStand.SetItem(Area4ItmeBuffer[0]);
                     Area4ItmeBuffer.RemoveAt(0);
-                    Debug.Log($"[DisplayStendManager] : Area4ItmeBuffer에서 아이템 {displayStand?.Item?.ItemName}을 매대 {displayStand?.name}에 설정 완료.");
+
                 }
                 break;
         }

@@ -31,18 +31,20 @@ namespace Study.MiniDefence
             itemDefs.Clear();
             // Path클래스의 Combine함수를 이용해서 경로를 이어준다.
             string filePath = Path.Combine(Application.streamingAssetsPath, TableName);
-            // 전달드린 TSVReader로 해당 테이블과 DTO 클래스 타입을 넘기면
-            // 파싱 쌀먹을 할 수 있습니다. 유용히 쓰십쇼
+
+
             List<ItemDTO> rows = TSVReader.ReadTable<ItemDTO>(filePath);
             foreach (ItemDTO dto in rows)
             {
+                // 모든 프리펩은 MartItem을 가지고 있어야함
+                MartItem prefab = Resources.Load<MartItem>(dto.PrefabKey);
                 itemDefs[dto.ItemId] = new ItemDef()
                 {
                     ItemId = dto.ItemId,
                     CategoryType = dto.CategoryType,
                     CategoryName = dto.CategoryName,
                     ItemName = dto.ItemName,
-                    PrefabKey = dto.PrefabKey,
+                    PrefabKey = prefab,
                 };
             }
         }
