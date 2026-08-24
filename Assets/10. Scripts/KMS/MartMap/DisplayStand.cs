@@ -30,6 +30,8 @@ public class DisplayStand : MonoBehaviour
 
     public ItemDef Item { get; private set; }
 
+    public MartItem MartItem { get; private set; }
+
     [field: SerializeField] public AreaNum areaNum { get; private set; } = AreaNum.Area1;
     public CategoryType CategoryType { get; set; } = CategoryType.None;
     void Awake()
@@ -74,12 +76,19 @@ public class DisplayStand : MonoBehaviour
         Vector3 centerOffset = meshFilter.mesh.bounds.center;
         grid = new GridCell(width, depth, transform.position + centerOffset);
         SetViewGrid();
-        Debug.Log($"DisplayStand InitGrid: {grid.GetCenterPosition()}");
+
     }
     public void SetItem(ItemDef item)
     {
         Item = item;
         CategoryType = item.CategoryType;
+        // 아이템 프리펩이 로드되지 않았다면 리턴(현재는 프리펩이 없으므로 이 로직을 만듬) 
+        if(item.PrefabKey == null) return;
+
+                                                                // 임의로 중심에서 대충 위로 띄운 리스폰 포인트임
+        MartItem = Instantiate(item.PrefabKey, transform.position + new Vector3(0, 1.5f, 0), item.PrefabKey.transform.rotation);
+        MartItem?.transform.SetParent(transform);
+
     }
     public bool IsStay(Vector3 target)
     {
