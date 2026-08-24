@@ -1,3 +1,4 @@
+using JunWon.Scripts;
 using Study.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -61,7 +62,8 @@ namespace BaekSH
             character.transform.SetPositionAndRotation(sittingPoint.position, sittingPoint.rotation);
 
             // character에 달린 애니메이터를 가져온다 -> sit 연결 부탁드립니다.
-            Animator animator = character.GetComponent<Animator>();
+            PlayerController animator = character.GetComponent<PlayerController>();
+            animator.ApplyMeetingPlayer();
         }
 
     }
