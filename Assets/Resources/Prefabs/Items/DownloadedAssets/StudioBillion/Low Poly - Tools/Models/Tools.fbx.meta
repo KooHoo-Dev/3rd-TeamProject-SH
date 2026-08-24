@@ -1,0 +1,447 @@
+fileFormatVersion: 2
+guid: 6a0d1a38c9070054aaf691d598484804
+ModelImporter:
+  serializedVersion: 21202
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BLU.2
+    second: {fileID: 2100000, guid: 102bb177e90825845b970ddffa744f3f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BRW.2
+    second: {fileID: 2100000, guid: b4907fc04a4a65c47a4d380b675fba1c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GRY.3
+    second: {fileID: 2100000, guid: 8aca2e78b3b720041affd80a8cb3fdc7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WateringCan
+    second: {fileID: 2100000, guid: 34d4b268cf02d9f49a208d0a38db7776, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WateringCan.1
+    second: {fileID: 2100000, guid: cd0b44cde8c7aca47a67c6c89a7f7729, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: aexwood.1
+    second: {fileID: 2100000, guid: c1a0c75cf45e32041b5fb0b55a3a9215, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ax1
+    second: {fileID: 2100000, guid: 756e5d714d3b9d24aa94903255674628, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ax2
+    second: {fileID: 2100000, guid: aee5a07093dac434da8a009184c73354, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: axe1
+    second: {fileID: 2100000, guid: 4adf933b8f2210948894cdee5b6f26f9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: axe1.1
+    second: {fileID: 2100000, guid: d2a04f8c8ad51ff49941e903fc332dbf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: axwood
+    second: {fileID: 2100000, guid: 792e584207c185c4982949f784e45c15, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: brush
+    second: {fileID: 2100000, guid: 4d2d996c906513745911f0e88c803450, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: brush.1
+    second: {fileID: 2100000, guid: 40dd6319e71c87e4bb2784d8940f497e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: brush.2
+    second: {fileID: 2100000, guid: c7a3bc2f1b0cb6546840224731c99696, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bucket
+    second: {fileID: 2100000, guid: 3ad4c381cf7bd66428a117edbab07232, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bucket.1
+    second: {fileID: 2100000, guid: 27e280aaea0142c458db3e95b05c4249, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cart_brown
+    second: {fileID: 2100000, guid: adf59b08e38f44447a7c37896248bcd4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cart_gray1
+    second: {fileID: 2100000, guid: e9b1b7140d748b544aaff6deef5851da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cart_gray2
+    second: {fileID: 2100000, guid: a96d35cf0fcc40544b2e0d478a149384, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: crowbar1
+    second: {fileID: 2100000, guid: 31464e45c4e875c4785c03a2075a8eef, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: crowbar2
+    second: {fileID: 2100000, guid: 8c44c021b426c97488c2967ba3e224b3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: crowbar4
+    second: {fileID: 2100000, guid: 998239b8e2c72e74fade0610c349658f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: crowbbar3
+    second: {fileID: 2100000, guid: 482a979d9b0e63a48a182f98fb2cd23c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cutter2
+    second: {fileID: 2100000, guid: b4c9a14195406fc4b89e70fcfd7a2b1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cutter3
+    second: {fileID: 2100000, guid: eecee240879cb9245bdced7cdb4a25ae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cutter4
+    second: {fileID: 2100000, guid: 3907051390e3cc042bf72e0b8e510c72, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cuuter
+    second: {fileID: 2100000, guid: c86f1e6468137b548b965867b97bb2fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: flashlight
+    second: {fileID: 2100000, guid: a7ec015720c01804abae1880734dfff3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: flashlight.1
+    second: {fileID: 2100000, guid: f229463258fdc3643a8612fce2f84c13, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: flashlight.2
+    second: {fileID: 2100000, guid: dcdbf0f928811aa46b0643a60143ab55, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hammer1
+    second: {fileID: 2100000, guid: b9d84d7ceff26fc4482892412f5eb112, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hammer2
+    second: {fileID: 2100000, guid: 8b10072dbe4aed04a85d83017be3c93c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: harrow
+    second: {fileID: 2100000, guid: a7ee15c6a3a8e3646bc0e91cb268bb95, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: harrow.1
+    second: {fileID: 2100000, guid: 06dec971cca0b5f4bbfe9e258cb88ec6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: helmet
+    second: {fileID: 2100000, guid: 0b5e22a515890914384f3ff63c00a66d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: knives
+    second: {fileID: 2100000, guid: b616d3d5e81ca7544a6f74368c7ad531, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: knives.1
+    second: {fileID: 2100000, guid: a5f464eff17bcef4ab3955bf8cf8d72b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pliers
+    second: {fileID: 2100000, guid: f94f96a10963282458ce841e01b3680e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pliers.1
+    second: {fileID: 2100000, guid: 137884dc578ea7744bc16ca65cb5f8f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plierss
+    second: {fileID: 2100000, guid: f0ade0133c10e79449f9890a7d69beea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: recharge
+    second: {fileID: 2100000, guid: 0b0d790392cc9ce43968297286181ef3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: recharge2
+    second: {fileID: 2100000, guid: 481f2a1c795a24b41a8717ea10aeecb3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: recharge3
+    second: {fileID: 2100000, guid: 918ec4981dbe49140851a3a52801a5e2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rollerbrush
+    second: {fileID: 2100000, guid: ebc6a03963d476b44afcd0c2e89c0395, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rollerbrush.1
+    second: {fileID: 2100000, guid: ec97e9af00c19e649816f0aa46399baf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rollerbrush.2
+    second: {fileID: 2100000, guid: aa1ea13d3410c6b4095380768be7aa56, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rollerbrush.3
+    second: {fileID: 2100000, guid: 27b4c7a1dcf19f6408d43e214fb33678, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: saw
+    second: {fileID: 2100000, guid: b531d85bfb2ec354aa2c8fad4688db35, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: scissors1
+    second: {fileID: 2100000, guid: 31b38c0a9f822ea4abda2c3ed7e9d55d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: scissors2
+    second: {fileID: 2100000, guid: 8b6cc9177f1af7f45b051c531c725bf3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: scissors3
+    second: {fileID: 2100000, guid: 7610d474d17a91a4eaecdee40f94e6ea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: screw
+    second: {fileID: 2100000, guid: 09c1667311b885a48b2147a86f8f05a5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: screwdriver
+    second: {fileID: 2100000, guid: 7b5bfac9b95f7594290b2656f8cccbb3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: screwdriver.1
+    second: {fileID: 2100000, guid: b461a1cf5d305274dafcf1d9562940fc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: scythe
+    second: {fileID: 2100000, guid: 51b199ca7acd1fa4581ebd08a5eee25f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: scythe.1
+    second: {fileID: 2100000, guid: a500e69d5deccc1428bb178213b15315, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stair
+    second: {fileID: 2100000, guid: 6ea0c66c592350741a51bc300bc8cca6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stair.1
+    second: {fileID: 2100000, guid: 7093856c74dacdf418742089acb63b9d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stair.2
+    second: {fileID: 2100000, guid: f927dd9eedc2b484a87c1583995ce80b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: toiletpump
+    second: {fileID: 2100000, guid: bf80efe136961b44dacacddaa957c51c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: toiletpump.1
+    second: {fileID: 2100000, guid: b2137f24eeab3be439579808b4452c81, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: trolleylux_black
+    second: {fileID: 2100000, guid: 78076cd1bdaf01f459320d4a6729c157, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: trolleylux_gray2
+    second: {fileID: 2100000, guid: b214b465c40548e489280e0c3876fd7f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: trolleylux_yellow
+    second: {fileID: 2100000, guid: e1ca92b1078886a459956e79d993d6e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: trovel
+    second: {fileID: 2100000, guid: b90ddd6783ce2254697606773be8db6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: trowel2
+    second: {fileID: 2100000, guid: f4bf1fc1586b93341815753074ffbfbc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wrench
+    second: {fileID: 2100000, guid: e4bbf89c333a7b94a91ca3d5387d2412, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 0
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 2
+  referencedClips: []
+  importAnimation: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 0
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 214667
+  packageName: 'Low Poly: Tools'
+  packageVersion: 1.2
+  assetPath: Assets/StudioBillion/Low Poly - Tools/Models/Tools.fbx
+  uploadId: 527091

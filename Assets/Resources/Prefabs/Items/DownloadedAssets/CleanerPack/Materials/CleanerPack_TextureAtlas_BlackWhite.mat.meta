@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 23b69ed94a538404b9ea47a2c8c70e5c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198817
+  packageName: Cleaner Pack
+  packageVersion: 1.0
+  assetPath: Assets/CleanerPack/Materials/CleanerPack_TextureAtlas_BlackWhite.mat
+  uploadId: 442077

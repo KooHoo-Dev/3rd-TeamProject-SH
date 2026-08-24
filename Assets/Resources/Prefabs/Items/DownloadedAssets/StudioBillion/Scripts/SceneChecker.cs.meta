@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a410ab64d9cbcfc4c806e23e399673c8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 214667
+  packageName: 'Low Poly: Tools'
+  packageVersion: 1.2
+  assetPath: Assets/StudioBillion/Scripts/SceneChecker.cs
+  uploadId: 527091

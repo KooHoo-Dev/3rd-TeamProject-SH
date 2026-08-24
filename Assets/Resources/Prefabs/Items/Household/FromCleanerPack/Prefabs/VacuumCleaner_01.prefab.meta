@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cebd97c3a2aedab4fa0555a3c50b9b6a
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198817
+  packageName: Cleaner Pack
+  packageVersion: 1.0
+  assetPath: Assets/CleanerPack/Prefabs/VacuumCleaner_01.prefab
+  uploadId: 442077

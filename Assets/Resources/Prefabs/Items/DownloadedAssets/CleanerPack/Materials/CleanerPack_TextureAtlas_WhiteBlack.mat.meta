@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 067f7b6dc9544f34e96cf5d93baeaef4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 198817
+  packageName: Cleaner Pack
+  packageVersion: 1.0
+  assetPath: Assets/CleanerPack/Materials/CleanerPack_TextureAtlas_WhiteBlack.mat
+  uploadId: 442077
