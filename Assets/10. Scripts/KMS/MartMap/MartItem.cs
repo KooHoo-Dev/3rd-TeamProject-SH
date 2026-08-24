@@ -4,5 +4,5 @@
 /// </summary>
 public class MartItem : MonoBehaviour
 {
-    ItemDef itemDef;
+    public ItemDef def;
 }
