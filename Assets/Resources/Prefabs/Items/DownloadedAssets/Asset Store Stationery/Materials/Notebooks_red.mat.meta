@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7882760253f83f54491302deb44091c2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175526
+  packageName: Stationery
+  packageVersion: 1.0
+  assetPath: Assets/Stationery/Materials/Notebooks_red.mat
+  uploadId: 383968

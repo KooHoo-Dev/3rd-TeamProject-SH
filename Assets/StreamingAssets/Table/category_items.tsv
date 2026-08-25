@@ -1,61 +1,177 @@
 ItemId	CategoryType	CategoryName	ItemName	PrefabKey
-01	Food	식품	사과	Prefabs/Items/Food/Apple
-02	Food	식품	바나나	Prefabs/Items/Food/Banana
-03	Food	식품	오렌지	Prefabs/Items/Food/Orange
-04	Food	식품	당근	Prefabs/Items/Food/Carrot
-05	Food	식품	빵	Prefabs/Items/Food/Bread
-06	Food	식품	우유	Prefabs/Items/Food/Milk
-07	Food	식품	달걀	Prefabs/Items/Food/Egg
-08	Food	식품	고기	Prefabs/Items/Food/Meat
-09	Food	식품	생선	Prefabs/Items/Food/Fish
-10	Food	식품	치즈	Prefabs/Items/Food/Cheese
-11	Kitchenware	주방용품	프라이팬	Prefabs/Items/Kitchenware/FryingPan
-12	Kitchenware	주방용품	냄비	Prefabs/Items/Kitchenware/Pot
-13	Kitchenware	주방용품	접시	Prefabs/Items/Kitchenware/Plate
-14	Kitchenware	주방용품	그릇	Prefabs/Items/Kitchenware/Bowl
-15	Kitchenware	주방용품	컵	Prefabs/Items/Kitchenware/Cup
-16	Kitchenware	주방용품	숟가락	Prefabs/Items/Kitchenware/Spoon
-17	Kitchenware	주방용품	포크	Prefabs/Items/Kitchenware/Fork
-18	Kitchenware	주방용품	식칼	Prefabs/Items/Kitchenware/KitchenKnife
-19	Kitchenware	주방용품	주전자	Prefabs/Items/Kitchenware/Kettle
-20	Kitchenware	주방용품	도마	Prefabs/Items/Kitchenware/CuttingBoard
-21	Household	생활용품	휴지	Prefabs/Items/Household/ToiletPaper
-22	Household	생활용품	비누	Prefabs/Items/Household/Soap
-23	Household	생활용품	샴푸	Prefabs/Items/Household/Shampoo
-24	Household	생활용품	칫솔	Prefabs/Items/Household/Toothbrush
-25	Household	생활용품	수건	Prefabs/Items/Household/Towel
-26	Household	생활용품	빗자루	Prefabs/Items/Household/Broom
-27	Household	생활용품	양동이	Prefabs/Items/Household/Bucket
-28	Household	생활용품	세제	Prefabs/Items/Household/Detergent
-29	Household	생활용품	쓰레기통	Prefabs/Items/Household/TrashCan
-30	Household	생활용품	손전등	Prefabs/Items/Household/Flashlight
-31	Stationery	문구	컴퍼스	Prefabs/Items/Stationery/Compass
-32	Stationery	문구	공책	Prefabs/Items/Stationery/Notebook
-33	Stationery	문구	연필	Prefabs/Items/Stationery/Pencil
-34	Stationery	문구	볼펜	Prefabs/Items/Stationery/Pen
-35	Stationery	문구	지우개	Prefabs/Items/Stationery/Eraser
-36	Stationery	문구	가위	Prefabs/Items/Stationery/Scissors
-37	Stationery	문구	자	Prefabs/Items/Stationery/Ruler
-38	Stationery	문구	풀	Prefabs/Items/Stationery/Glue
-39	Stationery	문구	테이프	Prefabs/Items/Stationery/Tape
-40	Stationery	문구	계산기	Prefabs/Items/Stationery/Calculator
-41	Tool	공구	망치	Prefabs/Items/Tool/Hammer
-42	Tool	공구	드라이버	Prefabs/Items/Tool/Screwdriver
-43	Tool	공구	톱	Prefabs/Items/Tool/Saw
-44	Tool	공구	삽	Prefabs/Items/Tool/Shovel
-45	Tool	공구	렌치	Prefabs/Items/Tool/Wrench
-46	Tool	공구	펜치	Prefabs/Items/Tool/Pliers
-47	Tool	공구	전동드릴	Prefabs/Items/Tool/PowerDrill
-48	Tool	공구	줄자	Prefabs/Items/Tool/TapeMeasure
-49	Tool	공구	도끼	Prefabs/Items/Tool/Axe
-50	Tool	공구	사다리	Prefabs/Items/Tool/Ladder
-51	ToyLeisure	완구/레저	공	Prefabs/Items/ToyLeisure/Ball
-52	ToyLeisure	완구/레저	곰인형	Prefabs/Items/ToyLeisure/TeddyBear
-53	ToyLeisure	완구/레저	물총	Prefabs/Items/ToyLeisure/WaterGun
-54	ToyLeisure	완구/레저	장난감 자동차	Prefabs/Items/ToyLeisure/ToyCar
-55	ToyLeisure	완구/레저	쌍안경	Prefabs/Items/ToyLeisure/Binoculars
-56	ToyLeisure	완구/레저	장난감 로봇	Prefabs/Items/ToyLeisure/ToyRobot
-57	ToyLeisure	완구/레저	낚싯대	Prefabs/Items/ToyLeisure/FishingRod
-58	ToyLeisure	완구/레저	스케이트보드	Prefabs/Items/ToyLeisure/Skateboard
-59	ToyLeisure	완구/레저	튜브	Prefabs/Items/ToyLeisure/SwimRing
-60	ToyLeisure	완구/레저	라켓	Prefabs/Items/ToyLeisure/Racket
+1	Food	식품	아보카도	Prefabs/Items/Food/Avokado
+2	Food	식품	베이글	Prefabs/Items/Food/Bagel
+3	Food	식품	바게트	Prefabs/Items/Food/Baguette
+4	Food	식품	바나나 우유	Prefabs/Items/Food/Binggra_milk_bottle_01
+5	Food	식품	맥주	Prefabs/Items/Food/Bottle_of_beer_02
+6	Food	식품	와인	Prefabs/Items/Food/Bottle_of_wine_02
+7	Food	식품	닭다리	Prefabs/Items/Food/Chicken_leg_01
+8	Food	식품	코코넛	Prefabs/Items/Food/Coconut
+9	Food	식품	쿠키	Prefabs/Items/Food/Cookie_01
+10	Food	식품	크루아상	Prefabs/Items/Food/Croissant_01
+11	Food	식품	도넛	Prefabs/Items/Food/Donut_01
+12	Food	식품	에클레어	Prefabs/Items/Food/Eclair_01
+13	Food	식품	계란	Prefabs/Items/Food/Egg_tray_big_closed
+14	Food	식품	키위	Prefabs/Items/Food/Kiwi
+15	Food	식품	레몬	Prefabs/Items/Food/Lemon
+16	Food	식품	라임	Prefabs/Items/Food/Lime
+17	Food	식품	멜론	Prefabs/Items/Food/Melon
+18	Food	식품	우유	Prefabs/Items/Food/Milk_botle
+19	Food	식품	오렌지	Prefabs/Items/Food/Orange
+20	Food	식품	팬케이크	Prefabs/Items/Food/Pancake
+21	Food	식품	프레첼	Prefabs/Items/Food/Pretzel
+22	Food	식품	갈비	Prefabs/Items/Food/Ribs_01
+23	Food	식품	와플	Prefabs/Items/Food/Round_waffle
+24	Food	식품	소시지	Prefabs/Items/Food/Sausage_mini_01
+25	Food	식품	사이다	Prefabs/Items/Food/Soda_bottle_01
+26	Food	식품	콜라	Prefabs/Items/Food/Soda_bottle_02
+27	Food	식품	오렌지 탄산음료	Prefabs/Items/Food/Soda_bottle_03
+28	Food	식품	스테이크	Prefabs/Items/Food/Steak_meet_01
+29	Food	식품	블루베리	Prefabs/Items/Food/Three_blueberries
+30	Food	식품	참치 통조림	Prefabs/Items/Food/Tin_04
+31	Food	식품	식빵	Prefabs/Items/Food/Toast_bread
+32	Food	식품	바나나	Prefabs/Items/Food/Two_bananas
+33	Food	식품	체리	Prefabs/Items/Food/Two_cherries
+34	Food	식품	소시지 롤빵	Prefabs/Items/Food/Vienna_tube_01
+35	Food	식품	수박	Prefabs/Items/Food/Watermelon
+36	Food	식품	소금빵	Prefabs/Items/Food/White_bread
+37	Food	식품	통닭	Prefabs/Items/Food/Сhicken_carcass_01
+38	Kitchenware	주방용품	유리컵	Prefabs/Items/Kitchenware/Cup_glass
+39	Kitchenware	주방용품	도마	Prefabs/Items/Kitchenware/Cutting_board_01
+40	Kitchenware	주방용품	웍	Prefabs/Items/Kitchenware/Deep_frying_pan_01
+41	Kitchenware	주방용품	주방세제	Prefabs/Items/Kitchenware/Dishwashing_detergent
+42	Kitchenware	주방용품	식기건조대	Prefabs/Items/Kitchenware/Dish_dryer
+43	Kitchenware	주방용품	주방 수세미	Prefabs/Items/Kitchenware/Dish_sponge
+44	Kitchenware	주방용품	포크	Prefabs/Items/Kitchenware/Fork
+45	Kitchenware	주방용품	주방걸이	Prefabs/Items/Kitchenware/Hanger
+46	Kitchenware	주방용품	커피포트	Prefabs/Items/Kitchenware/Kettle_01
+47	Kitchenware	주방용품	오븐장갑	Prefabs/Items/Kitchenware/Kitchen_potholder_01
+48	Kitchenware	주방용품	뒤집개	Prefabs/Items/Kitchenware/Kitchen_spatula_01
+49	Kitchenware	주방용품	볶음주걱	Prefabs/Items/Kitchenware/Kitchen_spatula_02
+50	Kitchenware	주방용품	식칼	Prefabs/Items/Kitchenware/Knife_01
+51	Kitchenware	주방용품	칼꽂이	Prefabs/Items/Kitchenware/Knife_organizer
+52	Kitchenware	주방용품	와인잔	Prefabs/Items/Kitchenware/Wine_glass
+53	Kitchenware	주방용품	전자레인지	Prefabs/Items/Kitchenware/Microwave_01
+54	Kitchenware	주방용품	프라이팬	Prefabs/Items/Kitchenware/Pan_01
+55	Kitchenware	주방용품	키친타월	Prefabs/Items/Kitchenware/Paper_towels
+56	Kitchenware	주방용품	접시	Prefabs/Items/Kitchenware/Plate_01
+57	Kitchenware	주방용품	냄비	Prefabs/Items/Kitchenware/Pot_01
+58	Kitchenware	주방용품	밀대	Prefabs/Items/Kitchenware/Rolling_pin
+59	Kitchenware	주방용품	샐러드볼	Prefabs/Items/Kitchenware/Salad_bowl_01
+60	Kitchenware	주방용품	국자	Prefabs/Items/Kitchenware/Soup_ladle 
+61	Kitchenware	주방용품	숟가락	Prefabs/Items/Kitchenware/Spoon
+62	Kitchenware	주방용품	나이프	Prefabs/Items/Kitchenware/Table_knife
+63	Kitchenware	주방용품	주전자	Prefabs/Items/Kitchenware/Tea_kettle_01
+64	Kitchenware	주방용품	토스터	Prefabs/Items/Kitchenware/Toaster_red
+65	Kitchenware	생활용품	액체 비누	Prefabs/Items/Kitchenware/Liquid_soap
+66	Household	생활용품	바구니	Prefabs/Items/Household/Basket_01
+67	Household	생활용품	양동이	Prefabs/Items/Household/Bucket_01
+68	Household	생활용품	빨래집게	Prefabs/Items/Household/Clip_01
+69	Household	생활용품	옷걸이	Prefabs/Items/Household/ClothHanger_01
+70	Household	생활용품	쓰레받기	Prefabs/Items/Household/DustPan_01
+71	Household	생활용품	대걸레 양동이	Prefabs/Items/Household/FloorMopBucket_01
+72	Household	생활용품	다리미	Prefabs/Items/Household/Iron_01
+73	Household	생활용품	세탁 세제	Prefabs/Items/Household/PlasticBottle_03
+74	Household	생활용품	대야	Prefabs/Items/Household/PlasticTub_01
+75	Household	생활용품	뚫어뻥	Prefabs/Items/Household/Plunger_01
+76	Household	생활용품	청소솔	Prefabs/Items/Household/ScrubBrush_01
+77	Household	생활용품	고체 비누	Prefabs/Items/Household/SoapBar_01
+78	Household	생활용품	살충제	Prefabs/Items/Household/Spray_01
+79	Household	생활용품	분무기	Prefabs/Items/Household/Spray_02
+80	Household	생활용품	물밀대	Prefabs/Items/Household/Squeegee_01
+81	Household	생활용품	변기솔	Prefabs/Items/Household/ToiletBrush_01
+82	Household	생활용품	칫솔	Prefabs/Items/Household/Toothbrush_01
+83	Household	생활용품	수건	Prefabs/Items/Household/Towel_01
+84	Household	생활용품	쓰레기통	Prefabs/Items/Household/TrashCan_01
+85	Household	생활용품	진공청소기	Prefabs/Items/Household/VacuumCleaner_01
+86	Stationery	문구	계산기	Prefabs/Items/Stationery/Calculator
+87	Stationery	문구	지우개	Prefabs/Items/Stationery/Eraser
+88	Stationery	문구	서류철	Prefabs/Items/Stationery/Folder_1
+89	Stationery	문구	파일꽂이	Prefabs/Items/Stationery/Folder_stand
+90	Stationery	문구	액체풀	Prefabs/Items/Stationery/Glue
+91	Stationery	문구	딱풀	Prefabs/Items/Stationery/Glue_stick
+92	Stationery	문구	형광펜	Prefabs/Items/Stationery/Highlighter pen blue
+93	Stationery	문구	펀치	Prefabs/Items/Stationery/Hole_punch
+94	Stationery	문구	커터칼	Prefabs/Items/Stationery/Knife
+95	Stationery	문구	스탠드	Prefabs/Items/Stationery/Lamp_blue
+96	Stationery	문구	메모장	Prefabs/Items/Stationery/Legal_pad
+97	Stationery	문구	스프링 공책	Prefabs/Items/Stationery/Notebook_with_springs_blue
+98	Stationery	문구	볼펜	Prefabs/Items/Stationery/Pen black
+99	Stationery	문구	연필	Prefabs/Items/Stationery/Pencil black
+100	Stationery	문구	가위	Prefabs/Items/Stationery/Scissors black
+101	Stationery	문구	스테이플러	Prefabs/Items/Stationery/Stapler
+102	Stationery	문구	포스트잇	Prefabs/Items/Stationery/Stickers
+103	Stationery	문구	테이프 디스펜서	Prefabs/Items/Stationery/Tape dispenser
+104	Tool	공구	손도끼	Prefabs/Items/Tool/Ax
+105	Tool	공구	곡괭이	Prefabs/Items/Tool/Axe
+106	Tool	공구	페인트 붓	Prefabs/Items/Tool/Brush
+107	Tool	공구	운반 카트	Prefabs/Items/Tool/Cart
+108	Tool	공구	쇠지렛대	Prefabs/Items/Tool/Crowbar
+109	Tool	공구	손전등	Prefabs/Items/Tool/Flashlight
+110	Tool	공구	망치	Prefabs/Items/Tool/Hammer
+111	Tool	공구	안전모	Prefabs/Items/Tool/Helmet
+112	Tool	공구	펜치	Prefabs/Items/Tool/Pliers
+113	Tool	공구	드릴	Prefabs/Items/Tool/Rechargescrew
+114	Tool	공구	페인트 롤러	Prefabs/Items/Tool/Rollerbrush
+115	Tool	공구	톱	Prefabs/Items/Tool/Saw
+116	Tool	공구	정원용 가위	Prefabs/Items/Tool/Scissor
+117	Tool	공구	나사	Prefabs/Items/Tool/Screw
+118	Tool	공구	드라이버	Prefabs/Items/Tool/Screwdriver
+119	Tool	공구	낫	Prefabs/Items/Tool/Scyhte
+120	Tool	공구	사다리	Prefabs/Items/Tool/Stair
+121	Tool	공구	손수레	Prefabs/Items/Tool/Trolley
+122	Tool	공구	흙손	Prefabs/Items/Tool/Trovel
+123	Tool	공구	물뿌리개	Prefabs/Items/Tool/Watering Can
+124	Tool	공구	렌치	Prefabs/Items/Tool/Wrench
+125	ToyLeisure	완구/레저	비행기 장난감	Prefabs/Items/ToyLeisure/airplane
+126	ToyLeisure	완구/레저	배낭	Prefabs/Items/ToyLeisure/backpack
+127	ToyLeisure	완구/레저	비치볼	Prefabs/Items/ToyLeisure/beachBall
+128	ToyLeisure	완구/레저	자전거 장난감	Prefabs/Items/ToyLeisure/bike
+129	ToyLeisure	완구/레저	폭탄 장난감	Prefabs/Items/ToyLeisure/bomb
+130	ToyLeisure	완구/레저	부메랑	Prefabs/Items/ToyLeisure/boomerang
+131	ToyLeisure	완구/레저	그림붓	Prefabs/Items/ToyLeisure/brush
+132	ToyLeisure	완구/레저	선인장 인형	Prefabs/Items/ToyLeisure/cactusToy
+133	ToyLeisure	완구/레저	자동차 장난감	Prefabs/Items/ToyLeisure/car
+134	ToyLeisure	완구/레저	경찰차 장난감	Prefabs/Items/ToyLeisure/carPolice
+135	ToyLeisure	완구/레저	고양이 인형	Prefabs/Items/ToyLeisure/cat
+136	ToyLeisure	완구/레저	왕관	Prefabs/Items/ToyLeisure/crown
+137	ToyLeisure	완구/레저	주사위	Prefabs/Items/ToyLeisure/dice
+138	ToyLeisure	완구/레저	공룡 인형	Prefabs/Items/ToyLeisure/dinosaur
+139	ToyLeisure	완구/레저	다이빙 마스크	Prefabs/Items/ToyLeisure/diver's_mask
+140	ToyLeisure	완구/레저	공주 인형	Prefabs/Items/ToyLeisure/dolll
+141	ToyLeisure	완구/레저	돌고래 인형	Prefabs/Items/ToyLeisure/dolphin
+142	ToyLeisure	완구/레저	장난감 드럼	Prefabs/Items/ToyLeisure/drum
+143	ToyLeisure	완구/레저	고무오리	Prefabs/Items/ToyLeisure/duckRubber
+144	ToyLeisure	완구/레저	다이너마이트 장난감	Prefabs/Items/ToyLeisure/dynamite
+145	ToyLeisure	완구/레저	원반	Prefabs/Items/ToyLeisure/frisbee
+146	ToyLeisure	완구/레저	거위 인형	Prefabs/Items/ToyLeisure/goose
+147	ToyLeisure	완구/레저	큐브 퍼즐	Prefabs/Items/ToyLeisure/logicCube
+148	ToyLeisure	완구/레저	마라카스	Prefabs/Items/ToyLeisure/marakas
+149	ToyLeisure	완구/레저	문어 인형	Prefabs/Items/ToyLeisure/octopus_sad
+150	ToyLeisure	완구/레저	팔레트	Prefabs/Items/ToyLeisure/palette
+151	ToyLeisure	완구/레저	종이비행기	Prefabs/Items/ToyLeisure/paperPlane
+152	ToyLeisure	완구/레저	종이배	Prefabs/Items/ToyLeisure/paperShip
+153	ToyLeisure	완구/레저	연필 인형	Prefabs/Items/ToyLeisure/pencil
+154	ToyLeisure	완구/레저	돼지저금통	Prefabs/Items/ToyLeisure/piggy_bank
+155	ToyLeisure	완구/레저	팝잇	Prefabs/Items/ToyLeisure/popIt
+156	ToyLeisure	완구/레저	피라미드 장난감	Prefabs/Items/ToyLeisure/pyramid
+157	ToyLeisure	완구/레저	로봇 피규어	Prefabs/Items/ToyLeisure/robot
+158	ToyLeisure	완구/레저	로켓 장난감	Prefabs/Items/ToyLeisure/rocket
+159	ToyLeisure	완구/레저	큐브	Prefabs/Items/ToyLeisure/rubik`sCube
+160	ToyLeisure	완구/레저	모래삽	Prefabs/Items/ToyLeisure/scoop
+161	ToyLeisure	완구/레저	상어 인형	Prefabs/Items/ToyLeisure/shark
+162	ToyLeisure	완구/레저	배 장난감	Prefabs/Items/ToyLeisure/ship
+163	ToyLeisure	완구/레저	스케이트보드	Prefabs/Items/ToyLeisure/skateboard
+164	ToyLeisure	완구/레저	축구화	Prefabs/Items/ToyLeisure/soccer_boot
+165	ToyLeisure	완구/레저	피젯스피너	Prefabs/Items/ToyLeisure/spiner
+166	ToyLeisure	완구/레저	기관차 장난감	Prefabs/Items/ToyLeisure/stamTrain
+167	ToyLeisure	완구/레저	조타륜 장난감	Prefabs/Items/ToyLeisure/steering_wheel
+168	ToyLeisure	완구/레저	잠수함 장난감	Prefabs/Items/ToyLeisure/submarine
+169	ToyLeisure	완구/레저	탱크 장난감	Prefabs/Items/ToyLeisure/tank
+170	ToyLeisure	완구/레저	곰인형	Prefabs/Items/ToyLeisure/teddyBear
+171	ToyLeisure	완구/레저	트랙터 장난감	Prefabs/Items/ToyLeisure/traktor
+172	ToyLeisure	완구/레저	트럭 장난감	Prefabs/Items/ToyLeisure/truck
+173	ToyLeisure	완구/레저	트럼펫	Prefabs/Items/ToyLeisure/trumpet
+174	ToyLeisure	완구/레저	유니콘 인형	Prefabs/Items/ToyLeisure/unicorn
+175	ToyLeisure	완구/레저	물총	Prefabs/Items/ToyLeisure/waterPistol
+176	ToyLeisure	완구/레저	실로폰	Prefabs/Items/ToyLeisure/xelophone

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 914f4089d3846734780eb2763726da49
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175526
+  packageName: Stationery
+  packageVersion: 1.0
+  assetPath: Assets/Stationery/Materials/Sky.mat
+  uploadId: 383968

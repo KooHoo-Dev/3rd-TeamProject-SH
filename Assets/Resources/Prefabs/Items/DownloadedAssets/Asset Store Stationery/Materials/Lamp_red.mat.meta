@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 636e069cda0395a4ea9f008b3c5d5873
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175526
+  packageName: Stationery
+  packageVersion: 1.0
+  assetPath: Assets/Stationery/Materials/Lamp_red.mat
+  uploadId: 383968

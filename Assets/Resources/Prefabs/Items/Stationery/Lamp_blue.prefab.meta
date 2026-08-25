@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: acc4765ef1ca39045aa4c0cc1bc25c69
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175526
+  packageName: Stationery
+  packageVersion: 1.0
+  assetPath: Assets/Stationery/Prefabs/Lamp/Lamp_blue.prefab
+  uploadId: 383968
