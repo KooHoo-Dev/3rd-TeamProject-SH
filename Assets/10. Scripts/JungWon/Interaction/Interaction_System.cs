@@ -6,7 +6,7 @@ namespace JunWon.Scripts
 {
     public class Interaction_System : SingletonBase<Interaction_System>
     {
-        private List<Interaction_Common.IInteractionObserver> observerList = new List<Interaction_Common.IInteractionObserver>();
+        private List<IInteractionObserver> observerList = new List<IInteractionObserver>();
         private Dictionary<Collider, PushableBox> pushableBoxDic { get; set; } = new();
 
         protected override void OnInitialize()
@@ -14,19 +14,19 @@ namespace JunWon.Scripts
             base.OnInitialize();
         }
 
-        public void Subscribe(Interaction_Common.IInteractionObserver observer)
+        public void Subscribe(IInteractionObserver observer)
         {
             if (observerList.Contains(observer)) return;
             observerList.Add(observer);
         }
 
-        public void UnSubscribe(Interaction_Common.IInteractionObserver observer)
+        public void UnSubscribe(IInteractionObserver observer)
         {
             if (observerList.Contains(observer) == false) return;
             observerList.Remove(observer);
         }
 
-        public void To(Interaction_Player sender, Interaction_Player receiver, Interaction_Common.InteractionEvent @event)
+        public void To(Interaction_Player sender, Interaction_Player receiver, InteractionEvent @event)
         {
             if (sender == null || receiver == null)
             {
@@ -38,7 +38,7 @@ namespace JunWon.Scripts
             HandlePushEvent(sender, receiver, @event);
         }
 
-        private void HandlePushEvent(Interaction_Player sender, Interaction_Player receiver, Interaction_Common.InteractionEvent @event)
+        private void HandlePushEvent(Interaction_Player sender, Interaction_Player receiver, InteractionEvent @event)
         {
             // 수신 대상에게 충격량(밀치기) 전달
             receiver.PushPlayer(@event.HitDirection, @event.PushPower);

@@ -11,30 +11,18 @@ namespace JunWon.Scripts
         public LayerMask collisionLayer;
 
         private Collider col;
-        public Collider targetcol;
         private Rigidbody rBody;
         
         private float moveX;
         private float moveZ;
 
         [Header("외부 이동값 설정")] 
-        public int pushPower = 6;
         public float externalDrag = 12.0f;
         private Vector3 externalVelocity = Vector3.zero; //외부 충격 이동값
-
-        [Header("입력 요청 설정")] 
-        private bool getItemRequested = false;
-        private bool putDownItemRequested = false;
         
         [Header("내부 설정")]
         public float HorizontalVelocity { get; private set; } = 0.0f; // 최종 x값
         public float VerticalVelocity { get; private set; } = 0.0f; // 최종 z값
-
-        #region 이벤트
-        public event Action<ItemDef> OnStartGetItem;
-        public event Action<ItemDef> StartPutDownItem;
-
-        #endregion
 
         private void Awake()
         {
@@ -73,7 +61,6 @@ namespace JunWon.Scripts
             //if (externalVelocity.z < 0.0f) externalVelocity.z = 0.0f;
 
             rBody.MovePosition(transform.position + moveVector);
-            TryGetItem();
         }
         
         #region Public Methods (명령 통로)
@@ -91,18 +78,6 @@ namespace JunWon.Scripts
             moveZ = 0.0f;
 
             externalVelocity += direction * power;
-        }
-
-        public void RequestGetItem()
-        {
-            if (getItemRequested) return;
-            getItemRequested = true;
-        }
-
-        public void RequestPutDownItem()
-        {
-            if (putDownItemRequested) return;
-            putDownItemRequested = true;
         }
         
         #endregion
@@ -150,64 +125,6 @@ namespace JunWon.Scripts
         }
         
         #endregion
-        
-        public void TryGetItem() 
-        {
-            if (getItemRequested == false) return;
-            getItemRequested = false;
-            // 여기 방법이 2가지인데, 현재 collider설정 사용중이니 box충돌한 아이템 정보를 가져오거나
-            // static map데이터 접근해서 현재 타일위치 및 정보 받아와서 해당 타일위치의 아이템 정보 가져오는건데, 
-            // 현재 map데이터 코드가 없으므로 보류.
-            ItemDef Item = TryGetItemFromStand();
-            
-            if (Item != null)
-            {
-                OnStartGetItem.Invoke(Item);
-                Debug.Log($"{Item.ItemId}\n" +
-                          $"{Item.ItemName}\n" +
-                          $"{Item.CategoryName}\n" +
-                          $"{Item.CategoryType}\n");
-                
-            }
-        }
-        
-        public ItemDef TryGetItemFromStand()
-        {
-            
-            // 1. 플레이어의 현재 위치(target)를 기준으로 어떤 진열대에 들어와 있는지 확인
-            DisplayStand currentStand = DisplayStandManager.Instance.CheckWhenStend(targetcol.transform.position);
-            Debug.Log($"아이템 이름 확인" + currentStand?.name);
-            // 2. 플레이어 위치에 진열대가 존재하는지 검사
-            if (currentStand != null)
-            {
-                // 3. 해당 진열대에 배치된 아이템 가져오기
-                ItemDef item = currentStand.Item;
-
-                if (item != null)
-                {
-                    Debug.Log($"[{currentStand.Item}] 카테고리의 아이템을 찾았습니다!");
-                    return item;
-                }
-                else
-                {
-                    Debug.Log("진열대는 존재하지만 아이템이 비어있습니다.");
-                }
-            }
-            else
-            {
-                Debug.Log("현재 위치에는 어떠한 진열대도 없습니다.");
-            }
-            
-            return null;
-        }
-        
-        public void ApplyPutDownItem()
-        {
-            if (putDownItemRequested == false) return;
-            putDownItemRequested = false;
-            
-            //여기에서 가방 좌표 검사 코드 넣어야함
-        }
         
         #region ResolveAxisMovement 시각화 코드
 

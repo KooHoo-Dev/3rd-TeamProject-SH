@@ -53,12 +53,11 @@ namespace JunWon.Scripts
             hitDir.y = 0.0f;
             hitDir.Normalize();
 
-            PlayerController playerCt = Owner.GetComponent<PlayerController>();
             // 밀치기 이벤트 생성
-            Interaction_Common.InteractionEvent @event;
+            InteractionEvent @event;
             @event.Position = collision.ClosestPoint(sender.transform.position);
             @event.HitDirection = hitDir;
-            @event.PushPower = playerCt.Controller3D.pushPower;
+            @event.PushPower = Owner.PushPower;
 
             // Interaction_System을 통해 전달
             Interaction_System.Instance.To(sender, receiver, @event);

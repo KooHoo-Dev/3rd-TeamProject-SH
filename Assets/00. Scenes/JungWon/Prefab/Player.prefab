@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 533977771015398798}
   - component: {fileID: 2336401383748982689}
   - component: {fileID: 5530280183875003146}
+  - component: {fileID: 2668788966796295975}
+  - component: {fileID: 9199929324415156545}
   - component: {fileID: 643297642833712815}
   - component: {fileID: 1006583272637948065}
   m_Layer: 0
@@ -50,7 +52,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.Player
   <NickNamePivot>k__BackingField: {fileID: 8350525420900975534}
-  <ItemPivot>k__BackingField: {fileID: 1362353154802437241}
+  <ItemHeadPivot>k__BackingField: {fileID: 1362353154802437241}
+  <FindItemPivot>k__BackingField: {fileID: 8790858414017895942}
+  <PushPower>k__BackingField: 10
   <SelectedObjects>k__BackingField: []
 --- !u!114 &2336401383748982689
 MonoBehaviour:
@@ -82,10 +86,35 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 64
-  targetcol: {fileID: 5998201562409651203}
   externalDrag: 12
   showCastGizmos: 1
   castPreviewDistance: 0.5
+--- !u!114 &2668788966796295975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371521968274464321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5338047ee44440d99ad8bad7c5b805be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.ItemInteractionHandler
+  <Owner>k__BackingField: {fileID: 0}
+--- !u!114 &9199929324415156545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371521968274464321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a30f6c51a847f3bd783f9403771a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.PushableBox
+  <Owner>k__BackingField: {fileID: 0}
 --- !u!65 &643297642833712815
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -134,6 +163,37 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!1 &4839939750495790028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8790858414017895942}
+  m_Layer: 0
+  m_Name: FindItemPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8790858414017895942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839939750495790028}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6384885828044093730}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6064649675465937781
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8422478200424394669}
   - component: {fileID: 5998201562409651203}
+  - component: {fileID: 3974468302915116037}
   m_Layer: 0
   m_Name: PushCollider
   m_TagString: Untagged
@@ -249,6 +310,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3974468302915116037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8153278513336543414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579900d7bc2440fc8587e49da5767d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.PushBox
 --- !u!1001 &7721354333483000085
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -314,6 +387,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3727970107516983351, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1362353154802437241}
+    - targetCorrespondingSourceObject: {fileID: 3727970107516983351, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8790858414017895942}
     - targetCorrespondingSourceObject: {fileID: 3727970107516983351, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8422478200424394669}

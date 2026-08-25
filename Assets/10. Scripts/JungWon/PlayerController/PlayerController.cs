@@ -15,6 +15,7 @@ namespace JunWon.Scripts
         public Animator Animator { get; private set; }
         private Player player;
         public CharacterController3D Controller3D { get; private set; }
+        public ItemInteractionHandler ItemInteraction { get; private set; }
         
         private ItemDef handItem;
 
@@ -26,8 +27,9 @@ namespace JunWon.Scripts
         {
             Animator = GetComponentInChildren<Animator>();
             Controller3D = GetComponent<CharacterController3D>();
+            ItemInteraction = GetComponent<ItemInteractionHandler>();
             
-            Controller3D.OnStartGetItem += GetItem;
+            ItemInteraction.OnStartGetItem += GetItem;
         }
 
         private void Update()
@@ -38,7 +40,7 @@ namespace JunWon.Scripts
                 return;
             }
             TryGetItem();
-            PutDownItem();
+            TryPutDownItem();
             
             Vector3 moveVec = new Vector3();
             moveVec.x = SimpleInput.GetAxisHorizontalRaw();
@@ -53,18 +55,11 @@ namespace JunWon.Scripts
         {
             if (SimpleInput.GetKeyDown(Key.Digit1) && handItem == null)
             {
-                Controller3D.RequestGetItem();
+                ItemInteraction.RequestGetItem();
             }
         }
-
-        private void GetItem(ItemDef Item)
-        {
-            handItem = Item;
-            Animator.SetLayerWeight(1,1);
-            Animator.SetBool(GET_ITEM, true);
-        }
         
-        private void PutDownItem()
+        private void TryPutDownItem()
         {
             if (SimpleInput.GetKeyDown(Key.Digit2) && handItem != null)
             {
@@ -73,6 +68,13 @@ namespace JunWon.Scripts
                 Animator.SetBool(GET_ITEM, false);
                 Animator.SetTrigger(PUT_DOWN);
             }
+        }
+        
+        private void GetItem(ItemDef Item)
+        {
+            handItem = Item;
+            Animator.SetLayerWeight(1,1);
+            Animator.SetBool(GET_ITEM, true);
         }
         
         public void PushPlayer(Vector3 hitDirection, float power)

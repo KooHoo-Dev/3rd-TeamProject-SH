@@ -5,7 +5,7 @@ namespace JunWon.Scripts
     public class Player : Interaction_Player
     {
         protected PlayerController playerController;
-
+        
         private void Awake()
         {
             playerController = GetComponent<PlayerController>();
