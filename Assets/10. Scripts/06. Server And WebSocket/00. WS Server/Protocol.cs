@@ -43,7 +43,7 @@ namespace HelloServer
     
     // 선택
     [Serializable]
-    public class SelcetMessage
+    public class SelectMessage
     {
         public string Type = "Select";
     
@@ -96,7 +96,7 @@ namespace HelloServer
     
     // 게임 시작 
     [Serializable]
-    public class GameStartMessege
+    public class GameStartMessage
     {
         public string Type = "게임 시작";
     }
