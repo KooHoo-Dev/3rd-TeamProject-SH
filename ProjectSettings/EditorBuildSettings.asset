@@ -6,8 +6,23 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/00. Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/00. Scenes/KJW/Scenes/TitleScene.unity
+    guid: 4266e156bef0982409d4037a08b541a0
+  - enabled: 1
+    path: Assets/00. Scenes/KJW/Scenes/GenerateRoomScene.unity
+    guid: da3b4197d3a62ed4bbae54f1718f7068
+  - enabled: 1
+    path: Assets/00. Scenes/KJW/Scenes/EnterRoomScene.unity
+    guid: c8ac87a468c3ff44aba8317067ba14fa
+  - enabled: 1
+    path: Assets/00. Scenes/KJW/Scenes/LobyScene.unity
+    guid: d2b7f609588958142ae047e5d829266e
+  - enabled: 1
+    path: Assets/00. Scenes/KJW/Scenes/ConferenceScene.unity
+    guid: 0fa2eaa94f629e24e8bbe9ed86e481ad
+  - enabled: 1
+    path: Assets/00. Scenes/KJW/Scenes/MartScene.unity
+    guid: 90422a209e4a60044b543b3ee9d38b72
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
