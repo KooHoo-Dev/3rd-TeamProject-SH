@@ -1,0 +1,72 @@
+using System.Collections.Generic;
+using Jay;
+using UnityEngine;
+
+namespace JunWon.Scripts
+{
+    public class Interaction_System : SingletonBase<Interaction_System>
+    {
+        private List<IInteractionObserver> observerList = new List<IInteractionObserver>();
+        private Dictionary<Collider, PushableBox> pushableBoxDic { get; set; } = new();
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+        }
+
+        public void Subscribe(IInteractionObserver observer)
+        {
+            if (observerList.Contains(observer)) return;
+            observerList.Add(observer);
+        }
+
+        public void UnSubscribe(IInteractionObserver observer)
+        {
+            if (observerList.Contains(observer) == false) return;
+            observerList.Remove(observer);
+        }
+
+        public void To(Interaction_Player sender, Interaction_Player receiver, InteractionEvent @event)
+        {
+            if (sender == null || receiver == null)
+            {
+                Debug.LogWarning($"Interaction_System ::: sender : {sender != null}, receiver : {receiver != null}");
+                return;
+            }
+
+            Debug.Log($"{sender.name}이(가) {receiver.name}에게 밀치기 충격량({@event.PushPower}) 전달!");
+            HandlePushEvent(sender, receiver, @event);
+        }
+
+        private void HandlePushEvent(Interaction_Player sender, Interaction_Player receiver, InteractionEvent @event)
+        {
+            // 수신 대상에게 충격량(밀치기) 전달
+            receiver.PushPlayer(@event.HitDirection, @event.PushPower);
+
+            // 옵저버들에게 알림
+            for (int i = 0; i < observerList.Count; ++i)
+            {
+                observerList[i].PushOther(sender, receiver, @event);
+            }
+        }
+
+        #region PushableBox Dictionary 제어
+        public void AddPushableBox(Collider collider, PushableBox pushableBox)
+        {
+            pushableBoxDic.TryAdd(collider, pushableBox);
+        }
+
+        public void RemovePushableBox(Collider collider)
+        {
+            if (pushableBoxDic.ContainsKey(collider) == false) return;
+            pushableBoxDic.Remove(collider);
+        }
+
+        public PushableBox GetPushableBoxOrNull(Collider collider)
+        {
+            pushableBoxDic.TryGetValue(collider, out PushableBox reval);
+            return reval;
+        }
+        #endregion
+    }
+}
