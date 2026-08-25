@@ -41,16 +41,43 @@ namespace HelloServer
         public string ID;
     }
     
-    // 투표
+    // 선택
     [Serializable]
-    public class VoteMessage
+    public class SelcetMessage
     {
-        public string Type = ""; // NormalChat or SpecialChat
+        public string Type = "Select";
     
         public int selectID; // 선택한 유저 ID
         public int selectedID; // 선택된 유저 ID
     
-        public bool IsVoteCancel; // 투표 취소 여부 bool값 
+        public bool IsSelectCancel; // 선택 취소 여부 bool값
+    }
+
+    // 투표 안함
+    [Serializable]
+    public class NonVoteMessage
+    {
+        public string Type = "NonVote";
+        public string UserID; // 투표 안하는 유저 ID
+    }
+    
+    // 투표
+    [Serializable]
+    public class VoteMessage
+    {
+        public string Type = "Vote";
+        public string UserID; // 투표하는 유저 ID
+        public string selectNum; // 라이어가 아니다 or 모르겠다 or 라이어다
+    }
+    
+    // 키워드 결정
+    [Serializable]
+    public class KeywordChatMessage
+    {
+        public string Type = "KeywordChat";
+        public string Id;
+        public string NickName;
+        public string Text;
     }
     
     // GameState 변경사항 주고받기
@@ -67,43 +94,72 @@ namespace HelloServer
         public Dictionary <int, string> Cycles; // int : 현재 사이클, string : 현재 카테고리
     }
     
+    // 게임 시작 
+    [Serializable]
+    public class GameStartMessege
+    {
+        public string Type = "게임 시작";
+    }
+    
+    // 키워드 제공
+    [Serializable]
+    public class KeywordMessage
+    {
+        public string Type = "keyword";
+        public string Keyword ;
+    }
+    
     // 라이어 버튼 누름 감지
     [Serializable]
     public class PressLiarButtonMessage // 클라이언트 -> 서버
     {
         public User User;
+        public string Type = "라밍아웃 버튼 누름";
     }
 
     // 게임 상태
     [Serializable]
     public class GameState
     {
-        public string state1 = "마트에서 복귀";
-    
-        public string state2 = "물건 보여주고 발언";
-        public string state3 = "발언 종료";
-    
-        public string state4 = "지목";
-        public string state5 = "지목 종료";
-    
-        public string state6 = "라밍아웃 버튼 누름";
-    
-        public string state7 = "변론 시간";
-        public string state8 = "변론 종료";
-    
-        public string state9 = "투표";
-        public string state10 = "투표 종료";
-    
-        public string state11 = "라이어 확정";
-        public string state12 = "라이어의 키워드 맞춤";
-        public string state13 = "키워드 맞춤 종료";
+        // 게임 준비 단계
+        public string stateGameStart = "게임 시작";
+        public string stateGenreAssignAndLiarSelect = "장르 배분 및 라이어 선정";
+        public string stateKeywordDistribute = "키워드 뿌리기";
+        public string stateMartEnter = "마트 진입";
 
-        public string state14 = "점수 집계";
-        public string state15 = "점수 집계 종료";
-        public string state16 = "마트 이동"; // 최종 사이클 전
+        // 마트 & 발언 단계
+        public string stateMartReturn = "마트에서 복귀";
+        public string stateShowItemAndSpeak = "물건 보여주고 발언";
+        public string stateSpeechEnd = "발언 종료";
 
-        public string state17 = "최종 결과";
-        public string state18 = "최종 결과 종료";
+        // 지목 단계
+        public string statePointAtSuspect = "지목";
+        public string statePointAtSuspectEnd = "지목 종료";
+
+        // 라이어 아웃 단계
+        public string stateLiarOutButtonPressed = "라밍아웃 버튼 누름";
+
+        // 변론 단계
+        public string stateDebateTime = "변론 시간";
+        public string stateDebateEnd = "변론 종료";
+
+        // 투표 단계
+        public string stateVote = "투표";
+        public string stateVoteEnd = "투표 종료";
+
+        // 라이어 확정 및 키워드 맞추기 단계
+        public string stateLiarConfirmed = "라이어 확정";
+        public string stateLiarKeywordGuess = "라이어의 키워드 맞춤";
+        public string stateLiarKeywordGuessEnd = "키워드 맞춤 종료";
+
+        // 점수 집계 단계
+        public string stateScoreTally = "점수 집계";
+        public string stateScoreTallyEnd = "점수 집계 종료";
+        public string stateMartMove = "마트 이동"; // 최종 사이클 전
+
+        // 최종 결과 단계
+        public string stateFinalResult = "최종 결과";
+        public string stateFinalResultEnd = "최종 결과 종료";
     }
     
 
