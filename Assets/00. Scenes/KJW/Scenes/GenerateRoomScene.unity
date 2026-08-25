@@ -470,8 +470,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2eeba1389ae764c859eaf4b9183b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveGenerateInput
-  roomNameInput: {fileID: 7177477782110341736}
-  roomPassInput: {fileID: 2497169668257585574}
+  RoomNameInput: {fileID: 7177477782110341736}
+  RoomPassInput: {fileID: 2497169668257585574}
   buttonCtrl: {fileID: 758023527}
 --- !u!1 &874369718
 GameObject:
@@ -2009,11 +2009,11 @@ RectTransform:
   - {fileID: 7073452299978836015}
   m_Father: {fileID: 758023531}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 202.5, y: -54.5}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &4303629740301090375
 CanvasRenderer:
   m_ObjectHideFlags: 0
