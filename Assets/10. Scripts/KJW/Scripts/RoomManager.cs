@@ -4,7 +4,7 @@ using Jay;
 
 namespace TeamSH
 {
-    public class DataManager : SingletonBase<DataManager>
+    public class RoomManager : SingletonBase<RoomManager>
     {
         // 방 목록 변경시 발생하는 이벤트
         public event Action OnRoomListChanged;

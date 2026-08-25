@@ -11,8 +11,8 @@ public class SaveGenerateInput : MonoBehaviour
     // InputField 입력 Datamanager한테 전달
     public void SaveAllInputs(string text)
     {
-        DataManager.Instance.RoomInput.RoomName = RoomNameInput.text;
-        DataManager.Instance.RoomInput.RoomPass = RoomPassInput.text;
+        RoomManager.Instance.RoomInput.RoomName = RoomNameInput.text;
+        RoomManager.Instance.RoomInput.RoomPass = RoomPassInput.text;
     }
 
     // 확인 버튼 : 이름/비밀번호를 모두 입력해야 방 생성 후 로비로 이동
@@ -24,7 +24,7 @@ public class SaveGenerateInput : MonoBehaviour
             return;
         }
 
-        DataManager.Instance.CreateRoom();
+        RoomManager.Instance.CreateRoom();
         Debug.Log($"방 생성 완료 / 이름 : {RoomNameInput.text}");
         buttonCtrl.LoadSceneByName("LobyScene");
     }

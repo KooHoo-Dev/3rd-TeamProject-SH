@@ -17,7 +17,7 @@ public class RoomListController : MonoBehaviour
     private void OnEnable()
     {
         // 씬 켜질때 Refresh 구독
-        DataManager.Instance.OnRoomListChanged += Refresh;
+        RoomManager.Instance.OnRoomListChanged += Refresh;
         // 최신 상태로
         Refresh();
     }
@@ -25,7 +25,7 @@ public class RoomListController : MonoBehaviour
     private void OnDisable()
     {
         // 씬 꺼지면 구독 해제
-        DataManager.Instance.OnRoomListChanged -= Refresh;
+        RoomManager.Instance.OnRoomListChanged -= Refresh;
     }
 
     public void Refresh() // 목록 바뀔때마다 계속 초기화
@@ -36,7 +36,7 @@ public class RoomListController : MonoBehaviour
 
         ClearItems();
 
-        foreach (RoomData room in DataManager.Instance.RoomList)
+        foreach (RoomData room in RoomManager.Instance.RoomList)
             CreateItem(room);
     }
 
@@ -67,7 +67,7 @@ public class RoomListController : MonoBehaviour
     private void SelectItem(RoomData room, Image image)
     {
         // 클릭한 방 SelectRoom에 저장
-        DataManager.Instance.SelectRoom(room);
+        RoomManager.Instance.SelectRoom(room);
 
         Color defaultColor = itemPrefab.GetComponent<Image>().color;
         
@@ -87,7 +87,7 @@ public class RoomListController : MonoBehaviour
     public void JoinSelectedRoom()
     {
         // 선택한 방 데이터 가져오기
-        RoomData room = DataManager.Instance.SelectedRoom;
+        RoomData room = RoomManager.Instance.SelectedRoom;
         if (room == null) { Debug.LogWarning("방을 선택하시오"); return; }
         
         // 비밀번호 검증
@@ -99,7 +99,7 @@ public class RoomListController : MonoBehaviour
 
         // 맞으면 선택한 방을 현재 방으로 설정
         Debug.Log($"비밀번호 맞음 - 방 참가: {room.RoomName}");
-        DataManager.Instance.JoinRoom(room);
+        RoomManager.Instance.JoinRoom(room);
         buttonCtrl.LoadSceneByName("LobyScene");
     }
 }
