@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0525fb0686020d74ca55509b0ae5422b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175526
+  packageName: Stationery
+  packageVersion: 1.0
+  assetPath: Assets/Stationery/Materials/Notebooks_blue.mat
+  uploadId: 383968

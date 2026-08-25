@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 46e77974ff56c234b9139dbc1a88a50f
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175526
+  packageName: Stationery
+  packageVersion: 1.0
+  assetPath: Assets/Stationery/Prefabs/Props/Calculator.prefab
+  uploadId: 383968
