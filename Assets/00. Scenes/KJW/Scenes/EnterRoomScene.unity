@@ -1443,7 +1443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomListController
   content: {fileID: 916497848}
   itemPrefab: {fileID: 855331825899333824, guid: 51f348b258437f440ac9c8b42a54eece, type: 3}
-  RoomPassInput: {fileID: 0}
+  RoomPassInput: {fileID: 1621770984}
   buttonCtrl: {fileID: 758023527}
 --- !u!1 &2103875681
 GameObject:
