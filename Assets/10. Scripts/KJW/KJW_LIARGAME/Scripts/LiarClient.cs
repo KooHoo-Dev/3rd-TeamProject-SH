@@ -257,7 +257,7 @@ namespace KJW_LIARGAME.Scripts
         {
             Me = message.User;
             RoomCode = message.RoomCode;
-            IsHost = message.Users == null || message.Users.Length == 0;
+            IsHost = message.User.IsHost;
 
             localPlayer.Setup(Me);
 

@@ -18,6 +18,11 @@ namespace KJW_LIARGAME.Scripts
         public string NickName{get;set;}
         public int score{get;set;} // 점수 
         
+        public bool IsHost{get;set;} // 방장 여부
+        
+        // server의 room에
+        // member.User.IsHost = members.IsEmpty;
+        // 방 비어있으면 해당 멤버의 유저가 호스트임을 명명
     }
 
     [Serializable]
