@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Study.Utilities;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace HelloServer
@@ -14,6 +15,9 @@ namespace HelloServer
         private RoomClient client;
 
         private string typing = "";
+        
+        private int selectedChatType = 0; // 0: 일반, 1: 특수, 2: 키워드
+        private readonly string[] chatTypeNames = { "일반", "특수", "키워드" };
 
         private bool chatting;
 
@@ -83,14 +87,22 @@ namespace HelloServer
             typing = GUI.TextField(new Rect(20, 272, 300, 24), typing, 100);
 
             chatting = GUI.GetNameOfFocusedControl() == "chat";
-
+            
             bool enter = Event.current.type == EventType.KeyDown
                          && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter);
 
             if (GUI.Button(new Rect(326, 272, 74, 24), "보내기") || (chatting && enter))
             {
-                client.Say(typing);
-                typing = "";
+                if (!string.IsNullOrWhiteSpace(typing))
+                {
+                    switch (selectedChatType)
+                    {
+                        case 0: client.SayNormal(typing); break;
+                        case 1: client.SaySpecial(typing); break;
+                        case 2: client.SayKeyword(typing); break;
+                    }
+                    typing = "";
+                }
             }
 
             GUI.Label(new Rect(20, 300, 700, 22),
@@ -102,6 +114,22 @@ namespace HelloServer
         {
             client.Local.CanMove = chatting == false;
 
+            if(SimpleInput.GetKeyDown(Key.F1))
+            {
+                Debug.Log("입력타입을 기본으로 전환");
+                selectedChatType = 0;
+            }
+            if (SimpleInput.GetKeyDown(Key.F2))
+            {
+                Debug.Log("입력타입을 특수로 전환");
+                selectedChatType = 1;
+            }
+            if (SimpleInput.GetKeyDown(Key.F3))
+            {
+                Debug.Log("입력타입을 키워드로 전환");
+                selectedChatType = 2;
+            }
+            
             // Esc 로 채팅 칸에서 빠져나온다.
             if (Keyboard.current.escapeKey.wasPressedThisFrame) GUI.FocusControl(null);
         }
