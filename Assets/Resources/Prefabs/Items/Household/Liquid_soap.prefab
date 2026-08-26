@@ -49,7 +49,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 39798644665dfcc4e8691265d8d5a27d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 6270285f1cdd83449873679eb89a710b, type: 2}
     - target: {fileID: 919132149155446097, guid: 39798644665dfcc4e8691265d8d5a27d, type: 3}
@@ -59,5 +59,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 39798644665dfcc4e8691265d8d5a27d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8424765269282986253}
   m_SourcePrefab: {fileID: 100100000, guid: 39798644665dfcc4e8691265d8d5a27d, type: 3}
+--- !u!1 &7593919733596787483 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 39798644665dfcc4e8691265d8d5a27d, type: 3}
+  m_PrefabInstance: {fileID: 7323534770935213642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8424765269282986253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593919733596787483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MartItem
+  def:
+    ItemId: 0
+    CategoryType: 0
+    CategoryName: 
+    ItemName: 
+    PrefabKey: {fileID: 0}

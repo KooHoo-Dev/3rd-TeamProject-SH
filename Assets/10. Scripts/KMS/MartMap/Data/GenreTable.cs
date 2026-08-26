@@ -3,38 +3,41 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class GenreTable 
+namespace TeamSH
 {
-    private const string TableName = "Table/genre_keywords.tsv";
-
-    private Dictionary<int, GenreDef> genreDefs = new();
-
-    public int Count => genreDefs.Count;
-    public GenreDef Get(int i) => genreDefs[i];
-
-    public void Load()
+    public class GenreTable 
     {
-        genreDefs.Clear();
-        string filePath = Path.Combine(Application.streamingAssetsPath, TableName);
+        private const string TableName = "Table/genre_keywords.tsv";
 
-        List<GenreDTO> rows = TSVReader.ReadTable<GenreDTO>(filePath);
-        int count = 0;
-        GenreType lastGenreType = GenreType.None;
-        foreach (GenreDTO dto in rows)
+        private Dictionary<int, GenreDef> genreDefs = new();
+
+        public int Count => genreDefs.Count;
+        public GenreDef Get(int i) => genreDefs[i];
+
+        public void Load()
         {
-            if (dto.GenreType != lastGenreType)
+            genreDefs.Clear();
+            string filePath = Path.Combine(Application.streamingAssetsPath, TableName);
+
+            List<GenreDTO> rows = TSVReader.ReadTable<GenreDTO>(filePath);
+            int count = 0;
+            GenreType lastGenreType = GenreType.None;
+            foreach (GenreDTO dto in rows)
             {
-
-                lastGenreType = dto.GenreType;
-                genreDefs[count] = new GenreDef()
+                if (dto.GenreType != lastGenreType)
                 {
-                    GenreId = count,
-                    GenreType = dto.GenreType,
-                    GenreName = dto.GenreName,
-                };
-                count++;
-            }
 
+                    lastGenreType = dto.GenreType;
+                    genreDefs[count] = new GenreDef()
+                    {
+                        GenreId = count,
+                        GenreType = dto.GenreType,
+                        GenreName = dto.GenreName,
+                    };
+                    count++;
+                }
+
+            }
         }
     }
 }
