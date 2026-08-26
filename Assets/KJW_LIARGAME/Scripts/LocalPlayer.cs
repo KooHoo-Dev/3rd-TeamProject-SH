@@ -12,10 +12,20 @@ namespace KJW_LIARGAME.Scripts
 
         [Header("움직임")]
         [SerializeField] private float speed = 5f;
-
+        
         public bool CanMove { get; set; } = true;
+        
+        #region LiarState
 
-        public void Setup(User user, Color color)
+        public PlayerState PlayerState = 
+            new  PlayerState() 
+                {Id = "ID1", IsLiar = false, Items = new string[3]{"축구공","양고기","연필"}};
+        
+
+        #endregion
+
+
+        public void Setup(User user)
         {
             label.text = $"{user.NickName} ({user.Id})";
         }

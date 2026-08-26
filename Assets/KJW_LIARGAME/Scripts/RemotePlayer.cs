@@ -1,3 +1,4 @@
+using System.ComponentModel.Design.Serialization;
 using TMPro;
 using UnityEngine;
 
@@ -19,8 +20,18 @@ namespace KJW_LIARGAME.Scripts
 
         // 서버가 알려 준 자리. 네트워크는 이것만 건드리고 그리는 일은 Update 가 한다.
         private Vector2 target;
+        
+        #region LiarState
 
-        public void Setup(User user, Color color)
+        public PlayerState PlayerState
+            = new PlayerState() {Id = "ID2", IsLiar = false, Items = new string[3]{"야구공", "물고기", "돈"}};
+        
+        
+        #endregion
+
+        
+
+        public void Setup(User user)
         {
             User = user;
             label.text = $"{user.NickName} ({user.Id})";

@@ -23,14 +23,6 @@ namespace KJW_LIARGAME.Scripts
             client = GetComponent<LiarClient>();
         }
 
-        private void update()
-        {
-            SimpleInput.GetKeyDown(Key.A)
-            {
-                client.CallMessage();
-            }
-        }
-
         private void OnGUI()
         {
             if (client.Me == null) DrawLobby();
@@ -54,7 +46,7 @@ namespace KJW_LIARGAME.Scripts
             {
                 client.Join(roomCode, nickName);
             }
-
+            
             GUI.enabled = true;
 
             GUI.Label(new Rect(20, 178, 700, 22),
@@ -67,6 +59,11 @@ namespace KJW_LIARGAME.Scripts
             GUI.Label(new Rect(20, 20, 700, 22),
                 $"방 {client.RoomCode}    나 : {client.Me.NickName}({client.Me.Id})    남 : {client.RemoteCount}명");
 
+            if (GUI.Button(new Rect(-35, 0, 150, 20), client.IsBusy ? "로드 중…" : "게임 시작"))
+            {
+                client.SetGameConfig(); // 클라이언트에서 NewGameConfig 값을 지정
+            }
+            
             DrawChatLog();
             DrawChatInput();
         }

@@ -5,9 +5,12 @@ using System.Text;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Study.Utilities;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Networking;
+using Newtonsoft.Json;
 
 namespace KJW_LIARGAME.Scripts
 {
@@ -55,6 +58,53 @@ namespace KJW_LIARGAME.Scripts
         // 한 소켓에 동시에 두 번 보내면 안 된다.
         private readonly SemaphoreSlim sendLock = new SemaphoreSlim(1, 1);
 
+        #region LiarGame Fields
+
+        public NewGameConfig NewGameConfig;
+        public int currentCycle;
+        public int currentround;
+        
+        public GameState GameState;
+
+        private void LocalIsLiar()
+        {
+            if (localPlayer.PlayerState.Items[0] == "축구공") 
+                localPlayer.PlayerState.IsLiar = true;
+        }
+
+        private void RemoteIsLiar()
+        {
+            if (remotePrefab.PlayerState.Items[0] == "축구공")
+            {
+                localPlayer.PlayerState.IsLiar = true;
+            }
+        }
+
+        #endregion
+
+        #region LiarGame Methods
+
+        // NewGameConifg의 최종 사이클을 결정하고 현재 사이클을 0으로 한다.
+        public void SetGameConfig() 
+        {
+            NewGameConfig.MaxCycle = 3;
+            NewGameConfig.MaxRound = 3;
+            
+            
+            currentCycle = 0;
+            currentround = 0;
+            
+            Debug.Log($"MaxCycle의 값 : {NewGameConfig.MaxCycle}");
+            Debug.Log($"MaxRound의 값 : {NewGameConfig.MaxRound}");
+        }
+        
+        // 만약에 받았다 치면,
+        
+
+        #endregion
+
+        
+        
         private void Awake()
         {
             // true로 해둬야 백그라운드에서도 데이터 수신 가능
@@ -70,12 +120,6 @@ namespace KJW_LIARGAME.Scripts
 
             RunAsync().Forget();
         }
-
-        public void CallMessage(string message)
-        {
-            
-        }
-        
 
         public bool IsBusy { get; private set; }
 
@@ -171,15 +215,39 @@ namespace KJW_LIARGAME.Scripts
         // 받은 글자 하나를 종류에 따라 나눠 준다.
         private void Handle(string json)
         {
-            string type = JsonUtility.FromJson<TypeOnly>(json).Type;
+            string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
 
             switch (type)
             {
-                case "welcome": OnWelcome(JsonUtility.FromJson<WelcomeMessage>(json)); break;
-                case "join": OnJoin(JsonUtility.FromJson<JoinMessage>(json)); break;
-                case "leave": OnLeave(JsonUtility.FromJson<LeaveMessage>(json)); break;
-                case "state": OnState(JsonUtility.FromJson<StateMessage>(json)); break;
-                case "chat": OnChat(JsonUtility.FromJson<ChatMessage>(json)); break;
+                case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
+                case "join": OnJoin(JsonConvert.DeserializeObject<JoinMessage>(json)); break;
+                
+                case "게임 시작" : OnGameStart(JsonConvert.DeserializeObject<GameStartMessage>(json)); break;
+                case "게임 시작 확인" : OnGameStartOK(JsonConvert.DeserializeObject<GameStartOKMessage>(json)); break;
+                case "장르 배분 및 라이어 선정" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "키워드 뿌리기" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "마트 진입" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "마트에서 복귀" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "물건 보여주고 발언" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "발언 종료" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;   
+                case "지목" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "지목 종료" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "라밍아웃 버튼 누름" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "변론 시간" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "변론 종료" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "투표" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "라이어 확정" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "라이어의 키워드 맞춤" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "키워드 맞춤 종료" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "점수 집계" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "점수 집계 종료" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "마트 이동" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "최종 결과" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "최종 결과 종료" : OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                    
+                case "leave": OnLeave(JsonConvert.DeserializeObject<LeaveMessage>(json)); break;
+                case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
+                case "chat": OnChat(JsonConvert.DeserializeObject<ChatMessage>(json)); break;
 
                 // 모르는 종류는 흘린다. 서버가 먼저 새 소식을 붙여도 여기서 죽지 않게.
                 default: Debug.Log($"[방] 등록되지 않은 종류(type) : {type}"); break;
@@ -191,7 +259,7 @@ namespace KJW_LIARGAME.Scripts
             Me = message.User;
             RoomCode = message.RoomCode;
 
-            localPlayer.Setup(Me, ColorOf(Me.Id));
+            localPlayer.Setup(Me);
 
             foreach (User user in message.Users) Spawn(user);
 
@@ -213,6 +281,22 @@ namespace KJW_LIARGAME.Scripts
 
             Debug.Log($"[방] {message.Id} 이(가) 나갔다");
         }
+
+        private void OnGameStart(GameStartMessage message)
+        {
+            Debug.Log("게임 시작 및 게임 정보를 전달한다");
+        }
+
+        private void OnGameStartOK(GameStartOKMessage message)
+        {
+        }
+
+        private void OnChangeGameState(ChangeGameStateMessage message)
+        {
+            
+            
+        }
+        
         
         private void OnState(StateMessage message)
         {
@@ -245,7 +329,7 @@ namespace KJW_LIARGAME.Scripts
 
             RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
 
-            remote.Setup(user, ColorOf(user.Id));
+            remote.Setup(user);
 
             remotes[user.Id] = remote;
         }
@@ -283,7 +367,7 @@ namespace KJW_LIARGAME.Scripts
         {
             if (socket == null || socket.State != WebSocketState.Open) return;
 
-            byte[] bytes = Encoding.UTF8.GetBytes(JsonUtility.ToJson(message));
+            byte[] bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
 
             await sendLock.WaitAsync();
 

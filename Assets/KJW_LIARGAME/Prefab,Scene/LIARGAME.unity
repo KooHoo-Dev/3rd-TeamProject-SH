@@ -385,9 +385,14 @@ MonoBehaviour:
   url: ws://34.50.63.204:5003/room
   nickName: "\uC774\uB984\uC5C6\uC74C"
   roomCode: ABCD
-  localPlayer: {fileID: 0}
-  remotePrefab: {fileID: 0}
+  localPlayer: {fileID: 6660501620348312633, guid: 028e250514ba9074e83afe7aed2c2c9f, type: 3}
+  remotePrefab: {fileID: -4688826685765498195, guid: 8fe6652314f17e547b5ca07f9cdc9f84, type: 3}
   sendPerSecond: 20
+  NewGameConfig:
+    MaxRound: 0
+    MaxCycle: 0
+  currentCycle: 0
+  currentround: 0
 --- !u!4 &1975179185
 Transform:
   m_ObjectHideFlags: 0
