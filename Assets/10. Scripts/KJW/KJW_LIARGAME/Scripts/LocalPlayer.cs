@@ -1,45 +1,29 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace KJW_LIARGAME.Scripts
 {
     // 내가 조종하는 캐릭터. 씬에 하나 놓고 RoomClient 에 연결한다.
+    // 스폰된 자리에 고정되며 움직이지 않는다.
     public class LocalPlayer : MonoBehaviour
     {
         [Header("모양")]
         [SerializeField] private TMP_Text label;
 
-        [Header("움직임")]
-        [SerializeField] private float speed = 5f;
-        
-        public bool CanMove { get; set; } = true;
-        
         #region LiarState
 
-        public PlayerState PlayerState = 
-            new  PlayerState() 
+        public PlayerState PlayerState =
+            new  PlayerState()
                 {Id = "ID1", IsLiar = false, Items = new string[3]{"축구공","양고기","연필"}};
-        
+
 
         #endregion
 
 
         public void Setup(User user)
         {
+            PlayerState.Id = user.Id;
             label.text = $"{user.NickName} ({user.Id})";
-        }
-
-        private void Update()
-        {
-            if (CanMove == false) return;
-
-            Keyboard keyboard = Keyboard.current;
-
-            float x = (keyboard.rightArrowKey.isPressed ? 1 : 0) - (keyboard.leftArrowKey.isPressed ? 1 : 0);
-            float y = (keyboard.upArrowKey.isPressed ? 1 : 0) - (keyboard.downArrowKey.isPressed ? 1 : 0);
-
-            transform.Translate(new Vector3(x, y) * (speed * Time.deltaTime));
         }
     }
 }

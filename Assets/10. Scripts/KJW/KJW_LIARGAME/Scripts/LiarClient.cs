@@ -289,6 +289,7 @@ namespace KJW_LIARGAME.Scripts
 
         private void OnGameStartOK(GameStartOKMessage message)
         {
+            NewGameConfig = message.newGameConfig;
         }
 
         private void OnChangeGameState(ChangeGameStateMessage message)
@@ -300,14 +301,7 @@ namespace KJW_LIARGAME.Scripts
         
         private void OnState(StateMessage message)
         {
-            foreach (PlayerState state in message.States)
-            {
-                // 내 것은 버린다. 서버가 알려 준 내 위치로 나를 다시 옮기면 안 된다.
-                // 내가 방금 움직인 자리보다 늘 한 박자 늦은 값이라, 넣으면 캐릭터가 뒤로 끌린다.
-                if (state.Id == Me.Id) continue;
-                if (remotes.TryGetValue(state.Id, out RemotePlayer remote) == false) continue;
-                remote.SetTarget(new Vector2(state.X, state.Y));
-            }
+            // 캐릭터는 움직이지 않으므로 서버가 뿌리는 위치는 더 이상 반영하지 않는다.
         }
 
         // 방에서 누가 말했다. 내 말도 여기로 돌아옴
