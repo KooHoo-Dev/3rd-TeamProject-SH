@@ -17,7 +17,6 @@ namespace HelloServer
         private string typing = "";
         
         private int selectedChatType = 0; // 0: 일반, 1: 특수, 2: 키워드
-        private readonly string[] chatTypeNames = { "일반", "특수", "키워드" };
 
         private bool chatting;
 

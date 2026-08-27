@@ -186,22 +186,6 @@ namespace HelloServer
                 // 모르는 종류는 흘린다. 서버가 먼저 새 소식을 붙여도 여기서 죽지 않게.
                 default: Debug.Log($"[방] 등록되지 않은 종류(type) : {type}"); break;
             }
-            
-            // === 아래는 수업중 했던 코드 ---
-            
-            // string type = JsonUtility.FromJson<TypeOnly>(json).Type;
-            
-            // switch (type)
-            // {
-            //     case "welcome": OnWelcome(JsonUtility.FromJson<WelcomeMessage>(json)); break;
-            //     case "join": OnJoin(JsonUtility.FromJson<JoinMessage>(json)); break;
-            //     case "leave": OnLeave(JsonUtility.FromJson<LeaveMessage>(json)); break;
-            //     case "state": OnState(JsonUtility.FromJson<StateMessage>(json)); break;
-            //     case "chat": OnChat(JsonUtility.FromJson<ChatMessage>(json)); break;
-            //
-            //     // 모르는 종류는 흘린다. 서버가 먼저 새 소식을 붙여도 여기서 죽지 않게.
-            //     default: Debug.Log($"[방] 등록되지 않은 종류(type) : {type}"); break;
-            // }
         }
         
         private void OnWelcome(WelcomeMessage message)
@@ -272,10 +256,10 @@ namespace HelloServer
         
         private void OnNormalChat(NormalChatMessage message)
         {
-            string mine = Me != null && message.ID == Me.Id ? $"나" : $"{message.ID}";
+            string mine = Me != null && message.ID == Me.Id ? "(나)" : "";
             chatLog.Add($"[일반] {message.ID}{mine} : {message.Text}");
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
-            Debug.Log($"[일반] {message.ID} : {message.Text}");
+            Debug.Log($"[일반] {message.ID}{message.NickName} : {message.Text}");
         }
 
         private void OnSpecialChat(SpecialChatMessage message)
@@ -283,15 +267,15 @@ namespace HelloServer
             string mine = Me != null && message.ID == Me.Id ? " (나)" : "";
             chatLog.Add($"[특수] {message.ID}{mine} : {message.Text}");
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
-            Debug.Log($"[특수] {message.ID} : {message.Text}");
+            Debug.Log($"[특수] {message.ID}{message.NickName} : {message.Text}");
         }
 
         private void OnKeywordChat(KeywordChatMessage message)
         {
             string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
-            chatLog.Add($"[키워드] {message.NickName}{mine} : {message.Text}");
+            chatLog.Add($"[키워드] {message.Id}{mine} : {message.Text}");
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
-            Debug.Log($"[키워드] {message.NickName} : {message.Text}");
+            Debug.Log($"[키워드] {message.Id}{message.NickName} : {message.Text}");
         }
 
         #endregion
