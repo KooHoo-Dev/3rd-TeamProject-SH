@@ -1,7 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 
-namespace HelloServer_KJW
+namespace TeamSH
 {
     [Serializable]
     public class NewGameConfig
@@ -172,44 +172,45 @@ namespace HelloServer_KJW
     public class GameState
     {
         // 게임 준비 단계
-        public string stateGameStart{get;set;} = "게임 시작";
-        public string stateGenreAssignAndLiarSelect{get;set;} = "장르 배분 및 라이어 선정";
-        public string stateKeywordDistribute {get;set;}= "키워드 뿌리기";
-        public string stateMartEnter {get;set;}= "마트 진입";
+        public string stateGameStart{get;set;} = "게임 시작 상태";
+        public string stateGenreAssignAndLiarSelect{get;set;} = "장르 배분 및 라이어 선정 상태";
+        public string stateKeywordDistribute {get;set;}= "키워드 뿌리기 상태";
+        public string stateMartEnter {get;set;}= "마트 진입 상태";
 
         // 마트 & 발언 단계
-        public string stateMartReturn{get;set;} = "마트에서 복귀";
-        public string stateShowItemAndSpeak {get;set;}= "물건 보여주고 발언";
-        public string stateSpeechEnd {get;set;}= "발언 종료";
+        public string stateMartMove{get;set;} = "마트 이동 상태"; // 최종 사이클 전
+        public string stateMartReturn{get;set;} = "마트에서 복귀 상태";
+        public string stateShowItemAndSpeak {get;set;}= "물건 보여주고 발언 상태";
+        public string stateSpeechEnd {get;set;}= "발언 종료 상태";
 
         // 지목 단계
-        public string statePointAtSuspect {get;set;}= "지목";
-        public string statePointAtSuspectEnd {get;set;} = "지목 종료";
+        public string statePointAtSuspect {get;set;}= "지목 상태";
+        public string statePointAtSuspectEnd {get;set;} = "지목 종료 상태";
 
         // 라이어 아웃 단계
-        public string stateLiarOutButtonPressed{get;set;} = "라밍아웃 버튼 누름";
+        public string stateLiarOutButtonPressed{get;set;} = "라밍아웃 버튼 누름 상태";
 
         // 변론 단계
-        public string stateDebateTime{get;set;} = "변론 시간";
-        public string stateDebateEnd{get;set;} = "변론 종료";
+        public string stateDebateTime{get;set;} = "변론 시간 상태";
+        public string stateDebateEnd{get;set;} = "변론 종료 상태";
 
         // 투표 단계
-        public string stateVote{get;set;} = "투표";
-        public string stateVoteEnd{get;set;} = "투표 종료";
+        public string stateVote{get;set;} = "투표 상태";
+        public string stateVoteEnd{get;set;} = "투표 종료 상태";
 
         // 라이어 확정 및 키워드 맞추기 단계
-        public string stateLiarConfirmed{get;set;} = "라이어 확정";
-        public string stateLiarKeywordGuess{get;set;} = "라이어의 키워드 맞춤";
-        public string stateLiarKeywordGuessEnd{get;set;} = "키워드 맞춤 종료";
+        public string stateLiarConfirmed{get;set;} = "라이어 확정 상태";
+        public string stateLiarKeywordGuess{get;set;} = "라이어의 키워드 맞춤 상태";
+        public string stateLiarKeywordGuessEnd{get;set;} = "키워드 맞춤 종료 상태";
 
         // 점수 집계 단계
-        public string stateScoreTally{get;set;} = "점수 집계";
-        public string stateScoreTallyEnd{get;set;} = "점수 집계 종료";
-        public string stateMartMove{get;set;} = "마트 이동"; // 최종 사이클 전
+        public string stateScoreTally{get;set;} = "점수 집계 상태";
+        public string stateScoreTallyEnd{get;set;} = "점수 집계 종료 상태";
+   
 
         // 최종 결과 단계
-        public string stateFinalResult{get;set;} = "최종 결과";
-        public string stateFinalResultEnd{get;set;} = "최종 결과 종료";
+        public string stateFinalResult{get;set;} = "최종 결과 상태";
+        public string stateFinalResultEnd{get;set;} = "최종 결과 종료 상태";
     }
     
 

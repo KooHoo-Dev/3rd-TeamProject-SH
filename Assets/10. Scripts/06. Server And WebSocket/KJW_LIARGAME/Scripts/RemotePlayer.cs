@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace HelloServer_KJW
+namespace TeamSH
 {
     // 남의 캐릭터. 프리팹으로 만들어 두고 RoomClient 가 접속자마다 하나씩 찍어 낸다.
     // 스폰된 자리에 고정되며 움직이지 않는다.

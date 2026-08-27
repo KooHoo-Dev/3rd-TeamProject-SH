@@ -7,8 +7,9 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
+using UnityEngine.Analytics;
 
-namespace HelloServer_KJW
+namespace TeamSH
 {
     
     // RoomClient가 서버와의 네트워크 작업을 담당한다.
@@ -65,23 +66,6 @@ namespace HelloServer_KJW
         public GameState GameState = new GameState();
         
         #endregion
-
-        #region 라이어 게임 메서드
-
-        public void RequestGameStart() // 게임 시작 요청
-        {
-            if (Me == null) return;
-            SendAsync(new GameStartMessage()).Forget();
-        }
-
-        public void RequestGameStartOK() // 요청 완료 수신 받고게임 데이터 받음 
-        {
-            
-        }
-        
-        
-        #endregion
-
         
         
         private void Awake()
@@ -204,7 +188,7 @@ namespace HelloServer_KJW
                 case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
                 case "join": OnJoin(JsonConvert.DeserializeObject<JoinMessage>(json)); break;
                 
-                case "게임 시작" : OnGameStart(JsonConvert.DeserializeObject<GameStartMessage>(json)); break;
+                case "게임 시작" : OnGameStart(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
                 case "게임 시작 확인" : OnGameStartOK(JsonConvert.DeserializeObject<GameStartOKMessage>(json)); break;
                 
                 // 채팅 관련 case
@@ -251,8 +235,21 @@ namespace HelloServer_KJW
                 Debug.LogWarning($"[방] 메시지를 알아보지 못했다 : {e.Message}\n{json}");
             }
         }
+        #region 클라이언트 -> 서버 메세지
+
+        public void GameStartMessage() // 게임 시작 요청
+        {
+            if (Me == null) return;
+            SendAsync(new GameStartMessage()).Forget();
+        }
         
-        #region 추가된 채팅 관련 메서드
+        
+        
+        #endregion
+        
+        
+        
+        #region 서버 -> 클라이언트 
         
         private void OnNormalChat(NormalChatMessage message)
         {
@@ -310,13 +307,15 @@ namespace HelloServer_KJW
             Debug.Log($"[방] {message.Id} 이(가) 나갔다");
         }
 
-        private void OnGameStart(GameStartMessage message)
+        private void OnGameStart(ChangeGameStateMessage message)
         {
-            Debug.Log("게임 시작 및 게임 정보를 전달한다");
+            Debug.Log("게임 시작 및 게임 정보를 요청한다");
         }
 
         private void OnGameStartOK(GameStartOKMessage message)
         {
+            Debug.Log("게임 데이터 요청을 받고 message 안의 newGameConfig를 클라이언트 NewGameConfig로 저장");
+            
             NewGameConfig = message.newGameConfig;
         }
 
@@ -324,8 +323,6 @@ namespace HelloServer_KJW
         {
             if (message.Type == "장르 배분 및 라이어 선정") OnstateGenreAssignAndLiarSelect();
             if (message.Type == "투표") OnVote();
-            
-            
         }
 
         private void OnVote()
