@@ -63,7 +63,7 @@ namespace TeamSH
         
         public NewGameConfig NewGameConfig;
         
-        public GameState GameState = new GameState();
+        public PlayerState PlayerState = new PlayerState();
         
         #endregion
         
@@ -188,7 +188,7 @@ namespace TeamSH
                 case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
                 case "join": OnJoin(JsonConvert.DeserializeObject<JoinMessage>(json)); break;
                 
-                case "게임 시작" : OnGameStart(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json)); break;
+                case "게임 시작" : OnGameStart(JsonConvert.DeserializeObject<GameStartMessage>(json)); break;
                 case "게임 시작 확인" : OnGameStartOK(JsonConvert.DeserializeObject<GameStartOKMessage>(json)); break;
                 
                 // 채팅 관련 case
@@ -218,8 +218,6 @@ namespace TeamSH
                 case "마트 이동":
                 case "최종 결과":
                 case "최종 결과 종료":
-                    OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json));
-                    break;
 
                 case "leave": OnLeave(JsonConvert.DeserializeObject<LeaveMessage>(json)); break;
                 case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
@@ -307,7 +305,7 @@ namespace TeamSH
             Debug.Log($"[방] {message.Id} 이(가) 나갔다");
         }
 
-        private void OnGameStart(ChangeGameStateMessage message)
+        private void OnGameStart(GameStartMessage message)
         {
             Debug.Log("게임 시작 및 게임 정보를 요청한다");
         }
@@ -317,12 +315,6 @@ namespace TeamSH
             Debug.Log("게임 데이터 요청을 받고 message 안의 newGameConfig를 클라이언트 NewGameConfig로 저장");
             
             NewGameConfig = message.newGameConfig;
-        }
-
-        private void OnChangeGameState(ChangeGameStateMessage message)
-        {
-            if (message.Type == "장르 배분 및 라이어 선정") OnstateGenreAssignAndLiarSelect();
-            if (message.Type == "투표") OnVote();
         }
 
         private void OnVote()
