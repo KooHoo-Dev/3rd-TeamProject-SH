@@ -23,7 +23,7 @@ namespace TeamSH
 
         private void Awake()
         {
-            client = GetComponent<LiarClient>();
+            client = LiarClient.Instance;
         }
 
         private void OnGUI()
@@ -47,7 +47,7 @@ namespace TeamSH
 
             if (GUI.Button(new Rect(35, 112, 290, 30), client.IsBusy ? "들어가는 중…" : "들어가기"))
             {
-                client.Join(roomCode, nickName);
+                client.RequestJoin(roomCode, nickName);
             }
             
             GUI.enabled = true;
@@ -62,9 +62,9 @@ namespace TeamSH
             GUI.Label(new Rect(20, 20, 700, 22),
                 $"방 {client.RoomCode}    나 : {client.Me.NickName}({client.Me.Id})    남 : {client.RemoteCount}명");
 
-            if (client.IsHost || GUI.Button(new Rect(-35, 0, 150, 20), client.IsBusy == false ? "로드 중…" : "게임 시작")) // 호스트에게만 버튼 활성화 GUI
+            if (client.IsHost && GUI.Button(new Rect(-35, 0, 150, 20), "게임 시작")) // 호스트에게만 버튼 활성화 GUI
             {
-                client.GameStartMessage();
+                client.RequestGameStart();
             }
             
             DrawChatLog();
@@ -98,35 +98,9 @@ namespace TeamSH
 
             if (GUI.Button(new Rect(326, 272, 74, 24), "보내기") || (chatting && enter))
             {
-                client.Say(typing);
+                client.RequestNormalChat(typing);
                 typing = "";
             }
-        }
-        
-        
-        
-        private void Update()
-        {
-            if (SimpleInput.GetKeyDown(Key.F1))
-            {
-                Debug.Log("입력타입을 기본으로 전환");
-                selectedChatType = 0;
-            }
-
-            if (SimpleInput.GetKeyDown(Key.F2))
-            {
-                Debug.Log("입력타입을 특수로 전환");
-                selectedChatType = 1;
-            }
-
-            if (SimpleInput.GetKeyDown(Key.F3))
-            {
-                Debug.Log("입력타입을 키워드로 전환");
-                selectedChatType = 2;
-            }
-            
-            // Esc 로 채팅 칸에서 빠져나온다.
-            if (Keyboard.current.escapeKey.wasPressedThisFrame) GUI.FocusControl(null);
         }
     }
 }
