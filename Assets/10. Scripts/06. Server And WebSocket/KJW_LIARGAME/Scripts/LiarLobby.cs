@@ -98,7 +98,7 @@ namespace TeamSH
 
             if (GUI.Button(new Rect(326, 272, 74, 24), "보내기") || (chatting && enter))
             {
-                client.Say(typing);
+                client.SayNormal(typing);
                 typing = "";
             }
         }

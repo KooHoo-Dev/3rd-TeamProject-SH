@@ -62,7 +62,7 @@ namespace TeamSH
         
         public NewGameConfig NewGameConfig;
         
-        public GameState GameState = new GameState();
+        public PlayerState PlayerState = new PlayerState();
         
         #endregion
 
@@ -197,52 +197,68 @@ namespace TeamSH
         {
             try
             {
-            string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
+                string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
 
-            switch (type)
-            {
-                case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
-                case "join": OnJoin(JsonConvert.DeserializeObject<JoinMessage>(json)); break;
-                case "게임 시작" : OnGameStart(JsonConvert.DeserializeObject<GameStartMessage>(json)); break;
-                case "게임 시작 확인" : OnGameStartOK(JsonConvert.DeserializeObject<GameStartOKMessage>(json)); break;
-                
-                // 채팅 관련 case
-                case "normalChat": OnNormalChat(JsonConvert.DeserializeObject<NormalChatMessage>(json)); break;
-                case "specialChat": OnSpecialChat(JsonConvert.DeserializeObject<SpecialChatMessage>(json)); break;
-                case "KeywordChat": OnKeywordChat(JsonConvert.DeserializeObject<KeywordChatMessage>(json)); break;
-                
+                switch (type)
+                {
+                    // 서버 상태 case
+                    case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
+                    case "leave": OnLeave(JsonConvert.DeserializeObject<LeaveMessage>(json)); break;
 
-                // 아래는 전부 같은 모양(ChangeGameStateMessage)의 진행 단계 알림이라 한 번에 처리한다.
-                case "장르 배분 및 라이어 선정":
-                case "키워드 뿌리기":
-                case "마트 진입":
-                case "마트에서 복귀":
-                case "물건 보여주고 발언":
-                case "발언 종료":
-                case "지목":
-                case "지목 종료":
-                case "라밍아웃 버튼 누름":
-                case "변론 시간":
-                case "변론 종료":
-                case "투표":
-                case "라이어 확정":
-                case "라이어의 키워드 맞춤":
-                case "키워드 맞춤 종료":
-                case "점수 집계":
-                case "점수 집계 종료":
-                case "마트 이동":
-                case "최종 결과":
-                case "최종 결과 종료":
-                    OnChangeGameState(JsonConvert.DeserializeObject<ChangeGameStateMessage>(json));
-                    break;
+                    // 게임 준비 단계(Lobby) 관련 case
+                    case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
+                    case "join": OnJoin(JsonConvert.DeserializeObject<JoinMessage>(json)); break;
+                    case "게임 시작": OnGameStart(JsonConvert.DeserializeObject<GameStartMessage>(json)); break;
+                    case "게임 시작 확인": OnGameStartOK(JsonConvert.DeserializeObject<GameStartOKMessage>(json)); break;
+                    
+                    // 게임 준비 단계(회의실) 관련 case
+                    case "장르 배분 및 라이어 선정 상태" :
+                    case "키워드 뿌리기 상태" : 
+                        
+                    // 채팅 관련 case
+                    case "chat": OnChat(JsonConvert.DeserializeObject<ChatMessage>(json)); break;
+                    case "normalChat": OnNormalChat(JsonConvert.DeserializeObject<NormalChatMessage>(json)); break;
+                    case "specialChat": OnSpecialChat(JsonConvert.DeserializeObject<SpecialChatMessage>(json)); break;
+                    case "KeywordChat": OnKeywordChat(JsonConvert.DeserializeObject<KeywordChatMessage>(json)); break;
 
-                case "leave": OnLeave(JsonConvert.DeserializeObject<LeaveMessage>(json)); break;
-                case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
-                case "chat": OnChat(JsonConvert.DeserializeObject<ChatMessage>(json)); break;
+                    // 턴 관련 case
+                    case "마트에서 복귀 상태": break;
+                    case "물건 보여주고 발언 상태": break;
+                    case "발언 종료 상태": break;
+                    case "변론 시간 상태": break;
+                    case "변론 종료 상태": break;
 
-                // 모르는 종류는 흘린다. 서버가 먼저 새 소식을 붙여도 여기서 죽지 않게.
-                default: Debug.Log($"[방] 등록되지 않은 종류(type) : {type}"); break;
-            }
+                    // 투표 관련 case
+                    case "Select": OnSelect(JsonConvert.DeserializeObject<SelectMessage>(json)); break;
+                    case "지목 상태": OnPointAtSuspectStateMessage(JsonConvert.DeserializeObject<PointAtSuspectStateMessage>(json)); break;
+                    case "지목 종료 상태": OnPointAtSuspectEndStateMessage(JsonConvert.DeserializeObject<PointAtSuspectEndStateMessage>(json)); break;
+                    case "투표 상태": OnVoteStateMessage(JsonConvert.DeserializeObject<VoteStateMessage>(json)); break;
+                    case "투표 종료 상태": OnVoteEndStateMessage(JsonConvert.DeserializeObject<VoteEndStateMessage>(json)); break;
+
+                    // 라이어 관련 case
+                    case "라이어 확정 상태": break;
+                    case "라이어의 키워드 맞춤 상태": break;
+                    case "키워드 맞춤 종료 상태": break;
+
+                    // 특수 관련 case
+                    case "LiarSelfDisclose": break;
+                    case "라밍아웃 버틈 누름 상태": break;
+
+                    // 마트 관련 case
+                    case "마트 진입 상태": break;
+                    case "마트 이동 상태": break;
+
+                    // 점수 집계 관련
+                    case "점수 집계 상태": break;
+                    case "점수 집계 종료 상태": break;
+
+                    // 라운드(게임) 종료 관련
+                    case "최종 결과 상태": break;
+                    case "최종 결과 종료 상태": break;
+
+                    // 모르는 종류는 흘린다. 서버가 먼저 새 소식을 붙여도 여기서 죽지 않게.
+                    default: Debug.Log($"[방] 등록되지 않은 종류(type) : {type}"); break;
+                }
             }
             catch (Exception e)
             {
@@ -251,7 +267,86 @@ namespace TeamSH
             }
         }
         
-        #region 추가된 채팅 관련 메서드
+        #endregion
+
+        #region 받기
+        
+        #region 상태 관련
+        
+        private void OnLeave(LeaveMessage message)
+        {
+            if (remotes.TryGetValue(message.Id, out RemotePlayer remote) == false) return;
+
+            remotes.Remove(message.Id);
+            Destroy(remote.gameObject);
+
+            Debug.Log($"[방] {message.Id} 이(가) 나갔다");
+        }
+
+        private void OnState(StateMessage message)
+        {
+            // 캐릭터는 움직이지 않으므로 서버가 뿌리는 위치는 더 이상 반영하지 않는다.
+        }
+
+        private void Spawn(User user)
+        {
+            // 이미 있으면 만들지 않는다. welcome 과 join 이 겹칠 수 있다.
+            if (remotes.ContainsKey(user.Id)) return;
+
+            RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
+
+            remote.Setup(user);
+
+            remotes[user.Id] = remote;
+        }
+        
+        #endregion
+        
+        #region 준비 단계 관련
+
+        private void OnWelcome(WelcomeMessage message)
+        {
+            Me = message.User;
+            RoomCode = message.RoomCode;
+
+            localPlayer.Setup(Me);
+
+            foreach (User user in message.Users) Spawn(user);
+
+            Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
+        }
+
+        private void OnJoin(JoinMessage message)
+        {
+            Spawn(message.User);
+            Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
+        }
+        
+        private void OnGameStart(GameStartMessage message)
+        {
+            Debug.Log("게임 시작 및 게임 정보를 전달한다");
+        }
+
+        private void OnGameStartOK(GameStartOKMessage message)
+        {
+            NewGameConfig = message.newGameConfig;
+        }
+
+        #endregion
+        
+        #region 채팅 관련
+        
+        // 방에서 누가 말했다. 내 말도 여기로 돌아옴
+        private void OnChat(ChatMessage message)
+        {
+            string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
+
+            chatLog.Add($"{message.NickName}{mine} : {message.Text}");
+
+            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+
+            Debug.Log($"[방] {message.NickName}({message.Id}) : {message.Text}");
+        }
         
         private void OnNormalChat(NormalChatMessage message)
         {
@@ -279,69 +374,39 @@ namespace TeamSH
 
         #endregion
         
+        # region 턴 관련
         
 
-        private void OnWelcome(WelcomeMessage message)
+        
+        # endregion
+        
+        # region 투표 관련
+
+        private void OnSelect(SelectMessage message)
         {
-            Me = message.User;
-            RoomCode = message.RoomCode;
-
-            localPlayer.Setup(Me);
-
-            foreach (User user in message.Users) Spawn(user);
-
-            Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
+            
         }
 
-        private void OnJoin(JoinMessage message)
+        private void OnPointAtSuspectStateMessage(PointAtSuspectStateMessage message)
         {
-            Spawn(message.User);
-            Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
+            
         }
 
-        private void OnLeave(LeaveMessage message)
+        private void OnPointAtSuspectEndStateMessage(PointAtSuspectEndStateMessage message)
         {
-            if (remotes.TryGetValue(message.Id, out RemotePlayer remote) == false) return;
-
-            remotes.Remove(message.Id);
-            Destroy(remote.gameObject);
-
-            Debug.Log($"[방] {message.Id} 이(가) 나갔다");
+            
         }
 
-        private void OnGameStart(GameStartMessage message)
+        private void OnVoteStateMessage(VoteStateMessage message)
         {
-            Debug.Log("게임 시작 및 게임 정보를 전달한다");
+            
         }
 
-        private void OnGameStartOK(GameStartOKMessage message)
+        public void OnVoteEndStateMessage(VoteEndStateMessage message)
         {
-            NewGameConfig = message.newGameConfig;
+            
         }
-
-        private void OnChangeGameState(ChangeGameStateMessage message)
-        {
-            if (message.Type == "장르 배분 및 라이어 선정") OnstateGenreAssignAndLiarSelect();
-            if (message.Type == "투표") OnVote();
-            if (message.Type == "마트에서 복귀") {}
-            if (message.Type == "물건 보여주고 발언") {}
-            if (message.Type == "발언 종료") {}
-            if (message.Type == "지목") {}
-            if (message.Type == "지목 종료") {}
-            if (message.Type == "라밍아웃 버튼 누름") {}
-            if (message.Type == "변론 시간") {}
-            if (message.Type == "변론 종료") {}
-            if (message.Type == "투표") {}
-            if (message.Type == "라이어 확정") {}
-            if (message.Type == "라이어의 키워드 맞춤") {}
-            if (message.Type == "키워드 맞춤 종료") {}
-            if (message.Type == "점수 집계") {}
-            if (message.Type == "점수 집계 종료") {}
-            if (message.Type == "마트 이동") {}
-            if (message.Type == "최종 결과") {}
-            if (message.Type == "최종 결과 종료") {}
-        }
-
+        
         private void OnVote()
         {
             
@@ -351,36 +416,8 @@ namespace TeamSH
         {
             
         }
-
-        private void OnState(StateMessage message)
-        {
-            // 캐릭터는 움직이지 않으므로 서버가 뿌리는 위치는 더 이상 반영하지 않는다.
-            
-        }
-
-        // 방에서 누가 말했다. 내 말도 여기로 돌아옴
-        private void OnChat(ChatMessage message)
-        {
-            string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
-
-            chatLog.Add($"{message.NickName}{mine} : {message.Text}");
-
-            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
-
-            Debug.Log($"[방] {message.NickName}({message.Id}) : {message.Text}");
-        }
-
-        private void Spawn(User user)
-        {
-            // 이미 있으면 만들지 않는다. welcome 과 join 이 겹칠 수 있다.
-            if (remotes.ContainsKey(user.Id)) return;
-
-            RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
-
-            remote.Setup(user);
-
-            remotes[user.Id] = remote;
-        }
+        
+        # endregion
 
         #endregion
 
@@ -402,16 +439,17 @@ namespace TeamSH
                 await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y });
             }
         }
+        
+        #region 게임 준비 단계 관련
 
-        public void Say(string text)
+        private void SayReadyMessage(ReadyMessage message)
         {
-            if (string.IsNullOrWhiteSpace(text)) return;
-            if (Me == null) return;
-
-            SendAsync(new ChatMessage { Id = Me.Id, NickName = Me.NickName, Text = text.Trim() }).Forget();
+            
         }
         
-        #region 추가된 내용
+        # endregion
+        
+        #region 채팅 관련
 
         // 일반 채팅
         public void SayNormal(string text)
@@ -435,6 +473,45 @@ namespace TeamSH
         }
 
         #endregion
+        
+        # region 턴 관련
+        
+        
+        
+        # endregion
+        
+        # region 투표 관련
+
+        // 선택결과 전달
+        private void SaySelectMessage(SelectMessage message)
+        {
+            
+        }
+
+        // 빠른 스킵 전달
+        private void SayNonPointMessage(NonPointMessage message)
+        {
+            
+        }
+
+        // 투표 결과 전달
+        public void SayVoteMessage(VoteMessage message)
+        {
+            
+        }
+        
+        
+        
+        # endregion
+        
+        # region 라밍아웃 관련
+
+        public void SayLiarOutButtonPressedStateMessage(LiarOutButtonPressedStateMessage message)
+        {
+            
+        }
+        
+        # endregion
 
         // 한 마디를 보낸다. 보내는 곳이 둘(SendLoop, Say)이라 lock을 걸어서 한 번에 하나씩 내보낸다.
         private async UniTask SendAsync(object message)
