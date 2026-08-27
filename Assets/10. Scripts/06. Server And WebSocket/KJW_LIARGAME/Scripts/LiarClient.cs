@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 
-namespace KJW_LIARGAME.Scripts
+namespace HelloServer_KJW
 {
     
     // RoomClient가 서버와의 네트워크 작업을 담당한다.
@@ -73,21 +73,13 @@ namespace KJW_LIARGAME.Scripts
             if (Me == null) return;
             SendAsync(new GameStartMessage()).Forget();
         }
-        
-        
-        // NewGameConifg의 최종 사이클을 결정하고 현재 사이클을 0으로 한다.
-        public void SetGameConfig() 
+
+        public void RequestGameStartOK() // 요청 완료 수신 받고게임 데이터 받음 
         {
-            NewGameConfig.MaxCycle = 3;
-            NewGameConfig.MaxRound = 3;
             
-            Debug.Log($"MaxCycle의 값 : {NewGameConfig.MaxCycle}");
-            Debug.Log($"MaxRound의 값 : {NewGameConfig.MaxRound}");
         }
         
-        // 만약에 받았다 치면,
         
-
         #endregion
 
         
@@ -179,8 +171,9 @@ namespace KJW_LIARGAME.Scripts
                     // 이 오브젝트가 사라졌다
                     return;   
                 }
-                catch (WebSocketException)
+                catch (WebSocketException e)
                 {
+                    Debug.Log(e.Message);
                     Debug.LogWarning("[방] 연결이 끊겼다");
                     return;
                 }
@@ -213,6 +206,12 @@ namespace KJW_LIARGAME.Scripts
                 
                 case "게임 시작" : OnGameStart(JsonConvert.DeserializeObject<GameStartMessage>(json)); break;
                 case "게임 시작 확인" : OnGameStartOK(JsonConvert.DeserializeObject<GameStartOKMessage>(json)); break;
+                
+                // 채팅 관련 case
+                case "normalChat": OnNormalChat(JsonConvert.DeserializeObject<NormalChatMessage>(json)); break;
+                case "specialChat": OnSpecialChat(JsonConvert.DeserializeObject<SpecialChatMessage>(json)); break;
+                case "KeywordChat": OnKeywordChat(JsonConvert.DeserializeObject<KeywordChatMessage>(json)); break;
+                
 
                 // 아래는 전부 같은 모양(ChangeGameStateMessage)의 진행 단계 알림이라 한 번에 처리한다.
                 case "장르 배분 및 라이어 선정":
@@ -252,12 +251,41 @@ namespace KJW_LIARGAME.Scripts
                 Debug.LogWarning($"[방] 메시지를 알아보지 못했다 : {e.Message}\n{json}");
             }
         }
+        
+        #region 추가된 채팅 관련 메서드
+        
+        private void OnNormalChat(NormalChatMessage message)
+        {
+            string mine = Me != null && message.ID == Me.Id ? $"나" : $"{message.ID}";
+            chatLog.Add($"[일반] {message.NickName}{message.ID}{mine} : {message.Text}");
+            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+            Debug.Log($"[일반] {message.ID} : {message.Text}");
+        }
+
+        private void OnSpecialChat(SpecialChatMessage message)
+        {
+            string mine = Me != null && message.ID == Me.Id ? " (나)" : "";
+            chatLog.Add($"[특수] {message.NickName}{message.ID}{mine} : {message.Text}");
+            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+            Debug.Log($"[특수] {message.ID} : {message.Text}");
+        }
+
+        private void OnKeywordChat(KeywordChatMessage message)
+        {
+            string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
+            chatLog.Add($"[키워드] {message.NickName}{mine} : {message.Text}");
+            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+            Debug.Log($"[키워드] {message.NickName} : {message.Text}");
+        }
+
+        #endregion
+        
+        
 
         private void OnWelcome(WelcomeMessage message)
         {
             Me = message.User;
             RoomCode = message.RoomCode;
-            IsHost = message.User.IsHost;
 
             localPlayer.Setup(Me);
 
@@ -294,11 +322,22 @@ namespace KJW_LIARGAME.Scripts
 
         private void OnChangeGameState(ChangeGameStateMessage message)
         {
+            if (message.Type == "장르 배분 및 라이어 선정") OnstateGenreAssignAndLiarSelect();
+            if (message.Type == "투표") OnVote();
             
             
         }
-        
-        
+
+        private void OnVote()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnstateGenreAssignAndLiarSelect()
+        {
+            
+        }
+
         private void OnState(StateMessage message)
         {
             // 캐릭터는 움직이지 않으므로 서버가 뿌리는 위치는 더 이상 반영하지 않는다.

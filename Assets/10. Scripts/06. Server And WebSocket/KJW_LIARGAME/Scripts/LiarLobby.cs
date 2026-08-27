@@ -1,7 +1,9 @@
+using Study.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-namespace KJW_LIARGAME.Scripts
+namespace HelloServer_KJW
 {
     // 방 코드를 받아 들어가고, 들어간 뒤에는 채팅을 그린다. RoomClient 와 같은 오브젝트에 붙인다.
     [RequireComponent(typeof(LiarClient))]
@@ -15,6 +17,8 @@ namespace KJW_LIARGAME.Scripts
 
         private string typing = "";
 
+        private int selectedChatType = 0; // 일반 : 0, 특수 : 1, 키워드 : 2
+        
         private bool chatting;
 
         private void Awake()
@@ -58,7 +62,7 @@ namespace KJW_LIARGAME.Scripts
             GUI.Label(new Rect(20, 20, 700, 22),
                 $"방 {client.RoomCode}    나 : {client.Me.NickName}({client.Me.Id})    남 : {client.RemoteCount}명");
 
-            if (client.IsHost && GUI.Button(new Rect(-35, 0, 150, 20), client.IsBusy ? "로드 중…" : "게임 시작"))
+            if (client.IsHost || GUI.Button(new Rect(-35, 0, 150, 20), client.IsBusy == false ? "로드 중…" : "게임 시작")) // 호스트에게만 버튼 활성화 GUI
             {
                 client.RequestGameStart();
             }
@@ -98,9 +102,29 @@ namespace KJW_LIARGAME.Scripts
                 typing = "";
             }
         }
-
+        
+        
+        
         private void Update()
         {
+            if (SimpleInput.GetKeyDown(Key.F1))
+            {
+                Debug.Log("입력타입을 기본으로 전환");
+                selectedChatType = 0;
+            }
+
+            if (SimpleInput.GetKeyDown(Key.F2))
+            {
+                Debug.Log("입력타입을 특수로 전환");
+                selectedChatType = 1;
+            }
+
+            if (SimpleInput.GetKeyDown(Key.F3))
+            {
+                Debug.Log("입력타입을 키워드로 전환");
+                selectedChatType = 2;
+            }
+            
             // Esc 로 채팅 칸에서 빠져나온다.
             if (Keyboard.current.escapeKey.wasPressedThisFrame) GUI.FocusControl(null);
         }

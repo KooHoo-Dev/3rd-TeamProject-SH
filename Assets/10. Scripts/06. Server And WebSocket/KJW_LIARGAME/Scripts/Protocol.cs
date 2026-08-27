@@ -1,7 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 
-namespace KJW_LIARGAME.Scripts
+namespace HelloServer_KJW
 {
     [Serializable]
     public class NewGameConfig
@@ -12,21 +12,15 @@ namespace KJW_LIARGAME.Scripts
     }
 
     [Serializable]
-    public class User
+    public class User // room에 들어와을 때 서버-> 클라 한번만 뿌려준다
     {
         public string Id{get;set;}
         public string NickName{get;set;}
-        public int score{get;set;} // 점수 
-        
-        public bool IsHost{get;set;} // 방장 여부
-        
-        // server의 room에
-        // member.User.IsHost = members.IsEmpty;
-        // 방 비어있으면 해당 멤버의 유저가 호스트임을 명명
+
     }
 
     [Serializable]
-    public class PlayerState
+    public class PlayerState // 지속적으로 클라이언트에게 뿌려주는 데이터
     {
         public string Id{get;set;}
         public float X{get;set;}
@@ -34,8 +28,9 @@ namespace KJW_LIARGAME.Scripts
         
         // 추가 코드
         public float Z { get; set; } 
-        public bool IsLiar{get;set;}
-        public string[] Items{get;set;}
+        public int score{get;set;} // 점수 
+        public bool IsLiar{get;set;} // 라이어 인가?
+        public string[] Items{get;set;} // 카테고리별 최종 선택한 아이템
     }
     
     // 일반 채팅 모드 (C2S / S2C 공유)
@@ -43,6 +38,7 @@ namespace KJW_LIARGAME.Scripts
     public class NormalChatMessage 
     {
         public string Type{get;set;} = "normalChat";
+        public string NickName{get;set;}
         public string Text{get;set;}
         public string ID{get;set;}
     }
@@ -51,6 +47,7 @@ namespace KJW_LIARGAME.Scripts
     public class SpecialChatMessage 
     {
         public string Type{get;set;} = "specialChat";
+        public string NickName{get;set;}
         public string Text{get;set;}
         public string ID{get;set;}
     }
@@ -103,7 +100,7 @@ namespace KJW_LIARGAME.Scripts
     
         public string currentOwnerID{get;set;} // 서버에서 선택한 유저
     
-        public string Ganre{get;set;} // 장르
+
 
 
         
@@ -152,7 +149,8 @@ namespace KJW_LIARGAME.Scripts
     public class KeywordMessage
     {
         public string Type{get;set;} = "keyword";
-        public string Keyword {get;set;}
+        public KeyWordDef Keyword {get;set;}
+        public GenreDef Ganre{get;set;} // 장르
     }
     
     // 라이어 버튼 누름 감지 
@@ -186,7 +184,7 @@ namespace KJW_LIARGAME.Scripts
 
         // 지목 단계
         public string statePointAtSuspect {get;set;}= "지목";
-        public string statePointAtSuspectEnd{get;set;} = "지목 종료";
+        public string statePointAtSuspectEnd {get;set;} = "지목 종료";
 
         // 라이어 아웃 단계
         public string stateLiarOutButtonPressed{get;set;} = "라밍아웃 버튼 누름";

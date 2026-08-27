@@ -6,23 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/00. Scenes/KJW/Scenes/TitleScene.unity
-    guid: 4266e156bef0982409d4037a08b541a0
+    path: Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity
+    guid: 0056209143cc818439cebeb2decd2f23
   - enabled: 1
-    path: Assets/00. Scenes/KJW/Scenes/GenerateRoomScene.unity
-    guid: da3b4197d3a62ed4bbae54f1718f7068
-  - enabled: 1
-    path: Assets/00. Scenes/KJW/Scenes/EnterRoomScene.unity
-    guid: c8ac87a468c3ff44aba8317067ba14fa
-  - enabled: 1
-    path: Assets/00. Scenes/KJW/Scenes/LobyScene.unity
-    guid: d2b7f609588958142ae047e5d829266e
-  - enabled: 1
-    path: Assets/00. Scenes/KJW/Scenes/ConferenceScene.unity
-    guid: 0fa2eaa94f629e24e8bbe9ed86e481ad
-  - enabled: 1
-    path: Assets/00. Scenes/KJW/Scenes/MartScene.unity
-    guid: 90422a209e4a60044b543b3ee9d38b72
+    path: Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Conferrence.unity
+    guid: 4e2d4da04212f7b42b19fcf7a0c931da
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
