@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace HelloServer_KJW
+namespace TeamSH
 {
     // 내가 조종하는 캐릭터. 씬에 하나 놓고 RoomClient 에 연결한다.
     // 스폰된 자리에 고정되며 움직이지 않는다.

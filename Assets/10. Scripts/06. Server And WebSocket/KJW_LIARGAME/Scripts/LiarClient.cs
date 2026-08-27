@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 
-namespace HelloServer_KJW
+namespace TeamSH
 {
     
     // RoomClient가 서버와의 네트워크 작업을 담당한다.
@@ -203,7 +203,6 @@ namespace HelloServer_KJW
             {
                 case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
                 case "join": OnJoin(JsonConvert.DeserializeObject<JoinMessage>(json)); break;
-                
                 case "게임 시작" : OnGameStart(JsonConvert.DeserializeObject<GameStartMessage>(json)); break;
                 case "게임 시작 확인" : OnGameStartOK(JsonConvert.DeserializeObject<GameStartOKMessage>(json)); break;
                 
@@ -324,13 +323,28 @@ namespace HelloServer_KJW
         {
             if (message.Type == "장르 배분 및 라이어 선정") OnstateGenreAssignAndLiarSelect();
             if (message.Type == "투표") OnVote();
-            
-            
+            if (message.Type == "마트에서 복귀") {}
+            if (message.Type == "물건 보여주고 발언") {}
+            if (message.Type == "발언 종료") {}
+            if (message.Type == "지목") {}
+            if (message.Type == "지목 종료") {}
+            if (message.Type == "라밍아웃 버튼 누름") {}
+            if (message.Type == "변론 시간") {}
+            if (message.Type == "변론 종료") {}
+            if (message.Type == "투표") {}
+            if (message.Type == "라이어 확정") {}
+            if (message.Type == "라이어의 키워드 맞춤") {}
+            if (message.Type == "키워드 맞춤 종료") {}
+            if (message.Type == "점수 집계") {}
+            if (message.Type == "점수 집계 종료") {}
+            if (message.Type == "마트 이동") {}
+            if (message.Type == "최종 결과") {}
+            if (message.Type == "최종 결과 종료") {}
         }
 
         private void OnVote()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void OnstateGenreAssignAndLiarSelect()
@@ -341,6 +355,7 @@ namespace HelloServer_KJW
         private void OnState(StateMessage message)
         {
             // 캐릭터는 움직이지 않으므로 서버가 뿌리는 위치는 더 이상 반영하지 않는다.
+            
         }
 
         // 방에서 누가 말했다. 내 말도 여기로 돌아옴
@@ -395,6 +410,31 @@ namespace HelloServer_KJW
 
             SendAsync(new ChatMessage { Id = Me.Id, NickName = Me.NickName, Text = text.Trim() }).Forget();
         }
+        
+        #region 추가된 내용
+
+        // 일반 채팅
+        public void SayNormal(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return;
+            SendAsync(new NormalChatMessage { Text = text.Trim(), ID = Me.Id }).Forget();
+        }
+
+        // 특수 채팅
+        public void SaySpecial(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return;
+            SendAsync(new SpecialChatMessage { Text = text.Trim(), ID = Me.Id }).Forget();
+        }
+
+        // 키워드 채팅
+        public void SayKeyword(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return;
+            SendAsync(new KeywordChatMessage { Id = Me.Id, NickName = Me.NickName, Text = text.Trim() }).Forget();
+        }
+
+        #endregion
 
         // 한 마디를 보낸다. 보내는 곳이 둘(SendLoop, Say)이라 lock을 걸어서 한 번에 하나씩 내보낸다.
         private async UniTask SendAsync(object message)

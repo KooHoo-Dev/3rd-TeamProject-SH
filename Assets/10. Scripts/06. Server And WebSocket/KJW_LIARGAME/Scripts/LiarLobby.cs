@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-namespace HelloServer_KJW
+namespace TeamSH
 {
     // 방 코드를 받아 들어가고, 들어간 뒤에는 채팅을 그린다. RoomClient 와 같은 오브젝트에 붙인다.
     [RequireComponent(typeof(LiarClient))]
