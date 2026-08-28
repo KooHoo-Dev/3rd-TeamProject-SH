@@ -69,6 +69,7 @@ namespace TeamSH
             
             DrawChatLog();
             DrawChatInput();
+            DrawLiarOutButton();
         }
 
         private void DrawChatLog()
@@ -98,8 +99,19 @@ namespace TeamSH
 
             if (GUI.Button(new Rect(326, 272, 74, 24), "보내기") || (chatting && enter))
             {
-                client.RequestNormalChat(typing);
+                client.RequestChat(typing);
                 typing = "";
+            }
+        }
+
+        // 물건 보여주고 발언 상태일 때만 보인다. 실제 라이어인지는 서버가 검증한다.
+        private void DrawLiarOutButton()
+        {
+            if (client.CurrentPhase != "물건 보여주고 발언 상태") return;
+
+            if (GUI.Button(new Rect(20, 302, 150, 24), "라밍아웃"))
+            {
+                client.RequestLiarOutButtonPressedState();
             }
         }
     }

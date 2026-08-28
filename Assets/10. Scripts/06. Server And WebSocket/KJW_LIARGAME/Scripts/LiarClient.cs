@@ -9,7 +9,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
-using Study.MiniDefence;
 
 namespace TeamSH
 {
@@ -57,6 +56,12 @@ namespace TeamSH
         // 방에서 오간 말. 로비가 그대로 그린다.
         public IReadOnlyList<string> ChatLog => chatLog;
 
+        // 로비 씬은 절대 내리지 않는다
+        private const string BootScene = "LIARGAME_Lobby";
+
+        // 지금 추가로 떠 있는 씬 이름
+        private string activeContentScene;
+
         private ClientWebSocket socket;
 
         // 남들. 번호로 찾는다.
@@ -92,24 +97,21 @@ namespace TeamSH
         public int GenreId { get; private set; }
         public int KeywordId { get; private set; }
 
-        // 마트에서 쓸 카테고리 순서 모음 : KMS/MartMap/Data/ItemDef.cs에서 가져옴
-        private CategoryType[] categoryOrder;
+        // 이번 발언 차례에 특수채팅을 이미 보냈는지. 발언자가 바뀔 때마다 초기화된다.
+        private bool hasSentSpecialChat;
 
         #endregion
 
         // 받은 글자 하나를 종류에 따라 나눠 준다.
         private void Handle(string json)
         {
-            try
-            {
-                string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
+            string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
 
-                switch (type)
-                {
+            switch (type)
+            {
                     case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
                     case "join": OnJoin(JsonConvert.DeserializeObject<JoinMessage>(json)); break;
 
-                    case "게임 시작": OnGameStart(JsonConvert.DeserializeObject<GameStartMessage>(json)); break;
                     case "게임 시작 확인": OnGameStartOK(JsonConvert.DeserializeObject<GameStartOKMessage>(json)); break;
 
                     // 채팅 관련 case
@@ -145,9 +147,8 @@ namespace TeamSH
                     case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
                     case "chat": OnChat(JsonConvert.DeserializeObject<ChatMessage>(json)); break;
 
-                    // 모르는 종류는 흘린다. 서버가 먼저 새 소식을 붙여도 여기서 죽지 않게.
-                    default: Debug.Log($"[방] 등록되지 않은 종류(type) : {type}"); break;
-                }
+                // 모르는 종류는 흘린다. 서버가 먼저 새 소식을 붙여도 여기서 죽지 않게.
+                default: Debug.Log($"[방] 등록되지 않은 종류(type) : {type}"); break;
             }
         }
 
@@ -204,12 +205,6 @@ namespace TeamSH
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
             Debug.Log($"[특수] {message.ID} : {message.Text}");
         }
-        private void OnGameStart(GameStartMessage message)
-        {
-            Debug.Log("게임 시작 및 게임 정보를 요청한다");
-            RequestGameStartState();
-        }
-
         private void OnGameStartOK(GameStartOKMessage message)
         {
             Debug.Log("게임 데이터 요청을 받고 message 안의 newGameConfig를 클라이언트 NewGameConfig로 저장");
@@ -229,34 +224,29 @@ namespace TeamSH
         private void OnGameStartState(GameStartStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
-            RequestGenreAssignAndLiarSelectState();
         }
 
         private void OnGenreAssignAndLiarSelectState(GenreAssignAndLiarSelectStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
             GenreId = message.GenreId;
-            RequestKeywordDistributeState();
         }
 
         private void OnKeywordDistributeState(KeywordDistributeStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             KeywordId = message.KeywordId;
-            RequestMartEnterState();
         }
 
         private void OnMartEnterState(MartEnterStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             DoLoadScene("LIARGAME_MART");
-            RequestMartMoveState();
         }
 
         private void OnMartMoveState(MartMoveStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
-            DoPickMartItem();
         }
 
         private void OnMartReturnState(MartReturnStateMessage message)
@@ -268,6 +258,10 @@ namespace TeamSH
         private void OnShowItemAndSpeakState(ShowItemAndSpeakStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
+            hasSentSpecialChat = false;
+
+            string item = DoGetItem(message.CurrentOwnerID);
+            Debug.Log($"[발언] {message.CurrentOwnerID} 이(가) {message.CurrentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
         }
 
         private void OnSpeechEndState(SpeechEndStateMessage message)
@@ -399,43 +393,55 @@ namespace TeamSH
             remotes[user.Id] = remote;
         }
 
-        // 마트 이동 상태를 받을 때마다, 이번 사이클의 카테고리에서 아이템 1개를 랜덤으로 골라 담는다.
-        private void DoPickMartItem()
+        // userId가 이번 사이클에 고른 아이템을 찾는다. 나 자신이거나, remotes에 있는 사람만 알 수 있다.
+        private string DoGetItem(string userId)
         {
-            if (NewGameConfig == null) return;
-            if (CurrentCycle < 0 || CurrentCycle >= NewGameConfig.MaxCycle) return;
+            PlayerState state = Me != null && userId == Me.Id
+                ? PlayerState
+                : remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.PlayerState : null;
 
-            if (PlayerState.Items == null) PlayerState.Items = new string[NewGameConfig.MaxCycle];
-            if (categoryOrder == null) categoryOrder = DoShuffleCategories(NewGameConfig.MaxCycle);
+            if (state?.Items == null || CurrentCycle < 0 || CurrentCycle >= state.Items.Length) return null;
 
-            List<ItemDef> itemsInCategory = DataManager.Instance.GetItemDefsByCategory(categoryOrder[CurrentCycle]);
-            if (itemsInCategory.Count == 0) return;
-
-            ItemDef picked = itemsInCategory[UnityEngine.Random.Range(0, itemsInCategory.Count)];
-            PlayerState.Items[CurrentCycle] = picked.ItemName;
-
-            Debug.Log($"[마트] {CurrentCycle}번째 카테고리({categoryOrder[CurrentCycle]})에서 '{picked.ItemName}' 선택");
+            return state.Items[CurrentCycle];
         }
 
-        // 전체 카테고리를 랜덤으로 섞은 뒤, 앞에서부터 count개만 이번 게임의 카테고리 순서로 쓴다.
-        private CategoryType[] DoShuffleCategories(int count)
-        {
-            List<CategoryType> all = new List<CategoryType>((CategoryType[])Enum.GetValues(typeof(CategoryType)));
-            all.Remove(CategoryType.None);
-
-            for (int i = all.Count - 1; i > 0; i--)
-            {
-                int j = UnityEngine.Random.Range(0, i + 1);
-                (all[i], all[j]) = (all[j], all[i]);
-            }
-
-            return all.GetRange(0, Mathf.Min(count, all.Count)).ToArray();
-        }
-
+        // 씬을 덮어써서 지우는 대신(Single), 위에 덧붙이고(Additive) 이전 내용 씬만 내린다.
+        // 로비 씬(이 오브젝트 자신이 들어있는 씬)은 절대 내리지 않는다 — DontDestroyOnLoad가
+        // 이 프로젝트에서 이 오브젝트에 대해 실제로 걸리지 않는 문제가 있어서, 씬 자체를 안 지우는 쪽으로 우회한다.
         private void DoLoadScene(string sceneName)
         {
-            if (SceneManager.GetActiveScene().name == sceneName) return; // 이미 그 씬이면 다시 부르지 않는다.
-            SceneManager.LoadScene(sceneName);
+            if (activeContentScene == sceneName) return; // 이미 그 씬이면 다시 부르지 않는다.
+
+            string previous = activeContentScene;
+            activeContentScene = sceneName;
+
+            SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += _ =>
+            {
+                Scene loaded = SceneManager.GetSceneByName(sceneName);
+                SceneManager.SetActiveScene(loaded);
+
+                if (previous == BootScene)
+                {
+                    // 로비는 내릴 수 없으니(이 오브젝트 자신이 그 안에 있음), 이 오브젝트만 남기고 나머지를 꺼서 안 보이게 한다.
+                    DoHideScene(previous);
+                }
+                else
+                {
+                    SceneManager.UnloadSceneAsync(previous);
+                }
+            };
+        }
+
+        // sceneName 씬의 나머지 오브젝트를 전부 꺼서, 화면에 안 보이고 동작도 안 하게 한다. (이 오브젝트 자신은 남긴다)
+        private void DoHideScene(string sceneName)
+        {
+            Scene scene = SceneManager.GetSceneByName(sceneName);
+
+            foreach (GameObject root in scene.GetRootGameObjects())
+            {
+                if (root == gameObject) continue;
+                root.SetActive(false);
+            }
         }
 
         // 씬 이동할때 오브젝트 연결
@@ -476,45 +482,38 @@ namespace TeamSH
             SendAsync(new GameStartMessage()).Forget();
         }
 
-        public void RequestNormalChat(string text)
+        // 지금이 어떤 채팅을 보낼 차례인지 알아서 판단해서 보낸다. 로비가 이거 하나만 부르면 된다.
+        public void RequestChat(string text)
         {
             if (string.IsNullOrWhiteSpace(text)) return;
             if (Me == null) return;
 
+            // 발언 상태 + 내가 발언자 + 이번 차례에 아직 특수채팅을 안 보냈으면, 첫 마디는 특수채팅이 된다.
+            if (CurrentPhase == "물건 보여주고 발언 상태" && CurrentOwnerID == Me.Id && hasSentSpecialChat == false)
+            {
+                hasSentSpecialChat = true;
+                RequestSpecialChat(text);
+                return;
+            }
+
+            RequestNormalChat(text);
+        }
+
+        private void RequestNormalChat(string text)
+        {
             SendAsync(new NormalChatMessage { ID = Me.Id, NickName = Me.NickName, Text = text.Trim() }).Forget();
         }
 
-        // 이전 상태를 받은 뒤 다음 상태로 넘어가 달라고 서버에 알린다.
-        // 지금 서버는 이 4개를 받아 처리하는 코드가 없어 당장은 효과가 없지만,
-        // 문서 명세(클라이언트 -> 서버 흐름)를 그대로 지키기 위해 만들어 둔다.
-        public void RequestGameStartState()
+        private void RequestSpecialChat(string text)
         {
-            if (Me == null) return;
-            SendAsync(new GameStartStateMessage()).Forget();
+            SendAsync(new SpecialChatMessage { ID = Me.Id, NickName = Me.NickName, Text = text.Trim() }).Forget();
         }
 
-        public void RequestGenreAssignAndLiarSelectState()
+        // 라밍아웃 버튼을 눌렀다. 실제 라이어인지는 서버가 검증한다.
+        public void RequestLiarOutButtonPressedState()
         {
             if (Me == null) return;
-            SendAsync(new GenreAssignAndLiarSelectStateMessage()).Forget();
-        }
-
-        public void RequestKeywordDistributeState()
-        {
-            if (Me == null) return;
-            SendAsync(new KeywordDistributeStateMessage()).Forget();
-        }
-
-        public void RequestMartEnterState()
-        {
-            if (Me == null) return;
-            SendAsync(new MartEnterStateMessage()).Forget();
-        }
-
-        public void RequestMartMoveState()
-        {
-            if (Me == null) return;
-            SendAsync(new MartMoveStateMessage()).Forget();
+            SendAsync(new LiarOutButtonPressedStateMessage { ID = Me.Id }).Forget();
         }
 
         #endregion
@@ -522,6 +521,8 @@ namespace TeamSH
         protected override void Awake()
         {
             base.Awake(); // 싱글턴 등록 + DontDestroyOnLoad. 중복 인스턴스면 여기서 파괴된다.
+
+            activeContentScene = BootScene;
 
             // true로 해둬야 백그라운드에서도 데이터 수신 가능
             Application.runInBackground = true;
@@ -617,14 +618,14 @@ namespace TeamSH
             {
                 await UniTask.Delay(delay, cancellationToken: destroyCancellationToken);
 
+                // 라이어 게임에서는 플레이어가 움직이지 않아서 위치를 보낼 필요가 없다.
                 // 아직 번호를 못 받았으면 보낼 것이 없다.
                 if (Me == null) continue;
                 // 씬 전환 중 아직 재연결 전이면 잠시 쉰다.
                 if (localPlayer == null) continue;
 
-                Vector2 position = localPlayer.transform.position;
-
-                await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y });
+                // Vector2 position = localPlayer.transform.position;
+                // await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y });
             }
         }
 

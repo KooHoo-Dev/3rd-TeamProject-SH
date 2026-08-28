@@ -216,8 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 952fa5a2d656d6540b46fc92162785db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.LiarSceneBinder
-  sceneLocalPlayer: {fileID: 142451724}
-  sceneRemotePrefab: {fileID: 3191360309909981046, guid: 8fe6652314f17e547b5ca07f9cdc9f84, type: 3}
+  localPlayer: {fileID: 142451724}
+  remotePrefab: {fileID: 3191360309909981046, guid: 8fe6652314f17e547b5ca07f9cdc9f84, type: 3}
 --- !u!4 &441299307
 Transform:
   m_ObjectHideFlags: 0
