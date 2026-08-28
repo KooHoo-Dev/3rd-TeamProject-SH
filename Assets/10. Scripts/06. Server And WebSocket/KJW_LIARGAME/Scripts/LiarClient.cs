@@ -30,9 +30,7 @@ namespace TeamSH
         [SerializeField] private LocalPlayer localPlayer;
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
-
-        [SerializeField] private LiarLobby lobby;
-
+        
         [Header("보내기")]
         // 초당 몇 번 내 위치를 보낼지.
         // 서버가 뿌리는 횟수와는 별개. (그쪽은 appsettings.json)
@@ -124,7 +122,7 @@ namespace TeamSH
         {
             string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
 
-            Debug.Log($"[방] 받음 : {type}");
+            if (type != "state") Debug.Log($"[방] 받음 : {type}");
 
             switch (type)
             {
@@ -300,10 +298,8 @@ namespace TeamSH
 
             for (int i = start; i < SpecialChatLog.Count; i++)
             {
-                Debug.Log(SpecialChatLog[i]);
+                Debug.Log("특수채팅을 공개합니다." + SpecialChatLog[i]);
             }
-            
-            lobby.DrawSpecialChatLog();
         }
 
         private void OnPointAtSuspectState(PointAtSuspectStateMessage message)
@@ -434,16 +430,16 @@ namespace TeamSH
         
         private void DoLoadScene(string sceneName)
         {
-            if (activeContentScene == sceneName) return; // 이미 그 씬이면 다시 부르지 않는다.
+            if (activeContentScene == sceneName) return; // 현재씬을 안부르기
 
-            string previous = activeContentScene;
-            activeContentScene = sceneName;
+            string previous = activeContentScene; // 지금 씬 저장
+            activeContentScene = sceneName; // 매개변수 씬 (새로 불러올 씬)
 
-            SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += _ =>
+            SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += _ => // 비동기 씬 로드가 다 끝나면
             {
-                Scene loaded = SceneManager.GetSceneByName(sceneName);
-                SceneManager.SetActiveScene(loaded);
-                SceneManager.UnloadSceneAsync(previous);
+                Scene loaded = SceneManager.GetSceneByName(sceneName); // 새로운 씬 이름 = loaded
+                SceneManager.SetActiveScene(loaded); // 메인 씬으로 이동
+                SceneManager.UnloadSceneAsync(previous); // 이전 씬 언로드
             };
         }
 

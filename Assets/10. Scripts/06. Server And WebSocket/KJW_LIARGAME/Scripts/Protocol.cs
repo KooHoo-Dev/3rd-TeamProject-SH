@@ -451,7 +451,15 @@ namespace TeamSH
     {
         public string Type{get;set;} = "Vote";
         public string UserID{get;set;} // 투표하는 유저 ID
-        public string selectNum{get;set;} // 라이어가 아니다 or 모르겠다 or 라이어다
+        public SelectNum selectNum{get;set;} // 라이어가 아니다 or 모르겠다 or 라이어다
+    }
+    
+    [Serializable]
+    public enum SelectNum
+    {
+        Liar,
+        DontKnow,
+        NotLiar,
     }
 
     #endregion
