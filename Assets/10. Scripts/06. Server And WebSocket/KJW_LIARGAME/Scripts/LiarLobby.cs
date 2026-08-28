@@ -23,7 +23,10 @@ namespace TeamSH
 
         private void Awake()
         {
-            client = LiarClient.Instance;
+            // LiarClient.Instance(싱글턴 게터)를 쓰면, 이 오브젝트의 LiarClient.Awake()가 아직
+            // 돌기 전에 FindAnyObjectByType가 자기 자신을 찾아버려서 DontDestroyOnLoad가 걸리는
+            // 분기를 건너뛰는 버그가 있다. 같은 오브젝트에 무조건 붙어있는 컴포넌트이므로 GetComponent로 받는다.
+            client = GetComponent<LiarClient>();
         }
 
         private void OnGUI()

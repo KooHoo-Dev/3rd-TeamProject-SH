@@ -40,8 +40,7 @@ namespace TeamSH
         // 서버가 정해 준 내 정보. welcome 을 받기 전에는 비어 있다.
         public User Me { get; private set; }
 
-        // 내가 들어갔을 때 방에 아무도 없었으면 내가 방장이다.
-        // (서버의 Room.JoinAsync가 members.IsEmpty 로 host를 정하는 것과 같은 조건)
+        // 내가 들어갔을 때 방에 아무도 없었으면 내가 방장
         public bool IsHost { get; private set; }
 
         // 화면에 그리는 일은 RoomLobby 가 한다. 여기는 선을 타는 일만 한다.
@@ -56,7 +55,7 @@ namespace TeamSH
         // 방에서 오간 말. 로비가 그대로 그린다.
         public IReadOnlyList<string> ChatLog => chatLog;
 
-        // 로비 씬은 절대 내리지 않는다
+        // 로비 씬은 절대 내리지 않는다 
         private const string BootScene = "LIARGAME_Lobby";
 
         // 지금 추가로 떠 있는 씬 이름
@@ -192,6 +191,7 @@ namespace TeamSH
             Debug.Log($"[방] {message.Id} 이(가) 나갔다");
         }
 
+        // 일반 채팅은 게임 시작부터 종료까지 언제든 오갈 수 있어서 여기 둔다.
         private void OnNormalChat(NormalChatMessage message)
         {
             string mine = Me != null && message.ID == Me.Id ? $"나" : $"{message.ID}";
@@ -200,26 +200,23 @@ namespace TeamSH
             Debug.Log($"[일반] {message.ID} : {message.Text}");
         }
 
-        private void OnSpecialChat(SpecialChatMessage message)
+        // 방에서 누가 말했다. 내 말도 여기로 돌아옴
+        private void OnChat(ChatMessage message)
         {
-            string mine = Me != null && message.ID == Me.Id ? " (나)" : "";
-            chatLog.Add($"[특수] {message.NickName}{message.ID}{mine} : {message.Text}");
+            string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
+
+            chatLog.Add($"{message.NickName}{mine} : {message.Text}");
+
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
-            Debug.Log($"[특수] {message.ID} : {message.Text}");
+
+            Debug.Log($"[방] {message.NickName}({message.Id}) : {message.Text}");
         }
+
         private void OnGameStartOK(GameStartOKMessage message)
         {
             Debug.Log("게임 데이터 요청을 받고 message 안의 newGameConfig를 클라이언트 NewGameConfig로 저장");
 
             NewGameConfig = message.newGameConfig;
-        }
-
-        private void OnKeywordChat(KeywordChatMessage message)
-        {
-            string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
-            chatLog.Add($"[키워드] {message.NickName}{mine} : {message.Text}");
-            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
-            Debug.Log($"[키워드] {message.NickName} : {message.Text}");
         }
 
         private void OnGameStartState(GameStartStateMessage message)
@@ -263,6 +260,15 @@ namespace TeamSH
 
             string item = DoGetItem(message.CurrentOwnerID);
             Debug.Log($"[발언] {message.CurrentOwnerID} 이(가) {message.CurrentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
+        }
+
+        // 발언 상태에서 발언자의 첫 채팅이 특수채팅
+        private void OnSpecialChat(SpecialChatMessage message)
+        {
+            string mine = Me != null && message.ID == Me.Id ? " (나)" : "";
+            chatLog.Add($"[특수] {message.NickName}{message.ID}{mine} : {message.Text}");
+            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+            Debug.Log($"[특수] {message.ID} : {message.Text}");
         }
 
         private void OnSpeechEndState(SpeechEndStateMessage message)
@@ -310,6 +316,15 @@ namespace TeamSH
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
         }
 
+        // 라이어의 키워드 맞춤 상태에서 라이어의 첫 채팅이 키워드채팅
+        private void OnKeywordChat(KeywordChatMessage message)
+        {
+            string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
+            chatLog.Add($"[키워드] {message.NickName}{mine} : {message.Text}");
+            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+            Debug.Log($"[키워드] {message.NickName} : {message.Text}");
+        }
+
         private void OnLiarKeywordGuessEndState(LiarKeywordGuessEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
@@ -335,19 +350,21 @@ namespace TeamSH
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
         }
 
+        // 지속적으로 계속 돈다.
         private void OnState(StateMessage message)
         {
-            // 캐릭터는 움직이지 않으므로 좌표는 무시하고, 점수/라이어 여부/아이템만 반영한다.
+            // 로컬 플레이어 정보 동기화
             foreach (PlayerState state in message.States)
             {
-                if (Me != null && state.Id == Me.Id)
+                if (state.Id == Me.Id)
                 {
                     PlayerState.score = state.score;
                     PlayerState.IsLiar = state.IsLiar;
                     PlayerState.Items = state.Items;
                     continue;
                 }
-
+                
+                // 다른 플레이어 정보 동기화
                 if (remotes.TryGetValue(state.Id, out RemotePlayer remote) == false) continue;
 
                 remote.PlayerState.score = state.score;
@@ -356,23 +373,11 @@ namespace TeamSH
             }
         }
 
-        // 방에서 누가 말했다. 내 말도 여기로 돌아옴
-        private void OnChat(ChatMessage message)
-        {
-            string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
-
-            chatLog.Add($"{message.NickName}{mine} : {message.Text}");
-
-            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
-
-            Debug.Log($"[방] {message.NickName}({message.Id}) : {message.Text}");
-        }
-
         #endregion
 
         #region 클라이언트 내부처리 (Do)
 
-        // 공통 필드(Type/TimerMs/CurrentCycle/CurrentRound)만 옮겨 담는다. currentOwnerID 뜻은 상태마다 다르다.
+        // 메세지 내부 정보 받기
         private void DoSetPhase(string type, float timerMs, int currentCycle, int currentRound, string currentOwnerID = "")
         {
             CurrentPhase = type;
@@ -382,6 +387,7 @@ namespace TeamSH
             CurrentOwnerID = currentOwnerID;
         }
 
+        // 다른 플레이어 생성
         private void DoSpawn(User user)
         {
             // 이미 있으면 만들지 않는다. welcome 과 join 이 겹칠 수 있다.
@@ -392,18 +398,6 @@ namespace TeamSH
             remote.Setup(user);
 
             remotes[user.Id] = remote;
-        }
-
-        // userId가 이번 사이클에 고른 아이템을 찾는다. 나 자신이거나, remotes에 있는 사람만 알 수 있다.
-        private string DoGetItem(string userId)
-        {
-            PlayerState state = Me != null && userId == Me.Id
-                ? PlayerState
-                : remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.PlayerState : null;
-
-            if (state?.Items == null || CurrentCycle < 0 || CurrentCycle >= state.Items.Length) return null;
-
-            return state.Items[CurrentCycle];
         }
 
         // 씬을 덮어써서 지우는 대신(Single), 위에 덧붙이고(Additive) 이전 내용 씬만 내린다.
@@ -445,21 +439,16 @@ namespace TeamSH
             }
         }
 
-        // 씬 이동할때 오브젝트 연결
-        public void DoBindScene(LocalPlayer localPlayer, RemotePlayer remotePrefab)
+        // userId가 이번 사이클에 고른 아이템을 찾는다. 나 자신이거나, remotes에 있는 사람만 알 수 있다.
+        private string DoGetItem(string userId)
         {
-            this.localPlayer = localPlayer;
-            this.remotePrefab = remotePrefab;
+            PlayerState state = Me != null && userId == Me.Id
+                ? PlayerState
+                : remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.PlayerState : null;
 
-            if (Me != null) this.localPlayer.Setup(Me);
+            if (state?.Items == null || CurrentCycle < 0 || CurrentCycle >= state.Items.Length) return null;
 
-            remotes.Clear(); // 이전 씬의 원격 오브젝트는 이미 파괴되었으니 목록만 비운다.
-
-            foreach (User user in knownUsers.Values)
-            {
-                if (Me != null && user.Id == Me.Id) continue;
-                DoSpawn(user);
-            }
+            return state.Items[CurrentCycle];
         }
 
         #endregion
@@ -478,7 +467,7 @@ namespace TeamSH
 
         public void RequestGameStart() // 게임 시작 요청
         {
-            // UI 쪽 게이팅과 별개로, 방장이 아니면 서버에 보내지도 않는다.
+            // 방장만 서버로 보냄
             if (Me == null || IsHost == false) return;
             SendAsync(new GameStartMessage()).Forget();
         }
@@ -590,9 +579,8 @@ namespace TeamSH
                     // 이 오브젝트가 사라졌다
                     return;
                 }
-                catch (WebSocketException e)
+                catch (WebSocketException)
                 {
-                    Debug.Log(e.Message);
                     Debug.LogWarning("[방] 연결이 끊겼다");
                     return;
                 }
