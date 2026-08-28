@@ -10,7 +10,7 @@ namespace TeamSH
     public class Vote_System : MonoBehaviour
     {
         public static Vote_System Instance;
-
+        
         [Header("임시 UI 테스트용")]
         public TMP_Text specialMessage; //특수 채팅
         public TMP_Text keywordMessage; // 키워드 채팅
@@ -20,12 +20,12 @@ namespace TeamSH
         private User Me{ get; set; }
         private Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
         
-        [Header("턴 처리")]
-        private float TimerMs { get; set; } //투표 제한 시간
         private TurnType CurrentTurnType { get; set; }
         
         [Header("지목 처리")]
         private User CurrentSelectUser { get; set; }
+
+        public bool canPoint = false;
         
         [Header("투표 처리")]
         public User PointTarget { get; set; } //현재 지목당한 유저
@@ -41,6 +41,10 @@ namespace TeamSH
         {
             if (Instance == null) Instance = this;
             CurrentTurnType = TurnType.Wait;
+            GameObject Canvas = GameObject.Find("Canvas");
+            specialMessage = Canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            specialMessage = Canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            VoteUI = Canvas.transform.GetChild(2).gameObject;
             specialMessage.gameObject.SetActive(false);
             keywordMessage.gameObject.SetActive(false);
             VoteUI.SetActive(false);
@@ -61,7 +65,7 @@ namespace TeamSH
         public void SetTurnType(TurnType currentTurnType, float timerMs)
         {
             CurrentTurnType = currentTurnType;
-            TimerMs = timerMs;
+            if(currentTurnType == TurnType.Point) canPoint = true;
         }
 
         public void SetPointTarget(string targetUserID)
@@ -74,19 +78,19 @@ namespace TeamSH
                     break;
                 }
             }
-            Debug.Log($"{PointTarget.NickName}에 대한 투표를 시작합니다." );
+            Debug.Log($"{PointTarget.NickName}에게 투표합니다" );
             VoteUI.SetActive(true);
         }
-        
-        
-        
+
+        public void CheckNonPointTarget()
+        {
+            canPoint = false;
+            if(CurrentSelectUser == null) SendNonPointRequest();
+            CurrentTurnType = TurnType.Wait; 
+        }
 
         private void Update()
         {
-            if(TimerMs > 0) TimerMs -= Time.deltaTime;
-            else if(TimerMs < 0) TimerMs = 0;
-
-
             switch (CurrentTurnType)
             {
                 case TurnType.Wait:
@@ -107,10 +111,7 @@ namespace TeamSH
 
         private void PointOtherPlayer()
         {
-            if(TimerMs <= 0 && CurrentSelectUser == null) //시간 초과까지 지목안하면 기권/스킵
-            {
-                SendNonPointRequest();
-            }
+            if (canPoint == false) return;
 
             if (SimpleInput.GetMouseButtonDown(0))
             {
@@ -157,6 +158,7 @@ namespace TeamSH
             };
 
             LiarClient.Instance.RequestNonPointMessage(message);
+            Debug.Log($"{Me.NickName}가 기권함");
         }
         
         // 지목 전달

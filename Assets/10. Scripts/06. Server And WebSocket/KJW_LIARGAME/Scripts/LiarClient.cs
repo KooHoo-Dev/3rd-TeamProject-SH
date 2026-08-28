@@ -164,8 +164,8 @@ namespace TeamSH
                     case "최종 결과 종료 상태": OnFinalResultEndState(JsonConvert.DeserializeObject<FinalResultEndStateMessage>(json)); break;
 
                     case "Select": OnSelect(JsonConvert.DeserializeObject<SelectMessage>(json)); break;
-                    case "NonPointMessage" : OnNonPointMessage(JsonConvert.DeserializeObject<NonPointMessage>(json)); break;
-                    case "VoteMessage": OnVoteMessage(JsonConvert.DeserializeObject<VoteMessage>(json)); break;
+                    case "NonPoint" : OnNonPointMessage(JsonConvert.DeserializeObject<NonPointMessage>(json)); break;
+                    case "Vote": OnVoteMessage(JsonConvert.DeserializeObject<VoteMessage>(json)); break;
                     
                     case "leave": OnLeave(JsonConvert.DeserializeObject<LeaveMessage>(json)); break;
                     case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
@@ -185,7 +185,10 @@ namespace TeamSH
             IsHost = message.Users == null || message.Users.Length == 0;
 
             localPlayer.Setup(Me);
-
+            
+            Vote_System.Instance.SetInitializeData(Me); //투표시스템 ID적용
+            Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
+            
             foreach (User user in message.Users)
             {
                 knownUsers[user.Id] = user;
@@ -200,6 +203,9 @@ namespace TeamSH
             knownUsers[message.User.Id] = message.User;
             DoSpawn(message.User);
             Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
+            
+            Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
+            Debug.Log($"총 유저 수 전달! {remotes.Count + 1}");
         }
 
         private void OnLeave(LeaveMessage message)
@@ -209,6 +215,7 @@ namespace TeamSH
             if (remotes.TryGetValue(message.Id, out RemotePlayer remote) == false) return;
 
             remotes.Remove(message.Id);
+            Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
             Destroy(remote.gameObject);
 
             Debug.Log($"[방] {message.Id} 이(가) 나갔다");
@@ -275,6 +282,12 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             DoLoadScene("LIARGAME_Conference");
+            
+            // knownUsers에 있는 유저 전체를 스폰
+            foreach (var user in knownUsers)
+            {
+                DoSpawn(user.Value);
+            }
         }
 
         private void OnShowItemAndSpeakState(ShowItemAndSpeakStateMessage message)
@@ -316,8 +329,8 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
             //여기가 지목단계 종료
-            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
-            Vote_System.Instance.SetPointTarget(message.CurrentOwnerID);
+            //Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
+            Vote_System.Instance.CheckNonPointTarget();
         }
 
         private void OnDebateTimeState(DebateTimeStateMessage message)
@@ -339,7 +352,7 @@ namespace TeamSH
 
         private void OnVoteEndState(VoteEndStateMessage message)
         {
-            DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
+            DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             //여기가 투표 종료
             Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
         }
