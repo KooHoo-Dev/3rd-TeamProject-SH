@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 304ae54764a49bf499b0804fdeb0f157
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 199026
+  packageName: POLYGON - Shops Pack - Art by Synty
+  packageVersion: 1.6.6
+  assetPath: Assets/Synty00/PolygonGeneric/Models/Collision/SM_Gen_Prop_Button_01_Convex.asset
+  uploadId: 976798
