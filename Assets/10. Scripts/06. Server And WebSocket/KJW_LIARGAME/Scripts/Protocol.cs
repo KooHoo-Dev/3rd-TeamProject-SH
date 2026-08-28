@@ -5,12 +5,6 @@ namespace TeamSH
 {
     #region 공용 데이터 처리
 
-    [Serializable]
-    public class TypeOnly
-    {
-        public string Type { get; set; }
-    }
-    
     #region 채팅 처리
 
     [Serializable]
@@ -69,6 +63,12 @@ namespace TeamSH
     #endregion
     
     #region 서버 -> 클라이언트
+    
+    [Serializable]
+    public class TypeOnly
+    {
+        public string Type { get; set; }
+    }
     
     [Serializable]
     public class NewGameConfig
@@ -143,19 +143,19 @@ namespace TeamSH
     #region 게임 시작 처리
     
     [Serializable]
-    public class GameStartOKMessage
-    {
-        public string Type{get;set;} = "게임 시작 확인";
-        public NewGameConfig newGameConfig{get;set;}
-    }
-    
-    [Serializable]
     public class GameStartStateMessage
     {
         public string Type { get; set; } = "게임 시작 상태";
         public float TimerMs { get; set; } // 모든 타임은 MS로 들어옴
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
+    }
+    
+    [Serializable]
+    public class GameStartOKMessage
+    {
+        public string Type{get;set;} = "게임 시작 확인";
+        public NewGameConfig newGameConfig{get;set;}
     }
 
     [Serializable]
@@ -254,7 +254,7 @@ namespace TeamSH
         public float TimerMs { get; set; }
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
-        public string CurrentOwnerID { get; set; } // 최다 득표(지목)된 유저
+        public string CurrentOwnerID { get; set; } // 최다 득표(지목)된 유저(동율이거나 없으면 빈 값)
     }
     
     // ===================== 변론 단계 =====================
@@ -425,7 +425,7 @@ namespace TeamSH
 
     #region 투표 처리
     
-    // 선택(공용)
+    // 선택
     [Serializable]
     public class SelectMessage
     {
