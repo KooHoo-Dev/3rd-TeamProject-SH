@@ -5,12 +5,13 @@ using UnityEngine.InputSystem;
 
 namespace BaekSH
 {
+    // 회의실 캐릭터 배치 코드
     public class ChairManager : MonoBehaviour
     {
         [Header("SittingPoints")] 
         [SerializeField] private Transform[] sittingPoints;
         
-        # region 캐릭터 배치 테스트 코드
+        # region 캐릭터 배치 임시 테스트 코드
         
         [SerializeField] private GameObject character;
         private void Update()

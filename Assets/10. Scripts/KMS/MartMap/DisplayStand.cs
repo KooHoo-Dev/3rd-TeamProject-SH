@@ -9,7 +9,6 @@ public enum AreaNum
     Area1,
     Area2,
     Area3,
-    Area4,
 }
 public class DisplayStand : MonoBehaviour
 {

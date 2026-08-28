@@ -12,17 +12,14 @@ public class DisplayStandManager : MonoBehaviour
     List<DisplayStand> Area1 = new List<DisplayStand>();
     List<DisplayStand> Area2 = new List<DisplayStand>();
     List<DisplayStand> Area3 = new List<DisplayStand>();
-    List<DisplayStand> Area4 = new List<DisplayStand>();
 
     List<ItemDef> Area1ItmeBuffer = new List<ItemDef>();
     List<ItemDef> Area2ItmeBuffer = new List<ItemDef>();
     List<ItemDef> Area3ItmeBuffer = new List<ItemDef>();
-    List<ItemDef> Area4ItmeBuffer = new List<ItemDef>();
 
     List<int> Area1ItemIdBuffer = new List<int>();
     List<int> Area2ItemIdBuffer = new List<int>();
     List<int> Area3ItemIdBuffer = new List<int>();
-    List<int> Area4ItemIdBuffer = new List<int>();
     public bool IsReady { get; private set; } = false;
 
 
@@ -46,8 +43,6 @@ public class DisplayStandManager : MonoBehaviour
         AllArea.Add(Area1);
         AllArea.Add(Area2);
         AllArea.Add(Area3);
-        AllArea.Add(Area4);
-        
 
         SetRandomCategoryForArea();
         await UniTask.WaitUntil(() => DataManager.Instance.IsReady);
@@ -217,9 +212,6 @@ public class DisplayStandManager : MonoBehaviour
             case AreaNum.Area3:
                 Area3ItemIdBuffer = itemIds;
                 break;
-            case AreaNum.Area4:
-                Area4ItemIdBuffer = itemIds;
-                break;
         }
     }
 
@@ -282,14 +274,6 @@ public class DisplayStandManager : MonoBehaviour
                     Area3ItmeBuffer.RemoveAt(0);
                 }
                 break;
-            case AreaNum.Area4:
-                if (Area4ItmeBuffer.Count > 0)
-                {
-                    displayStand.SetItem(Area4ItmeBuffer[0]);
-                    Area4ItmeBuffer.RemoveAt(0);
-
-                }
-                break;
         }
     }
     // 이 로직은 서버에서 랜덤으로 섞은 아이템 ID 버퍼를 기반으로, 해당 구역의 아이템 정의 리스트를 섞는 역할을 합니다.
@@ -316,8 +300,6 @@ public class DisplayStandManager : MonoBehaviour
                 return Area2ItemIdBuffer;
             case AreaNum.Area3:
                 return Area3ItemIdBuffer;
-            case AreaNum.Area4:
-                return Area4ItemIdBuffer;
             default:
                 return null;
         }
@@ -332,8 +314,6 @@ public class DisplayStandManager : MonoBehaviour
                 return Area2ItmeBuffer;
             case AreaNum.Area3:
                 return Area3ItmeBuffer;
-            case AreaNum.Area4:
-                return Area4ItmeBuffer;
             default:
                 return null;
         }
