@@ -72,6 +72,9 @@ namespace TeamSH
 
         private ClientWebSocket socket;
 
+        // 접속 순서를 그대로 기록
+        private readonly List<string> userOrder = new List<string>();
+        
         // 남들. 번호로 찾는다.
         private readonly Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
 
@@ -185,19 +188,28 @@ namespace TeamSH
 
             localPlayer.Setup(Me);
             
+            // 누가 들어올때마다 순서 초기화하고처음부터 다시세운다.
+            userOrder.Clear();
+            if (message.Users != null)
+            {
+                foreach (User user in message.Users)
+                {
+                    userOrder.Add(user.Id);
+                    DoSpawn(user);
+                }
+            }
+            userOrder.Add(Me.Id);
+            
             Vote_System.Instance.SetInitializeData(Me); //투표시스템 ID적용
             Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
-            
-            foreach (User user in message.Users)
-            {
-                DoSpawn(user);
-            }
 
             Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
         }
 
         private void OnJoin(JoinMessage message)
         {
+            userOrder.Add(message.User.Id); // 순서 리스트에 추가
+            
             DoSpawn(message.User);
             Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
             
@@ -210,6 +222,8 @@ namespace TeamSH
             if (remotes.TryGetValue(message.Id, out RemotePlayer remote) == false) return;
 
             remotes.Remove(message.Id);
+            userOrder.Remove(message.Id); // 순서 에서 제거
+            
             Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
             Destroy(remote.gameObject);
 
@@ -277,12 +291,6 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             DoLoadScene("LIARGAME_Conference");
-            
-            // knownUsers에 있는 유저 전체를 스폰
-            foreach (var user in knownUsers)
-            {
-                DoSpawn(user.Value);
-            }
         }
 
         private void OnShowItemAndSpeakState(ShowItemAndSpeakStateMessage message)
@@ -320,7 +328,7 @@ namespace TeamSH
                 Debug.Log(SpecialChatLog[i]);
             }
             
-            lobby.DrawSpecialChatLog();
+            //lobby.DrawSpecialChatLog(); 해당 문구로 에러가 자꾸 나서 일단 주석처리하고 옮겼습니다.
         }
 
         private void OnPointAtSuspectState(PointAtSuspectStateMessage message)
@@ -411,17 +419,17 @@ namespace TeamSH
 
         private void OnSelect(SelectMessage message)
         {
-            bool Select = message.IsSelectCancel;
-            //여기 화살표 처리 넣어야함
-            // 뭐 대충 DrawArrow같은느낌
-            if(Select) Debug.Log($"{message.selectID}가 {message.selectedID}를 지목했습니다. ");
-            else Debug.Log($"{message.selectID}가 {message.selectedID}에 대한 지목을 취소했습니다.");
+            if (message.IsSelectCancel == false)
+                Debug.Log($"{message.selectID}가 {message.selectedID}를 지목했습니다.");
+            else
+                Debug.Log($"{message.selectID}가 {message.selectedID}에 대한 지목을 취소했습니다.");
         }
 
         private void OnNonPointMessage(NonPointMessage message)
         {
             //여기 투표안한 유저를 대기상태로 변경하는 코드 추가
             if (message.UserID == Me.Id) Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait, TimerMs);
+            else Debug.Log($"{message.UserID}가 기권했습니다.");
         }
 
         private void OnVoteMessage(VoteMessage message)
@@ -480,6 +488,9 @@ namespace TeamSH
             remote.Setup(user);
 
             remotes[user.Id] = remote;
+            
+            // 이미 마트/회의실에 들어와 있는 상태라면 새로 들어온 사람까지 포함해서 즉시 재배치
+            DoRepositionAll();
         }
         
         private void DoLoadScene(string sceneName)
@@ -494,6 +505,13 @@ namespace TeamSH
                 Scene loaded = SceneManager.GetSceneByName(sceneName);
                 SceneManager.SetActiveScene(loaded);
                 SceneManager.UnloadSceneAsync(previous);
+                
+                // 씬 전환 완료 후 Vote_System에 Canvas 재설정 요청
+                if (Vote_System.Instance != null)
+                    Vote_System.Instance.SetUI();
+                
+                // 씬이 완전히 로드되어 매니저가 Awake를 끝낸 뒤에 전원 재배치
+                DoRepositionAll();
             };
         }
 
@@ -508,6 +526,55 @@ namespace TeamSH
 
             return state.Items[CurrentCycle];
         }   
+        
+        // 현재 씬(마트/회의실)의 스폰 포인트를 가져와서 접속 순서대로 배치한다.
+        private void DoRepositionAll()
+        {
+            Transform[] spawnPoints;
+
+            switch (activeContentScene)
+            {
+                case "LIARGAME_MART":
+                    spawnPoints = MartManager.Instance?.userSpawnPoints;
+                    break;
+                case "LIARGAME_Conference":
+                    spawnPoints = ConferenceManager.Instance?.userSpawnPoints;
+                    break;
+                default:
+                    return; // 로비처럼 위치가 필요 없는 씬이면 조용히 넘어간다.
+            }
+
+            if (spawnPoints == null || spawnPoints.Length == 0)
+            {
+                Debug.LogWarning($"[배치] '{activeContentScene}' 씬에서 스폰 포인트를 찾지 못함 - 매니저에 배열이 연결되어 있는지 확인하세요");
+                return;
+            }
+
+            for (int i = 0; i < userOrder.Count; i++)
+            {
+                if (i >= spawnPoints.Length)
+                {
+                    Debug.LogWarning($"[배치] 스폰 포인트({spawnPoints.Length}개)보다 인원이 많다. 나머지는 배치하지 않음");
+                    break;
+                }
+
+                string id = userOrder[i];
+                Vector3 pos = spawnPoints[i].position;
+                Quaternion rot = spawnPoints[i].rotation;
+
+                if (Me != null && id == Me.Id)
+                {
+                    if (localPlayer == null) continue;
+                    localPlayer.transform.position = pos;
+                    localPlayer.transform.rotation = rot;
+                }
+                else if (remotes.TryGetValue(id, out RemotePlayer remote))
+                {
+                    remote.transform.position = pos;
+                    remote.transform.rotation = rot;
+                }
+            }
+        }
 
         #endregion
 

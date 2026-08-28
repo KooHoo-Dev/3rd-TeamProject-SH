@@ -12,8 +12,8 @@ namespace TeamSH
         public static Vote_System Instance;
         
         [Header("임시 UI 테스트용")]
-        public TMP_Text specialMessage; //특수 채팅
-        public TMP_Text keywordMessage; // 키워드 채팅
+        public TextMeshProUGUI specialMessage; //특수 채팅
+        public TextMeshProUGUI keywordMessage; // 키워드 채팅
         public GameObject VoteUI; // 투표 UI
 
         [Header("유저 정보")]
@@ -41,13 +41,16 @@ namespace TeamSH
         {
             if (Instance == null) Instance = this;
             CurrentTurnType = TurnType.Wait;
-            GameObject Canvas = GameObject.Find("Canvas");
-            specialMessage = Canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            specialMessage = Canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-            VoteUI = Canvas.transform.GetChild(2).gameObject;
             specialMessage.gameObject.SetActive(false);
             keywordMessage.gameObject.SetActive(false);
-            VoteUI.SetActive(false);
+            VoteUI.gameObject.SetActive(false);
+        }
+
+        public void SetUI()
+        {
+            specialMessage.gameObject.SetActive(false);
+            keywordMessage.gameObject.SetActive(false);
+            VoteUI.gameObject.SetActive(false);
         }
 
         public void SetInitializeData(User me)
@@ -113,29 +116,39 @@ namespace TeamSH
         {
             if (canPoint == false) return;
 
-            if (SimpleInput.GetMouseButtonDown(0))
+            if (SimpleInput.GetMouseButtonDown(SimpleInput.MouseButton.Left))
             {
-                // 마우스 커서 위치 기준 레이캐스트 발사
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            
+                Ray ray = Camera.main.ScreenPointToRay(SimpleInput.GetMousePosition());
+
                 if (Physics.Raycast(ray, out RaycastHit hit3D))
                 {
                     RemotePlayer remotePlayer = hit3D.collider.GetComponent<RemotePlayer>();
-                    
                     if (remotePlayer == null) return;
 
-                    if (CurrentSelectUser == null || remotePlayer.User.Id != CurrentSelectUser.Id)
+                    // 아무도 지목 안 한 상태 → 지목
+                    if (CurrentSelectUser == null)
                     {
-                        SendSelectRequest(remotePlayer.User.Id, false);
+                        SendSelectRequest(remotePlayer.User.Id, false); // 지목
                         CurrentSelectUser = remotePlayer.User;
                         return;
                     }
 
-                    SendSelectRequest(remotePlayer.User.Id, true);
-                    CurrentSelectUser = null;
+                    // 이미 지목한 사람을 다시 클릭 → 지목 해제
+                    if (CurrentSelectUser.Id == remotePlayer.User.Id)
+                    {
+                        SendSelectRequest(remotePlayer.User.Id, true); // 취소
+                        CurrentSelectUser = null;
+                        return;
+                    }
+
+                    // 다른 사람을 클릭 → 기존 타겟 취소 + 새 타겟 지목
+                    SendSelectRequest(CurrentSelectUser.Id, true);
+                    SendSelectRequest(remotePlayer.User.Id, false);
+                    CurrentSelectUser = remotePlayer.User;
                 }
             }
         }
+
         
         public void VoteOtherPlayer(string index) //버튼 인풋용 투표 메서드
         {

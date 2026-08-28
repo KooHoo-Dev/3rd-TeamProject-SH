@@ -465,8 +465,5 @@ namespace TeamSH
         public float TimerMs { get; set; }
 
     }
-
-    }
-    
     #endregion
 }

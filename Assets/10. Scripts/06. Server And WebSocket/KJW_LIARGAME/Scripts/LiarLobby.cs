@@ -73,6 +73,8 @@ namespace TeamSH
             DrawLiarOutButton();
             DrawInfoOverlay();
             DrawTimer();
+            
+            DrawSpecialChatLog(); // 여기로 옮겼습니다.
         }
 
         private void DrawChatLog()

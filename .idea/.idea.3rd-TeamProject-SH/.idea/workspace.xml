@@ -11,20 +11,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0fc4a04-28d6-4030-ba58-e830907a8116" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/MartManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/MartManager.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.3rd-TeamProject-SH/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.3rd-TeamProject-SH/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Conference.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Conference.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_MART.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_MART.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/RemotePlayerPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/RemotePlayerPrefab.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarLobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarLobby.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LocalPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LocalPlayer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/Protocol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/Protocol.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/RemotePlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/RemotePlayer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Canvas.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Canvas.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Chat_System.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Chat_System.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Lier_GameSystem.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Lier_GameSystem.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,67 +32,74 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/ed/009cbaef/WebSocketMessageType.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6567e2a645a94ef68fffcf0e5cb82d14212a00/a5/3bdc43a5/Mathf.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/MartManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Study_Unity_Basic_2D/Server/HelloServer/HelloServer/Program.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0389060782457283E-13" />
-      <entry key="MS500" value="0.002563842628489153" />
-      <entry key="S2" value="0.3001337137181219" />
-      <entry key="S5" value="0.9397270312788265" />
-      <entry key="S10" value="1.5220277955412826" />
-      <entry key="S30" value="2.432022360333323" />
-      <entry key="S60" value="4.554902718838691" />
-      <entry key="M2" value="12.962055358759637" />
-      <entry key="M5" value="33.18049614215312" />
-      <entry key="M10" value="50.18440090221282" />
-      <entry key="M15" value="60.34680540055866" />
-      <entry key="M30" value="76.27723087848055" />
-      <entry key="H1" value="88.07069609747845" />
-      <entry key="H2" value="95.41488942699345" />
-      <entry key="H4" value="99.53691945658463" />
-      <entry key="D1" value="103.23102522883148" />
-      <entry key="W1" value="103.88951125553979" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.000000021228616" />
+      <entry key="S2" value="1.0196763943642806" />
+      <entry key="S5" value="1.3140760007951704" />
+      <entry key="S10" value="1.7922055386342588" />
+      <entry key="S30" value="2.4686648376458584" />
+      <entry key="S60" value="2.7138431452634535" />
+      <entry key="M2" value="2.855036849215437" />
+      <entry key="M5" value="3.8775309179680644" />
+      <entry key="M10" value="9.423026873548224" />
+      <entry key="M15" value="15.69732027709867" />
+      <entry key="M30" value="32.893005825473125" />
+      <entry key="H1" value="62.47764219991953" />
+      <entry key="H2" value="97.9522444571868" />
+      <entry key="H4" value="127.17308614275531" />
+      <entry key="D1" value="160.92766652528803" />
+      <entry key="W1" value="167.8162763870028" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="1.0000062835008074" />
-      <entry key="MS500" value="1.0924596098645984" />
-      <entry key="S2" value="1.7412957823539124" />
-      <entry key="S5" value="2.3592206794133848" />
-      <entry key="S10" value="2.8428744433111204" />
-      <entry key="S30" value="3.5524092868959536" />
-      <entry key="S60" value="4.200552867054496" />
-      <entry key="M2" value="5.136402846668899" />
-      <entry key="M5" value="6.578039609308723" />
-      <entry key="M10" value="8.730784153498387" />
-      <entry key="M15" value="10.830908699064041" />
-      <entry key="M30" value="15.05913942903611" />
-      <entry key="H1" value="18.680806978296225" />
-      <entry key="H2" value="21.082320535364545" />
-      <entry key="H4" value="22.469751540094613" />
-      <entry key="D1" value="23.734392391963404" />
-      <entry key="W1" value="23.9617883691604" />
+      <entry key="MS100" value="2.092264482200506E-13" />
+      <entry key="MS500" value="0.0029126994615863468" />
+      <entry key="S2" value="0.2813719390202205" />
+      <entry key="S5" value="1.006153694260452" />
+      <entry key="S10" value="1.6918789475011633" />
+      <entry key="S30" value="2.4643375121402706" />
+      <entry key="S60" value="2.717096467692705" />
+      <entry key="M2" value="2.8545969668007385" />
+      <entry key="M5" value="2.9694535057946996" />
+      <entry key="M10" value="3.233698478693999" />
+      <entry key="M15" value="3.6491522118290045" />
+      <entry key="M30" value="5.877162361400931" />
+      <entry key="H1" value="11.727076753683928" />
+      <entry key="H2" value="19.762580310696368" />
+      <entry key="H4" value="26.726380360518174" />
+      <entry key="D1" value="34.995571936080346" />
+      <entry key="W1" value="36.70550580098241" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="3.8121612304485255E-5" />
-      <entry key="MS500" value="0.16279511456390444" />
-      <entry key="S2" value="1.408230631053996" />
-      <entry key="S5" value="2.898330274349176" />
-      <entry key="S10" value="4.110672678796531" />
-      <entry key="S30" value="5.874456802221071" />
-      <entry key="S60" value="8.679798204456542" />
-      <entry key="M2" value="18.028751535278765" />
-      <entry key="M5" value="39.70018867886254" />
-      <entry key="M10" value="58.86710796281034" />
-      <entry key="M15" value="71.13516120696735" />
-      <entry key="M30" value="91.30526944268678" />
-      <entry key="H1" value="106.73192814136719" />
-      <entry key="H2" value="116.48611639627033" />
-      <entry key="H4" value="122.00075093102382" />
-      <entry key="D1" value="126.96437460755159" />
-      <entry key="W1" value="127.85114918072078" />
+      <entry key="MS100" value="8.185893569995384E-12" />
+      <entry key="MS500" value="0.006497894737288" />
+      <entry key="S2" value="0.47075194850014135" />
+      <entry key="S5" value="1.7324860804716735" />
+      <entry key="S10" value="3.089659127824055" />
+      <entry key="S30" value="4.765442479584213" />
+      <entry key="S60" value="5.3413329932082085" />
+      <entry key="M2" value="5.6632489620533635" />
+      <entry key="M5" value="6.827649795032565" />
+      <entry key="M10" value="12.64537674993516" />
+      <entry key="M15" value="19.33713946353087" />
+      <entry key="M30" value="38.7609224304561" />
+      <entry key="H1" value="74.19394533296342" />
+      <entry key="H2" value="117.70514604760136" />
+      <entry key="H4" value="153.89275595126065" />
+      <entry key="D1" value="195.92174867144183" />
+      <entry key="W1" value="204.52155837831117" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -105,6 +110,9 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="3IXQe7oX9xUm2pGXbimIWZcYBTS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -123,7 +131,7 @@
     "Unity 연결 대상.연결 대상.executor": "Debug",
     "cidr.known.project.marker": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "kim-jw-work",
+    "git-widget-placeholder": "na-jw-work",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
