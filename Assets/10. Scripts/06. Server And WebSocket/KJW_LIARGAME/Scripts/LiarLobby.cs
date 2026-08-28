@@ -18,14 +18,14 @@ namespace TeamSH
         private string typing = "";
 
         private int selectedChatType = 0; // 일반 : 0, 특수 : 1, 키워드 : 2
-        
+
         private bool chatting;
+
+        // Tab 키로 장르/키워드/특수채팅 정보창을 열고 닫는다.
+        private bool showInfo;
 
         private void Awake()
         {
-            // LiarClient.Instance(싱글턴 게터)를 쓰면, 이 오브젝트의 LiarClient.Awake()가 아직
-            // 돌기 전에 FindAnyObjectByType가 자기 자신을 찾아버려서 DontDestroyOnLoad가 걸리는
-            // 분기를 건너뛰는 버그가 있다. 같은 오브젝트에 무조건 붙어있는 컴포넌트이므로 GetComponent로 받는다.
             client = GetComponent<LiarClient>();
         }
 
@@ -65,14 +65,16 @@ namespace TeamSH
             GUI.Label(new Rect(20, 20, 700, 22),
                 $"방 {client.RoomCode}    나 : {client.Me.NickName}({client.Me.Id})    남 : {client.RemoteCount}명");
 
-            if (client.IsHost && GUI.Button(new Rect(20, 0, 150, 20), "게임 시작")) // 호스트에게만 버튼 활성화 GUI
+            // 호스트에게만, 그리고 게임 시작 확인을 받기 전까지만 버튼을 보여준다.
+            if (client.IsHost && client.IsGameStarted == false && GUI.Button(new Rect(20, 0, 150, 20), "게임 시작"))
             {
                 client.RequestGameStart();
             }
-            
             DrawChatLog();
             DrawChatInput();
             DrawLiarOutButton();
+            DrawInfoOverlay();
+            DrawTimer();
         }
 
         private void DrawChatLog()
@@ -115,6 +117,48 @@ namespace TeamSH
             if (GUI.Button(new Rect(20, 302, 150, 24), "라밍아웃"))
             {
                 client.RequestLiarOutButtonPressedState();
+            }
+        }
+
+        // 화면 우측 상단에 지금 상태의 남은 시간을 보여준다. 서버로는 아무것도 안 보낸다 - 순전히 시각용이다.
+        private void DrawTimer()
+        {
+            if (client.CurrentPhase == "") return;
+
+            Rect box = new Rect(Screen.width - 180, 20, 160, 44);
+            GUI.Box(box, "");
+
+            GUIStyle style = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 26,
+                fontStyle = FontStyle.Bold,
+                alignment = TextAnchor.MiddleCenter
+            };
+
+            GUI.Label(box, $"{client.RemainingSeconds:0.0} 초", style);
+        }
+
+        // Tab 을 누르면 화면 정중앙에 장르 / 내 키워드 / 지금까지의 특수채팅을 띄운다. 다시 누르면 닫힌다.
+        private void DrawInfoOverlay()
+        {
+            if (SimpleInput.GetKeyDown(Key.Tab)) showInfo = !showInfo;
+
+            if (showInfo == false) return;
+
+            Rect box = new Rect(Screen.width / 2f - 220, Screen.height / 2f - 160, 440, 320);
+            GUI.Box(box, "정보 (Tab 으로 닫기)");
+
+            GUI.Label(new Rect(box.x + 16, box.y + 26, 400, 22), $"장르 : {client.GenreId}");
+            GUI.Label(new Rect(box.x + 16, box.y + 48, 400, 22), $"내 키워드 : {client.KeywordId}");
+
+            GUI.Label(new Rect(box.x + 16, box.y + 76, 400, 20), "특수 채팅 기록");
+
+            int line = 0;
+
+            foreach (string said in client.SpecialChatLog)
+            {
+                GUI.Label(new Rect(box.x + 16, box.y + 98 + line * 18, 408, 18), said);
+                line++;
             }
         }
     }

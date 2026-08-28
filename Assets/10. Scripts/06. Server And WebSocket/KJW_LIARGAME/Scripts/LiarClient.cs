@@ -52,8 +52,15 @@ namespace TeamSH
         // 서버가 다듬어 알려 준 방 코드. abcd 로 쳐도 ABCD 가 옴.
         public string RoomCode { get; private set; }
 
+        // 게임 시작 확인을 받았는지. NewGameConfig는 [Serializable] 필드라서 Unity가
+        // 항상 기본 인스턴스를 채워 넣어 null 체크로 못 씀 - 그래서 이 플래그를 따로 둔다.
+        public bool IsGameStarted { get; private set; }
+
         // 방에서 오간 말. 로비가 그대로 그린다.
         public IReadOnlyList<string> ChatLog => chatLog;
+
+        // 이번 라운드에 오간 특수채팅 전체. Tab 정보창이 그대로 보여준다 (chatLog와 달리 개수 제한 없음).
+        public IReadOnlyList<string> SpecialChatLog => specialChatLog;
 
         // 로비 씬은 절대 내리지 않는다 
         private const string BootScene = "LIARGAME_Lobby";
@@ -71,6 +78,9 @@ namespace TeamSH
 
         // 오간 말. 너무 쌓이지 않게 앞에서부터 버린다.
         private readonly List<string> chatLog = new List<string>();
+
+        // 특수채팅만 따로 모은 기록. Tab 정보창 전용이라 버리지 않는다.
+        private readonly List<string> specialChatLog = new List<string>();
 
         private const int ChatKeep = 12;
 
@@ -90,7 +100,13 @@ namespace TeamSH
         public float TimerMs { get; private set; }
         public int CurrentCycle { get; private set; }
         public int CurrentRound { get; private set; }
-        
+
+        // TimerMs를 받은 시각(Time.time). 서버에는 안 보내고, 화면에 남은 시간을 보여주기 위한 것뿐이다.
+        private float phaseStartTime;
+
+        // 지금 상태에서 남은 시간(초). 서버가 실제로 언제 다음 메세지를 보낼지와는 무관한, 순전히 시각적인 값이다.
+        public float RemainingSeconds => Mathf.Max(0f, TimerMs / 1000f - (Time.time - phaseStartTime));
+
         // 발언차례 / 장르 ID / 키워드 ID
         public string CurrentOwnerID { get; private set; } = "";
         public int GenreId { get; private set; }
@@ -98,6 +114,9 @@ namespace TeamSH
 
         // 이번 발언 차례에 특수채팅을 이미 보냈는지. 발언자가 바뀔 때마다 초기화된다.
         private bool hasSentSpecialChat;
+
+        // 라이어의 키워드 맞춤 상태에서 키워드채팅을 이미 보냈는지. 그 상태에 들어갈 때마다 초기화된다.
+        private bool hasSentKeywordChat;
 
         #endregion
 
@@ -217,6 +236,7 @@ namespace TeamSH
             Debug.Log("게임 데이터 요청을 받고 message 안의 newGameConfig를 클라이언트 NewGameConfig로 저장");
 
             NewGameConfig = message.newGameConfig;
+            IsGameStarted = true;
         }
 
         private void OnGameStartState(GameStartStateMessage message)
@@ -266,8 +286,13 @@ namespace TeamSH
         private void OnSpecialChat(SpecialChatMessage message)
         {
             string mine = Me != null && message.ID == Me.Id ? " (나)" : "";
-            chatLog.Add($"[특수] {message.NickName}{message.ID}{mine} : {message.Text}");
+            string line = $"[특수] {message.NickName}{message.ID}{mine} : {message.Text}";
+
+            chatLog.Add(line);
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+
+            specialChatLog.Add(line);
+
             Debug.Log($"[특수] {message.ID} : {message.Text}");
         }
 
@@ -314,6 +339,7 @@ namespace TeamSH
         private void OnLiarKeywordGuessState(LiarKeywordGuessStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            hasSentKeywordChat = false;
         }
 
         // 라이어의 키워드 맞춤 상태에서 라이어의 첫 채팅이 키워드채팅
@@ -385,6 +411,7 @@ namespace TeamSH
             CurrentCycle = currentCycle;
             CurrentRound = currentRound;
             CurrentOwnerID = currentOwnerID;
+            phaseStartTime = Time.time;
         }
 
         // 다른 플레이어 생성
@@ -486,6 +513,14 @@ namespace TeamSH
                 return;
             }
 
+            // 라이어의 키워드 맞춤 상태 + 내가 라이어 + 아직 키워드채팅을 안 보냈으면, 첫 마디는 키워드채팅이 된다.
+            if (CurrentPhase == "라이어의 키워드 맞춤 상태" && PlayerState.IsLiar && hasSentKeywordChat == false)
+            {
+                hasSentKeywordChat = true;
+                RequestKeywordChat(text);
+                return;
+            }
+
             RequestNormalChat(text);
         }
 
@@ -497,6 +532,11 @@ namespace TeamSH
         private void RequestSpecialChat(string text)
         {
             SendAsync(new SpecialChatMessage { ID = Me.Id, NickName = Me.NickName, Text = text.Trim() }).Forget();
+        }
+
+        private void RequestKeywordChat(string text)
+        {
+            SendAsync(new KeywordChatMessage { Id = Me.Id, NickName = Me.NickName, Text = text.Trim() }).Forget();
         }
 
         // 라밍아웃 버튼을 눌렀다. 실제 라이어인지는 서버가 검증한다.
