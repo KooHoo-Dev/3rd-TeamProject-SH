@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
 
-namespace Study.MiniDefence
+namespace TeamSH
 {
     //[Facade Pattern] 데이터 표들이 들어가는 단일 창구
     // 데이터 종류별 테이블(Enemy, Wave, Unit)을 '보유'하고

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 239fa8936239abc4d9036f38ac909e5a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175526
+  packageName: Stationery
+  packageVersion: 1.0
+  assetPath: Assets/Stationery/Materials/Notebooks_green.mat
+  uploadId: 383968

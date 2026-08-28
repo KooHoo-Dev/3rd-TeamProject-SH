@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Jay;
 using UnityEngine;
 
-namespace JunWon.Scripts
+namespace TeamSH
 {
     public class Interaction_System : SingletonBase<Interaction_System>
     {

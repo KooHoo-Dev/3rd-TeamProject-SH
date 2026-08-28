@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace JunWon.Scripts
+namespace TeamSH
 {
     [RequireComponent(typeof(Collider))]
     public class PushableBox : MonoBehaviour

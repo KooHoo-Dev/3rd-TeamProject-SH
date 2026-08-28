@@ -8,6 +8,7 @@ using Study.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Networking;
+using Newtonsoft.Json;
 
 namespace HelloServer
 {
@@ -165,21 +166,28 @@ namespace HelloServer
         // 받은 글자 하나를 종류에 따라 나눠 준다.
         private void Handle(string json)
         {
-            string type = JsonUtility.FromJson<TypeOnly>(json).Type;
+            // JsonUtility => Newtonsfot.Json의 Json Utility로 변경됨.
+            
+            string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
 
             switch (type)
             {
-                case "welcome": OnWelcome(JsonUtility.FromJson<WelcomeMessage>(json)); break;
-                case "join": OnJoin(JsonUtility.FromJson<JoinMessage>(json)); break;
-                case "leave": OnLeave(JsonUtility.FromJson<LeaveMessage>(json)); break;
-                case "state": OnState(JsonUtility.FromJson<StateMessage>(json)); break;
-                case "chat": OnChat(JsonUtility.FromJson<ChatMessage>(json)); break;
+                case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
+                case "join": OnJoin(JsonConvert.DeserializeObject<JoinMessage>(json)); break;
+                case "leave": OnLeave(JsonConvert.DeserializeObject<LeaveMessage>(json)); break;
+                case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
+                case "chat": OnChat(JsonConvert.DeserializeObject<ChatMessage>(json)); break;
+                
+                // --- 추가된 라이어 게임 채팅 프로토콜 수신 ---
+                case "normalChat": OnNormalChat(JsonConvert.DeserializeObject<NormalChatMessage>(json)); break;
+                case "specialChat": OnSpecialChat(JsonConvert.DeserializeObject<SpecialChatMessage>(json)); break;
+                case "KeywordChat": OnKeywordChat(JsonConvert.DeserializeObject<KeywordChatMessage>(json)); break;
 
                 // 모르는 종류는 흘린다. 서버가 먼저 새 소식을 붙여도 여기서 죽지 않게.
                 default: Debug.Log($"[방] 등록되지 않은 종류(type) : {type}"); break;
             }
         }
-
+        
         private void OnWelcome(WelcomeMessage message)
         {
             Me = message.User;
@@ -243,7 +251,35 @@ namespace HelloServer
 
             remotes[user.Id] = remote;
         }
+        
+        #region 추가된 내용
+        
+        private void OnNormalChat(NormalChatMessage message)
+        {
+            string mine = Me != null && message.ID == Me.Id ? "(나)" : "";
+            chatLog.Add($"[일반] {message.ID}{mine} : {message.Text}");
+            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+            Debug.Log($"[일반] {message.ID}{message.NickName} : {message.Text}");
+        }
 
+        private void OnSpecialChat(SpecialChatMessage message)
+        {
+            string mine = Me != null && message.ID == Me.Id ? " (나)" : "";
+            chatLog.Add($"[특수] {message.ID}{mine} : {message.Text}");
+            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+            Debug.Log($"[특수] {message.ID}{message.NickName} : {message.Text}");
+        }
+
+        private void OnKeywordChat(KeywordChatMessage message)
+        {
+            string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
+            chatLog.Add($"[키워드] {message.Id}{mine} : {message.Text}");
+            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+            Debug.Log($"[키워드] {message.Id}{message.NickName} : {message.Text}");
+        }
+
+        #endregion
+        
         #endregion
 
         #region 보내기
@@ -272,12 +308,40 @@ namespace HelloServer
             SendAsync(new ChatMessage { Text = text.Trim() }).Forget();
         }
 
+        #region 추가된 내용
+
+        // 일반 채팅
+        public void SayNormal(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return;
+            SendAsync(new NormalChatMessage { Text = text.Trim(), ID = Me.Id }).Forget();
+        }
+
+        // 특수 채팅
+        public void SaySpecial(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return;
+            SendAsync(new SpecialChatMessage { Text = text.Trim(), ID = Me.Id }).Forget();
+        }
+
+        // 키워드 채팅
+        public void SayKeyword(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return;
+            SendAsync(new KeywordChatMessage { Id = Me.Id, NickName = Me.NickName, Text = text.Trim() }).Forget();
+        }
+
+        #endregion
+        
         // 한 마디를 보낸다. 보내는 곳이 둘(SendLoop, Say)이라 lock을 걸어서 한 번에 하나씩 내보낸다.
         private async UniTask SendAsync(object message)
         {
             if (socket == null || socket.State != WebSocketState.Open) return;
 
-            byte[] bytes = Encoding.UTF8.GetBytes(JsonUtility.ToJson(message));
+            // JsonUtility => Newtonsfot.Json의 Json Utility로 변경됨.
+            byte[] bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+            // 아래 라인은 바꾸기 전 코드
+            //byte[] bytes = Encoding.UTF8.GetBytes(JsonUtility.ToJson(message));
 
             await sendLock.WaitAsync();
 

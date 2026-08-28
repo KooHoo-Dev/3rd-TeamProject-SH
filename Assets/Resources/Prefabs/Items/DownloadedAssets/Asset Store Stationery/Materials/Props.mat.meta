@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: da20b06639264b840a24d5507e397d2a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175526
+  packageName: Stationery
+  packageVersion: 1.0
+  assetPath: Assets/Stationery/Materials/Props.mat
+  uploadId: 383968

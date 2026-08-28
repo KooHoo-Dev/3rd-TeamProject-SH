@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace JunWon.Scripts
+namespace TeamSH
 {
     public class CharacterController3D : MonoBehaviour
     {

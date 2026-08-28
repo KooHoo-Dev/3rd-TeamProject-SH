@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c554eef9f9d0dee41911e04629c10776
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175526
+  packageName: Stationery
+  packageVersion: 1.0
+  assetPath: Assets/Stationery/Materials/Plane.mat
+  uploadId: 383968

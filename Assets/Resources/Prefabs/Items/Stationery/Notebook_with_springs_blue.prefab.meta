@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6d467b6a279454540b6e8e8420dd0e39
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 175526
+  packageName: Stationery
+  packageVersion: 1.0
+  assetPath: Assets/Stationery/Prefabs/Notebook/Notebook_with_springs_blue.prefab
+  uploadId: 383968
