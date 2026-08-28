@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 
 namespace TeamSH
@@ -293,7 +293,7 @@ namespace TeamSH
         public float TimerMs { get; set; }
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
-        public string CurrentOwnerID { get; set; } // 투표 결과로 지목된 유저
+
     }
     
     // ===================== 라이어 확정 및 키워드 맞추기 단계 =====================
@@ -456,13 +456,15 @@ namespace TeamSH
 
     #endregion
     
-    // 라밍아웃 처리
+    // 라밍아웃 처리(라이어가 라이어 버튼을 눌렀을 때 진입하는 상태)
     [Serializable]
     public class LiarOutButtonPressedStateMessage
     {
         public string Type { get; set; } = "라밍아웃 버튼 누름 상태";
         public string ID { get; set; } // 버튼을 누른 유저
-    }
+        public float TimerMs { get; set; }
 
+    }
+    
     #endregion
 }

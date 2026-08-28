@@ -13,6 +13,9 @@ namespace TeamSH
         public void Setup(User user)
         {
             label.text = $"{user.NickName} ({user.Id})";
+
+            // 씬이 바껴도 삭제 X
+            DontDestroyOnLoad(gameObject);
         }
     }
 }

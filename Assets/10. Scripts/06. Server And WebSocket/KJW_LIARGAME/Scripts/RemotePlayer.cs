@@ -20,6 +20,9 @@ namespace TeamSH
             User = user;
             PlayerState.Id = user.Id;
             label.text = $"{user.NickName} ({user.Id})";
+
+            // 씬이 바껴도 삭제 X
+            DontDestroyOnLoad(gameObject);
         }
     }
 }

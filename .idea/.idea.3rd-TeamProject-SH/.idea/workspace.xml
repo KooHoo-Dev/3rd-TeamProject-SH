@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f0fc4a04-28d6-4030-ba58-e830907a8116" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarLobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarLobby.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LocalPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LocalPlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/Protocol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/Protocol.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/RemotePlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/RemotePlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Canvas.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Canvas.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Chat_System.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Chat_System.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Lier_GameSystem.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Lier_GameSystem.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs.meta" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0389060782457283E-13" />
+      <entry key="MS500" value="0.002563842628489153" />
+      <entry key="S2" value="0.3001337137181219" />
+      <entry key="S5" value="0.9397270312788265" />
+      <entry key="S10" value="1.5220277955412826" />
+      <entry key="S30" value="2.432022360333323" />
+      <entry key="S60" value="4.554902718838691" />
+      <entry key="M2" value="12.962055358759637" />
+      <entry key="M5" value="33.18049614215312" />
+      <entry key="M10" value="50.18440090221282" />
+      <entry key="M15" value="60.34680540055866" />
+      <entry key="M30" value="76.27723087848055" />
+      <entry key="H1" value="88.07069609747845" />
+      <entry key="H2" value="95.41488942699345" />
+      <entry key="H4" value="99.53691945658463" />
+      <entry key="D1" value="103.23102522883148" />
+      <entry key="W1" value="103.88951125553979" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="1.0000062835008074" />
+      <entry key="MS500" value="1.0924596098645984" />
+      <entry key="S2" value="1.7412957823539124" />
+      <entry key="S5" value="2.3592206794133848" />
+      <entry key="S10" value="2.8428744433111204" />
+      <entry key="S30" value="3.5524092868959536" />
+      <entry key="S60" value="4.200552867054496" />
+      <entry key="M2" value="5.136402846668899" />
+      <entry key="M5" value="6.578039609308723" />
+      <entry key="M10" value="8.730784153498387" />
+      <entry key="M15" value="10.830908699064041" />
+      <entry key="M30" value="15.05913942903611" />
+      <entry key="H1" value="18.680806978296225" />
+      <entry key="H2" value="21.082320535364545" />
+      <entry key="H4" value="22.469751540094613" />
+      <entry key="D1" value="23.734392391963404" />
+      <entry key="W1" value="23.9617883691604" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="3.8121612304485255E-5" />
+      <entry key="MS500" value="0.16279511456390444" />
+      <entry key="S2" value="1.408230631053996" />
+      <entry key="S5" value="2.898330274349176" />
+      <entry key="S10" value="4.110672678796531" />
+      <entry key="S30" value="5.874456802221071" />
+      <entry key="S60" value="8.679798204456542" />
+      <entry key="M2" value="18.028751535278765" />
+      <entry key="M5" value="39.70018867886254" />
+      <entry key="M10" value="58.86710796281034" />
+      <entry key="M15" value="71.13516120696735" />
+      <entry key="M30" value="91.30526944268678" />
+      <entry key="H1" value="106.73192814136719" />
+      <entry key="H2" value="116.48611639627033" />
+      <entry key="H4" value="122.00075093102382" />
+      <entry key="D1" value="126.96437460755159" />
+      <entry key="W1" value="127.85114918072078" />
+    </decayedShown>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="3IXQe7oX9xUm2pGXbimIWZcYBTS" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity 연결 대상: 연결 대상": "Unity 에디터",
+    "DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider": "Unity 에디터",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Unity 연결 대상.연결 대상.executor": "Debug",
+    "cidr.known.project.marker": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "kim-jw-work",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Unity 연결 대상.연결 대상">
+    <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.15f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\kim00\GitHub\3rd-TeamProject-SH -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\kim00\GitHub\3rd-TeamProject-SH" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unity 시작" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.15f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\kim00\GitHub\3rd-TeamProject-SH -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\kim00\GitHub\3rd-TeamProject-SH" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
+    <configuration name="연결 대상" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="f0fc4a04-28d6-4030-ba58-e830907a8116" name="변경" comment="" />
+      <created>1787908529503</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1787908529503</updated>
+      <workItem from="1787908534507" duration="1760000" />
+      <workItem from="1787910336468" duration="66000" />
+      <workItem from="1787910579041" duration="118000" />
+      <workItem from="1787910833683" duration="203000" />
+      <workItem from="1787911056356" duration="103000" />
+      <workItem from="1787914114537" duration="4463000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityProjectDiscoverer">
+    <option name="hasUnityReference" value="true" />
+    <option name="unityProject" value="true" />
+    <option name="unityProjectFolder" value="true" />
+  </component>
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
