@@ -141,7 +141,7 @@ namespace TeamSH
         // Tab 을 누르면 화면 정중앙에 장르 / 내 키워드 / 지금까지의 특수채팅을 띄운다. 다시 누르면 닫힌다.
         private void DrawInfoOverlay()
         {
-            if (SimpleInput.GetKeyDown(Key.Tab)) showInfo = !showInfo;
+            if (SimpleInput.GetKeyDown(Key.Q)) showInfo = !showInfo;
 
             if (showInfo == false) return;
 
