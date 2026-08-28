@@ -107,6 +107,8 @@ namespace TeamSH
         {
             string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
 
+            Debug.Log($"[방] 받음 : {type}");
+
             switch (type)
             {
                     case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
@@ -211,7 +213,6 @@ namespace TeamSH
 
             NewGameConfig = message.newGameConfig;
         }
-        
 
         private void OnKeywordChat(KeywordChatMessage message)
         {

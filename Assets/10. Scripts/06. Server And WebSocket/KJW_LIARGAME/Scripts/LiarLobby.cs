@@ -62,7 +62,7 @@ namespace TeamSH
             GUI.Label(new Rect(20, 20, 700, 22),
                 $"방 {client.RoomCode}    나 : {client.Me.NickName}({client.Me.Id})    남 : {client.RemoteCount}명");
 
-            if (client.IsHost && GUI.Button(new Rect(-35, 0, 150, 20), "게임 시작")) // 호스트에게만 버튼 활성화 GUI
+            if (client.IsHost && GUI.Button(new Rect(20, 0, 150, 20), "게임 시작")) // 호스트에게만 버튼 활성화 GUI
             {
                 client.RequestGameStart();
             }
