@@ -163,6 +163,10 @@ namespace TeamSH
                     case "최종 결과 상태": OnFinalResultState(JsonConvert.DeserializeObject<FinalResultStateMessage>(json)); break;
                     case "최종 결과 종료 상태": OnFinalResultEndState(JsonConvert.DeserializeObject<FinalResultEndStateMessage>(json)); break;
 
+                    case "Select": OnSelect(JsonConvert.DeserializeObject<SelectMessage>(json)); break;
+                    case "NonPointMessage" : OnNonPointMessage(JsonConvert.DeserializeObject<NonPointMessage>(json)); break;
+                    case "VoteMessage": OnVoteMessage(JsonConvert.DeserializeObject<VoteMessage>(json)); break;
+                    
                     case "leave": OnLeave(JsonConvert.DeserializeObject<LeaveMessage>(json)); break;
                     case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
                     case "chat": OnChat(JsonConvert.DeserializeObject<ChatMessage>(json)); break;
@@ -304,11 +308,16 @@ namespace TeamSH
         private void OnPointAtSuspectState(PointAtSuspectStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            //여기 지목단계 시작
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Point ,message.TimerMs);
         }
 
         private void OnPointAtSuspectEndState(PointAtSuspectEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
+            //여기가 지목단계 종료
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
+            Vote_System.Instance.SetPointTarget(message.CurrentOwnerID);
         }
 
         private void OnDebateTimeState(DebateTimeStateMessage message)
@@ -324,11 +333,15 @@ namespace TeamSH
         private void OnVoteState(VoteStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            //여기가 투표 시작
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Vote ,message.TimerMs);
         }
 
         private void OnVoteEndState(VoteEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
+            //여기가 투표 종료
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
         }
 
         private void OnLiarConfirmedState(LiarConfirmedStateMessage message)
@@ -375,6 +388,30 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
         }
+        
+        #region 투표 처리
+
+        private void OnSelect(SelectMessage message)
+        {
+            bool Select = message.IsSelectCancel;
+            //여기 화살표 처리 넣어야함
+            // 뭐 대충 DrawArrow같은느낌
+            if(Select) Debug.Log($"{message.selectID}가 {message.selectedID}를 지목했습니다. ");
+            else Debug.Log($"{message.selectID}가 {message.selectedID}에 대한 지목을 취소했습니다.");
+        }
+
+        private void OnNonPointMessage(NonPointMessage message)
+        {
+            //여기 투표안한 유저를 대기상태로 변경하는 코드 추가
+            if (message.UserID == Me.Id) Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait, TimerMs);
+        }
+
+        private void OnVoteMessage(VoteMessage message)
+        {
+            
+        }
+
+        #endregion
 
         // 지속적으로 계속 돈다.
         private void OnState(StateMessage message)
@@ -545,7 +582,32 @@ namespace TeamSH
             if (Me == null) return;
             SendAsync(new LiarOutButtonPressedStateMessage { ID = Me.Id }).Forget();
         }
+        
+        #region 투표 처리
 
+        // 선택결과 전달
+        public void RequestSelectMessage(SelectMessage message)
+        {
+            if (Me == null) return;
+            SendAsync(message).Forget();
+        }
+
+        // 빠른 스킵 전달
+        public void RequestNonPointMessage(NonPointMessage message)
+        {
+            if (Me == null) return;
+            SendAsync(message).Forget();
+        }
+
+        // 투표 결과 전달
+        public void RequestVoteMessage(VoteMessage message)
+        {
+            if (Me == null) return;
+            SendAsync(message).Forget();
+        }
+
+        #endregion
+        
         #endregion
 
         protected override void Awake()
