@@ -431,8 +431,8 @@ namespace TeamSH
     {
         public string Type{get;set;} = "Select";
     
-        public int selectID{get;set;} // 선택한 유저 ID
-        public int selectedID{get;set;} // 선택된 유저 ID
+        public string selectID{get;set;} // 선택한 유저 ID
+        public string selectedID{get;set;} // 선택된 유저 ID
     
         public bool IsSelectCancel{get;set;} // 선택 취소 여부 bool값
     }

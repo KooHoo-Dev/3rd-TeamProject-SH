@@ -9,7 +9,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
-using Study.MiniDefence;
 
 namespace TeamSH
 {
@@ -117,7 +116,6 @@ namespace TeamSH
                     case "specialChat": OnSpecialChat(JsonConvert.DeserializeObject<SpecialChatMessage>(json)); break;
                     case "KeywordChat": OnKeywordChat(JsonConvert.DeserializeObject<KeywordChatMessage>(json)); break;
 
-
                     // 상태별 진행 단계 알림. 각자 모양이 달라서 타입마다 따로 받는다.
                     case "게임 시작 상태": OnGameStartState(JsonConvert.DeserializeObject<GameStartStateMessage>(json)); break;
                     case "장르 배분 및 라이어 선정 상태": OnGenreAssignAndLiarSelectState(JsonConvert.DeserializeObject<GenreAssignAndLiarSelectStateMessage>(json)); break;
@@ -141,6 +139,11 @@ namespace TeamSH
                     case "최종 결과 상태": OnFinalResultState(JsonConvert.DeserializeObject<FinalResultStateMessage>(json)); break;
                     case "최종 결과 종료 상태": OnFinalResultEndState(JsonConvert.DeserializeObject<FinalResultEndStateMessage>(json)); break;
 
+                    case "Select": OnSelect(JsonConvert.DeserializeObject<SelectMessage>(json)); break;
+                    case "NonPointMessage" : OnNonPointMessage(JsonConvert.DeserializeObject<NonPointMessage>(json)); break;
+                    case "VoteMessage": OnVoteMessage(JsonConvert.DeserializeObject<VoteMessage>(json)); break;
+                    
+                    
                     case "leave": OnLeave(JsonConvert.DeserializeObject<LeaveMessage>(json)); break;
                     case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
                     case "chat": OnChat(JsonConvert.DeserializeObject<ChatMessage>(json)); break;
@@ -149,10 +152,27 @@ namespace TeamSH
                     default: Debug.Log($"[방] 등록되지 않은 종류(type) : {type}"); break;
                 }
             }
+            catch (Exception e)
+            {
+                // 모르는 종류가 아니라 이상한 형식 데이터여도 일단 서버를 이어감
+                Debug.LogWarning($"[방] 메시지를 알아보지 못했다 : {e.Message}\n{json}");
+            }
         }
 
         #region 서버 -> 클라이언트 (On)
 
+        #region 입장 처리
+
+        private void OnJoin(JoinMessage message)
+        {
+            knownUsers[message.User.Id] = message.User;
+            DoSpawn(message.User);
+            Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
+            
+            Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
+            Debug.Log($"총 유저 수 전달! {remotes.Count + 1}");
+        }
+        
         private void OnWelcome(WelcomeMessage message)
         {
             Me = message.User;
@@ -160,6 +180,11 @@ namespace TeamSH
             IsHost = message.Users == null || message.Users.Length == 0;
 
             localPlayer.Setup(Me);
+            
+            Vote_System.Instance.SetInitializeData(Me); //투표시스템 ID적용
+            Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
+            
+            Debug.Log($"시스템에 본인 ID전달 {Me.Id}");
 
             foreach (User user in message.Users)
             {
@@ -169,14 +194,7 @@ namespace TeamSH
 
             Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
         }
-
-        private void OnJoin(JoinMessage message)
-        {
-            knownUsers[message.User.Id] = message.User;
-            DoSpawn(message.User);
-            Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
-        }
-
+        
         private void OnLeave(LeaveMessage message)
         {
             knownUsers.Remove(message.Id);
@@ -184,17 +202,35 @@ namespace TeamSH
             if (remotes.TryGetValue(message.Id, out RemotePlayer remote) == false) return;
 
             remotes.Remove(message.Id);
+            Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
             Destroy(remote.gameObject);
 
             Debug.Log($"[방] {message.Id} 이(가) 나갔다");
         }
+        
+        #endregion
 
+        #region 채팅처리
+
+        // 방에서 누가 말했다. 내 말도 여기로 돌아옴
+        private void OnChat(ChatMessage message)
+        {
+            string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
+
+            chatLog.Add($"{message.NickName}{mine} : {message.Text}");
+
+            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
+
+            Debug.Log($"[방] {message.NickName}({message.Id}) : {message.Text}");
+        }
+        
         private void OnNormalChat(NormalChatMessage message)
         {
             string mine = Me != null && message.ID == Me.Id ? $"나" : $"{message.ID}";
             chatLog.Add($"[일반] {message.NickName}{message.ID}{mine} : {message.Text}");
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
             Debug.Log($"[일반] {message.ID} : {message.Text}");
+            //Vote_System.Instance.
         }
 
         private void OnSpecialChat(SpecialChatMessage message)
@@ -204,20 +240,7 @@ namespace TeamSH
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
             Debug.Log($"[특수] {message.ID} : {message.Text}");
         }
-        private void OnGameStart(GameStartMessage message)
-        {
-            Debug.Log("게임 시작 및 게임 정보를 요청한다");
-            RequestGameStartState();
-        }
-
-        private void OnGameStartOK(GameStartOKMessage message)
-        {
-            Debug.Log("게임 데이터 요청을 받고 message 안의 newGameConfig를 클라이언트 NewGameConfig로 저장");
-
-            NewGameConfig = message.newGameConfig;
-        }
         
-
         private void OnKeywordChat(KeywordChatMessage message)
         {
             string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
@@ -226,12 +249,29 @@ namespace TeamSH
             Debug.Log($"[키워드] {message.NickName} : {message.Text}");
         }
 
+        #endregion
+
+        #region 게임 시작 처리
+
+        private void OnGameStart(GameStartMessage message)
+        {
+            Debug.Log("게임 시작 및 게임 정보를 요청한다");
+            RequestGameStartState();
+        }
+        
+        private void OnGameStartOK(GameStartOKMessage message)
+        {
+            Debug.Log("게임 데이터 요청을 받고 message 안의 newGameConfig를 클라이언트 NewGameConfig로 저장");
+
+            NewGameConfig = message.newGameConfig;
+        }
+        
         private void OnGameStartState(GameStartStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             RequestGenreAssignAndLiarSelectState();
         }
-
+        
         private void OnGenreAssignAndLiarSelectState(GenreAssignAndLiarSelectStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
@@ -245,6 +285,10 @@ namespace TeamSH
             KeywordId = message.KeywordId;
             RequestMartEnterState();
         }
+
+        #endregion
+
+        #region 턴 처리
 
         private void OnMartEnterState(MartEnterStateMessage message)
         {
@@ -278,11 +322,16 @@ namespace TeamSH
         private void OnPointAtSuspectState(PointAtSuspectStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            //여기 지목단계 시작
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Point ,message.TimerMs);
         }
 
         private void OnPointAtSuspectEndState(PointAtSuspectEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
+            //여기가 지목단계 종료
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
+            Vote_System.Instance.SetPointTarget(message.CurrentOwnerID);
         }
 
         private void OnDebateTimeState(DebateTimeStateMessage message)
@@ -298,11 +347,16 @@ namespace TeamSH
         private void OnVoteState(VoteStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            //여기가 투표 시작
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Vote ,message.TimerMs);
+            
         }
 
         private void OnVoteEndState(VoteEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
+            //여기가 투표 종료
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
         }
 
         private void OnLiarConfirmedState(LiarConfirmedStateMessage message)
@@ -334,11 +388,38 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
         }
-
+        
         private void OnFinalResultEndState(FinalResultEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
         }
+        
+        #endregion
+        
+        #region 투표 처리
+
+        private void OnSelect(SelectMessage message)
+        {
+            bool Select = message.IsSelectCancel;
+            //여기 화살표 처리 넣어야함
+            // 뭐 대충 DrawArrow같은느낌
+            if(Select) Debug.Log($"{message.selectID}가 {message.selectedID}를 지목했습니다. ");
+            else Debug.Log($"{message.selectID}가 {message.selectedID}에 대한 지목을 취소했습니다.");
+        }
+
+        private void OnNonPointMessage(NonPointMessage message)
+        {
+            //여기 투표안한 유저를 대기상태로 변경하는 코드 추가
+            if (message.UserID == Me.Id) Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait, TimerMs);
+        }
+
+        private void OnVoteMessage(VoteMessage message)
+        {
+            
+        }
+
+        #endregion
+
 
         private void OnState(StateMessage message)
         {
@@ -359,18 +440,6 @@ namespace TeamSH
                 remote.PlayerState.IsLiar = state.IsLiar;
                 remote.PlayerState.Items = state.Items;
             }
-        }
-
-        // 방에서 누가 말했다. 내 말도 여기로 돌아옴
-        private void OnChat(ChatMessage message)
-        {
-            string mine = Me != null && message.Id == Me.Id ? " (나)" : "";
-
-            chatLog.Add($"{message.NickName}{mine} : {message.Text}");
-
-            if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
-
-            Debug.Log($"[방] {message.NickName}({message.Id}) : {message.Text}");
         }
 
         #endregion
@@ -455,6 +524,12 @@ namespace TeamSH
             }
         }
 
+        #region 투표 처리
+        
+        
+
+        #endregion
+        
         #endregion
 
         #region 클라이언트 -> 서버 (Request)
@@ -517,6 +592,32 @@ namespace TeamSH
             SendAsync(new MartMoveStateMessage()).Forget();
         }
 
+
+        #region 투표 처리
+
+        // 선택결과 전달
+        public void RequestSelectMessage(SelectMessage message)
+        {
+            if (Me == null) return;
+            SendAsync(message).Forget();
+        }
+
+        // 빠른 스킵 전달
+        public void RequestNonPointMessage(NonPointMessage message)
+        {
+            if (Me == null) return;
+            SendAsync(message).Forget();
+        }
+
+        // 투표 결과 전달
+        public void RequestVoteMessage(VoteMessage message)
+        {
+            if (Me == null) return;
+            SendAsync(message).Forget();
+        }
+
+        #endregion
+        
         #endregion
 
         protected override void Awake()
