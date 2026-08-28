@@ -17,8 +17,6 @@ namespace TeamSH
 
         private string typing = "";
 
-        private int selectedChatType = 0; // 일반 : 0, 특수 : 1, 키워드 : 2
-
         private bool chatting;
 
         // Tab 키로 장르/키워드/특수채팅 정보창을 열고 닫는다.
@@ -159,6 +157,24 @@ namespace TeamSH
             {
                 GUI.Label(new Rect(box.x + 16, box.y + 98 + line * 18, 408, 18), said);
                 line++;
+            }
+        }
+
+
+        public void DrawSpecialChatLog()
+        {
+            if (client.CurrentPhase != "발언 종료 상태") return;
+            {
+                Rect box = new Rect(Screen.width / 2f - 220, Screen.height / 2f - 160, 440, 320);
+                GUI.Box(box, "특수 채팅 전체");
+
+                int line = 0;
+
+                foreach (string said in client.SpecialChatLog)
+                {
+                    GUI.Label(new Rect(box.x + 16, box.y + 30 + line * 18, 408, 18), said);
+                    line++;
+                }
             }
         }
     }

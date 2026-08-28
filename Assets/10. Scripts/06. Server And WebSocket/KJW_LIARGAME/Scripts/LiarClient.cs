@@ -31,6 +31,8 @@ namespace TeamSH
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
 
+        [SerializeField] private LiarLobby lobby;
+
         [Header("보내기")]
         // 초당 몇 번 내 위치를 보낼지.
         // 서버가 뿌리는 횟수와는 별개. (그쪽은 appsettings.json)
@@ -62,7 +64,7 @@ namespace TeamSH
         // 이번 라운드에 오간 특수채팅 전체. Tab 정보창이 그대로 보여준다 (chatLog와 달리 개수 제한 없음).
         public IReadOnlyList<string> SpecialChatLog => specialChatLog;
 
-        // 로비 씬은 절대 내리지 않는다 
+        // 맨 처음 씬 이름. activeContentScene의 시작값으로 쓴다.
         private const string BootScene = "LIARGAME_Lobby";
 
         // 지금 추가로 떠 있는 씬 이름
@@ -72,9 +74,6 @@ namespace TeamSH
 
         // 남들. 번호로 찾는다.
         private readonly Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
-
-        // 씬이 바뀌어도 유저는 유지되어야함
-        private readonly Dictionary<string, User> knownUsers = new Dictionary<string, User>();
 
         // 오간 말. 너무 쌓이지 않게 앞에서부터 버린다.
         private readonly List<string> chatLog = new List<string>();
@@ -191,7 +190,6 @@ namespace TeamSH
             
             foreach (User user in message.Users)
             {
-                knownUsers[user.Id] = user;
                 DoSpawn(user);
             }
 
@@ -200,7 +198,6 @@ namespace TeamSH
 
         private void OnJoin(JoinMessage message)
         {
-            knownUsers[message.User.Id] = message.User;
             DoSpawn(message.User);
             Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
             
@@ -210,8 +207,6 @@ namespace TeamSH
 
         private void OnLeave(LeaveMessage message)
         {
-            knownUsers.Remove(message.Id);
-
             if (remotes.TryGetValue(message.Id, out RemotePlayer remote) == false) return;
 
             remotes.Remove(message.Id);
@@ -316,6 +311,16 @@ namespace TeamSH
         private void OnSpeechEndState(SpeechEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+
+            int playerCount = RemoteCount + 1; // 나 + 이외 사람들
+            int start = Mathf.Max(0, SpecialChatLog.Count - playerCount);
+
+            for (int i = start; i < SpecialChatLog.Count; i++)
+            {
+                Debug.Log(SpecialChatLog[i]);
+            }
+            
+            lobby.DrawSpecialChatLog();
         }
 
         private void OnPointAtSuspectState(PointAtSuspectStateMessage message)
@@ -476,10 +481,7 @@ namespace TeamSH
 
             remotes[user.Id] = remote;
         }
-
-        // 씬을 덮어써서 지우는 대신(Single), 위에 덧붙이고(Additive) 이전 내용 씬만 내린다.
-        // 로비 씬(이 오브젝트 자신이 들어있는 씬)은 절대 내리지 않는다 — DontDestroyOnLoad가
-        // 이 프로젝트에서 이 오브젝트에 대해 실제로 걸리지 않는 문제가 있어서, 씬 자체를 안 지우는 쪽으로 우회한다.
+        
         private void DoLoadScene(string sceneName)
         {
             if (activeContentScene == sceneName) return; // 이미 그 씬이면 다시 부르지 않는다.
@@ -491,29 +493,8 @@ namespace TeamSH
             {
                 Scene loaded = SceneManager.GetSceneByName(sceneName);
                 SceneManager.SetActiveScene(loaded);
-
-                if (previous == BootScene)
-                {
-                    // 로비는 내릴 수 없으니(이 오브젝트 자신이 그 안에 있음), 이 오브젝트만 남기고 나머지를 꺼서 안 보이게 한다.
-                    DoHideScene(previous);
-                }
-                else
-                {
-                    SceneManager.UnloadSceneAsync(previous);
-                }
+                SceneManager.UnloadSceneAsync(previous);
             };
-        }
-
-        // sceneName 씬의 나머지 오브젝트를 전부 꺼서, 화면에 안 보이고 동작도 안 하게 한다. (이 오브젝트 자신은 남긴다)
-        private void DoHideScene(string sceneName)
-        {
-            Scene scene = SceneManager.GetSceneByName(sceneName);
-
-            foreach (GameObject root in scene.GetRootGameObjects())
-            {
-                if (root == gameObject) continue;
-                root.SetActive(false);
-            }
         }
 
         // userId가 이번 사이클에 고른 아이템을 찾는다. 나 자신이거나, remotes에 있는 사람만 알 수 있다.
@@ -526,7 +507,7 @@ namespace TeamSH
             if (state?.Items == null || CurrentCycle < 0 || CurrentCycle >= state.Items.Length) return null;
 
             return state.Items[CurrentCycle];
-        }
+        }   
 
         #endregion
 
@@ -593,6 +574,7 @@ namespace TeamSH
         public void RequestLiarOutButtonPressedState()
         {
             if (Me == null) return;
+            
             SendAsync(new LiarOutButtonPressedStateMessage { ID = Me.Id }).Forget();
         }
         
