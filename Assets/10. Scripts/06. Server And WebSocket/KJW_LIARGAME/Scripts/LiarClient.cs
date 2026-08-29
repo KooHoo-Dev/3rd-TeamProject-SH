@@ -127,7 +127,7 @@ namespace TeamSH
         {
             string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
 
-            Debug.Log($"[방] 받음 : {type}");
+            if(type != "state") Debug.Log($"[방] 받음 : {type}");
 
             switch (type)
             {
@@ -368,7 +368,7 @@ namespace TeamSH
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             //여기가 투표 시작
             Vote_System.Instance.SetTurnType(Vote_System.TurnType.Vote ,message.TimerMs);
-            if (Vote_System.Instance.PointTarget.Id != Me.Id) Vote_System.Instance.OpenVoteUI();
+            if (Vote_System.Instance.PointTarget?.Id != Me.Id) Vote_System.Instance.OpenVoteUI();
             else Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait, message.TimerMs);
         }
 
@@ -378,6 +378,8 @@ namespace TeamSH
             //여기가 투표 종료
             Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
             Vote_System.Instance.CloseVoteUI();
+            //투표 종료할 때 PointTarget 초기화
+            Vote_System.Instance.ResetPointTarget();
         }
 
         private void OnLiarConfirmedState(LiarConfirmedStateMessage message)
@@ -448,7 +450,21 @@ namespace TeamSH
 
         private void OnVoteMessage(VoteMessage message)
         {
+            string debugMessage = "";
             
+            switch (message.selectNum)
+            {
+                case "Liar":
+                    debugMessage = "라이어로 투표했습니다.";
+                    break;
+                case "DontKnow":
+                    debugMessage = "모르겠다로 투표했습니다.";
+                    break;
+                case "NotLiar":
+                    debugMessage = "라이어가 아니다로 투표했습니다.";
+                    break;
+            }
+            Debug.Log($"{message.UserID}가 {Vote_System.Instance.PointTarget.NickName}을 {debugMessage}");
         }
 
         #endregion

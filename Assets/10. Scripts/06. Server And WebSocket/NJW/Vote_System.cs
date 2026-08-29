@@ -28,7 +28,7 @@ namespace TeamSH
         public bool canPoint = false;
         
         [Header("투표 처리")]
-        public User PointTarget { get; set; } //현재 지목당한 유저
+        public User PointTarget { get; set; } //투표할 지목당한 유저
 
         public enum TurnType
         {
@@ -82,6 +82,11 @@ namespace TeamSH
             VoteUI.SetActive(false);
         }
 
+        public void ResetPointTarget()
+        {
+            PointTarget = null;
+        }
+
         public void SetPointTarget(string targetUserID)
         {
             foreach (KeyValuePair<string, RemotePlayer> remotePlayer in remotes)
@@ -92,6 +97,8 @@ namespace TeamSH
                     break;
                 }
             }
+
+            if (PointTarget == null) PointTarget = Me;
             //Debug.Log($"{PointTarget.NickName}에게 투표합니다" );
             //VoteUI.SetActive(true);
         }
@@ -114,7 +121,6 @@ namespace TeamSH
                     PointOtherPlayer();
                     break;
                 case TurnType.Vote:
-                    
                     //VoteOtherPlayer();
                     break;
             }
@@ -166,6 +172,7 @@ namespace TeamSH
         
         public void VoteOtherPlayer(string index) //버튼 인풋용 투표 메서드
         {
+            //나중에 코드에서 버튼을 Listener로 받도록 한번 해보기
             
             VoteMessage message = new VoteMessage
             {
