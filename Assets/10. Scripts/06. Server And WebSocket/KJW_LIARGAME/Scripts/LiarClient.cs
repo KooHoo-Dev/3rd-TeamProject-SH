@@ -31,15 +31,6 @@ namespace TeamSH
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
 
-        // 모든 유저 닉네임 가져오기
-        public string GetNickName(string userId)
-        {
-            if (Me != null && userId == Me.Id) return Me.NickName;
-            return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
-        }
-        
-        
-
         [SerializeField] private LiarLobby lobby;
 
         [Header("보내기")]
@@ -136,7 +127,7 @@ namespace TeamSH
         {
             string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
 
-            if (type != "state") Debug.Log($"[방] 받음 : {type}");
+            if(type != "state") Debug.Log($"[방] 받음 : {type}");
 
             switch (type)
             {
@@ -377,7 +368,7 @@ namespace TeamSH
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             //여기가 투표 시작
             Vote_System.Instance.SetTurnType(Vote_System.TurnType.Vote ,message.TimerMs);
-            if (Vote_System.Instance.PointTarget.Id != Me.Id) Vote_System.Instance.OpenVoteUI();
+            if (Vote_System.Instance.PointTarget?.Id != Me.Id) Vote_System.Instance.OpenVoteUI();
             else Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait, message.TimerMs);
         }
 
@@ -387,6 +378,8 @@ namespace TeamSH
             //여기가 투표 종료
             Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
             Vote_System.Instance.CloseVoteUI();
+            //투표 종료할 때 PointTarget 초기화
+            Vote_System.Instance.ResetPointTarget();
         }
 
         private void OnLiarConfirmedState(LiarConfirmedStateMessage message)
@@ -457,7 +450,21 @@ namespace TeamSH
 
         private void OnVoteMessage(VoteMessage message)
         {
+            string debugMessage = "";
             
+            switch (message.selectNum)
+            {
+                case "Liar":
+                    debugMessage = "라이어로 투표했습니다.";
+                    break;
+                case "DontKnow":
+                    debugMessage = "모르겠다로 투표했습니다.";
+                    break;
+                case "NotLiar":
+                    debugMessage = "라이어가 아니다로 투표했습니다.";
+                    break;
+            }
+            Debug.Log($"{message.UserID}가 {Vote_System.Instance.PointTarget.NickName}을 {debugMessage}");
         }
 
         #endregion
@@ -661,11 +668,11 @@ namespace TeamSH
         }
 
         // 라밍아웃 버튼을 눌렀다. 실제 라이어인지는 서버가 검증한다.
-        public void RequestLiarSelfDisclose()
+        public void RequestLiarOutButtonPressedState()
         {
             if (Me == null) return;
             
-            SendAsync(new LiarSelfDisclose { ID = Me.Id }).Forget();
+            SendAsync(new LiarOutButtonPressedStateMessage { ID = Me.Id }).Forget();
         }
         
         #region 투표 처리
