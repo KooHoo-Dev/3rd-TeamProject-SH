@@ -11,12 +11,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0fc4a04-28d6-4030-ba58-e830907a8116" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarConference.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/MartManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/MartManager.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.3rd-TeamProject-SH/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.3rd-TeamProject-SH/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Conference.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Conference.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_MART.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_MART.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/RemotePlayerPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/RemotePlayerPrefab.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarLobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarLobby.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/Protocol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/Protocol.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +33,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6567e2a645a94ef68fffcf0e5cb82d14212a00/ce/70efc3c5/LoadSceneMode.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/ed/009cbaef/WebSocketMessageType.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6567e2a645a94ef68fffcf0e5cb82d14212a00/a5/3bdc43a5/Mathf.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/MartManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Study_Unity_Basic_2D/Server/HelloServer/HelloServer/Program.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -36,60 +46,60 @@
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
       <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0" />
-      <entry key="S5" value="1.0" />
-      <entry key="S10" value="1.0" />
-      <entry key="S30" value="1.0000000003425684" />
-      <entry key="S60" value="1.0000449905419735" />
-      <entry key="M2" value="1.01642615364123" />
-      <entry key="M5" value="1.6001655463735776" />
-      <entry key="M10" value="3.4172461312559643" />
-      <entry key="M15" value="5.320587670324934" />
-      <entry key="M30" value="12.06333406396712" />
-      <entry key="H1" value="41.63835927685757" />
-      <entry key="H2" value="120.49724563019089" />
-      <entry key="H4" value="227.7249661610327" />
-      <entry key="D1" value="405.9845015617698" />
-      <entry key="W1" value="450.1358299059658" />
+      <entry key="MS500" value="1.000000021228616" />
+      <entry key="S2" value="1.0196763943642806" />
+      <entry key="S5" value="1.3140760007951704" />
+      <entry key="S10" value="1.7922055386342588" />
+      <entry key="S30" value="2.4686648376458584" />
+      <entry key="S60" value="2.7138431452634535" />
+      <entry key="M2" value="2.855036849215437" />
+      <entry key="M5" value="3.8775309179680644" />
+      <entry key="M10" value="9.423026873548224" />
+      <entry key="M15" value="15.69732027709867" />
+      <entry key="M30" value="32.893005825473125" />
+      <entry key="H1" value="62.47764219991953" />
+      <entry key="H2" value="97.9522444571868" />
+      <entry key="H4" value="127.17308614275531" />
+      <entry key="D1" value="160.92766652528803" />
+      <entry key="W1" value="167.8162763870028" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="7.810466362562919E-153" />
-      <entry key="S5" value="1.650007817437417E-61" />
-      <entry key="S10" value="5.805798234313471E-31" />
-      <entry key="S30" value="1.6481716066270146E-10" />
-      <entry key="S60" value="2.2092734000140766E-5" />
-      <entry key="M2" value="0.008128151283732121" />
-      <entry key="M5" value="0.2819062156561207" />
-      <entry key="M10" value="0.9198780523214847" />
-      <entry key="M15" value="1.379037709606725" />
-      <entry key="M30" value="2.9949972499645465" />
-      <entry key="H1" value="12.072208658211544" />
-      <entry key="H2" value="36.32502765420281" />
-      <entry key="H4" value="68.31583314638794" />
-      <entry key="D1" value="120.10089711844249" />
-      <entry key="W1" value="132.75223963552125" />
+      <entry key="MS100" value="2.092264482200506E-13" />
+      <entry key="MS500" value="0.0029126994615863468" />
+      <entry key="S2" value="0.2813719390202205" />
+      <entry key="S5" value="1.006153694260452" />
+      <entry key="S10" value="1.6918789475011633" />
+      <entry key="S30" value="2.4643375121402706" />
+      <entry key="S60" value="2.717096467692705" />
+      <entry key="M2" value="2.8545969668007385" />
+      <entry key="M5" value="2.9694535057946996" />
+      <entry key="M10" value="3.233698478693999" />
+      <entry key="M15" value="3.6491522118290045" />
+      <entry key="M30" value="5.877162361400931" />
+      <entry key="H1" value="11.727076753683928" />
+      <entry key="H2" value="19.762580310696368" />
+      <entry key="H4" value="26.726380360518174" />
+      <entry key="D1" value="34.995571936080346" />
+      <entry key="W1" value="36.70550580098241" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.9201876506248751" />
-      <entry key="MS500" value="0.9835020740262483" />
-      <entry key="S2" value="0.9958497530944581" />
-      <entry key="S5" value="0.9983378297043665" />
-      <entry key="S10" value="0.999168569213607" />
-      <entry key="S30" value="0.999722780055092" />
-      <entry key="S60" value="0.9999276515721955" />
-      <entry key="M2" value="1.0243390057305133" />
-      <entry key="M5" value="1.879983507984454" />
-      <entry key="M10" value="4.333587369400712" />
-      <entry key="M15" value="6.696004697648495" />
-      <entry key="M30" value="15.054745834893534" />
-      <entry key="H1" value="53.70441111185251" />
-      <entry key="H2" value="156.81285520519182" />
-      <entry key="H4" value="296.03155384830734" />
-      <entry key="D1" value="526.0825490933421" />
-      <entry key="W1" value="582.8876151408836" />
+      <entry key="MS100" value="8.185893569995384E-12" />
+      <entry key="MS500" value="0.006497894737288" />
+      <entry key="S2" value="0.47075194850014135" />
+      <entry key="S5" value="1.7324860804716735" />
+      <entry key="S10" value="3.089659127824055" />
+      <entry key="S30" value="4.765442479584213" />
+      <entry key="S60" value="5.3413329932082085" />
+      <entry key="M2" value="5.6632489620533635" />
+      <entry key="M5" value="6.827649795032565" />
+      <entry key="M10" value="12.64537674993516" />
+      <entry key="M15" value="19.33713946353087" />
+      <entry key="M30" value="38.7609224304561" />
+      <entry key="H1" value="74.19394533296342" />
+      <entry key="H2" value="117.70514604760136" />
+      <entry key="H4" value="153.89275595126065" />
+      <entry key="D1" value="195.92174867144183" />
+      <entry key="W1" value="204.52155837831117" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -100,33 +110,36 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="3IXQe7oX9xUm2pGXbimIWZcYBTS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity 연결 대상: 연결 대상&quot;: &quot;Unity 에디터&quot;,
-    &quot;DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider&quot;: &quot;Unity 에디터&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;Unity 연결 대상.연결 대상.executor&quot;: &quot;Debug&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;kim-jw-work&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity 연결 대상: 연결 대상": "Unity 에디터",
+    "DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider": "Unity 에디터",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Unity 연결 대상.연결 대상.executor": "Debug",
+    "cidr.known.project.marker": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "na-jw-work",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Unity 연결 대상.연결 대상">
     <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.15f1\Editor\Unity.exe" />
@@ -177,9 +190,7 @@
       <workItem from="1787910579041" duration="118000" />
       <workItem from="1787910833683" duration="203000" />
       <workItem from="1787911056356" duration="103000" />
-      <workItem from="1787914114537" duration="9537000" />
-      <workItem from="1787975349682" duration="18568000" />
-      <workItem from="1787994828194" duration="52000" />
+      <workItem from="1787914114537" duration="4463000" />
     </task>
     <servers />
   </component>
