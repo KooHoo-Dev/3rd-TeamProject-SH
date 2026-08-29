@@ -70,9 +70,9 @@ namespace TeamSH
             }
             DrawChatLog();
             DrawChatInput();
-            DrawLiarOutButton();
             DrawInfoOverlay();
             DrawTimer();
+            DrawSpecialChatLog();
         }
 
         private void DrawChatLog()
@@ -107,17 +107,6 @@ namespace TeamSH
             }
         }
 
-        // 물건 보여주고 발언 상태일 때만 보인다. 실제 라이어인지는 서버가 검증한다.
-        private void DrawLiarOutButton()
-        {
-            if (client.CurrentPhase != "물건 보여주고 발언 상태") return;
-
-            if (GUI.Button(new Rect(20, 302, 150, 24), "라밍아웃"))
-            {
-                client.RequestLiarOutButtonPressedState();
-            }
-        }
-
         // 화면 우측 상단에 지금 상태의 남은 시간을 보여준다. 서버로는 아무것도 안 보낸다 - 순전히 시각용이다.
         private void DrawTimer()
         {
@@ -133,10 +122,16 @@ namespace TeamSH
                 alignment = TextAnchor.MiddleCenter
             };
 
+            // 현재 시간
             GUI.Label(box, $"{client.RemainingSeconds:0.0} 초", style);
+            
+            // 현재 사이클 / 라운드
+            GUIStyle infoStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
+            Rect infoBox = new Rect(box.x, box.y + box.height + 4, box.width, 22);
+            GUI.Label(infoBox, $"사이클 {client.CurrentCycle} / 라운드 {client.CurrentRound}", infoStyle);
         }
 
-        // Tab 을 누르면 화면 정중앙에 장르 / 내 키워드 / 지금까지의 특수채팅을 띄운다. 다시 누르면 닫힌다.
+        // Q 을 누르면 화면 정중앙에 장르 / 내 키워드 / 지금까지의 특수채팅을 띄운다. 다시 누르면 닫힌다.
         private void DrawInfoOverlay()
         {
             if (SimpleInput.GetKeyDown(Key.Q)) showInfo = !showInfo;
@@ -144,7 +139,7 @@ namespace TeamSH
             if (showInfo == false) return;
 
             Rect box = new Rect(Screen.width / 2f - 220, Screen.height / 2f - 160, 440, 320);
-            GUI.Box(box, "정보 (Tab 으로 닫기)");
+            GUI.Box(box, "정보 (Q 으로 닫기)");
 
             GUI.Label(new Rect(box.x + 16, box.y + 26, 400, 22), $"장르 : {client.GenreId}");
             GUI.Label(new Rect(box.x + 16, box.y + 48, 400, 22), $"내 키워드 : {client.KeywordId}");
@@ -159,22 +154,22 @@ namespace TeamSH
                 line++;
             }
         }
-
-
-        public void DrawSpecialChatLog()
+        
+        private void DrawSpecialChatLog()
         {
             if (client.CurrentPhase != "발언 종료 상태") return;
+
+            Rect box = new Rect(Screen.width / 2f - 220, Screen.height / 2f - 160, 440, 320);
+            GUI.Box(box, "특수 채팅 공개");
+
+            int playerCount = client.RemoteCount + 1;
+            int start = Mathf.Max(0, client.SpecialChatLog.Count - playerCount);
+
+            int line = 0;
+            for (int i = start; i < client.SpecialChatLog.Count; i++)
             {
-                Rect box = new Rect(Screen.width / 2f - 220, Screen.height / 2f - 160, 440, 320);
-                GUI.Box(box, "특수 채팅 전체");
-
-                int line = 0;
-
-                foreach (string said in client.SpecialChatLog)
-                {
-                    GUI.Label(new Rect(box.x + 16, box.y + 30 + line * 18, 408, 18), said);
-                    line++;
-                }
+                GUI.Label(new Rect(box.x + 16, box.y + 30 + line * 18, 408, 18), client.SpecialChatLog[i]);
+                line++;
             }
         }
     }

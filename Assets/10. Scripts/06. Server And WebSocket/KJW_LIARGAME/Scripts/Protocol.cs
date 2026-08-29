@@ -3,8 +3,16 @@ using System.Collections.Generic;
 
 namespace TeamSH
 {
+    
     #region 공용 데이터 처리
 
+    [Serializable]
+    public enum SelectNum
+    {
+        Liar,
+        DontKnow,
+        NotLiar,
+    }
     #region 채팅 처리
 
     [Serializable]
@@ -323,6 +331,9 @@ namespace TeamSH
         public float TimerMs { get; set; }
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
+        public string liarKeyword { get; set; }
+        public string nomalKeyword { get; set; }
+        public bool IsRightAnswer{ get; set; }
     }
 
     #endregion
@@ -451,15 +462,7 @@ namespace TeamSH
     {
         public string Type{get;set;} = "Vote";
         public string UserID{get;set;} // 투표하는 유저 ID
-        public SelectNum selectNum{get;set;} // 라이어가 아니다 or 모르겠다 or 라이어다
-    }
-    
-    [Serializable]
-    public enum SelectNum
-    {
-        Liar,
-        DontKnow,
-        NotLiar,
+        public string selectNum{get;set;} // 라이어가 아니다 or 모르겠다 or 라이어다
     }
 
     #endregion
@@ -473,6 +476,6 @@ namespace TeamSH
         public float TimerMs { get; set; }
 
     }
-    
+
     #endregion
 }
