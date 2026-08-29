@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5402030730556945845}
   - component: {fileID: 7584781325797527322}
+  - component: {fileID: -1799281939679478555}
   m_Layer: 0
   m_Name: steering_wheel
   m_TagString: Untagged
@@ -41,6 +42,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8071073712547548505}
   m_Mesh: {fileID: 167763168757149055, guid: d4f6dc11d5fd9e142a0e34ac0d0c4a2d, type: 3}
+--- !u!114 &-1799281939679478555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8071073712547548505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MartItem
+  def:
+    ItemId: 0
+    CategoryType: 0
+    CategoryName: 
+    ItemName: 
+    PrefabKey: {fileID: 0}
 --- !u!1 &8889250063102467478
 GameObject:
   m_ObjectHideFlags: 0

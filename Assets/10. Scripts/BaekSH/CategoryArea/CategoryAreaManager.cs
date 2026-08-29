@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Study.MiniDefence;
 using Study.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,13 +12,14 @@ namespace TeamSH
     // CategoryArea(총 3개)
     public class CategoryAreaManager : MonoBehaviour
     {
-        [Header("DisplayStand Prefab")] [SerializeField]
-        private GameObject displayStandPrefab;
+        [Header("DisplayStand Prefab")]
+        [SerializeField] private GameObject displayStandPrefab;
+        [SerializeField] private AreaNum areaNum;
 
         private const int DisplayStandMaxCount = 3;
         private int displayStandCount;
         private float areaLength;
-        private List<Vector3> displayStandPositions = new();
+        private readonly List<Vector3> displayStandPositions = new();
 
         # region 매대 호출 테스트
 
@@ -38,7 +40,7 @@ namespace TeamSH
         /// </summary>
         private void SpawnDisplayStand()
         {
-            GetDisplayStandLength();
+            GetDisplayStandPosition();
             for (int i = 0; i < displayStandPositions.Count; i++)
             {
                 if (displayStandCount >= DisplayStandMaxCount)
@@ -53,14 +55,17 @@ namespace TeamSH
                         displayStandPositions[i],
                         displayStandPrefab.transform.rotation);
                 stand.transform.SetParent(transform);
+                DisplayStand displayStand = stand.GetComponent<DisplayStand>();
+                displayStand.SetAreaNum(areaNum);
                 displayStandCount++;
             }
+            
         }
 
         /// <summary>
-        ///  n등분 배치를 하기 위해 매대의 위치를 가져온다.
+        ///  n등분 배치를 하기 위해 Area의 길이를 가져오고, 매대를 놓을 위치를 저장한다.
         /// </summary>
-        private void GetDisplayStandLength()
+        private void GetDisplayStandPosition()
         {
             BoxCollider boxCollider = GetComponent<BoxCollider>();
             areaLength = boxCollider.bounds.size.z;
@@ -78,6 +83,5 @@ namespace TeamSH
 
 
         # endregion
-
     }
 }

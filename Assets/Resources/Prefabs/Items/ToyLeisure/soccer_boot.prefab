@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2196638736492906448}
   - component: {fileID: 3721717628153001281}
+  - component: {fileID: -3203454202517225451}
   m_Layer: 0
   m_Name: soccer_boot
   m_TagString: Untagged
@@ -42,6 +43,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826708463999512197}
   m_Mesh: {fileID: 4168252985588449313, guid: 70e63b5e68d393c428b8c1d9546b8a1a, type: 3}
+--- !u!114 &-3203454202517225451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826708463999512197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MartItem
+  def:
+    ItemId: 0
+    CategoryType: 0
+    CategoryName: 
+    ItemName: 
+    PrefabKey: {fileID: 0}
 --- !u!1 &2478809208055109388
 GameObject:
   m_ObjectHideFlags: 0

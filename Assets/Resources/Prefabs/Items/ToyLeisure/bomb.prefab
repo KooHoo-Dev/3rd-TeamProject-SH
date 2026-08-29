@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7654867604469388845}
   - component: {fileID: 2907586934793322921}
+  - component: {fileID: 2857145744144002609}
   m_Layer: 0
   m_Name: bomb
   m_TagString: Untagged
@@ -131,3 +132,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6319136291078963905}
   m_Mesh: {fileID: 145229435979250144, guid: 2427876cbfc6dc94e9eb6c2da068d52e, type: 3}
+--- !u!114 &2857145744144002609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6319136291078963905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MartItem
+  def:
+    ItemId: 0
+    CategoryType: 0
+    CategoryName: 
+    ItemName: 
+    PrefabKey: {fileID: 0}

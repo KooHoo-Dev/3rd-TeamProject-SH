@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1033717135444648753}
   - component: {fileID: 9103028218196551985}
   - component: {fileID: 8639773655483281851}
+  - component: {fileID: -7089625568076984547}
   m_Layer: 0
   m_Name: FloorMopBucket_01
   m_TagString: Untagged
@@ -91,6 +92,24 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-7089625568076984547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3664121676880606432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MartItem
+  def:
+    ItemId: 0
+    CategoryType: 0
+    CategoryName: 
+    ItemName: 
+    PrefabKey: {fileID: 0}
 --- !u!1 &7479693948718183469
 GameObject:
   m_ObjectHideFlags: 0

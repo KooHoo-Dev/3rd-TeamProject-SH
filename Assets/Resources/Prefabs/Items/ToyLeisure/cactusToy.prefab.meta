@@ -1,14 +1,7 @@
 fileFormatVersion: 2
-guid: fc6da13e786549c48b764c4afa199028
+guid: 8906fe462dc4134408aa94bdb5ee3b52
 PrefabImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 282379
-  packageName: Toys - Low-Poly Big Pack
-  packageVersion: 1.1
-  assetPath: Assets/Toys-Low_Poly_Big_Pack/Prefabs/URP/cactusToy.prefab
-  uploadId: 690957

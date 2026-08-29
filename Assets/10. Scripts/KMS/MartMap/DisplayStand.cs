@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -27,21 +28,33 @@ public class DisplayStand : MonoBehaviour
     public GridCell Grid => grid ??= new GridCell(0, 0, transform.position);
 
 
-    public ItemDef Item { get; private set; }
+    // 아래는 아이템 한개
+    // public ItemDef Item { get; private set; }
+    //
+    // public MartItem MartItem { get; private set; }
 
-    public MartItem MartItem { get; private set; }
-
+    // 아이템 여러 개 기억하기 위해 일단 임시 코드
+    public List<ItemDef> Items { get; private set; } = new();
+    public List<MartItem> MartItems { get; private set; } = new();
+    
     [field: SerializeField] public AreaNum areaNum { get; private set; } = AreaNum.Area1;
     public CategoryType CategoryType { get; set; } = CategoryType.None;
+
+    // 아이템 3등분 위치
+    private readonly List<Vector3> itemPositions = new();
+    private const int ItemMaxCount = 3;
+    
     void Awake()
     {
         //parent = transform.parent;
         ViewGrid = GetComponent<LineRenderer>();
         InitSize();
+        GetItemPosition();
     }
 
     void Start()
     {
+        Debug.Log($"[DisplayStand] AreaNumber : {areaNum} - {gameObject.name}");
         RegisterAsync().Forget();
     }
     void OnDisable()
@@ -75,20 +88,56 @@ public class DisplayStand : MonoBehaviour
         Vector3 centerOffset = meshFilter.mesh.bounds.center;
         grid = new GridCell(width, depth, transform.position + centerOffset);
         SetViewGrid();
-
     }
+    # region 추가 로직
+    /// <summary>
+    /// AreaNum을 CategoryAreaManager에 연결짓는 함수
+    /// </summary>
+    /// <param name="item"></param>
+    public void SetAreaNum(AreaNum areaNum)
+    {
+        this.areaNum = areaNum;
+    }
+
+    /// <summary>
+    /// DisplayStand의 width(x)를 n등분하고 아이템을 가져올 위치를 저장한다.
+    /// </summary>
+    private void GetItemPosition()
+    {
+        BoxCollider boxCollider = GetComponent<BoxCollider>();
+        float startPoint = meshFilter.mesh.bounds.min.x * widthScale;
+        float dividedLength = width / ItemMaxCount;
+
+        for (int i = 0; i < ItemMaxCount; i++)
+        {
+            float x = startPoint + dividedLength * i + dividedLength * 0.5f;
+            Vector3 position = new Vector3(x, 0f, meshFilter.mesh.bounds.center.z);
+
+            itemPositions.Add(position);
+        }
+    }
+    
+    # endregion
+    
+    
     public void SetItem(ItemDef item)
     {
-        Item = item;
+        Items.Add(item);
         CategoryType = item.CategoryType;
         // 아이템 프리펩이 로드되지 않았다면 리턴(현재는 프리펩이 없으므로 이 로직을 만듬) 
         if(item.PrefabKey == null) return;
+        if (MartItems.Count >= itemPositions.Count) return;
 
-                                                                // 임의로 중심에서 대충 위로 띄운 리스폰 포인트임
-        MartItem = Instantiate(item.PrefabKey, transform.position + new Vector3(0, 1.5f, 0), item.PrefabKey.transform.rotation);
-        MartItem?.transform.SetParent(transform);
-
+        Vector3 itemPosition = itemPositions[MartItems.Count];
+        
+        MartItem martItem = Instantiate
+            (item.PrefabKey, 
+                transform.position + new Vector3(itemPosition.x, height, itemPosition.z),
+                item.PrefabKey.transform.rotation);
+        martItem?.transform.SetParent(transform);
+        MartItems.Add(martItem);
     }
+    
     public bool IsStay(Vector3 target)
     {
         return grid.IsStay(target);

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2519918530533051337}
   - component: {fileID: 114813267715436814}
   - component: {fileID: 7157426877563388146}
+  - component: {fileID: 7609684487282367801}
   m_Layer: 0
   m_Name: Bucket_01
   m_TagString: Untagged
@@ -91,6 +92,24 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7609684487282367801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904314402347098841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MartItem
+  def:
+    ItemId: 0
+    CategoryType: 0
+    CategoryName: 
+    ItemName: 
+    PrefabKey: {fileID: 0}
 --- !u!1 &8135436875028793839
 GameObject:
   m_ObjectHideFlags: 0

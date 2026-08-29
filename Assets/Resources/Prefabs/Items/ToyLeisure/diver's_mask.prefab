@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1252367780928204519}
   - component: {fileID: 5866348658355018860}
+  - component: {fileID: 492510257161089575}
   m_Layer: 0
   m_Name: diver's_mask
   m_TagString: Untagged
@@ -131,3 +132,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3637962376996776286}
   m_Mesh: {fileID: -7434912889337393891, guid: 44b32593d2c53ec4faa3c49da7013be7, type: 3}
+--- !u!114 &492510257161089575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3637962376996776286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MartItem
+  def:
+    ItemId: 0
+    CategoryType: 0
+    CategoryName: 
+    ItemName: 
+    PrefabKey: {fileID: 0}

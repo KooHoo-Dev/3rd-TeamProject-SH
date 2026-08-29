@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3066316617710892606}
   - component: {fileID: 5717425476680721388}
   - component: {fileID: 30898164255746690}
+  - component: {fileID: -2726010368958416971}
   m_Layer: 0
   m_Name: Spray_02
   m_TagString: Untagged
@@ -91,6 +92,24 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-2726010368958416971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103083351732472050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MartItem
+  def:
+    ItemId: 0
+    CategoryType: 0
+    CategoryName: 
+    ItemName: 
+    PrefabKey: {fileID: 0}
 --- !u!1 &7194219603029039964
 GameObject:
   m_ObjectHideFlags: 0
