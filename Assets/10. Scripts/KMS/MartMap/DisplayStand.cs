@@ -105,13 +105,15 @@ public class DisplayStand : MonoBehaviour
     private void GetItemPosition()
     {
         BoxCollider boxCollider = GetComponent<BoxCollider>();
-        float startPoint = meshFilter.mesh.bounds.min.x * widthScale;
+        float startPointX = meshFilter.mesh.bounds.min.x * widthScale;
         float dividedLength = width / ItemMaxCount;
 
         for (int i = 0; i < ItemMaxCount; i++)
         {
-            float x = startPoint + dividedLength * i + dividedLength * 0.5f;
-            Vector3 position = new Vector3(x, 0f, meshFilter.mesh.bounds.center.z);
+            float x = startPointX + dividedLength * i + dividedLength * 0.5f;
+            float z = meshFilter.mesh.bounds.center.z * depthScale;
+            
+            Vector3 position = new Vector3(x, 0f, z);
 
             itemPositions.Add(position);
         }
@@ -134,6 +136,7 @@ public class DisplayStand : MonoBehaviour
             (item.PrefabKey, 
                 transform.position + new Vector3(itemPosition.x, height, itemPosition.z),
                 item.PrefabKey.transform.rotation);
+
         martItem?.transform.SetParent(transform);
         MartItems.Add(martItem);
     }

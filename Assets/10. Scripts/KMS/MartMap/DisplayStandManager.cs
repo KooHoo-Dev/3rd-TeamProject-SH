@@ -142,7 +142,7 @@ public class DisplayStandManager : MonoBehaviour
     /// <param name="origin"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    public DisplayStand CheckWhenStendRay(Vector3 origin, Vector3 target)
+    public DisplayStand CheckWhenStandRay(Vector3 origin, Vector3 target)
     {
         for (int i = 0; i < Areas.Count; i++)
         {

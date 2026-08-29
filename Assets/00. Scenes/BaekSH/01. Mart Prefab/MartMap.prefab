@@ -305,8 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95de1ee3bf13bb54cb0381428c6f1007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.CategoryAreaManager
-  displayStandPrefab: {fileID: 5891802413170434632, guid: 9c8d26c432fb5844d9e2416d6389d66d, type: 3}
-  areaNum: 0
+  displayStandPrefab: {fileID: 8204865391218351584, guid: 0fa761b78abfeab4e952f106a1518e8b, type: 3}
+  areaNum: 2
 --- !u!1 &86239688111744940
 GameObject:
   m_ObjectHideFlags: 0
@@ -57715,8 +57715,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95de1ee3bf13bb54cb0381428c6f1007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.CategoryAreaManager
-  displayStandPrefab: {fileID: 5891802413170434632, guid: 9c8d26c432fb5844d9e2416d6389d66d, type: 3}
-  areaNum: 0
+  displayStandPrefab: {fileID: 8204865391218351584, guid: 0fa761b78abfeab4e952f106a1518e8b, type: 3}
+  areaNum: 2
 --- !u!1 &6685508026480169693
 GameObject:
   m_ObjectHideFlags: 0
@@ -64597,8 +64597,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95de1ee3bf13bb54cb0381428c6f1007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.CategoryAreaManager
-  displayStandPrefab: {fileID: 5891802413170434632, guid: 9c8d26c432fb5844d9e2416d6389d66d, type: 3}
-  areaNum: 0
+  displayStandPrefab: {fileID: 8204865391218351584, guid: 0fa761b78abfeab4e952f106a1518e8b, type: 3}
+  areaNum: 2
 --- !u!1 &7620360160436599951
 GameObject:
   m_ObjectHideFlags: 0
