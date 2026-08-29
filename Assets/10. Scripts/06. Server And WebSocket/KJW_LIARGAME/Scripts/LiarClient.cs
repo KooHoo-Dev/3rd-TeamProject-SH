@@ -31,6 +31,15 @@ namespace TeamSH
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
 
+        // 모든 유저 닉네임 가져오기
+        public string GetNickName(string userId)
+        {
+            if (Me != null && userId == Me.Id) return Me.NickName;
+            return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
+        }
+        
+        
+
         [SerializeField] private LiarLobby lobby;
 
         [Header("보내기")]
@@ -127,7 +136,7 @@ namespace TeamSH
         {
             string type = JsonConvert.DeserializeObject<TypeOnly>(json).Type;
 
-            Debug.Log($"[방] 받음 : {type}");
+            if (type != "state") Debug.Log($"[방] 받음 : {type}");
 
             switch (type)
             {
@@ -652,11 +661,11 @@ namespace TeamSH
         }
 
         // 라밍아웃 버튼을 눌렀다. 실제 라이어인지는 서버가 검증한다.
-        public void RequestLiarOutButtonPressedState()
+        public void RequestLiarSelfDisclose()
         {
             if (Me == null) return;
             
-            SendAsync(new LiarOutButtonPressedStateMessage { ID = Me.Id }).Forget();
+            SendAsync(new LiarSelfDisclose { ID = Me.Id }).Forget();
         }
         
         #region 투표 처리

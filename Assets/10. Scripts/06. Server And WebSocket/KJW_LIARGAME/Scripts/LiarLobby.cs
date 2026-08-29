@@ -70,9 +70,11 @@ namespace TeamSH
             }
             DrawChatLog();
             DrawChatInput();
-            DrawLiarOutButton();
             DrawInfoOverlay();
             DrawTimer();
+            
+            DrawLiarOutButton();
+            DrawFinalResult();
             
             DrawSpecialChatLog(); // 여기로 옮겼습니다.
         }
@@ -106,17 +108,6 @@ namespace TeamSH
             {
                 client.RequestChat(typing);
                 typing = "";
-            }
-        }
-
-        // 물건 보여주고 발언 상태일 때만 보인다. 실제 라이어인지는 서버가 검증한다.
-        private void DrawLiarOutButton()
-        {
-            if (client.CurrentPhase != "물건 보여주고 발언 상태") return;
-
-            if (GUI.Button(new Rect(20, 302, 150, 24), "라밍아웃"))
-            {
-                client.RequestLiarOutButtonPressedState();
             }
         }
 
@@ -178,6 +169,30 @@ namespace TeamSH
                     line++;
                 }
             }
+        }
+        
+        // 물건 보여주고 발언 상태일 때만 보인다. 실제 라이어인지는 서버가 검증한다.
+        public void DrawLiarOutButton()
+        {
+            if (client.CurrentPhase != "물건 보여주고 발언 상태") return;
+            if (client.RemainingSeconds <= 3f) return;
+
+            if (GUI.Button(new Rect(20, 302, 150, 24), "라밍아웃"))
+            {
+                client.RequestLiarSelfDisclose(); // 
+            }
+        }
+
+        // 최종 결과 상태 - 서버가 우승자 한 명만 알려주는 만큼, 그대로 우승자만 표시한다.
+        public void DrawFinalResult()
+        {
+            if (client.CurrentPhase != "최종 결과 상태") return;
+
+            Rect box = new Rect(Screen.width / 2f - 160, Screen.height / 2f - 40, 320, 80);
+            GUI.Box(box, "");
+
+            GUIStyle style = new GUIStyle(GUI.skin.label) { fontSize = 22, alignment = TextAnchor.MiddleCenter };
+            GUI.Label(box, $"우승자 : {client.GetNickName(client.CurrentOwnerID)}", style); // 우승자 : 닉네임
         }
     }
 }
