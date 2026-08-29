@@ -1,4 +1,3 @@
-using Study.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -18,9 +17,6 @@ namespace TeamSH
         private string typing = "";
 
         private bool chatting;
-
-        // Tab 키로 장르/키워드/특수채팅 정보창을 열고 닫는다.
-        private bool showInfo;
 
         private void Awake()
         {
@@ -48,7 +44,7 @@ namespace TeamSH
 
             if (GUI.Button(new Rect(35, 112, 290, 30), client.IsBusy ? "들어가는 중…" : "들어가기"))
             {
-                client.RequestJoin(roomCode, nickName);
+                client.Join(roomCode, nickName);
             }
             
             GUI.enabled = true;
@@ -70,13 +66,6 @@ namespace TeamSH
             }
             DrawChatLog();
             DrawChatInput();
-            DrawInfoOverlay();
-            DrawTimer();
-            
-            DrawLiarOutButton();
-            DrawFinalResult();
-            
-            DrawSpecialChatLog(); // 여기로 옮겼습니다.
         }
 
         private void DrawChatLog()
@@ -106,93 +95,21 @@ namespace TeamSH
 
             if (GUI.Button(new Rect(326, 272, 74, 24), "보내기") || (chatting && enter))
             {
-                client.RequestChat(typing);
+                client.Say(typing);
                 typing = "";
             }
+
+            // GUI.Label(new Rect(20, 300, 700, 22),
+            //     "화살표로 움직인다. 채팅 칸을 누르면 움직이지 않는다.");
         }
 
-        // 화면 우측 상단에 지금 상태의 남은 시간을 보여준다. 서버로는 아무것도 안 보낸다 - 순전히 시각용이다.
-        private void DrawTimer()
+        // 채팅을 치는 동안에는 캐릭터를 멈춘다.
+        private void Update()
         {
-            if (client.CurrentPhase == "") return;
+            client.Local.CanMove = chatting == false;
 
-            Rect box = new Rect(Screen.width - 180, 20, 160, 44);
-            GUI.Box(box, "");
-
-            GUIStyle style = new GUIStyle(GUI.skin.label)
-            {
-                fontSize = 26,
-                fontStyle = FontStyle.Bold,
-                alignment = TextAnchor.MiddleCenter
-            };
-
-            GUI.Label(box, $"{client.RemainingSeconds:0.0} 초", style);
-        }
-
-        // Tab 을 누르면 화면 정중앙에 장르 / 내 키워드 / 지금까지의 특수채팅을 띄운다. 다시 누르면 닫힌다.
-        private void DrawInfoOverlay()
-        {
-            if (SimpleInput.GetKeyDown(Key.Q)) showInfo = !showInfo;
-
-            if (showInfo == false) return;
-
-            Rect box = new Rect(Screen.width / 2f - 220, Screen.height / 2f - 160, 440, 320);
-            GUI.Box(box, "정보 (Tab 으로 닫기)");
-
-            GUI.Label(new Rect(box.x + 16, box.y + 26, 400, 22), $"장르 : {client.GenreId}");
-            GUI.Label(new Rect(box.x + 16, box.y + 48, 400, 22), $"내 키워드 : {client.KeywordId}");
-
-            GUI.Label(new Rect(box.x + 16, box.y + 76, 400, 20), "특수 채팅 기록");
-
-            int line = 0;
-
-            foreach (string said in client.SpecialChatLog)
-            {
-                GUI.Label(new Rect(box.x + 16, box.y + 98 + line * 18, 408, 18), said);
-                line++;
-            }
-        }
-
-
-        public void DrawSpecialChatLog()
-        {
-            if (client.CurrentPhase != "발언 종료 상태") return;
-            {
-                Rect box = new Rect(Screen.width / 2f - 220, Screen.height / 2f - 160, 440, 320);
-                GUI.Box(box, "특수 채팅 전체");
-
-                int line = 0;
-
-                foreach (string said in client.SpecialChatLog)
-                {
-                    GUI.Label(new Rect(box.x + 16, box.y + 30 + line * 18, 408, 18), said);
-                    line++;
-                }
-            }
-        }
-        
-        // 물건 보여주고 발언 상태일 때만 보인다. 실제 라이어인지는 서버가 검증한다.
-        public void DrawLiarOutButton()
-        {
-            if (client.CurrentPhase != "물건 보여주고 발언 상태") return;
-            if (client.RemainingSeconds <= 3f) return;
-
-            if (GUI.Button(new Rect(20, 302, 150, 24), "라밍아웃"))
-            {
-                client.RequestLiarSelfDisclose(); // 
-            }
-        }
-
-        // 최종 결과 상태 - 서버가 우승자 한 명만 알려주는 만큼, 그대로 우승자만 표시한다.
-        public void DrawFinalResult()
-        {
-            if (client.CurrentPhase != "최종 결과 상태") return;
-
-            Rect box = new Rect(Screen.width / 2f - 160, Screen.height / 2f - 40, 320, 80);
-            GUI.Box(box, "");
-
-            GUIStyle style = new GUIStyle(GUI.skin.label) { fontSize = 22, alignment = TextAnchor.MiddleCenter };
-            GUI.Label(box, $"우승자 : {client.GetNickName(client.CurrentOwnerID)}", style); // 우승자 : 닉네임
+            // Esc 로 채팅 칸에서 빠져나온다.
+            if (Keyboard.current.escapeKey.wasPressedThisFrame) GUI.FocusControl(null);
         }
     }
 }
