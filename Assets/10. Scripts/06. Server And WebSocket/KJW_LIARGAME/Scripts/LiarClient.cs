@@ -342,18 +342,25 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
             //여기가 지목단계 종료
-            //Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
-            Vote_System.Instance.CheckNonPointTarget();
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
+            if(string.IsNullOrEmpty(message.CurrentOwnerID)) Debug.Log($"투표가 스킵되었습니다.");
+            else
+            {
+                Debug.Log($"가장 많이 지목된 유저 {message.CurrentOwnerID}");
+                Vote_System.Instance.SetPointTarget(message.CurrentOwnerID);
+            }
         }
 
         private void OnDebateTimeState(DebateTimeStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            Debug.Log("변론 단계 시작");
         }
 
         private void OnDebateEndState(DebateEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            Debug.Log("변론 끝");
         }
 
         private void OnVoteState(VoteStateMessage message)
@@ -361,6 +368,8 @@ namespace TeamSH
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             //여기가 투표 시작
             Vote_System.Instance.SetTurnType(Vote_System.TurnType.Vote ,message.TimerMs);
+            if (Vote_System.Instance.PointTarget.Id != Me.Id) Vote_System.Instance.OpenVoteUI();
+            else Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait, message.TimerMs);
         }
 
         private void OnVoteEndState(VoteEndStateMessage message)
@@ -368,6 +377,7 @@ namespace TeamSH
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             //여기가 투표 종료
             Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
+            Vote_System.Instance.CloseVoteUI();
         }
 
         private void OnLiarConfirmedState(LiarConfirmedStateMessage message)
@@ -428,7 +438,11 @@ namespace TeamSH
         private void OnNonPointMessage(NonPointMessage message)
         {
             //여기 투표안한 유저를 대기상태로 변경하는 코드 추가
-            if (message.UserID == Me.Id) Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait, TimerMs);
+            if (message.UserID == Me.Id)
+            {
+                Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait, TimerMs);
+                Debug.Log($"나 는 투표에서 기권했다.");
+            }
             else Debug.Log($"{message.UserID}가 기권했습니다.");
         }
 

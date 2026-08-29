@@ -5,6 +5,14 @@ namespace TeamSH
 {
     #region 공용 데이터 처리
 
+    [Serializable]
+    public enum SelectNum
+    {
+        Liar,
+        DontKnow,
+        NotLiar,
+    }
+    
     #region 채팅 처리
 
     [Serializable]

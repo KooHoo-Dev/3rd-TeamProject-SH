@@ -68,7 +68,18 @@ namespace TeamSH
         public void SetTurnType(TurnType currentTurnType, float timerMs)
         {
             CurrentTurnType = currentTurnType;
+            CurrentSelectUser = null;
             if(currentTurnType == TurnType.Point) canPoint = true;
+        }
+
+        public void OpenVoteUI()
+        {
+            VoteUI.SetActive(true);
+        }
+
+        public void CloseVoteUI()
+        {
+            VoteUI.SetActive(false);
         }
 
         public void SetPointTarget(string targetUserID)
@@ -81,14 +92,15 @@ namespace TeamSH
                     break;
                 }
             }
-            Debug.Log($"{PointTarget.NickName}에게 투표합니다" );
-            VoteUI.SetActive(true);
+            //Debug.Log($"{PointTarget.NickName}에게 투표합니다" );
+            //VoteUI.SetActive(true);
         }
 
-        public void CheckNonPointTarget()
+        public void CheckPointTarget() // 기권버튼용메서드로 변경필요
         {
             canPoint = false;
-            if(CurrentSelectUser == null) SendNonPointRequest();
+            if (CurrentSelectUser == null) SendNonPointRequest();
+            else CurrentSelectUser = null;
             CurrentTurnType = TurnType.Wait; 
         }
 
@@ -102,6 +114,7 @@ namespace TeamSH
                     PointOtherPlayer();
                     break;
                 case TurnType.Vote:
+                    
                     //VoteOtherPlayer();
                     break;
             }
@@ -114,6 +127,7 @@ namespace TeamSH
 
         private void PointOtherPlayer()
         {
+            //canPoint관련구문 필요없으니 지우기
             if (canPoint == false) return;
 
             if (SimpleInput.GetMouseButtonDown(SimpleInput.MouseButton.Left))
@@ -152,6 +166,7 @@ namespace TeamSH
         
         public void VoteOtherPlayer(string index) //버튼 인풋용 투표 메서드
         {
+            
             VoteMessage message = new VoteMessage
             {
                 UserID =  Me.Id,
