@@ -103,7 +103,8 @@ namespace TeamSH
         public string ItemId { get; set; }
     }
 
-        #endregion
+    #endregion
+    
     #region 기본 상태 처리
 
     [Serializable]
