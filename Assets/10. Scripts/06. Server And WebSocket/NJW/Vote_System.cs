@@ -14,9 +14,10 @@ namespace TeamSH
         //[Header("임시 UI 테스트용")]
         //public GameObject VoteUI; // 투표 UI
 
-        [Header("유저 정보")]
-        private User Me{ get; set; }
-        private Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
+        [Header("유저 정보")] 
+        private User Me => LiarClient.Instance.Me;
+
+        private Dictionary<string, RemotePlayer> remotes => LiarClient.Instance.remotes;
         
         private TurnType CurrentTurnType { get; set; }
         
@@ -37,14 +38,6 @@ namespace TeamSH
         {
             if (Instance == null) Instance = this;
             CurrentTurnType = TurnType.Wait;
-        }
-
-        public void SetInitializeData(User me, Dictionary<string, RemotePlayer> otherUsers)
-        {
-            Me = me;
-            remotes = otherUsers;
-            Debug.Log($"현재 본인 ID: {Me.Id}");
-            Debug.Log($"현재 방의 유저 수 : {remotes.Count + 1}");
         }
 
         public void SetTurnType(TurnType currentTurnType, float timerMs)
@@ -130,8 +123,6 @@ namespace TeamSH
         
         public void VoteOtherPlayer(string index) //버튼 인풋용 투표 메서드
         {
-            //나중에 코드에서 버튼을 Listener로 받도록 한번 해보기
-            
             VoteMessage message = new VoteMessage
             {
                 UserID =  Me.Id,

@@ -103,7 +103,7 @@ namespace TeamSH
         private readonly List<string> userOrder = new List<string>();
         
         // 남들. 번호로 찾는다.
-        private readonly Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
+        public readonly Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
 
         // 오간 말. 너무 쌓이지 않게 앞에서부터 버린다.
         private readonly List<string> chatLog = new List<string>();
@@ -674,8 +674,6 @@ namespace TeamSH
                     remote.transform.rotation = rot;
                 }
             }
-
-            Vote_System.Instance?.SetInitializeData(Me, remotes);
         }
 
         #endregion
