@@ -137,8 +137,32 @@ public class DisplayStand : MonoBehaviour
                 transform.position + new Vector3(itemPosition.x, height, itemPosition.z),
                 item.PrefabKey.transform.rotation);
 
+        if (martItem == null) return;
+        martItem.def = item;
         martItem?.transform.SetParent(transform);
         MartItems.Add(martItem);
+    }
+
+    /// <summary>
+    ///  가장 가까운 아이템 가져오기
+    /// </summary>
+    public ItemDef GetNearestItem(Vector3 playerPosition)
+    {
+        MartItem nearestItem = MartItems[0];
+        float nearestDistance = float.PositiveInfinity;
+
+        for (int i = 0; i < MartItems.Count; i++)
+        {
+            if (MartItems[i] == null) continue;
+            float distance = (playerPosition - MartItems[i].transform.position).sqrMagnitude;
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestItem = MartItems[i];
+            }
+        }
+
+        return nearestItem?.def;
     }
     
     public bool IsStay(Vector3 target)

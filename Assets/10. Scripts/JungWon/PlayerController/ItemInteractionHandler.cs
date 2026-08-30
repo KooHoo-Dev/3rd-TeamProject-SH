@@ -66,13 +66,13 @@ namespace JunWon.Scripts
             if (currentStand != null)
             {
                 // 3. 해당 진열대에 배치된 아이템 가져오기
-                // 수정(성현) : 아이템을 매대에 여러개 배치하기 위해 DisplayStand에서 Item과 MartItem을 수정해서
+                // 수정 : 아이템을 매대에 여러개 배치하기 위해 DisplayStand에서 Item과 MartItem을 수정해서
                 // ItemDef item = currentStand.Item 요 파트만 임의로 바꿔놓았습니다.
-                ItemDef item = currentStand.Items[0];
+                ItemDef item = currentStand.GetNearestItem(Owner.FindItemPivot.transform.position);
 
                 if (item != null)
                 {
-                    Debug.Log($"[{currentStand.Items[0]}] 카테고리의 아이템을 찾았습니다!");
+                    Debug.Log($"[{currentStand.GetNearestItem(Owner.FindItemPivot.transform.position)}] 카테고리의 아이템을 찾았습니다!");
                     return item;
                 }
                 else
