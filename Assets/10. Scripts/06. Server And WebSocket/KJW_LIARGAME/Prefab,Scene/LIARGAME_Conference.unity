@@ -245,6 +245,10 @@ MonoBehaviour:
   - {fileID: 182119575}
   - {fileID: 960928846}
   arrowPrefab: {fileID: 5509514451764434464, guid: 1df61a7f55d03394ea445d5f726216a2, type: 3}
+  drawDuration: 0.35
+  eraseDuration: 0.3
+  drawEase: 6
+  eraseEase: 5
 --- !u!114 &831731050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,7 +859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4588053488677108821, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5592947481158695550, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -864,6 +868,10 @@ PrefabInstance:
     - target: {fileID: 5592947481158695550, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: VoteOtherPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592947481158695550, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: NotLiar
       objectReference: {fileID: 0}
     - target: {fileID: 6486750777346618541, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
       propertyPath: m_Name
@@ -874,7 +882,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8856575315899921512, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
