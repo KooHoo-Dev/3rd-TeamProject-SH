@@ -14,11 +14,6 @@
       <change afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Conference_UIManager.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Conference_UIManager.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.3rd-TeamProject-SH/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.3rd-TeamProject-SH/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/UI Prefab/UICanvas.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/UI Prefab/UICanvas.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarUICanvasBinder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarUICanvasBinder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/Protocol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/Protocol.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/00. Scenes/JungWon/Material/Red.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/00. Scenes/JungWon/Material/Red.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Conference.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Conference.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" afterDir="false" />
@@ -51,61 +46,6 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000391670500965" />
-      <entry key="MS500" value="1.131396613637036" />
-      <entry key="S2" value="1.6033435532680516" />
-      <entry key="S5" value="1.9166719585573606" />
-      <entry key="S10" value="2.3886588898641223" />
-      <entry key="S30" value="6.527002642884771" />
-      <entry key="S60" value="14.622492422591323" />
-      <entry key="M2" value="24.2263946733157" />
-      <entry key="M5" value="33.79110394690783" />
-      <entry key="M10" value="38.611300911188586" />
-      <entry key="M15" value="42.69266375760682" />
-      <entry key="M30" value="60.00484286287802" />
-      <entry key="H1" value="98.76082829072121" />
-      <entry key="H2" value="163.56604787760983" />
-      <entry key="H4" value="243.41415178308444" />
-      <entry key="D1" value="379.73322619438596" />
-      <entry key="W1" value="414.716234298174" />
-    </decayedCancelled>
-    <decayedSelected>
-      <entry key="MS100" value="4.2610501868930396E-11" />
-      <entry key="MS500" value="0.008431470597690996" />
-      <entry key="S2" value="0.3031356891503375" />
-      <entry key="S5" value="0.646636594474165" />
-      <entry key="S10" value="0.956194331784656" />
-      <entry key="S30" value="1.7625083312326006" />
-      <entry key="S60" value="2.4657115407579946" />
-      <entry key="M2" value="3.0775440059235466" />
-      <entry key="M5" value="3.591484243950909" />
-      <entry key="M10" value="4.12385672473189" />
-      <entry key="M15" value="5.331760439746296" />
-      <entry key="M30" value="11.954699618323936" />
-      <entry key="H1" value="26.64813551499427" />
-      <entry key="H2" value="47.80242779408573" />
-      <entry key="H4" value="70.59372901086414" />
-      <entry key="D1" value="106.47732281553397" />
-      <entry key="W1" value="115.40411288357573" />
-    </decayedSelected>
-    <decayedShown>
-      <entry key="MS100" value="4.319430893218302E-5" />
-      <entry key="MS500" value="0.16924939103800385" />
-      <entry key="S2" value="1.2615296149673325" />
-      <entry key="S5" value="2.208757690814206" />
-      <entry key="S10" value="3.1385392449218172" />
-      <entry key="S30" value="8.172714675174023" />
-      <entry key="S60" value="16.989888681318558" />
-      <entry key="M2" value="27.23231926738613" />
-      <entry key="M5" value="37.34529282154367" />
-      <entry key="M10" value="42.7135688982599" />
-      <entry key="M15" value="48.007049699510006" />
-      <entry key="M30" value="71.94359037392738" />
-      <entry key="H1" value="125.39295390615744" />
-      <entry key="H2" value="211.353803168191" />
-      <entry key="H4" value="313.99631872909777" />
-      <entry key="D1" value="486.2073719695951" />
-      <entry key="W1" value="530.1198464448494" />
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="1.8276251554443782E-265" />
       <entry key="S2" value="1.4250085369967973E-66" />
@@ -164,7 +104,7 @@
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="AISelfReview" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -257,9 +197,6 @@
       <workItem from="1787914114537" duration="4463000" />
       <workItem from="1788000085854" duration="40000" />
       <workItem from="1788000145304" duration="3005000" />
-      <workItem from="1788003179873" duration="10145000" />
-      <workItem from="1788018682111" duration="759000" />
-      <workItem from="1788071284306" duration="8637000" />
       <workItem from="1788003179873" duration="1387000" />
       <workItem from="1788021827149" duration="11609000" />
       <workItem from="1788070367770" duration="7201000" />
@@ -294,19 +231,6 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs</url>
-          <line>184</line>
-          <properties documentPath="C:\Users\kim00\GitHub\3rd-TeamProject-SH\Assets\10. Scripts\06. Server And WebSocket\KJW_LIARGAME\Scripts\LiarClient.cs" containingFunctionPresentation="메서드 'Handle'">
-            <startOffsets>
-              <option value="7703" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7780" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
