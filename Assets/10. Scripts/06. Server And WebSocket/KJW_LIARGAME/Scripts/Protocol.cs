@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 
 namespace TeamSH
@@ -97,12 +97,13 @@ namespace TeamSH
 
     #region 퀘스트
 
+    // 서버에서 클리어 판정(PlayerState를 보고 판단)과 시기를 정해 알아서 뿌려준다.
     [Serializable]
-    public class ItemPickUpQuest
+    public class ItemPickUpQuestSuccessMessage
     {
-        public string ItemId { get; set; }
+        public string Type { get; set; } = "itemPickUpQuestSuccess";
+        public string Id{get;set;} // 클리어 한 유저의 Id
     }
-
         #endregion
     #region 기본 상태 처리
 
@@ -212,7 +213,7 @@ namespace TeamSH
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
 
-        public int KeywordId { get; set; }
+        public int KeywordId { get; set; } // 라이어는 라이어 키워드, 나머지는 일반
     }
 
     #endregion
@@ -378,8 +379,17 @@ namespace TeamSH
         public float TimerMs { get; set; }
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
+        public LiarOutButtonInfo[]  LiarOutButtonInfo { get; set; }
     }
 
+    
+    [Serializable]
+    public class LiarOutButtonInfo
+    {
+        public string userId{ get; set; }
+        public bool IsPressed { get; set; }
+    }
+    
     [Serializable]
     public class ScoreTallyEndStateMessage
     {
