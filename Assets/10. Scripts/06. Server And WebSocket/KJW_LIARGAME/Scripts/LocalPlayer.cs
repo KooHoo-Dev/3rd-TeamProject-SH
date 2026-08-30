@@ -10,10 +10,13 @@ namespace TeamSH
         [Header("모양")]
         [SerializeField] private TMP_Text label;
 
+        public Material[] bodyMaterials;
+        public Transform pointPivot;
+
         public void Setup(User user)
         {
             label.text = $"{user.NickName} ({user.Id})";
-
+            //bodyMaterials = GetComponentsInChildren<Material>();
             // 씬이 바껴도 삭제 X
             DontDestroyOnLoad(gameObject);
         }

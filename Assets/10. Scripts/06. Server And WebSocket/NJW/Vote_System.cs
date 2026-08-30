@@ -11,10 +11,8 @@ namespace TeamSH
     {
         public static Vote_System Instance;
         
-        [Header("임시 UI 테스트용")]
-        public TextMeshProUGUI specialMessage; //특수 채팅
-        public TextMeshProUGUI keywordMessage; // 키워드 채팅
-        public GameObject VoteUI; // 투표 UI
+        //[Header("임시 UI 테스트용")]
+        //public GameObject VoteUI; // 투표 UI
 
         [Header("유저 정보")]
         private User Me{ get; set; }
@@ -24,8 +22,6 @@ namespace TeamSH
         
         [Header("지목 처리")]
         private User CurrentSelectUser { get; set; }
-
-        public bool canPoint = false;
         
         [Header("투표 처리")]
         public User PointTarget { get; set; } //투표할 지목당한 유저
@@ -41,27 +37,13 @@ namespace TeamSH
         {
             if (Instance == null) Instance = this;
             CurrentTurnType = TurnType.Wait;
-            specialMessage.gameObject.SetActive(false);
-            keywordMessage.gameObject.SetActive(false);
-            VoteUI.gameObject.SetActive(false);
         }
 
-        public void SetUI()
-        {
-            specialMessage.gameObject.SetActive(false);
-            keywordMessage.gameObject.SetActive(false);
-            VoteUI.gameObject.SetActive(false);
-        }
-
-        public void SetInitializeData(User me)
+        public void SetInitializeData(User me, Dictionary<string, RemotePlayer> otherUsers)
         {
             Me = me;
+            remotes = otherUsers;
             Debug.Log($"현재 본인 ID: {Me.Id}");
-        }
-
-        public void SetUserCount(Dictionary<string, RemotePlayer> users)
-        {
-            remotes = users;
             Debug.Log($"현재 방의 유저 수 : {remotes.Count + 1}");
         }
 
@@ -69,17 +51,6 @@ namespace TeamSH
         {
             CurrentTurnType = currentTurnType;
             CurrentSelectUser = null;
-            if(currentTurnType == TurnType.Point) canPoint = true;
-        }
-
-        public void OpenVoteUI()
-        {
-            VoteUI.SetActive(true);
-        }
-
-        public void CloseVoteUI()
-        {
-            VoteUI.SetActive(false);
         }
 
         public void ResetPointTarget()
@@ -97,17 +68,13 @@ namespace TeamSH
                     break;
                 }
             }
-
             if (PointTarget == null) PointTarget = Me;
-            //Debug.Log($"{PointTarget.NickName}에게 투표합니다" );
-            //VoteUI.SetActive(true);
         }
 
-        public void CheckPointTarget() // 기권버튼용메서드로 변경필요
+        public void SkipPoint() //원클릭버튼용 기권버튼
         {
-            canPoint = false;
-            if (CurrentSelectUser == null) SendNonPointRequest();
-            else CurrentSelectUser = null;
+            SendNonPointRequest();
+            ConferenceManager.Instance?.RequestSkipPointUI(false);
             CurrentTurnType = TurnType.Wait; 
         }
 
@@ -121,21 +88,12 @@ namespace TeamSH
                     PointOtherPlayer();
                     break;
                 case TurnType.Vote:
-                    //VoteOtherPlayer();
                     break;
             }
         }
 
-        private void Wait()
-        {
-            return;
-        }
-
         private void PointOtherPlayer()
         {
-            //canPoint관련구문 필요없으니 지우기
-            if (canPoint == false) return;
-
             if (SimpleInput.GetMouseButtonDown(SimpleInput.MouseButton.Left))
             {
                 Ray ray = Camera.main.ScreenPointToRay(SimpleInput.GetMousePosition());
@@ -181,7 +139,7 @@ namespace TeamSH
             };
             
             LiarClient.Instance.RequestVoteMessage(message);
-            VoteUI.SetActive(false); //정보 보내고 UI닫아버리기
+            ConferenceManager.Instance.RequestVoteUI(false); //정보 보내고 UI닫아버리기
         }
 
         // 빠른스킵 전달
