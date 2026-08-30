@@ -31,9 +31,12 @@ namespace TeamSH
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
         
+        // Id로 닉네임 찾기
         public string GetNickName(string userId)
         {
+            // 매개변수 id가 내 id와 동일하면 내 닉네임 리턴
             if (Me != null && userId == Me.Id) return Me.NickName;
+            // 아니면 remotes 딕셔너리에서 매개변수 id와 동일한 id를 가진 remote의 닉네임 리턴 / 없으면 그냥 매개변수 리턴
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
         }
 
@@ -141,6 +144,9 @@ namespace TeamSH
 
         // 라이어의 키워드 맞춤 상태에서 키워드채팅을 이미 보냈는지. 그 상태에 들어갈 때마다 초기화된다.
         private bool hasSentKeywordChat;
+
+        // 라이어가 보낸 키워드채팅 텍스트. 키워드 맞춤 종료 상태에서 전체 공개할 때 쓴다.
+        public string KeywordChatText { get; private set; } = "";
 
         #endregion
 
@@ -275,7 +281,7 @@ namespace TeamSH
 
         private void OnGameStartOK(GameStartOKMessage message)
         {
-            Debug.Log("게임 데이터 요청을 받고 message 안의 newGameConfig를 클라이언트 NewGameConfig로 저장");
+            Debug.Log("게임 시작 완료 메세지를 받고 config 데이터 저장");
 
             NewGameConfig = message.newGameConfig;
             IsGameStarted = true;
@@ -290,6 +296,8 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
             GenreId = message.GenreId;
+
+            Debug.Log($"라이어의 ID는 :{message.CurrentOwnerID} 입니다.");
             
             // 라이어의 Id는 메세지로 받은 Id임
             LiarId = message.CurrentOwnerID;
@@ -411,14 +419,22 @@ namespace TeamSH
         private void OnLiarConfirmedState(LiarConfirmedStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
-            
+
             Debug.Log($"확정된 유저는 {message.CurrentOwnerID} 입니다.");
+            
+            if (LiarId == message.CurrentOwnerID) Debug.Log($"{message.CurrentOwnerID}는 라이어입니다.");
+            else Debug.Log($"{message.CurrentOwnerID}는 라이어가 아닙니다.");
+            
+            Debug.Log($"라이어는 {GetNickName(LiarId)} 입니다.");
+                
         }
 
         private void OnLiarKeywordGuessState(LiarKeywordGuessStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+
             hasSentKeywordChat = false;
+            KeywordChatText = "";
         }
 
         // 라이어의 키워드 맞춤 상태에서 라이어의 첫 채팅이 키워드채팅
@@ -428,6 +444,8 @@ namespace TeamSH
             chatLog.Add($"[키워드] {message.NickName}{mine} : {message.Text}");
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
             Debug.Log($"[키워드] {message.NickName} : {message.Text}");
+
+            KeywordChatText = message.Text;
         }
 
         private void OnLiarKeywordGuessEndState(LiarKeywordGuessEndStateMessage message)

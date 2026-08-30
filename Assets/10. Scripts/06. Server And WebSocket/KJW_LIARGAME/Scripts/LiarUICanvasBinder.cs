@@ -27,6 +27,8 @@ namespace TeamSH
         [Header("Special Chat Log")] // 특수채팅 로그
         [SerializeField] private GameObject specialChatLogPanel;
         [SerializeField] private TextMeshProUGUI specialChatLogText;
+        
+        [Header("Debate Special Chat Log")] // 변론 종료에서의 특수채팅 로그
 
         [Header("Liar Out")] // 라밍아웃 버튼
         [SerializeField] private Button liarOutButtonComponent;
@@ -38,6 +40,14 @@ namespace TeamSH
         [Header("Score Tally")] // 점수 목록
         [SerializeField] private GameObject scoreTallyPanel;
         [SerializeField] private TextMeshProUGUI scoreText;
+
+        [Header("Announce")] // 라이어 확정 / 키워드 맞춤 안내
+        [SerializeField] private GameObject announcePanel;
+        [SerializeField] private TextMeshProUGUI announceText;
+        
+        [Header("Keyword Chat")] // 키워드 채팅 시각화
+        [SerializeField] private GameObject keywordChatPanel;
+        [SerializeField] private TextMeshProUGUI keywordChatText;
 
         private void Awake()
         {
@@ -63,6 +73,8 @@ namespace TeamSH
                 liarOutButtonComponent.gameObject.SetActive(false);
                 finalResultPanel.SetActive(false);
                 scoreTallyPanel.SetActive(false);
+                announcePanel.SetActive(false);
+                keywordChatPanel.SetActive(false);
                 return;
             }
 
@@ -72,6 +84,8 @@ namespace TeamSH
             UpdateLiarOutButton();
             UpdateFinalResult();
             UpdateScoreTally();
+            UpdateAnnounce();
+            UpdateKeywordChat();
         }
 
         // 화면 우측 상단에 지금 상태의 남은 시간을 보여준다. 순전히 시각용
@@ -109,6 +123,12 @@ namespace TeamSH
 
             specialChatLogText.text = string.Join("\n", client.SpecialChatLog);
         }
+
+        private void UpdateDebateSpecialChatLog() // 변론 종료에서의 특수채팅 시각화
+        {
+            bool show = client.CurrentPhase == "변론 종료 상태";
+            
+        }
         
         private void UpdateLiarOutButton()
         {
@@ -141,6 +161,35 @@ namespace TeamSH
             if (show == false) return;
 
             scoreText.text = string.Join("\n", client.GetOurScores());
+        }
+
+        // 라이어 확정 상태 / 라이어의 키워드 맞춤 상태일 때, 누가 라이어인지 화면에 띄운다.
+        private void UpdateAnnounce()
+        {
+            bool show = client.CurrentPhase == "라이어 확정 상태" || client.CurrentPhase == "라이어의 키워드 맞춤 상태";
+            announcePanel.SetActive(show);
+            if (show == false) return;
+
+            if (client.CurrentPhase == "라이어 확정 상태")
+            {
+                string nick = client.GetNickName(client.CurrentOwnerID);
+                bool isLiar = client.LiarId == client.CurrentOwnerID; // 선정된 라이어와 확정된 유저가 같은지 확인
+                announceText.text = $"확정된 유저는 {nick} 입니다.\n{nick}는 {(isLiar ? "라이어입니다." : "라이어가 아닙니다.")}";
+            }
+            else 
+            {
+                announceText.text = $"라이어는 {client.GetNickName(client.LiarId)} 입니다.";
+            }
+        }
+
+        // 키워드 맞춤 종료 상태일 때, 라이어가 입력한 키워드채팅을 모두에게 공개한다.
+        private void UpdateKeywordChat()
+        {
+            bool show = client.CurrentPhase == "키워드 맞춤 종료 상태";
+            keywordChatPanel.SetActive(show);
+            if (show == false) return;
+
+            keywordChatText.text = $"{client.GetNickName(client.LiarId)}의 키워드 선택은 : {client.KeywordChatText}";
         }
     }
 }

@@ -642,7 +642,6 @@ MonoBehaviour:
   roomCode: ABCD
   localPlayer: {fileID: 403611685}
   remotePrefab: {fileID: 3191360309909981046, guid: 8fe6652314f17e547b5ca07f9cdc9f84, type: 3}
-  lobby: {fileID: 1975179183}
   sendPerSecond: 20
 --- !u!4 &1975179185
 Transform:
@@ -764,9 +763,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3036397649100702127, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435674601987361070, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 800
+      objectReference: {fileID: 0}
     - target: {fileID: 4553222745512900917, guid: df243944777594d4e911b29f9bb219d7, type: 3}
       propertyPath: m_Name
       value: UICanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5454547233613681879, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5769492000723642315, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6952753728701655954, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8600376423557940475, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8670667270544107951, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8929651867743343440, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048402324559218652, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_text
+      value: "\uB77C\uC774\uC5B4\uAC00 \uC120\uD0DD\uD55C \uD0A4\uC6CC\uB4DC "
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048402324559218652, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
