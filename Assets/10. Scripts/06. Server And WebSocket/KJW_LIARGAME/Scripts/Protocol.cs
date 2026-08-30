@@ -1,8 +1,9 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace TeamSH
 {
+    
     #region 공용 데이터 처리
 
     [Serializable]
@@ -12,7 +13,14 @@ namespace TeamSH
         DontKnow,
         NotLiar,
     }
-    
+
+    [Serializable]
+    public enum QuestId
+    {
+        ItemPickUp
+    }
+
+
     #region 채팅 처리
 
     [Serializable]
@@ -64,6 +72,8 @@ namespace TeamSH
         public string Id{get;set;}
         public float X{get;set;}
         public float Y{get;set;}
+        
+        public  float Z{get;set;}
     }
 
     #endregion
@@ -85,6 +95,15 @@ namespace TeamSH
         public int MaxCycle{get;set;}
     }
 
+    #region 퀘스트
+
+    [Serializable]
+    public class ItemPickUpQuest
+    {
+        public string ItemId { get; set; }
+    }
+
+        #endregion
     #region 기본 상태 처리
 
     [Serializable]
@@ -105,8 +124,16 @@ namespace TeamSH
         public float Z { get; set; } 
         public int score{get;set;} // 점수 
         public bool IsLiar{get;set;} // 라이어 인가?
+        
         public string[] Items{get;set;} // 카테고리별 최종 선택한 아이템
+        
+        public string HoldingItem{get;set;} // 마트에서 들고 이동하는 중인 아이템
+        
+        public bool IsPushedState{get;set;} // 현재 밀쳐진 상태인가?
+
+        
     }
+
 
     #endregion
     
@@ -199,6 +226,9 @@ namespace TeamSH
         public float TimerMs { get; set; }
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
+        // 퀘스트는 개인적으로만 이루어지고 결과가 state에 적용되기만 하면 되므로 따로 결과를 받거나 보내지 않음
+        // 만약 결과가 남들에게 보여줘야한다면 퀘스트 클리어 메세지에 ID담아서 클라에서 서버로 -> 다른 유저에게 뿌릴 에정
+        public string QuestId{get;set;}
     }
 
     [Serializable]
@@ -331,6 +361,9 @@ namespace TeamSH
         public float TimerMs { get; set; }
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
+        public string liarKeyword { get; set; }
+        public string nomalKeyword { get; set; }
+        public bool IsRightAnswer{ get; set; }
     }
 
     #endregion
@@ -463,7 +496,77 @@ namespace TeamSH
     }
 
     #endregion
+
+    #region 마트 부분
+
+    // 얘기할거( 자기자신 포함으로 메세지를 보내도 처리가 편한지? 그냥 자기 자신 제외로 보낼지?)
+    // 누군가 아이템을 집을 때 다른 플레이어들에게 보내는 메세지
+    // (이 메세지를 보내면 WhoSuccessGetItemMessage로 변해서 간다.)
+    [Serializable]
+    public class TryGetItemMessage
+    {
+        public string Type{get;set;} = "TryGetItem";
+        public string UserID{get;set;}
+        public string ItemID{get;set;}
+    }
+    // 클라에서 집기가 성공하는 것은 오로지 이 메세지를 받아야만 한다.
+    // 천만분의 하나의 확률로 연달아 같은 ItemId가 들어오는 경우 먼저온 메세지만 보낸다.(검증 로직)
+    // 서버 -> 클라이언트임
+    [Serializable]
+    public class WhoSuccessGetItemMessage
+    {
+        public string Type{get;set;} = "WhoSuccessGetItem";
+        public string UserID{get;set;}
+        public string ItemID{get;set;}
+    }
+    // 최종 가방에 아이템 넣을 때 클라가 서버에게 보내는 메세지
+    [Serializable]
+    public class TryInputItemInBag
+    {
+        public string Type{get;set;} = "TryInputItemInBag";
+        public string UserID{get;set;}
+        public string ItemID{get;set;}
+    }
+
+    // 서버에서 판정해서 결과를 보내주는 방식( 서버 -> 클라)
+    // 논의할 것 : 같은 카테고리 아이템을 넣으면 이전에 넣었던 아이템이 원래 자리로 가는가?
+    // 혹은 손으로 가는가? 아니면 넣기에 실패하는가? 
+    [Serializable]
+    public class ResultInputItemInBag
+    {
+        public string Type{get;set;} = "ResultInputItemInBag";
+        public string UserID{get;set;}
+        public string ItemID{get;set;}
+        public bool  IsSuccess{get;set;}
+    }
+
+    // 밀치기, 모든 유저에게 한번 뿌려짐
+    [Serializable]
+    public class PushMessage
+    {
+        public string Type{get;set;} = "push";
+        
+        public string PushUserId{get;set;} // 밀치기 시도한 유저
+        
+        public string PushedUserId{get;set;} // 밀쳐진 유저, 일단 한명만 가능하다 가정 (없을 수 있음)
+        
+    }
+
+
+
+    // 퀘스트 정의 예시
+    public interface IQuest<out T>
+    {
+        public string QuestId{get;set;}
+        public bool IsSuccess{get;set;}
+        public bool IsFailed{get;set;}
+        public T GetReward();
+
+        public void CheckQuestStatus();
+    }
     
+
+        #endregion
     // 라밍아웃 처리(라이어가 라이어 버튼을 눌렀을 때 진입하는 상태)
     [Serializable]
     public class LiarOutButtonPressedStateMessage
@@ -473,5 +576,6 @@ namespace TeamSH
         public float TimerMs { get; set; }
 
     }
+
     #endregion
 }
