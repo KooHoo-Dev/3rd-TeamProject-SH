@@ -31,18 +31,29 @@ namespace TeamSH
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
         
+        // Id로 닉네임 찾기
         public string GetNickName(string userId)
         {
+            // 매개변수 id가 내 id와 동일하면 내 닉네임 리턴
             if (Me != null && userId == Me.Id) return Me.NickName;
+            // 아니면 remotes 딕셔너리에서 매개변수 id와 동일한 id를 가진 remote의 닉네임 리턴 / 없으면 그냥 매개변수 리턴
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
         }
-        
-        public Transform GetPointPivot(string userId) // Id가 remote에 없으면 나다.
-        {
-            return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.pointPivot : localPlayer.pointPivot;
-        }
 
-        [SerializeField] private LiarLobby lobby;
+        public List<string> GetOurScores()
+        {
+            List<string> scores = new List<string>() {$"{Me.NickName} : {PlayerState.score} 점"};
+
+            foreach (RemotePlayer remote in remotes.Values)
+            {
+                scores.Add($"{remote.User.NickName} : {remote.PlayerState.score} 점");
+            }
+
+            return scores;
+        }
+        
+        // 라이어 ID 저장하는 필드
+        public string LiarId { get; private set; } = "";
 
         [Header("보내기")]
         // 초당 몇 번 내 위치를 보낼지.
@@ -125,11 +136,17 @@ namespace TeamSH
         public int GenreId { get; private set; }
         public int KeywordId { get; private set; }
 
+        // 지목 종료 때 최다 득표된 유저 ID
+        public string MostSelectId { get; private set; } = "";
+
         // 이번 발언 차례에 특수채팅을 이미 보냈는지. 발언자가 바뀔 때마다 초기화된다.
         private bool hasSentSpecialChat;
 
         // 라이어의 키워드 맞춤 상태에서 키워드채팅을 이미 보냈는지. 그 상태에 들어갈 때마다 초기화된다.
         private bool hasSentKeywordChat;
+
+        // 라이어가 보낸 키워드채팅 텍스트. 키워드 맞춤 종료 상태에서 전체 공개할 때 쓴다.
+        public string KeywordChatText { get; private set; } = "";
 
         #endregion
 
@@ -206,22 +223,25 @@ namespace TeamSH
                 foreach (User user in message.Users)
                 {
                     userOrder.Add(user.Id);
-                    DoSpawn(user);
+                    Spawn(user);
                 }
             }
             userOrder.Add(Me.Id);
             
+            Vote_System.Instance.SetInitializeData(Me); //투표시스템 ID적용
+            Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
+
             Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
         }
 
         private void OnJoin(JoinMessage message)
         {
             userOrder.Add(message.User.Id); // 순서 리스트에 추가
-            
-            DoSpawn(message.User);
+
+            Spawn(message.User);
             Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
             
-            //Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
+            Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
             Debug.Log($"총 유저 수 전달! {remotes.Count + 1}");
         }
 
@@ -232,7 +252,7 @@ namespace TeamSH
             remotes.Remove(message.Id);
             userOrder.Remove(message.Id); // 순서 에서 제거
             
-            //Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
+            Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
             Destroy(remote.gameObject);
 
             Debug.Log($"[방] {message.Id} 이(가) 나갔다");
@@ -261,7 +281,7 @@ namespace TeamSH
 
         private void OnGameStartOK(GameStartOKMessage message)
         {
-            Debug.Log("게임 데이터 요청을 받고 message 안의 newGameConfig를 클라이언트 NewGameConfig로 저장");
+            Debug.Log("게임 시작 완료 메세지를 받고 config 데이터 저장");
 
             NewGameConfig = message.newGameConfig;
             IsGameStarted = true;
@@ -276,6 +296,11 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
             GenreId = message.GenreId;
+
+            Debug.Log($"라이어의 ID는 :{message.CurrentOwnerID} 입니다.");
+            
+            // 라이어의 Id는 메세지로 받은 Id임
+            LiarId = message.CurrentOwnerID;
         }
 
         private void OnKeywordDistributeState(KeywordDistributeStateMessage message)
@@ -335,37 +360,34 @@ namespace TeamSH
             {
                 Debug.Log(SpecialChatLog[i]);
             }
-            
-            //lobby.DrawSpecialChatLog(); 해당 문구로 에러가 자꾸 나서 일단 주석처리하고 옮겼습니다.
         }
 
         private void OnPointAtSuspectState(PointAtSuspectStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             //여기 지목단계 시작
-            Vote_System.Instance?.SetTurnType(Vote_System.TurnType.Point ,message.TimerMs);
-            ConferenceManager.Instance?.RequestSkipPointUI(true); // 스킵 버튼 켜기
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Point ,message.TimerMs);
         }
 
         private void OnPointAtSuspectEndState(PointAtSuspectEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
             //여기가 지목단계 종료
-            Vote_System.Instance?.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
-            ConferenceManager.Instance?.RequestSkipPointUI(false); // 스킵 버튼 끄기
-            ConferenceManager.Instance?.ClearAllArrows(); // 모든 화살표 지우기
-            
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
+            MostSelectId = message.CurrentOwnerID; // 최다 득표
+
             if(string.IsNullOrEmpty(message.CurrentOwnerID)) Debug.Log($"투표가 스킵되었습니다.");
             else
             {
                 Debug.Log($"가장 많이 지목된 유저 {message.CurrentOwnerID}");
-                Vote_System.Instance?.SetPointTarget(message.CurrentOwnerID);
+                Vote_System.Instance.SetPointTarget(message.CurrentOwnerID);
             }
         }
 
         private void OnDebateTimeState(DebateTimeStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            hasSentSpecialChat = false;
             Debug.Log("변론 단계 시작");
         }
 
@@ -379,30 +401,40 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             //여기가 투표 시작
-            Vote_System.Instance?.SetTurnType(Vote_System.TurnType.Vote ,message.TimerMs);
-            if (Vote_System.Instance?.PointTarget.Id != Me.Id) ConferenceManager.Instance?.RequestVoteUI(true);
-            else Vote_System.Instance?.SetTurnType(Vote_System.TurnType.Wait, message.TimerMs);
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Vote ,message.TimerMs);
+            if (Vote_System.Instance.PointTarget?.Id != Me.Id) Vote_System.Instance.OpenVoteUI();
+            else Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait, message.TimerMs);
         }
 
         private void OnVoteEndState(VoteEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             //여기가 투표 종료
-            Vote_System.Instance?.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
-            ConferenceManager.Instance?.RequestVoteUI(false);
+            Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait ,message.TimerMs);
+            Vote_System.Instance.CloseVoteUI();
             //투표 종료할 때 PointTarget 초기화
-            Vote_System.Instance?.ResetPointTarget();
+            Vote_System.Instance.ResetPointTarget();
         }
 
         private void OnLiarConfirmedState(LiarConfirmedStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
+
+            Debug.Log($"확정된 유저는 {message.CurrentOwnerID} 입니다.");
+            
+            if (LiarId == message.CurrentOwnerID) Debug.Log($"{message.CurrentOwnerID}는 라이어입니다.");
+            else Debug.Log($"{message.CurrentOwnerID}는 라이어가 아닙니다.");
+            
+            Debug.Log($"라이어는 {GetNickName(LiarId)} 입니다.");
+                
         }
 
         private void OnLiarKeywordGuessState(LiarKeywordGuessStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+
             hasSentKeywordChat = false;
+            KeywordChatText = "";
         }
 
         // 라이어의 키워드 맞춤 상태에서 라이어의 첫 채팅이 키워드채팅
@@ -412,6 +444,8 @@ namespace TeamSH
             chatLog.Add($"[키워드] {message.NickName}{mine} : {message.Text}");
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
             Debug.Log($"[키워드] {message.NickName} : {message.Text}");
+
+            KeywordChatText = message.Text;
         }
 
         private void OnLiarKeywordGuessEndState(LiarKeywordGuessEndStateMessage message)
@@ -437,6 +471,9 @@ namespace TeamSH
         private void OnFinalResultEndState(FinalResultEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+
+            IsGameStarted = false; // 게임시작 아님
+            DoLoadScene("LIARGAME_Lobby"); // 로비씬으로
         }
         
         #region 투표 처리
@@ -444,19 +481,9 @@ namespace TeamSH
         private void OnSelect(SelectMessage message)
         {
             if (message.IsSelectCancel == false)
-            {
                 Debug.Log($"{message.selectID}가 {message.selectedID}를 지목했습니다.");
-                Transform fromPivot = GetPointPivot(message.selectID);
-                Transform toPivot = GetPointPivot(message.selectedID);
-
-                Color arrowColor = ColorOf(message.selectID); // 지목한 사람마다 고유 색
-                ConferenceManager.Instance?.DrawArrow(message.selectID, fromPivot, toPivot, arrowColor);
-            }
             else
-            {
                 Debug.Log($"{message.selectID}가 {message.selectedID}에 대한 지목을 취소했습니다.");
-                ConferenceManager.Instance?.RemoveArrow(message.selectID);
-            }
         }
 
         private void OnNonPointMessage(NonPointMessage message)
@@ -464,11 +491,10 @@ namespace TeamSH
             //여기 투표안한 유저를 대기상태로 변경하는 코드 추가
             if (message.UserID == Me.Id)
             {
-                Vote_System.Instance?.SetTurnType(Vote_System.TurnType.Wait, TimerMs);
+                Vote_System.Instance.SetTurnType(Vote_System.TurnType.Wait, TimerMs);
                 Debug.Log($"나 는 투표에서 기권했다.");
             }
             else Debug.Log($"{message.UserID}가 기권했습니다.");
-            ConferenceManager.Instance?.RemoveArrow(message.UserID);
         }
 
         private void OnVoteMessage(VoteMessage message)
@@ -508,11 +534,28 @@ namespace TeamSH
                 
                 // 다른 플레이어 정보 동기화
                 if (remotes.TryGetValue(state.Id, out RemotePlayer remote) == false) continue;
+                // remote.SetTarget(new Vector2(state.X, state.Y));
 
                 remote.PlayerState.score = state.score;
                 remote.PlayerState.IsLiar = state.IsLiar;
                 remote.PlayerState.Items = state.Items;
             }
+        }
+
+        private void Spawn(User user)
+        {
+            // 이미 있으면 만들지 않는다. welcome 과 join 이 겹칠 수 있다.
+            if (remotes.ContainsKey(user.Id)) return;
+
+            RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
+
+            remote.Setup(user);
+            // remote.Setup(user, ColorOf(user.Id));
+
+            remotes[user.Id] = remote;
+
+            // 이미 마트/회의실에 들어와 있는 상태라면 새로 들어온 사람까지 포함해서 즉시 재배치
+            DoRepositionAll();
         }
 
         #endregion
@@ -530,22 +573,6 @@ namespace TeamSH
             phaseStartTime = Time.time;
         }
 
-        // 다른 플레이어 생성
-        private void DoSpawn(User user)
-        {
-            // 이미 있으면 만들지 않는다. welcome 과 join 이 겹칠 수 있다.
-            if (remotes.ContainsKey(user.Id)) return;
-
-            RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
-
-            remote.Setup(user);
-
-            remotes[user.Id] = remote;
-            
-            // 이미 마트/회의실에 들어와 있는 상태라면 새로 들어온 사람까지 포함해서 즉시 재배치
-            DoRepositionAll();
-        }
-        
         private void DoLoadScene(string sceneName)
         {
             if (activeContentScene == sceneName) return; // 이미 그 씬이면 다시 부르지 않는다.
@@ -560,7 +587,8 @@ namespace TeamSH
                 SceneManager.UnloadSceneAsync(previous);
                 
                 // 씬 전환 완료 후 Vote_System에 Canvas 재설정 요청
-                //if (Vote_System.Instance != null) Vote_System.Instance.SetUI();
+                if (Vote_System.Instance != null)
+                    Vote_System.Instance.SetUI();
                 
                 // 씬이 완전히 로드되어 매니저가 Awake를 끝낸 뒤에 전원 재배치
                 DoRepositionAll();
@@ -582,13 +610,6 @@ namespace TeamSH
         // 현재 씬(마트/회의실)의 스폰 포인트를 가져와서 접속 순서대로 배치한다.
         private void DoRepositionAll()
         {
-            userOrder.Sort((a, b) =>
-            {
-                if (long.TryParse(a, out long idA) && long.TryParse(b, out long idB))
-                    return idA.CompareTo(idB);
-                return string.CompareOrdinal(a, b);
-            });
-            
             Transform[] spawnPoints;
 
             switch (activeContentScene)
@@ -621,8 +642,9 @@ namespace TeamSH
                 Vector3 pos = spawnPoints[i].position;
                 Quaternion rot = spawnPoints[i].rotation;
 
-                if (id == Me.Id)
+                if (Me != null && id == Me.Id)
                 {
+                    if (localPlayer == null) continue;
                     localPlayer.transform.position = pos;
                     localPlayer.transform.rotation = rot;
                 }
@@ -632,54 +654,17 @@ namespace TeamSH
                     remote.transform.rotation = rot;
                 }
             }
-
-            Vote_System.Instance?.SetInitializeData(Me, remotes);
         }
 
         #endregion
 
         #region 클라이언트 -> 서버 (Request)
 
-        public void RequestJoin(string roomCode, string nickName)
-        {
-            if (IsBusy) return;
-
-            this.roomCode = roomCode;
-            this.nickName = nickName;
-
-            RunAsync().Forget();
-        }
-
         public void RequestGameStart() // 게임 시작 요청
         {
             // 방장만 서버로 보냄
             if (Me == null || IsHost == false) return;
             SendAsync(new GameStartMessage()).Forget();
-        }
-
-        // 지금이 어떤 채팅을 보낼 차례인지 알아서 판단해서 보낸다. 로비가 이거 하나만 부르면 된다.
-        public void RequestChat(string text)
-        {
-            if (string.IsNullOrWhiteSpace(text)) return;
-            if (Me == null) return;
-
-            // 발언 상태 + 내가 발언자 + 이번 차례에 아직 특수채팅을 안 보냈으면, 첫 마디는 특수채팅이 된다.
-            if (CurrentPhase == "물건 보여주고 발언 상태" && CurrentOwnerID == Me.Id && hasSentSpecialChat == false)
-            {
-                hasSentSpecialChat = true;
-                RequestSpecialChat(text);
-                return;
-            }
-
-            // 라이어의 키워드 맞춤 상태 + 내가 라이어 + 아직 키워드채팅을 안 보냈으면, 첫 마디는 키워드채팅이 된다.
-            if (CurrentPhase == "라이어의 키워드 맞춤 상태" && PlayerState.IsLiar && hasSentKeywordChat == false)
-            {
-                hasSentKeywordChat = true;
-                RequestKeywordChat(text);
-                return;
-            }
-
-            RequestNormalChat(text);
         }
 
         private void RequestNormalChat(string text)
@@ -740,6 +725,16 @@ namespace TeamSH
 
             // true로 해둬야 백그라운드에서도 데이터 수신 가능
             Application.runInBackground = true;
+        }
+
+        public void Join(string roomCode, string nickName)
+        {
+            if (IsBusy) return;
+
+            this.roomCode = roomCode;
+            this.nickName = nickName;
+
+            RunAsync().Forget();
         }
 
         // 접속하고, 이름을 알리고, 끊길 때까지 듣는다.
@@ -840,6 +835,40 @@ namespace TeamSH
                 // Vector2 position = localPlayer.transform.position;
                 // await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y });
             }
+        }
+
+        // 지금이 어떤 채팅을 보낼 차례인지 알아서 판단해서 보낸다. 로비가 이거 하나만 부르면 된다.
+        public void Say(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return;
+            if (Me == null) return;
+
+            // 발언 상태 + 내가 발언자 + 이번 차례에 아직 특수채팅을 안 보냈으면, 첫 마디는 특수채팅이 된다.
+            if (CurrentPhase == "물건 보여주고 발언 상태" && CurrentOwnerID == Me.Id && hasSentSpecialChat == false)
+            {
+                hasSentSpecialChat = true;
+                RequestSpecialChat(text);
+                return;
+            }
+
+            // 변론 시간 상태 + 내가 득표된 사람 + 아직 특수채팅을 안 보냈으면, 첫 마디는 특수채팅이 된다.
+            if (CurrentPhase == "변론 시간 상태" && MostSelectId == Me.Id && hasSentSpecialChat == false)
+            {
+                hasSentSpecialChat = true;
+                RequestSpecialChat(text);
+                return;
+            }
+
+            // 라이어의 키워드 맞춤 상태 + 내 id가 라이어 id와 동일하면 + 아직 키워드채팅을 안 보냈으면, 첫 마디는 키워드채팅이 된다.
+            if (CurrentPhase == "라이어의 키워드 맞춤 상태" && LiarId == Me.Id && hasSentKeywordChat == false)
+            {
+                hasSentKeywordChat = true;
+                RequestKeywordChat(text);
+                return;
+            }
+
+            RequestNormalChat(text);
+            // SendAsync(new ChatMessage { Text = text.Trim() }).Forget();
         }
 
         // 한 마디를 보낸다. 보내는 곳이 여럿이라 lock을 걸어서 한 번에 하나씩 내보낸다.
