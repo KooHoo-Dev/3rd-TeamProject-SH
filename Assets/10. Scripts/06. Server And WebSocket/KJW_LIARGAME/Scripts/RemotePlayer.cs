@@ -18,6 +18,7 @@ namespace TeamSH
         [SerializeField] private float smooth = 10f;
 
         public User User { get; private set; }
+        public Transform pointPivot;
 
         // 위치는 안 쓰지만 점수/라이어 여부/아이템은 계속 갱신되어 들어온다.
         public PlayerState PlayerState = new PlayerState();

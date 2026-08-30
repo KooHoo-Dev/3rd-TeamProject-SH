@@ -16,11 +16,13 @@ namespace TeamSH
         [SerializeField] private float speed = 5f;
 
         public bool CanMove { get; set; } = true;
+        public Material[] bodyMaterials;
+        public Transform pointPivot;
 
         public void Setup(User user)
         {
             label.text = $"{user.NickName} ({user.Id})";
-
+            //bodyMaterials = GetComponentsInChildren<Material>();
             // 씬이 바껴도 삭제 X
             DontDestroyOnLoad(gameObject);
         }
