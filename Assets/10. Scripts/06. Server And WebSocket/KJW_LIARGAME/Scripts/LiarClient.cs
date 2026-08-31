@@ -636,7 +636,7 @@ namespace TeamSH
         {
             userOrder.Sort((a, b) =>
             {
-                if (long.TryParse(a, out long idA) && long.TryParse(b, out long idB))
+                if (int.TryParse(a, out int idA) && int.TryParse(b, out int idB))
                     return idA.CompareTo(idB);
                 return string.CompareOrdinal(a, b);
             });
