@@ -114,6 +114,15 @@ namespace TeamSH
         public PlayerState[] States{get;set;}
     }
     
+    
+    [Serializable]
+    public class UserScoreInfo
+    {
+        public string UserId { get; set; }
+        public int UserScore { get; set; }
+    }
+    
+    
     [Serializable]
     public class PlayerState // 지속적으로 클라이언트에게 뿌려주는 데이터
     {
@@ -123,7 +132,6 @@ namespace TeamSH
         
         // 추가 코드
         public float Z { get; set; } 
-        public int score{get;set;} // 점수 
         public bool IsLiar{get;set;} // 라이어 인가?
         
         public string[] Items{get;set;} // 카테고리별 최종 선택한 아이템
@@ -131,9 +139,10 @@ namespace TeamSH
         public string HoldingItem{get;set;} // 마트에서 들고 이동하는 중인 아이템
         
         public bool IsPushedState{get;set;} // 현재 밀쳐진 상태인가?
-
         
     }
+    
+    
 
 
     #endregion
@@ -365,6 +374,8 @@ namespace TeamSH
         public string liarKeyword { get; set; }
         public string nomalKeyword { get; set; }
         public bool IsRightAnswer{ get; set; }
+        
+        public UserScoreInfo[]  userScoreInfo{get;set;}
     }
 
     #endregion
@@ -381,8 +392,10 @@ namespace TeamSH
         public int CurrentRound { get; set; }
         // 라이어가 아닌데 버튼 누른 유저들
         public string[]  LiarOutButtonInfo { get; set; }
-    }
+        
+        public UserScoreInfo[]  userScoreInfo{get;set;}
 
+    }
     
 
     
