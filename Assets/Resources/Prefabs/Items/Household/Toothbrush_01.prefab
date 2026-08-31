@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5082627403887986760
+--- !u!1 &1352073282468380204
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5603267512446259954}
-  - component: {fileID: 8821730919935614295}
-  - component: {fileID: 6740167639395953053}
-  - component: {fileID: 1721640875944988634}
+  - component: {fileID: 8736047121130253658}
+  - component: {fileID: 8564935932002821305}
   m_Layer: 0
   m_Name: Toothbrush_01
   m_TagString: Untagged
@@ -19,36 +17,88 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5603267512446259954
+--- !u!4 &8736047121130253658
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5082627403887986760}
+  m_GameObject: {fileID: 1352073282468380204}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000021855694, y: -0.00000004371139, z: 9.055528e-16, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -10.27156, y: 1.476236, z: -3.571276}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3320187401750504572}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8821730919935614295
+--- !u!114 &8564935932002821305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352073282468380204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MartItem
+  def:
+    ItemId: 0
+    CategoryType: 0
+    CategoryName: 
+    ItemName: 
+    PrefabKey: {fileID: 0}
+--- !u!1 &4250400517166452269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3320187401750504572}
+  - component: {fileID: 1482761157117333875}
+  - component: {fileID: 3170485595437199838}
+  m_Layer: 0
+  m_Name: Toothbrush_01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3320187401750504572
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4250400517166452269}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.032459754, y: 0.010807668, z: -0.005289753, w: 0.9994006}
+  m_LocalPosition: {x: -0.0001, y: 0.0151, z: 0.0015}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 8736047121130253658}
+  m_LocalEulerAnglesHint: {x: -3.713, y: 1.26, z: -0.647}
+--- !u!33 &1482761157117333875
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5082627403887986760}
+  m_GameObject: {fileID: 4250400517166452269}
   m_Mesh: {fileID: -4924980538413492286, guid: 4f4101c32d46173408db1789f4e5a954, type: 3}
---- !u!23 &6740167639395953053
+--- !u!23 &3170485595437199838
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5082627403887986760}
+  m_GameObject: {fileID: 4250400517166452269}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -91,21 +141,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1721640875944988634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5082627403887986760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MartItem
-  def:
-    ItemId: 0
-    CategoryType: 0
-    CategoryName: 
-    ItemName: 
-    PrefabKey: {fileID: 0}
