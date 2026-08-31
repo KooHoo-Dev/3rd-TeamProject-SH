@@ -118,7 +118,7 @@ namespace TeamSH
         private readonly List<string> chatLog = new List<string>();
 
         // 특수채팅만 따로 모은 기록. Tab 정보창 전용이라 버리지 않는다.
-        private readonly List<string> specialChatLog = new List<string>();
+        private List<string> specialChatLog = new List<string>();
 
         private const int ChatKeep = 12;
 
@@ -464,6 +464,7 @@ namespace TeamSH
         private void OnLiarKeywordGuessEndState(LiarKeywordGuessEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            
             specialChatLog.Clear(); // 현재까지의 특수 채팅 초기화
         }
 

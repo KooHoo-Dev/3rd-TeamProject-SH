@@ -379,16 +379,12 @@ namespace TeamSH
         public float TimerMs { get; set; }
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
-        public LiarOutButtonInfo[]  LiarOutButtonInfo { get; set; }
+        // 라이어가 아닌데 버튼 누른 유저들
+        public string[]  LiarOutButtonInfo { get; set; }
     }
 
     
-    [Serializable]
-    public class LiarOutButtonInfo
-    {
-        public string userId{ get; set; }
-        public bool IsPressed { get; set; }
-    }
+
     
     [Serializable]
     public class ScoreTallyEndStateMessage
