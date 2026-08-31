@@ -358,8 +358,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Study.LocalServer.RoomClient
   url: ws://34.50.63.204:5003/room
-  nickName: Jay
-  roomCode: ABCD
+  nickName: Team_SH
+  roomCode: 1234
   localPlayer: {fileID: 283337098}
   remotePrefab: {fileID: 3577986437508677583, guid: d1c4df9245221e34dbcc69310da369c0, type: 3}
   sendPerSecond: 20
@@ -390,8 +390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048741b19b0c4bd98b650d15f17e13d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HelloServer.RoomLobby
-  nickName: "\uC774\uB984\uC5C6\uC74C"
-  roomCode: ABCD
+  nickName: Blue
+  roomCode: 1234
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

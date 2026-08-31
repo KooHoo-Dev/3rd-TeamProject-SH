@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace JunWon.Scripts
+namespace TeamSH
 {
     public class PushBox : MonoBehaviour
     {

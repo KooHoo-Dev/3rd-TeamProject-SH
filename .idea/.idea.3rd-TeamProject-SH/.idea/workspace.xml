@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f0fc4a04-28d6-4030-ba58-e830907a8116" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Conference_UIManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Conference_UIManager.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.3rd-TeamProject-SH/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.3rd-TeamProject-SH/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/UI Prefab/UICanvas.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/UI Prefab/UICanvas.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarUICanvasBinder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarUICanvasBinder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/Protocol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/Protocol.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/00. Scenes/JungWon/Material/Red.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/00. Scenes/JungWon/Material/Red.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Conference.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Conference.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LIARGAME_Lobby.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LocalPlayerPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/LocalPlayerPrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/RemotePlayerPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Prefab,Scene/RemotePlayerPrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LocalPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LocalPlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/RemotePlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/RemotePlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Canvas.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Canvas.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/ConferenceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/ConferenceManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/99. External Assets/Professional-Stickman/Prefabs/Boxer-Stickman-1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/99. External Assets/Professional-Stickman/Prefabs/Boxer-Stickman-1.prefab" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/PointArrow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/MartManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/NJW/Vote_System.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000391670500965" />
+      <entry key="MS500" value="1.131396613637036" />
+      <entry key="S2" value="1.6033435532680516" />
+      <entry key="S5" value="1.9166719585573606" />
+      <entry key="S10" value="2.3886588898641223" />
+      <entry key="S30" value="6.527002642884771" />
+      <entry key="S60" value="14.622492422591323" />
+      <entry key="M2" value="24.2263946733157" />
+      <entry key="M5" value="33.79110394690783" />
+      <entry key="M10" value="38.611300911188586" />
+      <entry key="M15" value="42.69266375760682" />
+      <entry key="M30" value="60.00484286287802" />
+      <entry key="H1" value="98.76082829072121" />
+      <entry key="H2" value="163.56604787760983" />
+      <entry key="H4" value="243.41415178308444" />
+      <entry key="D1" value="379.73322619438596" />
+      <entry key="W1" value="414.716234298174" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="4.2610501868930396E-11" />
+      <entry key="MS500" value="0.008431470597690996" />
+      <entry key="S2" value="0.3031356891503375" />
+      <entry key="S5" value="0.646636594474165" />
+      <entry key="S10" value="0.956194331784656" />
+      <entry key="S30" value="1.7625083312326006" />
+      <entry key="S60" value="2.4657115407579946" />
+      <entry key="M2" value="3.0775440059235466" />
+      <entry key="M5" value="3.591484243950909" />
+      <entry key="M10" value="4.12385672473189" />
+      <entry key="M15" value="5.331760439746296" />
+      <entry key="M30" value="11.954699618323936" />
+      <entry key="H1" value="26.64813551499427" />
+      <entry key="H2" value="47.80242779408573" />
+      <entry key="H4" value="70.59372901086414" />
+      <entry key="D1" value="106.47732281553397" />
+      <entry key="W1" value="115.40411288357573" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="4.319430893218302E-5" />
+      <entry key="MS500" value="0.16924939103800385" />
+      <entry key="S2" value="1.2615296149673325" />
+      <entry key="S5" value="2.208757690814206" />
+      <entry key="S10" value="3.1385392449218172" />
+      <entry key="S30" value="8.172714675174023" />
+      <entry key="S60" value="16.989888681318558" />
+      <entry key="M2" value="27.23231926738613" />
+      <entry key="M5" value="37.34529282154367" />
+      <entry key="M10" value="42.7135688982599" />
+      <entry key="M15" value="48.007049699510006" />
+      <entry key="M30" value="71.94359037392738" />
+      <entry key="H1" value="125.39295390615744" />
+      <entry key="H2" value="211.353803168191" />
+      <entry key="H4" value="313.99631872909777" />
+      <entry key="D1" value="486.2073719695951" />
+      <entry key="W1" value="530.1198464448494" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="1.8276251554443782E-265" />
+      <entry key="S2" value="1.4250085369967973E-66" />
+      <entry key="S5" value="1.1967262705311103E-26" />
+      <entry key="S10" value="3.098988438792345E-13" />
+      <entry key="S30" value="3.474604645420839E-4" />
+      <entry key="S60" value="0.06655533616992435" />
+      <entry key="M2" value="0.9298604521745041" />
+      <entry key="M5" value="4.640968652437001" />
+      <entry key="M10" value="8.256508969237442" />
+      <entry key="M15" value="10.677936032604068" />
+      <entry key="M30" value="21.60239201094557" />
+      <entry key="H1" value="63.44286470394383" />
+      <entry key="H2" value="150.00269669170427" />
+      <entry key="H4" value="253.77976554179133" />
+      <entry key="D1" value="415.8372398495703" />
+      <entry key="W1" value="455.0419359975835" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.000000000000194" />
+      <entry key="S60" value="1.0000008805329568" />
+      <entry key="M2" value="1.0018765075655558" />
+      <entry key="M5" value="1.1867230574724708" />
+      <entry key="M10" value="1.9025058632124145" />
+      <entry key="M15" value="2.667423953877373" />
+      <entry key="M30" value="5.174713721266693" />
+      <entry key="H1" value="10.913789628488564" />
+      <entry key="H2" value="21.68221053121286" />
+      <entry key="H4" value="35.65649067640713" />
+      <entry key="D1" value="59.73882428770073" />
+      <entry key="W1" value="65.89572481966067" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.2233604305984589E-16" />
+      <entry key="MS500" value="6.569175822860481E-4" />
+      <entry key="S2" value="0.1600949826662213" />
+      <entry key="S5" value="0.4805638392823449" />
+      <entry key="S10" value="0.693227119552263" />
+      <entry key="S30" value="0.885366366285006" />
+      <entry key="S60" value="1.0061873456874146" />
+      <entry key="M2" value="1.8938926484554586" />
+      <entry key="M5" value="5.799390719738396" />
+      <entry key="M10" value="10.137397428219447" />
+      <entry key="M15" value="13.327670418068568" />
+      <entry key="M30" value="26.763623585660326" />
+      <entry key="H1" value="74.34342592864054" />
+      <entry key="H2" value="171.67159300979313" />
+      <entry key="H4" value="289.42526958433183" />
+      <entry key="D1" value="475.57301568800534" />
+      <entry key="W1" value="520.9371814251684" />
+    </decayedShown>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="AISelfReview" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="3IXQe7oX9xUm2pGXbimIWZcYBTS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity 연결 대상: 연결 대상&quot;: &quot;Unity 에디터&quot;,
+    &quot;DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider&quot;: &quot;Unity 에디터&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Unity 연결 대상.연결 대상.executor&quot;: &quot;Debug&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;na-jw-work&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Unity 연결 대상.연결 대상">
+    <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.15f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\kim00\GitHub\3rd-TeamProject-SH -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\kim00\GitHub\3rd-TeamProject-SH" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unity 시작" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.15f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\kim00\GitHub\3rd-TeamProject-SH -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\kim00\GitHub\3rd-TeamProject-SH" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
+    <configuration name="연결 대상" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="f0fc4a04-28d6-4030-ba58-e830907a8116" name="변경" comment="" />
+      <created>1787908529503</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1787908529503</updated>
+      <workItem from="1787908534507" duration="1760000" />
+      <workItem from="1787910336468" duration="66000" />
+      <workItem from="1787910579041" duration="118000" />
+      <workItem from="1787910833683" duration="203000" />
+      <workItem from="1787911056356" duration="103000" />
+      <workItem from="1787914114537" duration="4463000" />
+      <workItem from="1788000085854" duration="40000" />
+      <workItem from="1788000145304" duration="3005000" />
+      <workItem from="1788003179873" duration="10145000" />
+      <workItem from="1788018682111" duration="759000" />
+      <workItem from="1788071284306" duration="8637000" />
+      <workItem from="1788003179873" duration="1387000" />
+      <workItem from="1788021827149" duration="11609000" />
+      <workItem from="1788070367770" duration="7201000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityProjectDiscoverer">
+    <option name="hasUnityReference" value="true" />
+    <option name="unityProject" value="true" />
+    <option name="unityProjectFolder" value="true" />
+  </component>
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/10. Scripts/06. Server And WebSocket/KJW_LIARGAME/Scripts/LiarClient.cs</url>
+          <line>184</line>
+          <properties documentPath="C:\Users\kim00\GitHub\3rd-TeamProject-SH\Assets\10. Scripts\06. Server And WebSocket\KJW_LIARGAME\Scripts\LiarClient.cs" containingFunctionPresentation="메서드 'Handle'">
+            <startOffsets>
+              <option value="7703" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7780" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

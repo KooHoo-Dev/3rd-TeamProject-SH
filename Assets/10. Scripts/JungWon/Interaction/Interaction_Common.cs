@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace JunWon.Scripts
+namespace TeamSH
 {
     public struct InteractionEvent
     {
