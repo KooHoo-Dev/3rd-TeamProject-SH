@@ -2,7 +2,6 @@
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using Study.MiniDefence;
 using TeamSH;
 
 public class DisplayStandManager : MonoBehaviour

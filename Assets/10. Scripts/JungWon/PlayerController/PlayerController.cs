@@ -1,8 +1,10 @@
+using System.Collections.Generic;
+using JunWon.Scripts;
 using Study.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace JunWon.Scripts
+namespace TeamSH
 {
     public class PlayerController : MonoBehaviour
     {
@@ -17,11 +19,12 @@ namespace JunWon.Scripts
         public CharacterController3D Controller3D { get; private set; }
         public ItemInteractionHandler ItemInteraction { get; private set; }
         
-        private ItemDef handItem;
-
         [SerializeField] private bool canMove = true;
+        // 각 상태를 제어하기 위한 멤버 변수들
         
-        //private PushPlayer pushPlayer { get; set; }
+        private Dictionary<int, PlayerAnimStateBase> StateDic { get; set; } = new();
+        private PlayerAnimStateBase defaultState; // 예외처리를 위한 기본 상태
+        private PlayerAnimStateBase currentState; // 상태객체를 담아서 제어하기 위한 빈 객체 변수 
 
         private void Awake()
         {
@@ -29,7 +32,17 @@ namespace JunWon.Scripts
             Controller3D = GetComponent<CharacterController3D>();
             ItemInteraction = GetComponent<ItemInteractionHandler>();
             
-            ItemInteraction.OnStartGetItem += GetItem;
+            ItemInteraction.OnStartGetItem += GetBox;
+            ItemInteraction.OnStartPutDownItem += PutDownBox;
+
+            /*
+            defaultState = new MovementState(this);
+
+            StateDic.Add(Animator.StringToHash(ANIM_TAG_MOVEMENT), defaultState);
+            StateDic.Add(Animator.StringToHash(ANIM_TAG_ATTACK), new AttackState(this));
+            StateDic.Add(Animator.StringToHash(ANIM_TAG_ATTACK_END), new AttackEndState(this));
+            StateDic.Add(Animator.StringToHash(ANIM_TAG_JUMP), new JumpState(this));
+            */
         }
 
         private void Update()
@@ -53,7 +66,7 @@ namespace JunWon.Scripts
         
         private void TryGetItem()
         {
-            if (SimpleInput.GetKeyDown(Key.Digit1) && handItem == null)
+            if (SimpleInput.GetKeyDown(Key.F))
             {
                 ItemInteraction.RequestGetItem();
             }
@@ -61,20 +74,31 @@ namespace JunWon.Scripts
         
         private void TryPutDownItem()
         {
-            if (SimpleInput.GetKeyDown(Key.Digit2) && handItem != null)
+            if (SimpleInput.GetKeyDown(Key.F))
             {
-                handItem = null;
-                Animator.SetLayerWeight(0,0);
-                Animator.SetBool(GET_ITEM, false);
-                Animator.SetTrigger(PUT_DOWN);
+                ItemInteraction.RequestPutDownItem();
+            }
+        }
+
+        private void TryPushPlayer()
+        {
+            if (SimpleInput.GetKeyDown(Key.Space))
+            {
+                
             }
         }
         
-        private void GetItem(ItemDef Item)
+        private void GetBox()
         {
-            handItem = Item;
             Animator.SetLayerWeight(1,1);
             Animator.SetBool(GET_ITEM, true);
+        }
+
+        private void PutDownBox()
+        {
+            Animator.SetLayerWeight(0,0);
+            Animator.SetBool(GET_ITEM, false);
+            Animator.SetTrigger(PUT_DOWN);
         }
         
         public void PushPlayer(Vector3 hitDirection, float power)

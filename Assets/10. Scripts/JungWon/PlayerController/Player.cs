@@ -1,14 +1,17 @@
+using JunWon.Scripts;
 using UnityEngine;
 
-namespace JunWon.Scripts
+namespace TeamSH
 {
     public class Player : Interaction_Player
     {
-        protected PlayerController playerController;
+        private PlayerController playerController;
+        private ItemInteractionHandler itemInteractionHandler;
         
         private void Awake()
         {
             playerController = GetComponent<PlayerController>();
+            itemInteractionHandler = GetComponent<ItemInteractionHandler>();
         }
         
         
