@@ -235,10 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1420206993541028376}
   - component: {fileID: -7930338786351535698}
-  - component: {fileID: 8783222850823343758}
-  - component: {fileID: 2336401383748982689}
-  - component: {fileID: 5530280183875003146}
-  - component: {fileID: 2668788966796295975}
+  - component: {fileID: 5730751569202337309}
   - component: {fileID: 9199929324415156545}
   - component: {fileID: 643297642833712815}
   - component: {fileID: 1006583272637948065}
@@ -281,6 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89db8aa91c0744f5b52fdee712439277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.RemotePlayer
+  controller: {fileID: 5730751569202337309}
   <NickNamePivot>k__BackingField: {fileID: 8350525420900975534}
   <ItemHeadPivot>k__BackingField: {fileID: 1362353154802437241}
   <FindItemPivot>k__BackingField: {fileID: 8790858414017895942}
@@ -290,7 +288,7 @@ MonoBehaviour:
   label: {fileID: 3656310425659863684}
   smooth: 10
   body: {fileID: 0}
---- !u!114 &8783222850823343758
+--- !u!114 &5730751569202337309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,64 +297,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4371521968274464321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18e8e528453f424b9913e6f228209ea5, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cd0917876a4408e874740f9d2e1655e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TeamSH.LocalPlayer
-  <NickNamePivot>k__BackingField: {fileID: 8350525420900975534}
-  <ItemHeadPivot>k__BackingField: {fileID: 1362353154802437241}
-  <FindItemPivot>k__BackingField: {fileID: 8790858414017895942}
-  <PushPower>k__BackingField: 10
-  <SelectedObjects>k__BackingField: []
-  pointPivot: {fileID: 7147807229905590947}
-  label: {fileID: 3656310425659863684}
-  body: {fileID: 0}
-  bodyMaterials: []
---- !u!114 &2336401383748982689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4371521968274464321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11266d2769aa449fb6a7418882d31444, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.PlayerController
+  m_EditorClassIdentifier: Assembly-CSharp::TeamSH.RemotePlayerController
   canMove: 1
---- !u!114 &5530280183875003146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4371521968274464321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3747107486264947b58088fb46e89652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.CharacterController3D
-  speed: 5
-  skinWidth: 0.02
-  collisionLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  externalDrag: 12
-  showCastGizmos: 1
-  castPreviewDistance: 0.5
---- !u!114 &2668788966796295975
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4371521968274464321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5338047ee44440d99ad8bad7c5b805be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.ItemInteractionHandler
-  <Owner>k__BackingField: {fileID: 0}
+  smooth: 10
 --- !u!114 &9199929324415156545
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
+using UnityEngine.UIElements;
 
 namespace TeamSH
 {
@@ -598,6 +599,8 @@ namespace TeamSH
             // 로컬 플레이어 정보 동기화
             foreach (PlayerState state in message.States)
             {
+                // Debug.Log($"[state 수신] id={state.Id} pos=({state.X:F2}, {state.Y:F2}, {state.Z:F2})");
+                
                 if (state.Id == Me.Id)
                 {
                     // PlayerState.score = state.score;
@@ -608,7 +611,7 @@ namespace TeamSH
                 
                 // 다른 플레이어 정보 동기화
                 if (remotes.TryGetValue(state.Id, out RemotePlayer remote) == false) continue;
-                // remote.SetTarget(new Vector2(state.X, state.Y));
+                 remote.SetTarget(new Vector3(state.X, state.Y, state.Z));
 
                 // remote.PlayerState.score = state.score;
                 remote.PlayerState.IsLiar = state.IsLiar;
@@ -732,12 +735,14 @@ namespace TeamSH
 
                 if (id == Me.Id)
                 {
+                    localPlayer.transform.GetChild(0).transform.rotation = Quaternion.identity; // 본체와 몸체 회전이 별개기때문에 별도처리
                     localPlayer.transform.position = pos;
                     localPlayer.transform.rotation = rot;
                 }
                 else if (remotes.TryGetValue(id, out RemotePlayer remote))
                 {
-                    remote.transform.position = pos;
+                    remote.transform.GetChild(0).transform.rotation = Quaternion.identity; // 본체와 몸체 회전이 별개기때문에 별도처리
+                    remote.Teleport(pos);
                     remote.transform.rotation = rot;
                 }
             }
@@ -921,8 +926,9 @@ namespace TeamSH
                 // 씬 전환 중 아직 재연결 전이면 잠시 쉰다.
                 if (localPlayer == null) continue;
 
-                // Vector2 position = localPlayer.transform.position;
-                // await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y });
+                // 여기 아마 마트에서만 서버로 좌표 보내도록 제한 조건 붙히는게 좋을듯한데 일단 테스트로 그냥 둡니다.
+                Vector3 position = localPlayer.transform.position;
+                await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y, Z = position.z });
             }
         }
 
