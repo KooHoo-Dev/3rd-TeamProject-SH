@@ -31,12 +31,21 @@ namespace TeamSH
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
         
+        
         // Id로 닉네임 찾기
-        public string GetNickName(string userId)
+        public string GetNickName(string userId) // ID로 닉네임 찾기
         {
             // 매개변수 id가 내 id와 동일하면 내 닉네임 리턴
             if (Me != null && userId == Me.Id) return Me.NickName;
             // 아니면 remotes 딕셔너리에서 매개변수 id와 동일한 id를 가진 remote의 닉네임 리턴 / 없으면 그냥 매개변수 리턴
+            return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
+        }
+
+        public string GetKeyWord(string userId) // ID로 키워드 찾기
+        {
+            // 매개변수 id가 내 id와 동일하면 내 키워드 리턴
+            if (Me != null && userId == Me.Id) return Me.NickName;
+            // 아니면 remotes 딕셔너리에서 매개변수 id와 동일한 id를 가진 remote의 키워드 리턴 / 없으면 그냥 매개변수 리턴
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
         }
         
@@ -455,6 +464,7 @@ namespace TeamSH
         private void OnLiarKeywordGuessEndState(LiarKeywordGuessEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            specialChatLog.Clear(); // 현재까지의 특수 채팅 초기화
         }
 
         private void OnScoreTallyState(ScoreTallyStateMessage message)
