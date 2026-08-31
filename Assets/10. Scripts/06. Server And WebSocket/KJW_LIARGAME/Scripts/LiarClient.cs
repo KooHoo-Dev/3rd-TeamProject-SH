@@ -31,12 +31,21 @@ namespace TeamSH
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
         
+        
         // Id로 닉네임 찾기
-        public string GetNickName(string userId)
+        public string GetNickName(string userId) // ID로 닉네임 찾기
         {
             // 매개변수 id가 내 id와 동일하면 내 닉네임 리턴
             if (Me != null && userId == Me.Id) return Me.NickName;
             // 아니면 remotes 딕셔너리에서 매개변수 id와 동일한 id를 가진 remote의 닉네임 리턴 / 없으면 그냥 매개변수 리턴
+            return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
+        }
+
+        public string GetKeyWord(string userId) // ID로 키워드 찾기
+        {
+            // 매개변수 id가 내 id와 동일하면 내 키워드 리턴
+            if (Me != null && userId == Me.Id) return Me.NickName;
+            // 아니면 remotes 딕셔너리에서 매개변수 id와 동일한 id를 가진 remote의 키워드 리턴 / 없으면 그냥 매개변수 리턴
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
         }
         
@@ -103,13 +112,13 @@ namespace TeamSH
         private readonly List<string> userOrder = new List<string>();
         
         // 남들. 번호로 찾는다.
-        private readonly Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
+        public readonly Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
 
         // 오간 말. 너무 쌓이지 않게 앞에서부터 버린다.
         private readonly List<string> chatLog = new List<string>();
 
         // 특수채팅만 따로 모은 기록. Tab 정보창 전용이라 버리지 않는다.
-        private readonly List<string> specialChatLog = new List<string>();
+        private List<string> specialChatLog = new List<string>();
 
         private const int ChatKeep = 12;
 
@@ -455,6 +464,8 @@ namespace TeamSH
         private void OnLiarKeywordGuessEndState(LiarKeywordGuessEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            
+            specialChatLog.Clear(); // 현재까지의 특수 채팅 초기화
         }
 
         private void OnScoreTallyState(ScoreTallyStateMessage message)
@@ -626,7 +637,7 @@ namespace TeamSH
         {
             userOrder.Sort((a, b) =>
             {
-                if (long.TryParse(a, out long idA) && long.TryParse(b, out long idB))
+                if (int.TryParse(a, out int idA) && int.TryParse(b, out int idB))
                     return idA.CompareTo(idB);
                 return string.CompareOrdinal(a, b);
             });
@@ -674,8 +685,6 @@ namespace TeamSH
                     remote.transform.rotation = rot;
                 }
             }
-
-            Vote_System.Instance?.SetInitializeData(Me, remotes);
         }
 
         #endregion

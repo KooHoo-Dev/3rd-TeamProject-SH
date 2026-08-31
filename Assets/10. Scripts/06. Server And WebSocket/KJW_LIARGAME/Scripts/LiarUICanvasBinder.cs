@@ -21,6 +21,7 @@ namespace TeamSH
         [SerializeField] private TextMeshProUGUI genreText;
         [SerializeField] private TextMeshProUGUI keywordText;
         [SerializeField] private TextMeshProUGUI infoSpecialChatText;
+        [SerializeField] private TextMeshProUGUI infoScoreText;
         
         private bool showInfo; // 탭 활성화 상태 확인 bool값
 
@@ -47,7 +48,9 @@ namespace TeamSH
         
         [Header("Keyword Chat")] // 키워드 채팅 시각화
         [SerializeField] private GameObject keywordChatPanel;
-        [SerializeField] private TextMeshProUGUI keywordChatText;
+        [SerializeField] private TextMeshProUGUI keywordChatText; // 라이어가 작성한 키워드채팅
+        [SerializeField] private TextMeshProUGUI liarKeyword; // 라이어의 키워드
+        [SerializeField] private TextMeshProUGUI userKeyword; // 시민들의 키워드 
 
         private void Awake()
         {
@@ -98,21 +101,27 @@ namespace TeamSH
             timerText.text = $"{client.RemainingSeconds:0.0} 초";
         }
 
-        // TAB 를 누르면 화면 정중앙에 장르 / 내 키워드 / 지금까지의 특수채팅을 띄운다. 다시 누르면 닫힌다.
+        // TAB 를 누르면 화면 정중앙에 장르 / 내 키워드 / 지금까지의 특수채팅 / 점수를 띄운다. 다시 누르면 닫힌다.
         private void UpdateInfoOverlay()
         {
             bool chatting = GUI.GetNameOfFocusedControl() == "chat"; // 채팅중이면 true
 
             // 채팅중일땐 안됨 + 탭 누를때마다 bool값 바뀜
             if (chatting == false && SimpleInput.GetKeyDown(Key.Tab)) showInfo = !showInfo; 
-
-            // 
+            
+            
             infoOverlayPanel.SetActive(showInfo); // showinfo가 true일때만 활성화
             if (showInfo == false) return; // false면 리턴
 
             genreText.text = $"장르 : {client.GenreId}";
             keywordText.text = $"내 키워드 : {client.KeywordId}";
             infoSpecialChatText.text = "특수 채팅 기록\n" + string.Join("\n", client.SpecialChatLog);
+            
+            // 점수 부분 
+            scoreTallyPanel.SetActive(showInfo);
+            if (showInfo == false) return;
+
+            scoreText.text = string.Join("\n", client.GetOurScores());
         }
 
         private void UpdateSpecialChatLog() // 특수채팅 업데이트
@@ -125,7 +134,7 @@ namespace TeamSH
         }
 
         private void UpdateDebateSpecialChatLog() // 변론 종료에서의 특수채팅 시각화
-        {
+        {       
             bool show = client.CurrentPhase == "변론 종료 상태";
             
         }
@@ -155,8 +164,8 @@ namespace TeamSH
 
         private void UpdateScoreTally()
         {
-            // 점수 집계 상태일때 활성화
-            bool show = client.CurrentPhase == "점수 집계 상태";
+            // 라이어의 키워드 맞춤 상태(라운드 종료) or 점수 집계 상태(게임 종료)일 때 점수 보임
+            bool show = client.CurrentPhase == "키워드 맞춤 종료 상태" || client.CurrentPhase == "점수 집계 상태";
             scoreTallyPanel.SetActive(show);
             if (show == false) return;
 
@@ -190,6 +199,8 @@ namespace TeamSH
             if (show == false) return;
 
             keywordChatText.text = $"{client.GetNickName(client.LiarId)}의 키워드 선택은 : {client.KeywordChatText}";
+            liarKeyword.text = $"라이어의 키워드는 {client.GetKeyWord(client.LiarId)} 입니다.";
+            userKeyword.text = $"플레이어의 키워드는 {client.GetKeyWord(client.KeywordId.ToString())}";
         }
     }
 }
