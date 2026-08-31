@@ -101,22 +101,27 @@ namespace TeamSH
             timerText.text = $"{client.RemainingSeconds:0.0} 초";
         }
 
-        // TAB 를 누르면 화면 정중앙에 장르 / 내 키워드 / 지금까지의 특수채팅을 띄운다. 다시 누르면 닫힌다.
+        // TAB 를 누르면 화면 정중앙에 장르 / 내 키워드 / 지금까지의 특수채팅 / 점수를 띄운다. 다시 누르면 닫힌다.
         private void UpdateInfoOverlay()
         {
             bool chatting = GUI.GetNameOfFocusedControl() == "chat"; // 채팅중이면 true
 
             // 채팅중일땐 안됨 + 탭 누를때마다 bool값 바뀜
             if (chatting == false && SimpleInput.GetKeyDown(Key.Tab)) showInfo = !showInfo; 
-
-            // 
+            
+            
             infoOverlayPanel.SetActive(showInfo); // showinfo가 true일때만 활성화
             if (showInfo == false) return; // false면 리턴
 
             genreText.text = $"장르 : {client.GenreId}";
             keywordText.text = $"내 키워드 : {client.KeywordId}";
             infoSpecialChatText.text = "특수 채팅 기록\n" + string.Join("\n", client.SpecialChatLog);
-            infoScoreText.text = "점수\n" + string.Join("\n", client.GetOurScores());
+            
+            // 점수 부분 
+            scoreTallyPanel.SetActive(showInfo);
+            if (showInfo == false) return;
+
+            scoreText.text = string.Join("\n", client.GetOurScores());
         }
 
         private void UpdateSpecialChatLog() // 특수채팅 업데이트
@@ -129,7 +134,7 @@ namespace TeamSH
         }
 
         private void UpdateDebateSpecialChatLog() // 변론 종료에서의 특수채팅 시각화
-        {
+        {       
             bool show = client.CurrentPhase == "변론 종료 상태";
             
         }
@@ -160,7 +165,7 @@ namespace TeamSH
         private void UpdateScoreTally()
         {
             // 라이어의 키워드 맞춤 상태(라운드 종료) or 점수 집계 상태(게임 종료)일 때 점수 보임
-            bool show = client.CurrentPhase == "라이어의 키워드 맞춤 상태" || client.CurrentPhase == "점수 집계 상태";
+            bool show = client.CurrentPhase == "키워드 맞춤 종료 상태" || client.CurrentPhase == "점수 집계 상태";
             scoreTallyPanel.SetActive(show);
             if (show == false) return;
 

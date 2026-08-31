@@ -46,15 +46,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d841e7e42406420fa059a9dd793bfb85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.PointArrow
-  bodyWidth: 0.08
+  shaftWidth: 0.06
   headWidth: 0.35
-  headStart: 0.8
+  headLength: 0.16
   heightOffset: 0.03
   segments: 14
   sideCurveStrength: 0.35
   frontLift: 0.04
   alpha: 0.85
-  useUnlit: 1
+  shaftPhaseEnd: 0.85
+  DrawProgress: 1
 --- !u!33 &6594938863660134627
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -87,8 +88,7 @@ MeshRenderer:
   m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 87f03e94f16054f4e9a19f2b8d5189e2, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
