@@ -9,7 +9,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
-using UnityEngine.UIElements;
 
 namespace TeamSH
 {
@@ -30,7 +29,6 @@ namespace TeamSH
         private ClientWebSocket socket;
         
         public bool IsBusy { get; private set; }
-        
         
         [Header("보내기")]
         // 초당 몇 번 내 위치를 보낼지.
