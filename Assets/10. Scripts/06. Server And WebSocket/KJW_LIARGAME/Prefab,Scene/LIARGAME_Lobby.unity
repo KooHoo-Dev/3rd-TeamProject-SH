@@ -502,6 +502,7 @@ MonoBehaviour:
   localPlayer: {fileID: 403611685}
   remotePrefab: {fileID: 3191360309909981046, guid: 8fe6652314f17e547b5ca07f9cdc9f84, type: 3}
   sendPerSecond: 20
+  specialChat: 
 --- !u!4 &1975179185
 Transform:
   m_ObjectHideFlags: 0
@@ -616,6 +617,18 @@ PrefabInstance:
     - target: {fileID: 350239388352145282, guid: df243944777594d4e911b29f9bb219d7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970171220799000012, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 970171220799000012, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 970171220799000012, guid: df243944777594d4e911b29f9bb219d7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1443212576236098542, guid: df243944777594d4e911b29f9bb219d7, type: 3}
       propertyPath: m_SizeDelta.x

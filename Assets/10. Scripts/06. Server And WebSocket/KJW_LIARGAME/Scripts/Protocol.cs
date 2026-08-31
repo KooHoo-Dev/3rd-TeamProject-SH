@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using System.Collections.Generic;
 
 namespace TeamSH
@@ -257,6 +257,7 @@ namespace TeamSH
         public float TimerMs { get; set; }
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
+        public UserScoreInfo[] userScoreInfo {get;set;}
     }
 
     #endregion
@@ -416,7 +417,7 @@ namespace TeamSH
         public float TimerMs { get; set; }
         public int CurrentCycle { get; set; }
         public int CurrentRound { get; set; }
-        public string CurrentOwnerID { get; set; } // 최종 승자 ID (필요 시)
+        public List<string> CurrentOwnerID { get; set; } // 최종 승자 ID (필요 시) 동률 시 같이 담아서 보냄
     }
 
     [Serializable]
