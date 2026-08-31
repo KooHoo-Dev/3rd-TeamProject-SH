@@ -1,8 +1,7 @@
 using System;
-using TeamSH;
 using UnityEngine;
 
-namespace JunWon.Scripts
+namespace TeamSH
 {
     public class ItemInteractionHandler : MonoBehaviour
     {

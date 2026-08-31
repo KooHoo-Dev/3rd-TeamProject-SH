@@ -25,12 +25,25 @@ namespace TeamSH
         [SerializeField] private string nickName = "이름없음";
         // 들어갈 방.
         [SerializeField] private string roomCode = "ABCD";
-        [Header("장면")]
+        
+        private ClientWebSocket socket;
+        
+        public bool IsBusy { get; private set; }
+        
+        
+        [Header("보내기")]
+        // 초당 몇 번 내 위치를 보낼지.
+        // 서버가 뿌리는 횟수와는 별개. (그쪽은 appsettings.json)
+        // 보내는 쪽이 더 자주 보내도 되지만, 받는 쪽이 그만큼 자주 보게 되지는 않는다.
+        [SerializeField] private float sendPerSecond = 20f;
+        
+        [Header("플레이어 프리팹 설정")]
         // 내가 조종하는 캐릭터. 씬에 미리 놓아 둔다.
         [SerializeField] private LocalPlayer localPlayer;
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
         
+        #region Get관련
         
         // Id로 닉네임 찾기
         public string GetNickName(string userId) // ID로 닉네임 찾기
@@ -66,53 +79,41 @@ namespace TeamSH
             return scores;
         }
         
-        // 라이어 ID 저장하는 필드
-        public string LiarId { get; private set; } = "";
-
-        [Header("보내기")]
-        // 초당 몇 번 내 위치를 보낼지.
-        // 서버가 뿌리는 횟수와는 별개. (그쪽은 appsettings.json)
-        // 보내는 쪽이 더 자주 보내도 되지만, 받는 쪽이 그만큼 자주 보게 되지는 않는다.
-        [SerializeField] private float sendPerSecond = 20f;
-
-        // 서버가 정해 준 내 정보. welcome 을 받기 전에는 비어 있다.
-        public User Me { get; private set; }
-
-        // 내가 들어갔을 때 방에 아무도 없었으면 내가 방장
-        public bool IsHost { get; private set; }
-
-        // 화면에 그리는 일은 RoomLobby 가 한다. 여기는 선을 타는 일만 한다.
-        public int RemoteCount => remotes.Count;
-        public LocalPlayer Local => localPlayer;
-
-        public bool IsBusy { get; private set; }
-
-        // 서버가 다듬어 알려 준 방 코드. abcd 로 쳐도 ABCD 가 옴.
-        public string RoomCode { get; private set; }
-
+        #endregion
+        
+        [Header("방 정보")]
         // 게임 시작 확인을 받았는지. NewGameConfig는 [Serializable] 필드라서 Unity가
         // 항상 기본 인스턴스를 채워 넣어 null 체크로 못 씀 - 그래서 이 플래그를 따로 둔다.
         public bool IsGameStarted { get; private set; }
-
-        // 방에서 오간 말. 로비가 그대로 그린다.
-        public IReadOnlyList<string> ChatLog => chatLog;
-
-        // 이번 라운드에 오간 특수채팅 전체. Tab 정보창이 그대로 보여준다 (chatLog와 달리 개수 제한 없음).
-        public IReadOnlyList<string> SpecialChatLog => specialChatLog;
-
-        // 맨 처음 씬 이름. activeContentScene의 시작값으로 쓴다.
-        private const string BootScene = "LIARGAME_Lobby";
-
-        // 지금 추가로 떠 있는 씬 이름
-        private string activeContentScene;
-
-        private ClientWebSocket socket;
+        // 내가 들어갔을 때 방에 아무도 없었으면 내가 방장
+        public bool IsHost { get; private set; }
+        public string RoomCode { get; private set; } // 서버가 다듬어 알려 준 방 코드. abcd 로 쳐도 ABCD 가 옴.
+        
+        [Header("내부 유저 정보")]
 
         // 접속 순서를 그대로 기록
         private readonly List<string> userOrder = new List<string>();
-        
         // 남들. 번호로 찾는다.
         public readonly Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
+        // 화면에 그리는 일은 RoomLobby 가 한다. 여기는 선을 타는 일만 한다.
+        public int RemoteCount => remotes.Count;
+        
+        [Header("내 정보")]
+        // 서버가 정해 준 내 정보. welcome 을 받기 전에는 비어 있다.
+        public User Me { get; private set; }
+        public LocalPlayer Local => localPlayer;
+
+        [Header("라이어 정보")]
+        // 라이어 ID 저장하는 필드
+        public string LiarId { get; private set; } = "";
+        // 방에서 오간 말. 로비가 그대로 그린다.
+        public IReadOnlyList<string> ChatLog => chatLog;
+        // 이번 라운드에 오간 특수채팅 전체. Tab 정보창이 그대로 보여준다 (chatLog와 달리 개수 제한 없음).
+        public IReadOnlyList<string> SpecialChatLog => specialChatLog;
+        // 맨 처음 씬 이름. activeContentScene의 시작값으로 쓴다.
+        private const string BootScene = "LIARGAME_Lobby";
+        // 지금 추가로 떠 있는 씬 이름
+        private string activeContentScene;
 
         // 오간 말. 너무 쌓이지 않게 앞에서부터 버린다.
         private readonly List<string> chatLog = new List<string>();
@@ -324,6 +325,7 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             DoLoadScene("LIARGAME_MART");
+            
         }
 
         private void OnMartMoveState(MartMoveStateMessage message)
@@ -334,7 +336,7 @@ namespace TeamSH
         private void OnMartReturnState(MartReturnStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
-            DoLoadScene("LIARGAME_Conference");
+            DoLoadScene("00. MeetingRoom");
         }
 
         private void OnShowItemAndSpeakState(ShowItemAndSpeakStateMessage message)
@@ -612,12 +614,20 @@ namespace TeamSH
                 SceneManager.SetActiveScene(loaded);
                 SceneManager.UnloadSceneAsync(previous);
                 
-                // 씬 전환 완료 후 Vote_System에 Canvas 재설정 요청
-                //if (Vote_System.Instance != null) Vote_System.Instance.SetUI();
-                
                 // 씬이 완전히 로드되어 매니저가 Awake를 끝낸 뒤에 전원 재배치
                 DoRepositionAll();
+                DoSetPlayer(sceneName); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
             };
+        }
+
+        private void DoSetPlayer(string sceneName)
+        {
+            Debug.Log($"플레이어 위치변경 {sceneName}");
+            localPlayer.SetPlayerWithScenes(sceneName);
+            foreach (RemotePlayer remote in remotes.Values)
+            {
+                remote.SetPlayerWithScenes(sceneName);
+            }
         }
 
         // userId가 이번 사이클에 고른 아이템을 찾는다. 나 자신이거나, remotes에 있는 사람만 알 수 있다.
@@ -649,7 +659,7 @@ namespace TeamSH
                 case "LIARGAME_MART":
                     spawnPoints = MartManager.Instance?.userSpawnPoints;
                     break;
-                case "LIARGAME_Conference":
+                case "00. MeetingRoom":
                     spawnPoints = ConferenceManager.Instance?.userSpawnPoints;
                     break;
                 default:

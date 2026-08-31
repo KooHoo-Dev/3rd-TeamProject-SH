@@ -106,7 +106,7 @@ namespace TeamSH
         // 채팅을 치는 동안에는 캐릭터를 멈춘다.
         private void Update()
         {
-            client.Local.CanMove = chatting == false;
+            //client.Local.CanMove = chatting == false;
 
             // Esc 로 채팅 칸에서 빠져나온다.
             if (Keyboard.current.escapeKey.wasPressedThisFrame) GUI.FocusControl(null);
