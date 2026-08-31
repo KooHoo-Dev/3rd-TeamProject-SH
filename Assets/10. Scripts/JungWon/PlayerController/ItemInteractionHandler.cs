@@ -13,8 +13,8 @@ namespace JunWon.Scripts
         private bool putDownItemRequested = false;
         
         #region 이벤트
-        public event Action<ItemDef> OnStartGetItem;
-        public event Action<ItemDef> StartPutDownItem;
+        public event Action OnStartGetItem;
+        public event Action OnStartPutDownItem;
         #endregion
 
         private void Awake()
@@ -46,15 +46,6 @@ namespace JunWon.Scripts
             getItemRequested = false;
             
             ItemDef Item = TryGetItemFromStand();
-            if (Item != null)
-            {
-                OnStartGetItem.Invoke(Item);
-                Debug.Log($"{Item.ItemId}\n" +
-                          $"{Item.ItemName}\n" +
-                          $"{Item.CategoryName}\n" +
-                          $"{Item.CategoryType}\n");
-                
-            }
         }
         
         public ItemDef TryGetItemFromStand()

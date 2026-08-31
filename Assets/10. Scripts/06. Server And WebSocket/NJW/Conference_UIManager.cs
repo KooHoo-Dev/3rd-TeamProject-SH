@@ -6,9 +6,6 @@ namespace TeamSH
     public class Conference_UIManager : MonoBehaviour
     {
         public GameObject voteUI;
-        public GameObject liarButton;
-        public GameObject dontKnowButton;
-        public GameObject notLiarButton;
         public GameObject skipButton;
 
         [Header("VoteUI 슬라이드 애니메이션 설정")]
@@ -24,9 +21,6 @@ namespace TeamSH
         private void Awake()
         {
             voteRect = voteUI.GetComponent<RectTransform>();
-            liarButton = voteUI.transform.GetChild(0).gameObject;
-            dontKnowButton = voteUI.transform.GetChild(1).gameObject;
-            notLiarButton = voteUI.transform.GetChild(2).gameObject;
             originPos = voteRect.anchoredPosition;
         }
         

@@ -83,6 +83,7 @@ public class DisplayStand : MonoBehaviour
 
         InitGrid();
     }
+    
     void InitGrid()
     {
         // 피봇을 mesh의 중심으로 옮기는 오프셋 계산 
@@ -90,6 +91,7 @@ public class DisplayStand : MonoBehaviour
         grid = new GridCell(width, depth, transform.position + centerOffset);
         SetViewGrid();
     }
+    
     # region 추가 로직
     /// <summary>
     /// AreaNum을 CategoryAreaManager에 연결짓는 함수
@@ -174,6 +176,12 @@ public class DisplayStand : MonoBehaviour
     {
         return grid.RayCheck(origin, target);
     }
+    
+    public void RequestActiveItem() // 매대의 물건 활성화/ 비 활성화 호출
+    {
+        
+    }
+        
     private void SetViewGrid()
     {
         if (ViewGrid == null) return;
