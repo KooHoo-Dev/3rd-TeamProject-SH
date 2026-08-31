@@ -31,10 +31,32 @@ namespace TeamSH
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
 
+        public string liarKeyword; // 라이어의 키워드
+        public string nomalKeyword; // 일반인의 키워드
+
 
         public bool LiarButtonClicked; // 라이어 버튼을 눌렀는지 확인하는 bool값
         
         public UserScoreInfo[] UserScoreInfo { get; set; } // 유저의 ID, 유저의 Score를 저장하는 필드
+
+        public Dictionary<string, int> scoresDict = new Dictionary<string, int>(); // userId : score 딕셔너리
+        
+        // 점수 높은 순서대로 정렬
+        public List<string> GetScoreSorted()
+        {
+            List<string> scoreSortedList = new List<string>(); // 빈 리스트 새로 만듦 (호출될때마다 빈 리스트로 다시생성)
+            if (UserScoreInfo == null) return scoreSortedList; // null이면 그냥 내보냄
+
+            // 내림차순 진행한다.
+            Array.Sort(UserScoreInfo, (a, b) => b.UserScore.CompareTo(a.UserScore));
+
+            // 
+            foreach (UserScoreInfo info in UserScoreInfo)
+                scoreSortedList.Add($"{GetNickName(info.UserId)} : {info.UserScore} 점"); // 순서대로 추가한다.
+
+            return scoreSortedList;
+        }
+        
         
         // Id로 닉네임 찾기
         public string GetNickName(string userId) // ID로 닉네임 찾기
@@ -43,13 +65,6 @@ namespace TeamSH
             if (Me != null && userId == Me.Id) return Me.NickName;
             // 아니면 remotes 딕셔너리에서 매개변수 id와 동일한 id를 가진 remote의 닉네임 리턴 / 없으면 그냥 매개변수 리턴
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
-        }
-
-        public int GetKeyWord(string userId) // ID로 키워드ID 찾기
-        {
-            // 내 Id가 라이어의 Id 이면 라이어의 키워드 ID 리턴
-            if (userId == LiarId) return LiarKeywordID;
-            return KeywordId;
         }
 
         public int GetScore(string userId)
@@ -320,9 +335,8 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
 
-            // 내 ID가 Liard의 ID와 동일하면 Liar키워드ID에 message로 온 ID 저장
-            if (Me.Id == LiarId) LiarKeywordID = message.KeywordId;
-            else KeywordId = message.KeywordId;
+            // 메세지로 온 키워드 ID 저장
+            KeywordId = message.KeywordId;
         }
 
         private void OnMartEnterState(MartEnterStateMessage message)
@@ -366,7 +380,7 @@ namespace TeamSH
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
 
             // 단일로 저장
-            specialChat = line;
+            specialChat = message.Text;
             
             specialChatLog.Add(line);
 
@@ -477,11 +491,18 @@ namespace TeamSH
         private void OnLiarKeywordGuessEndState(LiarKeywordGuessEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            liarKeyword = message.liarKeyword; // 라이어 키워드 저장
+            nomalKeyword = message.nomalKeyword; // 일반 키워드 저장
             
             specialChatLog.Clear(); // 현재까지의 특수 채팅 초기화
 
             // UI에 표시한다.
             UserScoreInfo = message.userScoreInfo; // 서버에서 온 스코어 정보를 클라의 UserScoreInfo에 저장한다.
+
+            for (int i = 0; i < UserScoreInfo.Length; i++) // 받아서 ID/점수를 Dict으로 저장함
+            {
+                scoresDict[UserScoreInfo[i].UserId] = UserScoreInfo[i].UserScore;
+            }
         }
 
         private void OnScoreTallyState(ScoreTallyStateMessage message)
@@ -500,7 +521,11 @@ namespace TeamSH
         private void OnFinalResultState(FinalResultStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
-            // 여기서 추가한다.
+            // 여기서 추가한다. (뭘 추가할까)
+            
+            
+            // 최종라운드 후 게임 완전 종료가 되서 점수를 초기화한다.
+            scoresDict.Clear();
             
         }
 
