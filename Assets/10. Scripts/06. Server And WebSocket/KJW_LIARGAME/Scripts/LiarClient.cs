@@ -42,6 +42,32 @@ namespace TeamSH
         [SerializeField] private LocalPlayer localPlayer;
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
+
+        public string liarKeyword; // 라이어의 키워드
+        public string nomalKeyword; // 일반인의 키워드
+
+
+        public bool LiarButtonClicked; // 라이어 버튼을 눌렀는지 확인하는 bool값
+        
+        public UserScoreInfo[] UserScoreInfo { get; set; } // 유저의 ID, 유저의 Score를 저장하는 필드
+
+        public Dictionary<string, int> scoresDict = new Dictionary<string, int>(); // userId : score 딕셔너리
+        
+        // 점수 높은 순서대로 정렬
+        public List<string> GetScoreSorted()
+        {
+            List<string> scoreSortedList = new List<string>(); // 빈 리스트 새로 만듦 (호출될때마다 빈 리스트로 다시생성)
+            if (UserScoreInfo == null) return scoreSortedList; // null이면 그냥 내보냄
+
+            // 내림차순 진행한다.
+            Array.Sort(UserScoreInfo, (a, b) => b.UserScore.CompareTo(a.UserScore));
+
+            // 
+            foreach (UserScoreInfo info in UserScoreInfo)
+                scoreSortedList.Add($"{GetNickName(info.UserId)} : {info.UserScore} 점"); // 순서대로 추가한다.
+
+            return scoreSortedList;
+        }
         
         #region Get관련
         
@@ -54,29 +80,15 @@ namespace TeamSH
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
         }
 
-        public string GetKeyWord(string userId) // ID로 키워드 찾기
+        public int GetScore(string userId)
         {
-            // 매개변수 id가 내 id와 동일하면 내 키워드 리턴
-            if (Me != null && userId == Me.Id) return Me.NickName;
-            // 아니면 remotes 딕셔너리에서 매개변수 id와 동일한 id를 가진 remote의 키워드 리턴 / 없으면 그냥 매개변수 리턴
-            return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
+            // 내 Id와 UserScoreInfo를 대조하여, 같은 Id일 시 점수를 리턴한다.
+            return 0;
         }
         
         public Transform GetPointPivot(string userId) // Id가 remote에 없으면 나다.
         {
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.pointPivot : localPlayer.pointPivot;
-        }
-
-        public List<string> GetOurScores()
-        {
-            List<string> scores = new List<string>() {$"{Me.NickName} : {PlayerState.score} 점"};
-
-            foreach (RemotePlayer remote in remotes.Values)
-            {
-                scores.Add($"{remote.User.NickName} : {remote.PlayerState.score} 점");
-            }
-
-            return scores;
         }
         
         #endregion
@@ -121,6 +133,9 @@ namespace TeamSH
         // 특수채팅만 따로 모은 기록. Tab 정보창 전용이라 버리지 않는다.
         private List<string> specialChatLog = new List<string>();
 
+        // 발언자의 턴에 입력한 특수채팅 단일
+        public string specialChat;
+
         private const int ChatKeep = 12;
 
         // 한 소켓에 동시에 두 번 보내면 안 된다.
@@ -150,6 +165,8 @@ namespace TeamSH
         public string CurrentOwnerID { get; private set; } = "";
         public int GenreId { get; private set; }
         public int KeywordId { get; private set; }
+        
+        public int LiarKeywordID { get; private set; }
 
         // 지목 종료 때 최다 득표된 유저 ID
         public string MostSelectId { get; private set; } = "";
@@ -318,6 +335,8 @@ namespace TeamSH
         private void OnKeywordDistributeState(KeywordDistributeStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+
+            // 메세지로 온 키워드 ID 저장
             KeywordId = message.KeywordId;
         }
 
@@ -344,19 +363,27 @@ namespace TeamSH
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
             hasSentSpecialChat = false;
 
+            LiarButtonClicked = false;
+            
             string item = DoGetItem(message.CurrentOwnerID);
             Debug.Log($"[발언] {message.CurrentOwnerID} 이(가) {message.CurrentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
         }
 
         // 발언 상태에서 발언자의 첫 채팅이 특수채팅
         private void OnSpecialChat(SpecialChatMessage message)
-        {
+        {   
+            // 다음 발전자에서 단일 특수채팅 초기화
+            specialChat = null;
+            
             string mine = Me != null && message.ID == Me.Id ? " (나)" : "";
             string line = $"[특수] {message.NickName}{message.ID}{mine} : {message.Text}";
 
             chatLog.Add(line);
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
 
+            // 단일로 저장
+            specialChat = message.Text;
+            
             specialChatLog.Add(line);
 
             Debug.Log($"[특수] {message.ID} : {message.Text}");
@@ -365,7 +392,7 @@ namespace TeamSH
         private void OnSpeechEndState(SpeechEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
-
+            
             int playerCount = RemoteCount + 1; // 나 + 이외 사람들
             int start = Mathf.Max(0, SpecialChatLog.Count - playerCount);
 
@@ -466,13 +493,26 @@ namespace TeamSH
         private void OnLiarKeywordGuessEndState(LiarKeywordGuessEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            liarKeyword = message.liarKeyword; // 라이어 키워드 저장
+            nomalKeyword = message.nomalKeyword; // 일반 키워드 저장
             
             specialChatLog.Clear(); // 현재까지의 특수 채팅 초기화
+
+            // UI에 표시한다.
+            UserScoreInfo = message.userScoreInfo; // 서버에서 온 스코어 정보를 클라의 UserScoreInfo에 저장한다.
+
+            for (int i = 0; i < UserScoreInfo.Length; i++) // 받아서 ID/점수를 Dict으로 저장함
+            {
+                scoresDict[UserScoreInfo[i].UserId] = UserScoreInfo[i].UserScore;
+            }
         }
 
         private void OnScoreTallyState(ScoreTallyStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            
+            // UI에 표시한다.
+            UserScoreInfo = message.userScoreInfo; // 서버에서 온 스코어 정보를 클라의 UserScoreInfo에 저장한다.
         }
 
         private void OnScoreTallyEndState(ScoreTallyEndStateMessage message)
@@ -482,7 +522,13 @@ namespace TeamSH
 
         private void OnFinalResultState(FinalResultStateMessage message)
         {
-            DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
+            DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
+            // 여기서 추가한다. (뭘 추가할까)
+            
+            
+            // 최종라운드 후 게임 완전 종료가 되서 점수를 초기화한다.
+            scoresDict.Clear();
+            
         }
 
         private void OnFinalResultEndState(FinalResultEndStateMessage message)
@@ -554,7 +600,7 @@ namespace TeamSH
             {
                 if (state.Id == Me.Id)
                 {
-                    PlayerState.score = state.score;
+                    // PlayerState.score = state.score;
                     PlayerState.IsLiar = state.IsLiar;
                     PlayerState.Items = state.Items;
                     continue;
@@ -564,7 +610,7 @@ namespace TeamSH
                 if (remotes.TryGetValue(state.Id, out RemotePlayer remote) == false) continue;
                 // remote.SetTarget(new Vector2(state.X, state.Y));
 
-                remote.PlayerState.score = state.score;
+                // remote.PlayerState.score = state.score;
                 remote.PlayerState.IsLiar = state.IsLiar;
                 remote.PlayerState.Items = state.Items;
             }
@@ -727,6 +773,8 @@ namespace TeamSH
         public void RequestLiarSelfDisclose()
         {
             if (Me == null) return;
+
+            LiarButtonClicked = true;
             
             SendAsync(new LiarSelfDisclose { ID = Me.Id }).Forget();
         }
