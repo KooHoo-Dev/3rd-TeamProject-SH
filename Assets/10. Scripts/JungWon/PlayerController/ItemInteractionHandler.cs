@@ -12,8 +12,10 @@ namespace TeamSH
         private bool putDownItemRequested = false;
         
         #region 이벤트
+        
         public event Action OnStartGetItem;
         public event Action OnStartPutDownItem;
+        
         #endregion
 
         private void Awake()

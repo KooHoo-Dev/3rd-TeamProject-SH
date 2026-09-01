@@ -5,6 +5,9 @@ namespace TeamSH
     public class RemotePlayerController : PlayerControllerBase
     {
         [SerializeField] private float smooth = 10f;
+        [field: SerializeField] private GameObject body;
+        // public CharacterController3D Controller3D; 지금 밀치기가 적용되려면 Controller3D가 있는 캐릭터끼리만 적용되기때문에
+        // 다른 방법을 찾아볼 것
         private Vector3 target;
         private Vector3 lastPos;
 
@@ -37,6 +40,8 @@ namespace TeamSH
             bool isMoving = (transform.position - lastPos).sqrMagnitude > 0.0001f;
             Animator.SetBool(IS_MOVE, isMoving);
             lastPos = transform.position;
+            if (lastPos == Vector3.zero) return;
+            body.transform.forward = lastPos;
         }
         
         private void Place(Vector3 next)

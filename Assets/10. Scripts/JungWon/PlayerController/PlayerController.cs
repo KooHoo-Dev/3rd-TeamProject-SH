@@ -7,9 +7,11 @@ namespace TeamSH
 {
     public class PlayerController : PlayerControllerBase
     {
-        private Player player;
         public CharacterController3D Controller3D { get; private set; }
         public ItemInteractionHandler ItemInteraction { get; private set; }
+
+        public float pushCoolTime = 0.5f;
+        public float pushTimer = 0.0f;
         
         // 각 상태를 제어하기 위한 멤버 변수들
         private Dictionary<int, PlayerAnimStateBase> StateDic { get; set; } = new();
@@ -27,10 +29,15 @@ namespace TeamSH
 
         private void Update()
         {
-            if (canMove == false) return;
+            if (canMove == false)
+            {
+                Controller3D.SetMoveInput(Vector3.zero);
+                return;
+            }
 
             TryGetItem();
             TryPutDownItem();
+            TryPushPlayer();
             
             Vector3 moveVec = new Vector3();
             moveVec.x = SimpleInput.GetAxisHorizontalRaw();
@@ -59,9 +66,17 @@ namespace TeamSH
 
         private void TryPushPlayer()
         {
+            if (pushTimer > 0f)
+            {
+                pushTimer -= Time.deltaTime;
+                return;
+            }
+            
             if (SimpleInput.GetKeyDown(Key.Space))
             {
-                
+                Animator.SetLayerWeight(1,1);
+                Animator.SetTrigger(IS_PUSH);
+                pushTimer += pushCoolTime;
             }
         }
         
