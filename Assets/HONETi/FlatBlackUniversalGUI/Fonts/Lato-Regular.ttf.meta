@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: e335c3bc621b0ff4e8642dc6b9ff113f
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Lato
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 285850
+  packageName: Flat black/dark universal GUI, 4k UI Kit + sources 2.0
+  packageVersion: 1.0
+  assetPath: Assets/HONETi/FlatBlackUniversalGUI/Fonts/Lato-Regular.ttf
+  uploadId: 666361
