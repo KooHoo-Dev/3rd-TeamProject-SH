@@ -320,7 +320,7 @@ MonoBehaviour:
   skinWidth: 0.02
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   externalDrag: 12
   showCastGizmos: 1
   castPreviewDistance: 0.5

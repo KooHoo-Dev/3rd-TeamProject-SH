@@ -24,7 +24,7 @@ namespace TeamSH
             switch (sceneName)
             {
                 case "00. MeetingRoom": controller.ApplyMeetingPlayer(); break;
-                case "LIARGAME_MART": controller.ApplyMartPlayer(); break;
+                case "01. Mart": controller.ApplyMartPlayer(); break;
             }
         }
     }
