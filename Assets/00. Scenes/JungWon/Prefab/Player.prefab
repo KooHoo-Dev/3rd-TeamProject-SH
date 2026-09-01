@@ -284,7 +284,8 @@ MonoBehaviour:
   <NickNamePivot>k__BackingField: {fileID: 8350525420900975534}
   <ItemHeadPivot>k__BackingField: {fileID: 1362353154802437241}
   <FindItemPivot>k__BackingField: {fileID: 8790858414017895942}
-  <PushPower>k__BackingField: 10
+  <PushBox>k__BackingField: {fileID: 5998201562409651203}
+  <PushPower>k__BackingField: 30
   <SelectedObjects>k__BackingField: []
   pointPivot: {fileID: 7147807229905590947}
   label: {fileID: 3656310425659863684}
@@ -303,7 +304,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.PlayerController
   canMove: 1
-  canMove: 1
+  pushCoolTime: 0.7
+  pushTimer: 0
 --- !u!114 &5530280183875003146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,8 +624,29 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3727970107516983351, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8422478200424394669}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4104953696132219533, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 991234532523343840}
   m_SourcePrefab: {fileID: 100100000, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+--- !u!1 &6039462857329746840 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4104953696132219533, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+  m_PrefabInstance: {fileID: 7721354333483000085}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &991234532523343840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039462857329746840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44e4d23abc334a4189e48ab8548d00f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeamSH.PlayerAnimEvents
+  Owner: {fileID: 0}
 --- !u!4 &6384885828044093730 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3727970107516983351, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}

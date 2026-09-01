@@ -816,7 +816,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3287675988461408763, guid: ffd39bfd5b78e3342a09b480188eccc6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: ffd39bfd5b78e3342a09b480188eccc6, type: 3}
 --- !u!1 &92246228
 GameObject:
@@ -10114,10 +10117,17 @@ PrefabInstance:
       propertyPath: collisionLayer.m_Bits
       value: 72
       objectReference: {fileID: 0}
+    - target: {fileID: 8783222850823343758, guid: ffd39bfd5b78e3342a09b480188eccc6, type: 3}
+      propertyPath: <PushPower>k__BackingField
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3287675988461408763, guid: ffd39bfd5b78e3342a09b480188eccc6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: ffd39bfd5b78e3342a09b480188eccc6, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
