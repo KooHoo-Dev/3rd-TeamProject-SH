@@ -52,6 +52,8 @@ namespace TeamSH
 
         public Dictionary<string, int> scoresDict = new Dictionary<string, int>(); // userId : score 딕셔너리
         
+        public List<string> WinnerUserID { get; private set; }
+        
         // 점수 높은 순서대로 정렬
         public List<string> GetScoreSorted()
         {
@@ -60,13 +62,13 @@ namespace TeamSH
 
             // 내림차순 진행한다.
             Array.Sort(UserScoreInfo, (a, b) => b.UserScore.CompareTo(a.UserScore));
-
-            // 
+            
             foreach (UserScoreInfo info in UserScoreInfo)
                 scoreSortedList.Add($"{GetNickName(info.UserId)} : {info.UserScore} 점"); // 순서대로 추가한다.
-
+            
             return scoreSortedList;
         }
+        
         
         #region Get관련
         
@@ -77,6 +79,12 @@ namespace TeamSH
             if (Me != null && userId == Me.Id) return Me.NickName;
             // 아니면 remotes 딕셔너리에서 매개변수 id와 동일한 id를 가진 remote의 닉네임 리턴 / 없으면 그냥 매개변수 리턴
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
+        }
+
+        public Interaction_Player GetPlayer(string userId)
+        {
+            if (userId == Me.Id) return localPlayer; 
+            return remotes[userId];
         }
 
         public int GetScore(string userId)
@@ -313,6 +321,7 @@ namespace TeamSH
 
             NewGameConfig = message.newGameConfig;
             IsGameStarted = true;
+            UserScoreInfo = null; // 이전 게임 점수 초기화
         }
 
         private void OnGameStartState(GameStartStateMessage message)
@@ -511,7 +520,10 @@ namespace TeamSH
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             
             // UI에 표시한다.
-            UserScoreInfo = message.userScoreInfo; // 서버에서 온 스코어 정보를 클라의 UserScoreInfo에 저장한다.
+            for (int i = 0; i < UserScoreInfo.Length; i++) // 키워드 맞춤 종료 상태의 점수 상태를 업데이트한다.
+            {
+                scoresDict[UserScoreInfo[i].UserId] = UserScoreInfo[i].UserScore;
+            }
         }
 
         private void OnScoreTallyEndState(ScoreTallyEndStateMessage message)
@@ -523,7 +535,9 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             // 여기서 추가한다. (뭘 추가할까)
-            
+
+            // 최종 우승자 (동률일 경우를 고려해서 List로)를 받아온다.
+            WinnerUserID = message.CurrentOwnerID;
             
             // 최종라운드 후 게임 완전 종료가 되서 점수를 초기화한다.
             scoresDict.Clear();
@@ -533,8 +547,6 @@ namespace TeamSH
         private void OnFinalResultEndState(FinalResultEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
-
-            UserScoreInfo = null;
             
             IsGameStarted = false; // 게임시작 아님
             DoLoadScene("LIARGAME_Lobby"); // 로비씬으로

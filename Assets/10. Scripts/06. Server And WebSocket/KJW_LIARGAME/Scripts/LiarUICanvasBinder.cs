@@ -12,11 +12,11 @@ namespace TeamSH
     {
         private LiarClient client;
 
-        [Header("Timer")] // 제한시간 타이머
+        [Header("제한시간 타이머")] 
         [SerializeField] private GameObject timerPanel;
         [SerializeField] private TextMeshProUGUI timerText;
 
-        [Header("Info Overlay (TAB)")] // TAB으로 정보창 보기
+        [Header("TAB으로 정보창 보기 / 장르 / 키워드 / 특수채팅 목록")]
         [SerializeField] private GameObject infoOverlayPanel;
         [SerializeField] private TextMeshProUGUI genreText;
         [SerializeField] private TextMeshProUGUI keywordText;
@@ -24,33 +24,41 @@ namespace TeamSH
         
         private bool showInfo; // 탭 활성화 상태 확인 bool값
 
-        [Header("Special Chat Log")] // 특수채팅 로그
+        [Header("특수채팅 로그")] 
         [SerializeField] private GameObject specialChatLogPanel;
         [SerializeField] private TextMeshProUGUI specialChatLogText;
         
         [Header("Debate Special Chat Log")] // 변론 종료에서의 특수채팅 로그
 
-        [Header("Liar Out")] // 라밍아웃 버튼
+        [Header("라밍아웃 버튼")] 
         [SerializeField] private Button liarOutButtonComponent;
+        
+        [Header("라밍아웃 버튼 결과 창")]
+        [SerializeField] private GameObject liarOutButtonResultPanel;
+        [SerializeField] private TextMeshProUGUI liarOutButtonResultText;
 
-        [Header("Final Result")] // 최종 결과 (우승자)
+        [Header("최종 결과 (우승자)")] 
         [SerializeField] private GameObject finalResultPanel;
         [SerializeField] private TextMeshProUGUI finalResultText;
 
-        [Header("Score Tally")] // 점수 목록
+        [Header("점수 목록")]
         [SerializeField] private GameObject scoreTallyPanel;
         [SerializeField] private TextMeshProUGUI scoreText;
 
-        [Header("Announce")] // 라이어 확정 / 키워드 맞춤 안내
+        [Header("라이어 확정 / 키워드 맞춤 안내")]
         [SerializeField] private GameObject announcePanel;
         [SerializeField] private TextMeshProUGUI announceText;
         
-        [Header("Keyword Chat")] // 키워드 채팅 시각화
+        [Header("키워드 채팅 시각화")] 
         [SerializeField] private GameObject keywordChatPanel;
         [SerializeField] private TextMeshProUGUI keywordChatText; // 라이어가 작성한 키워드채팅
         [SerializeField] private TextMeshProUGUI liarKeyword; // 라이어의 키워드
         [SerializeField] private TextMeshProUGUI userKeyword; // 시민들의 키워드 
-
+        
+        [Header("우승 / 패배 시각화")]
+        [SerializeField] private GameObject winOrDefeatPanel; 
+        [SerializeField] private TextMeshProUGUI winOrDefeatText; // 우승 or 패배
+        
         private void Awake()
         {
             // 씬이 바뀌어도 안사라짐
@@ -67,7 +75,8 @@ namespace TeamSH
 
         private void Update()
         {
-            if (client == null || client.Me == null) // 클라이언트 or 내가 null이면 false (내가 방에 들어오기 전 상태이면)
+            // 추후 마트 UI / 회의실 UI와 분리할 필요성!!
+            if (client == null || client.Me == null) // 어짜피 client가 싱글톤이라 null이 될수가 읎다...
             {
                 timerPanel.SetActive(false);
                 infoOverlayPanel.SetActive(false);
@@ -77,17 +86,23 @@ namespace TeamSH
                 scoreTallyPanel.SetActive(false);
                 announcePanel.SetActive(false);
                 keywordChatPanel.SetActive(false);
+                finalResultPanel.SetActive(false);
+                
                 return;
             }
 
-            UpdateTimer();
+            UpdateTimer(); // 마트 + 회의실 공통 UI
+            
+            // 아래부터는 회의실 UI
             UpdateInfoOverlay();
             UpdateSpecialChatLog();
             UpdateLiarOutButton();
-            UpdateFinalResult();
+            UpdateWinOrDefeat();
             UpdateScoreTally();
             UpdateAnnounce();
             UpdateKeywordChat();
+            UpdateLiarOutButtonResult();
+            UpdateFinalResult(); 
         }
 
         // 화면 우측 상단에 지금 상태의 남은 시간을 보여준다. 순전히 시각용
@@ -123,13 +138,7 @@ namespace TeamSH
             specialChatLogPanel.SetActive(show); // 발언 종료상태일때만 활성화
             if (show == false) return;
 
-            specialChatLogText.text = $"현재 발언자()의 특수채팅은 <{client.specialChat}> 입니다";
-        }
-
-        private void UpdateDebateSpecialChatLog() // 변론 종료에서의 특수채팅 시각화
-        {       
-            bool show = client.CurrentPhase == "변론 종료 상태";
-            
+            specialChatLogText.text = $"현재 발언자의 특수채팅은 <{client.specialChat}> 입니다";
         }
         
         private void UpdateLiarOutButton()
@@ -155,7 +164,7 @@ namespace TeamSH
             finalResultPanel.SetActive(show);
             if (show == false) return;
 
-            finalResultText.text = $"우승자 : {client.GetNickName(client.CurrentOwnerID)}";
+            finalResultText.text = $"우승자 : + " + string.Join(",", client.WinnerUserID);
         }
 
         private void UpdateScoreTally()
@@ -168,8 +177,10 @@ namespace TeamSH
             scoreText.text = "점수 목록\n" + string.Join("\n", client.GetScoreSorted());
             
         }
+        
 
-        // 라이어 확정 상태 / 라이어의 키워드 맞춤 상태일 때, 누가 라이어인지 화면에 띄운다.
+        // 확정된 유저의 라이어 판별 (라이어 확정 상태)
+        // 라이어가 누군지 공개 (라이어의 키워드 맞춤 상태)
         private void UpdateAnnounce()
         {
             bool show = client.CurrentPhase == "라이어 확정 상태" || client.CurrentPhase == "라이어의 키워드 맞춤 상태";
@@ -188,7 +199,7 @@ namespace TeamSH
             }
         }
 
-        // 키워드 맞춤 종료 상태일 때, 라이어가 입력한 키워드채팅을 모두에게 공개한다.
+        // 라이어가 입력한 키워드채팅을 모두에게 공개한다. (키워드 맞춤 종료 상태)
         private void UpdateKeywordChat()
         {
             bool show = client.CurrentPhase == "키워드 맞춤 종료 상태";
@@ -199,5 +210,40 @@ namespace TeamSH
             liarKeyword.text = $"라이어의 키워드는 {client.liarKeyword} 입니다.";
             userKeyword.text = $"플레이어의 키워드는 {client.nomalKeyword} 입니다.";
         }
+
+        // 라밍아웃 결과창 텍스트 호출 (점수 집계 상태)
+        private void UpdateLiarOutButtonResult()
+        {
+            // 점수 집계 상태일 때 라이어 버튼을 누른 사람에게만 뜨는 텍스트 패널
+            bool show = client.CurrentPhase == "점수 집계 상태" && client.LiarButtonClicked; 
+            liarOutButtonResultPanel.SetActive(show);
+            if (show == false) return;
+            
+            // 라이어가 라밍아웃 버튼을 눌렀을 때 + 키워드를 맞췄을 때
+            if (client.Me.Id == client.LiarId && client.KeywordChatText == client.nomalKeyword)
+            {
+                liarOutButtonResultText.text = $"라이어가 라밍아웃 버튼을 눌러 점수를 추가 획득하였습니다.";
+            }
+            // 라이어가 아닌 사람이 라밍아웃 버튼을 눌렀을 때
+            if (client.Me.Id != client.LiarId) 
+            {
+                liarOutButtonResultText.text = $"라이어가 아닌 사람이 라밍아웃 버튼을 눌러 점수가 차감되었습니다";
+            }
+        }
+        
+        // 우승 / 패배 출력 (Win / Defeat)
+        private void UpdateWinOrDefeat()
+        {
+            // 내가 라이어고 
+            bool show = client.CurrentPhase == "최종 결과 종료 상태";
+            winOrDefeatPanel.SetActive(show);
+            if (show == false) return;
+
+            bool isWinner = client.WinnerUserID.Contains(client.Me.Id);
+
+            winOrDefeatText.text = (isWinner) ? $"승리" : $"패배";
+        }
+        
+        
     }
 }

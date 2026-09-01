@@ -1,5 +1,7 @@
 ﻿﻿﻿using System;
 using System.Collections.Generic;
+using Jay;
+using UnityEngine;
 
 namespace TeamSH
 {
@@ -225,8 +227,101 @@ namespace TeamSH
         public int KeywordId { get; set; } // 라이어는 라이어 키워드, 나머지는 일반
     }
 
+    public enum MessageType
+    {
+        어쩌고,
+        저쩌고,
+        턴1메세지
+    }
+    public class TurnMessageEx
+    {
+        
+        public float TimerMs { get; set; }
+        public int CurrentCycle { get; set; }
+        public int CurrentRound { get; set; }
+
+        public string SendUserId { get; set; }
+        public string ReceiveUserId { get; set; }
+        public MessageType Type{get;set;}
+        public string parameter{get;set;}
+    }
     #endregion
 
+    public static class Message생성
+    { 
+        public static TurnMessageEx createMessage(MessageType messageType, string parameter)
+        {
+            switch (messageType)
+            {
+                
+            }
+            return new TurnMessageEx();
+        }
+    }
+
+    public struct PushEventData
+    {
+        public float feedbackTime;
+        public int power;
+        public int damage;
+    }
+    
+    public class NetworkManager : SingletonBase<NetworkManager>
+    {
+        public Action<Interaction_Player, Interaction_Player, InteractionEvent> InteractionEvent { get; set; }
+        public Action<string, string, float, Vector2, Vector2> PushEvent { get; set; }
+
+        public void 메시지해석(TurnMessageEx msg)
+        {
+            switch (msg.Type)
+            {
+                // 어쩌고는 parameter = 0.5, pX, pY, dX, dY  = 미는 세기, 위치, 방향
+                case MessageType.어쩌고:
+                    string[] djWjrh = msg.parameter.Split(",");
+                    float power = float.Parse(djWjrh[0]);
+                    Vector2 position = new Vector2(float.Parse(djWjrh[1]), float.Parse(djWjrh[2]));
+                    Vector2 direction = new Vector2(float.Parse(djWjrh[3]), float.Parse(djWjrh[4]));
+
+                    PushEvent?.Invoke(msg.SendUserId, msg.ReceiveUserId, power, position, direction);
+                    
+                    ///
+                    
+                    Interaction_Player sender = LiarClient.Instance.GetPlayer(msg.SendUserId);
+                    Interaction_Player receiver = LiarClient.Instance.GetPlayer(msg.ReceiveUserId);
+
+                    InteractionEvent @event = new InteractionEvent();
+                    @event.PushPower = power;
+                    @event.Position = position;
+                    @event.HitDirection = direction;
+                    
+                    Interaction_System.Instance.To(sender, receiver, @event);
+                    
+                    break;
+                // 어쩌고는 parameter = true, 20 = On/Off, 거리
+                case MessageType.저쩌고:
+                    string[] wjWjrh = msg.parameter.Split(",");
+                    bool onOff =  bool.Parse(wjWjrh[0]);
+                    float distance = float.Parse(wjWjrh[1]);
+                    
+                    break;
+                // 어쩌고는 parameter = 30.0, "PlayerA 발언" = 제한시간, UI 출력 메시지
+                case MessageType.턴1메세지:
+                    string[] turnMsg = msg.parameter.Split(",");
+                    float time = float.Parse(turnMsg[0]);
+                    string uiMessage = turnMsg[1];
+                    
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
+        
+    }
+    
+    
+    
+    
     #region 마트 처리
 
     [Serializable]
