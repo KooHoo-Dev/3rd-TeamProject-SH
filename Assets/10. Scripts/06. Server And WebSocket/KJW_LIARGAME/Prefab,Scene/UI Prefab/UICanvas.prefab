@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1306843257247737686
 RectTransform:
   m_ObjectHideFlags: 0
@@ -88,12 +88,12 @@ GameObject:
   - component: {fileID: 8110171486009797826}
   - component: {fileID: 2353981892385377290}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: FinalResultPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8983819439497731959
 RectTransform:
   m_ObjectHideFlags: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1131,11 +1131,11 @@ RectTransform:
   - {fileID: 8104115880675653323}
   - {fileID: 970171220799000012}
   - {fileID: 2072007088044978425}
+  - {fileID: 1306843257247737686}
   - {fileID: 7078153811940366007}
   - {fileID: 4053096437408707645}
   - {fileID: 5029264440975659293}
   - {fileID: 8777795005621972313}
-  - {fileID: 1306843257247737686}
   - {fileID: 8983819439497731959}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1225,21 +1225,23 @@ MonoBehaviour:
   genreText: {fileID: 1528857737807502295}
   keywordText: {fileID: 4013989061902636560}
   infoSpecialChatText: {fileID: 2200066880418605422}
+  liarOutButtonComponent: {fileID: 4872646771472040997}
   specialChatLogPanel: {fileID: 6952753728701655954}
   specialChatLogText: {fileID: 1229858911348112691}
-  liarOutButtonComponent: {fileID: 4872646771472040997}
-  liarOutButtonResultPanel: {fileID: 0}
-  liarOutButtonResultText: {fileID: 0}
-  finalResultPanel: {fileID: 8670667270544107951}
-  finalResultText: {fileID: 7603528124744563882}
-  scoreTallyPanel: {fileID: 8929651867743343440}
-  scoreText: {fileID: 5313002363820956482}
   announcePanel: {fileID: 5454547233613681879}
   announceText: {fileID: 8128530620940590404}
   keywordChatPanel: {fileID: 5036169167529149521}
   keywordChatText: {fileID: 9048402324559218652}
   liarKeyword: {fileID: 6340269588214061247}
   userKeyword: {fileID: 3305197429045833594}
+  scoreTallyPanel: {fileID: 8929651867743343440}
+  scoreText: {fileID: 5313002363820956482}
+  liarOutButtonResultPanel: {fileID: 1337527732126647289}
+  liarOutButtonResultText: {fileID: 6553642394005848865}
+  winOrDefeatPanel: {fileID: 1521809881105773784}
+  winOrDefeatText: {fileID: 4183296935030402146}
+  finalResultPanel: {fileID: 8670667270544107951}
+  finalResultText: {fileID: 7603528124744563882}
 --- !u!1 &4589044850980183921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,10 +1274,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8983819439497731959}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1200, y: 200}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6757721767022327099
 CanvasRenderer:
@@ -1305,10 +1307,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uC2B9\uB9AC or \uD328\uBC30"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 659ceb8947c683b4a9e1216df0a67515, type: 2}
+  m_sharedMaterial: {fileID: 6898141960898469622, guid: 659ceb8947c683b4a9e1216df0a67515, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1332,15 +1334,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 180
+  m_fontSizeBase: 180
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1

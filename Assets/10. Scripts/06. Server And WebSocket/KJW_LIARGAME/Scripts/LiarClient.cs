@@ -42,11 +42,12 @@ namespace TeamSH
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
 
-        public string liarKeyword; // 라이어의 키워드
-        public string nomalKeyword; // 일반인의 키워드
+        public string liarKeyword { get; private set; } // 라이어의 키워드
+        public string nomalKeyword { get; private set; } // 일반인의 키워드
 
 
-        public bool LiarButtonClicked; // 라이어 버튼을 눌렀는지 확인하는 bool값
+        public bool LiarButtonClicked { get; set; } // 라이어 버튼을 눌렀는지 확인하는 bool값
+        public bool IsNotLiarPushCycle { get; private set; } // 라이어 아닌 사람이 버튼을 누른 사이클인지
         
         public UserScoreInfo[] UserScoreInfo { get; set; } // 유저의 ID, 유저의 Score를 저장하는 필드
 
@@ -67,6 +68,22 @@ namespace TeamSH
                 scoreSortedList.Add($"{GetNickName(info.UserId)} : {info.UserScore} 점"); // 순서대로 추가한다.
             
             return scoreSortedList;
+        }
+        
+        // 우승자의 ID들이 담긴 List 가져온다.
+        public List<string> GetWinnerIds()
+        {
+            List<string> winners = new List<string>();
+            if (UserScoreInfo == null || UserScoreInfo.Length == 0) return winners;
+
+            int maxScore = int.MinValue;
+            foreach (var info in UserScoreInfo)
+                if (info.UserScore > maxScore) maxScore = info.UserScore;
+
+            foreach (var info in UserScoreInfo)
+                if (info.UserScore == maxScore) winners.Add(info.UserId);
+
+            return winners;
         }
         
         
@@ -141,7 +158,7 @@ namespace TeamSH
         private List<string> specialChatLog = new List<string>();
 
         // 발언자의 턴에 입력한 특수채팅 단일
-        public string specialChat;
+        public string specialChat { get; set; }
 
         private const int ChatKeep = 12;
 
@@ -170,8 +187,8 @@ namespace TeamSH
 
         // 발언차례 / 장르 ID / 키워드 ID
         public string CurrentOwnerID { get; private set; } = "";
-        public int GenreId { get; private set; }
-        public int KeywordId { get; private set; }
+        public string Genre { get; private set; }
+        public string Keyword { get; private set; }
         
         public int LiarKeywordID { get; private set; }
 
@@ -232,6 +249,8 @@ namespace TeamSH
                     case "최종 결과 상태": OnFinalResultState(JsonConvert.DeserializeObject<FinalResultStateMessage>(json)); break;
                     case "최종 결과 종료 상태": OnFinalResultEndState(JsonConvert.DeserializeObject<FinalResultEndStateMessage>(json)); break;
 
+                    case "라밍아웃 버튼 누름 상태" : OnLiarOutButtonPressedState(JsonConvert.DeserializeObject<LiarOutButtonPressedStateMessage>(json)); break;
+                    
                     case "Select": OnSelect(JsonConvert.DeserializeObject<SelectMessage>(json)); break;
                     case "NonPoint" : OnNonPointMessage(JsonConvert.DeserializeObject<NonPointMessage>(json)); break;
                     case "Vote": OnVoteMessage(JsonConvert.DeserializeObject<VoteMessage>(json)); break;
@@ -332,7 +351,7 @@ namespace TeamSH
         private void OnGenreAssignAndLiarSelectState(GenreAssignAndLiarSelectStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
-            GenreId = message.GenreId;
+            Genre = DataManager.Instance.GetGenreDef(message.GenreId).GenreName;
 
             Debug.Log($"라이어의 ID는 :{message.CurrentOwnerID} 입니다.");
             
@@ -344,8 +363,10 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
 
+            Debug.Log(message.KeywordId);   
+            
             // 메세지로 온 키워드 ID 저장
-            KeywordId = message.KeywordId;
+            Keyword = DataManager.Instance.GetKeyWordDef(message.KeywordId).KeywordName;
         }
 
         private void OnMartEnterState(MartEnterStateMessage message)
@@ -370,9 +391,8 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound, message.CurrentOwnerID);
             hasSentSpecialChat = false;
+            IsNotLiarPushCycle = false; // 새 사이클 진입 시 알림 초기화
 
-            LiarButtonClicked = false;
-            
             string item = DoGetItem(message.CurrentOwnerID);
             Debug.Log($"[발언] {message.CurrentOwnerID} 이(가) {message.CurrentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
         }
@@ -487,6 +507,11 @@ namespace TeamSH
             KeywordChatText = "";
         }
 
+        private void OnLiarOutButtonPressedState(LiarOutButtonPressedStateMessage message)
+        {
+            DoSetPhase(message.Type, message.TimerMs, CurrentCycle, CurrentRound);
+        }
+
         // 라이어의 키워드 맞춤 상태에서 라이어의 첫 채팅이 키워드채팅
         private void OnKeywordChat(KeywordChatMessage message)
         {
@@ -506,6 +531,8 @@ namespace TeamSH
             
             specialChatLog.Clear(); // 현재까지의 특수 채팅 초기화
 
+            LiarButtonClicked = false; // 라밍아웃 버튼 눌림상태 해제
+
             // UI에 표시한다.
             UserScoreInfo = message.userScoreInfo; // 서버에서 온 스코어 정보를 클라의 UserScoreInfo에 저장한다.
 
@@ -524,6 +551,8 @@ namespace TeamSH
             {
                 scoresDict[UserScoreInfo[i].UserId] = UserScoreInfo[i].UserScore;
             }
+            
+            WinnerUserID = GetWinnerIds(); // 우승자 ID 찾기
         }
 
         private void OnScoreTallyEndState(ScoreTallyEndStateMessage message)
@@ -534,22 +563,26 @@ namespace TeamSH
         private void OnFinalResultState(FinalResultStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
-            // 여기서 추가한다. (뭘 추가할까)
-
-            // 최종 우승자 (동률일 경우를 고려해서 List로)를 받아온다.
-            WinnerUserID = message.CurrentOwnerID;
             
             // 최종라운드 후 게임 완전 종료가 되서 점수를 초기화한다.
             scoresDict.Clear();
-            
+            foreach (string winner in message.CurrentOwnerID)
+            {
+                Debug.Log($"우승자는 {winner} 입니다.");
+            }
         }
 
         private void OnFinalResultEndState(FinalResultEndStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
-            
+
             IsGameStarted = false; // 게임시작 아님
-            DoLoadScene("LIARGAME_Lobby"); // 로비씬으로
+            Invoke("DoLoadSceneToLobby", RemainingSeconds); // 제한시간 종료되면 로비로 이동
+        }
+
+        private void DoLoadSceneToLobby()
+        {
+            DoLoadScene("LIARGAME_Lobby");
         }
         
         #region 투표 처리
@@ -792,7 +825,8 @@ namespace TeamSH
             if (Me == null) return;
 
             LiarButtonClicked = true;
-            
+            if (LiarId != Me.Id) IsNotLiarPushCycle = true;
+
             SendAsync(new LiarSelfDisclose { ID = Me.Id }).Forget();
         }
         
