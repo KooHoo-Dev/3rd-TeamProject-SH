@@ -351,7 +351,7 @@ namespace TeamSH
         private void OnMartEnterState(MartEnterStateMessage message)
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
-            DoLoadScene("LIARGAME_MART");
+            DoLoadScene("01. Mart");
             
         }
 
@@ -717,7 +717,7 @@ namespace TeamSH
 
             switch (activeContentScene)
             {
-                case "LIARGAME_MART":
+                case "01. Mart":
                     spawnPoints = MartManager.Instance?.userSpawnPoints;
                     break;
                 case "00. MeetingRoom":

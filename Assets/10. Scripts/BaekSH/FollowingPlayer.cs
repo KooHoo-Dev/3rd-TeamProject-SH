@@ -1,3 +1,4 @@
+using HelloServer;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,6 +22,13 @@ public class FollowingPlayer : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+        //테스트코드
+        if (Target == null)
+        {
+            Target = GameObject.Find("Player");
+            return;
+        }
+        
         // 타겟의 x, y, z 좌표에 카메라의 좌표를 더하여 카메라의 위치를 결정
         TargetPos = new Vector3(
             Target.transform.position.x + offsetX,
