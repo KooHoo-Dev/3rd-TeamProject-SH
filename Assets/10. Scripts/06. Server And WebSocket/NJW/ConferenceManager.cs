@@ -52,10 +52,13 @@ namespace TeamSH
         
         # region 발언자 표시 UI, 발언 순서 표시 UI, 장르/키워드 첫 알림 UI
 
+        // 현재 발언자 상시 표시
         public void RequestSpeakerUI(bool isShow, string userNickname = "") => conferenceUI.ShowSpeakerUI(isShow, userNickname);
 
+        // 발언 차례가 왔을 때 잠시 떴다가 사라짐
         public void RequestSpeakerNoticeUI(bool isShow) => conferenceUI.ApplySpeakerNoticeUI(isShow);
 
+        // 장르, 키워드, 현재 라운드수를 잠시 표시해주는 UI
         public void RequestGenreKeywordNoticeUI(bool isShow, int currentRound, string genre, string keyword)
             => conferenceUI.ApplyGenreKeywordUI(isShow, currentRound, genre, keyword);
         
