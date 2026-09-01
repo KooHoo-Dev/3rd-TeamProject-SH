@@ -11,6 +11,7 @@ namespace TeamSH
         [field: SerializeField] public Transform ItemHeadPivot { get; private set; }
         [field: SerializeField] public Transform FindItemPivot { get; private set; }
         
+        [field: SerializeField] public GameObject Body { get; private set; }
         [field: SerializeField] public Collider PushBox { get; private set; }
         [field: SerializeField] public int PushPower { get; private set; }
 

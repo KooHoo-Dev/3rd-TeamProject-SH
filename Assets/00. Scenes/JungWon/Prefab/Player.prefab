@@ -24,12 +24,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2060432157767157944}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 0.5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1420206993541028376}
+  m_Father: {fileID: 6384885828044093730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3287675988461408763
 GameObject:
@@ -256,15 +256,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4371521968274464321}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 2.5900002, y: 0.5, z: 11.104}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 783552815990629458}
   - {fileID: 8350525420900975534}
-  - {fileID: 1362353154802437241}
-  - {fileID: 7147807229905590947}
   - {fileID: 6384885828044093730}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -284,6 +282,7 @@ MonoBehaviour:
   <NickNamePivot>k__BackingField: {fileID: 8350525420900975534}
   <ItemHeadPivot>k__BackingField: {fileID: 1362353154802437241}
   <FindItemPivot>k__BackingField: {fileID: 8790858414017895942}
+  <Body>k__BackingField: {fileID: 6039462857329746840}
   <PushBox>k__BackingField: {fileID: 5998201562409651203}
   <PushPower>k__BackingField: 30
   <SelectedObjects>k__BackingField: []
@@ -456,11 +455,11 @@ Transform:
   m_GameObject: {fileID: 6064649675465937781}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0.75}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0.75000024}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1420206993541028376}
+  m_Father: {fileID: 6384885828044093730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7779114770906543665
 GameObject:
@@ -621,6 +620,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3727970107516983351, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8790858414017895942}
+    - targetCorrespondingSourceObject: {fileID: 3727970107516983351, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7147807229905590947}
+    - targetCorrespondingSourceObject: {fileID: 3727970107516983351, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1362353154802437241}
     - targetCorrespondingSourceObject: {fileID: 3727970107516983351, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8422478200424394669}

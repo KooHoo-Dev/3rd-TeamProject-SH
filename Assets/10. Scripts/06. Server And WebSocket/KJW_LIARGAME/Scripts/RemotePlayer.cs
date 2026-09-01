@@ -35,10 +35,6 @@ namespace TeamSH
         
         public void SetTarget(Vector3 position) => remoteController.SetTarget(position, smooth);
         
-        //씬 이동했을때 순간 이동용
-        public void Teleport(Vector3 position) => remoteController.Teleport(position);
-
-        
         public void Setup(User user)
         {
             User = user;

@@ -29,7 +29,11 @@ namespace TeamSH
 
         private void Update()
         {
-            if (canMove == false) return;
+            if (canMove == false)
+            {
+                Controller3D.SetMoveInput(Vector3.zero);
+                return;
+            }
 
             TryGetItem();
             TryPutDownItem();

@@ -733,15 +733,15 @@ namespace TeamSH
 
                 if (id == Me.Id)
                 {
-                    localPlayer.transform.GetChild(0).transform.rotation = Quaternion.identity; // 본체와 몸체 회전이 별개기때문에 별도처리
+                    //localPlayer.transform.GetChild(0).transform.rotation = rot; // 본체와 몸체 회전이 별개기때문에 별도처리
                     localPlayer.transform.position = pos;
-                    localPlayer.transform.rotation = rot;
+                    localPlayer.Body.transform.rotation = rot;
                 }
                 else if (remotes.TryGetValue(id, out RemotePlayer remote))
                 {
-                    remote.transform.GetChild(0).transform.rotation = Quaternion.identity; // 본체와 몸체 회전이 별개기때문에 별도처리
-                    remote.Teleport(pos);
-                    remote.transform.rotation = rot;
+                    //remote.transform.GetChild(0).transform.rotation = rot; // 본체와 몸체 회전이 별개기때문에 별도처리
+                    remote.transform.position = pos;
+                    remote.Body.transform.rotation = rot;
                 }
             }
         }

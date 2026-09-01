@@ -31,6 +31,7 @@ namespace TeamSH
         {
             canMove = false;
             Animator.SetLayerWeight(0, 0);
+            Animator.SetBool(IS_MOVE, false);
             Animator.SetBool(IsSitting, true);
         }
         
