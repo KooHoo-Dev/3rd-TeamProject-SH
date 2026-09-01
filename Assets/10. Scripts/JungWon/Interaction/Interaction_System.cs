@@ -4,6 +4,14 @@ using UnityEngine;
 
 namespace TeamSH
 {
+    public class InteractionBinder
+    {
+        public void Init()
+        {
+            NetworkManager.Instance.InteractionEvent += Interaction_System.Instance.To;
+        }
+    }
+    
     public class Interaction_System : SingletonBase<Interaction_System>
     {
         private List<IInteractionObserver> observerList = new List<IInteractionObserver>();
@@ -12,6 +20,19 @@ namespace TeamSH
         protected override void OnInitialize()
         {
             base.OnInitialize();
+
+            NetworkManager.Instance.PushEvent += (sendUserId, receiveUserId, power, position, direction) =>
+            {
+                Interaction_Player sender = LiarClient.Instance.GetPlayer(sendUserId);
+                Interaction_Player receiver = LiarClient.Instance.GetPlayer(receiveUserId);
+
+                InteractionEvent @event = new InteractionEvent();
+                @event.PushPower = power;
+                @event.Position = position;
+                @event.HitDirection = direction;
+                    
+                To(sender, receiver, @event);
+            };
         }
 
         public void Subscribe(IInteractionObserver observer)
