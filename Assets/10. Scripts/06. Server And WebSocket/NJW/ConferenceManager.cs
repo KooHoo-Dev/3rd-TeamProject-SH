@@ -49,6 +49,17 @@ namespace TeamSH
         
         // 투표 단계 UI(VoteUI 패널)를 켜거나 끈다.
         public void RequestVoteUI(bool isShow) => conferenceUI.ApplyVoteUI(isShow);
+        
+        # region 발언자 표시 UI, 발언 순서 표시 UI, 장르/키워드 첫 알림 UI
+
+        public void RequestSpeakerUI(bool isShow, string userNickname = "") => conferenceUI.ShowSpeakerUI(isShow, userNickname);
+
+        public void RequestSpeakerNoticeUI(bool isShow) => conferenceUI.ApplySpeakerNoticeUI(isShow);
+
+        public void RequestGenreKeywordNoticeUI(bool isShow, int currentRound, string genre, string keyword)
+            => conferenceUI.ApplyGenreKeywordUI(isShow, currentRound, genre, keyword);
+        
+        # endregion
 
         #region 화살표 그리기
 
