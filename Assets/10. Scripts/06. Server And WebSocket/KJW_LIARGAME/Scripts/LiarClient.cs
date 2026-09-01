@@ -125,21 +125,22 @@ namespace TeamSH
         [Header("라이어 정보")]
         // 라이어 ID 저장하는 필드
         public string LiarId { get; private set; } = "";
+        
+        [Header("씬 설정")]
+        private const string BootScene = "LIARGAME_Lobby";
+        // 지금 추가로 떠 있는 씬 이름
+        private string activeContentScene;
+
+        [Header("채팅 설정")]
         // 방에서 오간 말. 로비가 그대로 그린다.
         public IReadOnlyList<string> ChatLog => chatLog;
         // 이번 라운드에 오간 특수채팅 전체. Tab 정보창이 그대로 보여준다 (chatLog와 달리 개수 제한 없음).
         public IReadOnlyList<string> SpecialChatLog => specialChatLog;
         // 맨 처음 씬 이름. activeContentScene의 시작값으로 쓴다.
-        private const string BootScene = "LIARGAME_Lobby";
-        // 지금 추가로 떠 있는 씬 이름
-        private string activeContentScene;
-
         // 오간 말. 너무 쌓이지 않게 앞에서부터 버린다.
         private readonly List<string> chatLog = new List<string>();
-
         // 특수채팅만 따로 모은 기록. Tab 정보창 전용이라 버리지 않는다.
         private List<string> specialChatLog = new List<string>();
-
         // 발언자의 턴에 입력한 특수채팅 단일
         public string specialChat;
 
@@ -980,7 +981,9 @@ namespace TeamSH
                 // 씬 전환 중 아직 재연결 전이면 잠시 쉰다.
                 if (localPlayer == null) continue;
 
-                // 여기 아마 마트에서만 서버로 좌표 보내도록 제한 조건 붙히는게 좋을듯한데 일단 테스트로 그냥 둡니다.
+                // 회의실에서는 좌표 안보냄
+                if (activeContentScene != "01. Mart") continue;
+                
                 Vector3 position = localPlayer.transform.position;
                 await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y, Z = position.z });
             }
