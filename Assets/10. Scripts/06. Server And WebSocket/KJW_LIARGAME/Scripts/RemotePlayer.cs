@@ -35,6 +35,8 @@ namespace TeamSH
         
         public void SetTarget(Vector3 position) => remoteController.SetTarget(position, smooth);
         
+        public void Teleport(Vector3 position) => remoteController.Teleport(position);
+        
         public void Setup(User user)
         {
             User = user;

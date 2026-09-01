@@ -36,12 +36,18 @@ namespace TeamSH
             // 프레임 독립적 지수 감쇠 보간. 물리 재계산 없음.
             float t = 1f - Mathf.Exp(-smooth * Time.deltaTime);
             Place(Vector3.Lerp(transform.position, target, t));
+            
+            Vector3 moveDirection = transform.position - lastPos;
+            moveDirection.y = 0f; // 위아래로 기울어지는 것 방지
 
-            bool isMoving = (transform.position - lastPos).sqrMagnitude > 0.0001f;
+            bool isMoving = moveDirection.sqrMagnitude > 0.0001f;
             Animator.SetBool(IS_MOVE, isMoving);
+
+            if (isMoving)
+            {
+                body.transform.forward = moveDirection.normalized;
+            }
             lastPos = transform.position;
-            if (lastPos == Vector3.zero) return;
-            body.transform.forward = lastPos;
         }
         
         private void Place(Vector3 next)

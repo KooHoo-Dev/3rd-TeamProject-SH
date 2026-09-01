@@ -9,8 +9,8 @@ namespace TeamSH
     public class LocalPlayer : Interaction_Player
     {
         [Header("내부 설정")]
-        private PlayerController playerController;
-        //private ItemInteractionHandler itemInteractionHandler;
+        public PlayerController PlayerController {get; private set;}
+        public ItemInteractionHandler ItemInteractionHandler {get; private set;}
         
         public User User { get; private set; }
         public Transform pointPivot;
@@ -23,10 +23,10 @@ namespace TeamSH
 
         private void Awake()
         {
-            playerController = GetComponent<PlayerController>();
-            controller = playerController;
+            PlayerController = GetComponent<PlayerController>();
+            controller = PlayerController;
 
-            //itemInteractionHandler = GetComponent<ItemInteractionHandler>();
+            ItemInteractionHandler = GetComponent<ItemInteractionHandler>();
         }
         
         public void Setup(User user)

@@ -236,6 +236,10 @@ namespace TeamSH
                     case "NonPoint" : OnNonPointMessage(JsonConvert.DeserializeObject<NonPointMessage>(json)); break;
                     case "Vote": OnVoteMessage(JsonConvert.DeserializeObject<VoteMessage>(json)); break;
                     
+                    //마트 관련 case
+                    case "WhoSuccessGetItem": OnWhoSuccessGetItem(JsonConvert.DeserializeObject<WhoSuccessGetItemMessage>(json)); break;
+                    case "ResultInputItemInBag": OnResultInputItemInBag(JsonConvert.DeserializeObject<ResultInputItemInBag>(json)); break;
+                    
                     case "leave": OnLeave(JsonConvert.DeserializeObject<LeaveMessage>(json)); break;
                     case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
                     case "chat": OnChat(JsonConvert.DeserializeObject<ChatMessage>(json)); break;
@@ -352,7 +356,6 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             DoLoadScene("01. Mart");
-            
         }
 
         private void OnMartMoveState(MartMoveStateMessage message)
@@ -604,6 +607,29 @@ namespace TeamSH
         }
 
         #endregion
+        
+        #region 마트 아이템 처리 (Request / On)
+
+        //누군가 아이템 집기에 성공
+        private void OnWhoSuccessGetItem(WhoSuccessGetItemMessage message)
+        {
+            Interaction_Player player = GetPlayer(message.UserID);
+            ItemInteractionHandler handler = player.GetComponentInChildren<ItemInteractionHandler>();
+
+            if (int.TryParse(message.ItemID, out int itemId) == false) return;
+            handler.SuccessGetItem(itemId);
+        }
+
+        // 가방 넣기 결과
+        private void OnResultInputItemInBag(ResultInputItemInBag message)
+        {
+            Interaction_Player player = GetPlayer(message.UserID);
+            ItemInteractionHandler handler = player.GetComponentInChildren<ItemInteractionHandler>();
+
+            handler.SuccessPutDownItem(message.IsSuccess);
+        }
+
+        #endregion
 
         // 지속적으로 계속 돈다.
         private void OnState(StateMessage message)
@@ -754,7 +780,7 @@ namespace TeamSH
                 else if (remotes.TryGetValue(id, out RemotePlayer remote))
                 {
                     //remote.transform.GetChild(0).transform.rotation = rot; // 본체와 몸체 회전이 별개기때문에 별도처리
-                    remote.transform.position = pos;
+                    remote.Teleport(pos);
                     remote.Body.transform.rotation = rot;
                 }
             }
@@ -821,8 +847,24 @@ namespace TeamSH
 
         #endregion
         
+        #region 마트 아이템 처리
+
+        // 로컬 플레이어 -> 서버 : 집기 시도
+        public void RequestTryGetItem(int itemId)
+        {
+            SendAsync(new TryGetItemMessage { UserID = Me.Id, ItemID = itemId.ToString() }).Forget();
+        }
+
+        // 로컬 플레이어 -> 서버 : 가방 넣기 시도
+        public void RequestTryInputItemInBag(int itemId)
+        {
+            SendAsync(new TryInputItemInBag { UserID = Me.Id, ItemID = itemId.ToString() }).Forget();
+        }
+        
         #endregion
 
+        #endregion
+        
         protected override void Awake()
         {
             base.Awake(); // 싱글턴 등록 + DontDestroyOnLoad. 중복 인스턴스면 여기서 파괴된다.

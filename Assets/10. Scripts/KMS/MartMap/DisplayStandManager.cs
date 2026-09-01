@@ -9,24 +9,14 @@ public class DisplayStandManager : MonoBehaviour
     public static DisplayStandManager Instance { get; private set; }
     
     public Dictionary<CategoryType, AreaNum> CategoryDic = new Dictionary<CategoryType, AreaNum>();
-    // AreaData 클래스 분리로 일단 지워봄
-    // List<List<DisplayStand>> AllArea = new List<List<DisplayStand>>();
-    // List<DisplayStand> Area1 = new List<DisplayStand>();
-    // List<DisplayStand> Area2 = new List<DisplayStand>();
-    // List<DisplayStand> Area3 = new List<DisplayStand>();
-    //
-    // List<ItemDef> Area1ItemBuffer = new List<ItemDef>();
-    // List<ItemDef> Area2ItemBuffer = new List<ItemDef>();
-    // List<ItemDef> Area3ItemBuffer = new List<ItemDef>();
-    //
-    // List<int> Area1ItemIdBuffer = new List<int>();
-    // List<int> Area2ItemIdBuffer = new List<int>();
-    // List<int> Area3ItemIdBuffer = new List<int>();
 
     public List<AreaData> Areas = new();
+
+    public GameObject ItemBox; //아이템 담을 박스 프리팹 원본
     
     public bool IsReady { get; private set; } = false;
 
+    #region 기본 설정
 
     private void Awake()
     {
@@ -64,11 +54,7 @@ public class DisplayStandManager : MonoBehaviour
     public async UniTask RegisterDisplayStand(DisplayStand displayStand)
     {
         await UniTask.WaitUntil(() => IsReady);
-        // if (AllArea[(int)displayStand.areaNum].Contains(displayStand) == false)
-        // {
-        //     AllArea[(int)displayStand.areaNum].Add(displayStand);
-        //
-        // }
+
         AreaData area = Areas[(int)displayStand.areaNum];
         if (area.DisplayStands.Contains(displayStand) == false)
         {
@@ -88,24 +74,10 @@ public class DisplayStandManager : MonoBehaviour
                       $"상태 : {displayStand?.CategoryType}, 가진 아이템 : {displayStand?.Items[i].ItemName}");
         }
     }
-    public void UnregisterDisplayStand(DisplayStand displayStand)
-    {
-        // if (AllArea[(int)displayStand.areaNum].Contains(displayStand))
-        // {
-        //     AllArea[(int)displayStand.areaNum].Remove(displayStand);
-        // }
-        
-        AreaData area = Areas[(int)displayStand.areaNum];
-        if (area.DisplayStands.Contains(displayStand))
-        {
-            area.DisplayStands.Remove(displayStand);
-        }
-    }
-    /// <summary>
-    /// 포지션이 어떤 스탠드 안에 있는지 모든 스탠드를 검사하고, 있다면 해당 스탠드를 반환합니다. 없다면 null을 반환합니다.
-    /// </summary>
-    /// <param name="target"></param>
-    /// <returns></returns>
+
+    #endregion
+    
+    // 가까운 매대 아이템 찾기
     public DisplayStand CheckWhenStend(Vector3 target)
     {
         for (int i = 0; i < Areas.Count; i++)
@@ -120,6 +92,46 @@ public class DisplayStandManager : MonoBehaviour
         }
         return null;
     }
+
+    /// 전체 매대를 순회하며 itemId를 가진 매대와 슬롯 인덱스찾기
+    public bool TryFindStandByItemId(int itemId, out DisplayStand stand, out int index)
+    {
+        for (int i = 0; i < Areas.Count; i++)
+        {
+            for (int j = 0; j < Areas[i].DisplayStands.Count; j++)
+            {
+                DisplayStand s = Areas[i].DisplayStands[j];
+                int idx = s.GetItemIndexById(itemId);
+                if (idx >= 0)
+                {
+                    stand = s;
+                    index = idx;
+                    return true;
+                }
+            }
+        }
+        stand = null;
+        index = -1;
+        return false;
+    }
+    
+    public void UnregisterDisplayStand(DisplayStand displayStand)
+    {
+
+        AreaData area = Areas[(int)displayStand.areaNum];
+        if (area.DisplayStands.Contains(displayStand))
+        {
+            area.DisplayStands.Remove(displayStand);
+        }
+    }
+    /// <summary>
+    /// 포지션이 어떤 스탠드 안에 있는지 모든 스탠드를 검사하고, 있다면 해당 스탠드를 반환합니다. 없다면 null을 반환합니다.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+
+    #region 매대 배치 내부 설정
+
     public DisplayStand CheckWhenStend(Vector3 origin ,Vector3 target)
     {
         for (int i = 0; i < Areas.Count; i++)
@@ -365,4 +377,6 @@ public class DisplayStandManager : MonoBehaviour
         //         return null;
         // }
     }
+
+    #endregion
 }

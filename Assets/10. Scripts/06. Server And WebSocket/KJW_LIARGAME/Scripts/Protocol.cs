@@ -107,6 +107,7 @@ namespace TeamSH
         public string Id{get;set;} // 클리어 한 유저의 Id
     }
         #endregion
+        
     #region 기본 상태 처리
 
     [Serializable]
@@ -666,8 +667,6 @@ namespace TeamSH
         public string PushedUserId{get;set;} // 밀쳐진 유저, 일단 한명만 가능하다 가정 (없을 수 있음)
         
     }
-
-
 
     // 퀘스트 정의 예시
     public interface IQuest<out T>
