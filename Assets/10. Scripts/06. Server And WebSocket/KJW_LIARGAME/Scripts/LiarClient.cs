@@ -535,6 +535,8 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
 
+            UserScoreInfo = null;
+            
             IsGameStarted = false; // 게임시작 아님
             DoLoadScene("LIARGAME_Lobby"); // 로비씬으로
         }
