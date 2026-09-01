@@ -12,11 +12,5 @@ namespace TeamSH
             playerController = GetComponent<PlayerController>();
             itemInteractionHandler = GetComponent<ItemInteractionHandler>();
         }
-        
-        
-        public override void PushPlayer(Vector3 hitDirection, float power)
-        {
-            playerController.PushPlayer(hitDirection, power);
-        }
     }
 }

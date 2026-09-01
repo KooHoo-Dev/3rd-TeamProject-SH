@@ -280,6 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e8e528453f424b9913e6f228209ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.LocalPlayer
+  controller: {fileID: 2336401383748982689}
   <NickNamePivot>k__BackingField: {fileID: 8350525420900975534}
   <ItemHeadPivot>k__BackingField: {fileID: 1362353154802437241}
   <FindItemPivot>k__BackingField: {fileID: 8790858414017895942}
@@ -301,6 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11266d2769aa449fb6a7418882d31444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.PlayerController
+  canMove: 1
   canMove: 1
 --- !u!114 &5530280183875003146
 MonoBehaviour:

@@ -5,6 +5,8 @@ namespace TeamSH
 {
     public abstract class Interaction_Player : MonoBehaviour
     {
+        [SerializeField] protected PlayerControllerBase controller;
+
         [field: SerializeField] public Transform NickNamePivot { get; private set; }
         [field: SerializeField] public Transform ItemHeadPivot { get; private set; }
         [field: SerializeField] public Transform FindItemPivot { get; private set; }
@@ -12,6 +14,15 @@ namespace TeamSH
 
         [field: SerializeField] public List<MartItem> SelectedObjects { get; private set; }
 
-        public abstract void PushPlayer(Vector3 hitDirection, float power);
+        public void ApplyKnockback(Vector3 hitDirection, float power) => controller.ApplyKnockback(hitDirection, power);
+        
+        public void SetPlayerWithScenes(string sceneName)
+        {
+            switch (sceneName)
+            {
+                case "00. MeetingRoom": controller.ApplyMeetingPlayer(); break;
+                case "LIARGAME_MART": controller.ApplyMartPlayer(); break;
+            }
+        }
     }
 }
