@@ -12,11 +12,11 @@ namespace TeamSH
     {
         private LiarClient client;
 
-        [Header("Timer")] // 제한시간 타이머
+        [Header("제한시간 타이머")] 
         [SerializeField] private GameObject timerPanel;
         [SerializeField] private TextMeshProUGUI timerText;
 
-        [Header("Info Overlay (TAB)")] // TAB으로 정보창 보기
+        [Header("TAB으로 정보창 보기 / 장르 / 키워드 / 특수채팅 목록")]
         [SerializeField] private GameObject infoOverlayPanel;
         [SerializeField] private TextMeshProUGUI genreText;
         [SerializeField] private TextMeshProUGUI keywordText;
@@ -24,28 +24,28 @@ namespace TeamSH
         
         private bool showInfo; // 탭 활성화 상태 확인 bool값
 
-        [Header("Special Chat Log")] // 특수채팅 로그
+        [Header("특수채팅 로그")] 
         [SerializeField] private GameObject specialChatLogPanel;
         [SerializeField] private TextMeshProUGUI specialChatLogText;
         
         [Header("Debate Special Chat Log")] // 변론 종료에서의 특수채팅 로그
 
-        [Header("Liar Out")] // 라밍아웃 버튼
+        [Header("라밍아웃 버튼")] 
         [SerializeField] private Button liarOutButtonComponent;
 
-        [Header("Final Result")] // 최종 결과 (우승자)
+        [Header("최종 결과 (우승자)")] 
         [SerializeField] private GameObject finalResultPanel;
         [SerializeField] private TextMeshProUGUI finalResultText;
 
-        [Header("Score Tally")] // 점수 목록
+        [Header("점수 목록")]
         [SerializeField] private GameObject scoreTallyPanel;
         [SerializeField] private TextMeshProUGUI scoreText;
 
-        [Header("Announce")] // 라이어 확정 / 키워드 맞춤 안내
+        [Header("라이어 확정 / 키워드 맞춤 안내")]
         [SerializeField] private GameObject announcePanel;
         [SerializeField] private TextMeshProUGUI announceText;
         
-        [Header("Keyword Chat")] // 키워드 채팅 시각화
+        [Header("키워드 채팅 시각화")] 
         [SerializeField] private GameObject keywordChatPanel;
         [SerializeField] private TextMeshProUGUI keywordChatText; // 라이어가 작성한 키워드채팅
         [SerializeField] private TextMeshProUGUI liarKeyword; // 라이어의 키워드
