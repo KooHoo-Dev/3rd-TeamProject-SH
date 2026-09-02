@@ -20,17 +20,17 @@ namespace TeamSH
         private float areaLength;
         private readonly List<Vector3> displayStandPositions = new();
 
-        # region 매대 호출 테스트
-
-        private void Update()
-        {
-            if (SimpleInput.GetKeyDown(Key.Q))
-            {
-                SpawnDisplayStand();
-            }
-        }
-
-        # endregion
+        // # region 매대 호출 테스트
+        //
+        // private void Update()
+        // {
+        //     if (SimpleInput.GetKeyDown(Key.Q))
+        //     {
+        //         SpawnDisplayStand();
+        //     }
+        // }
+        //
+        // # endregion
 
         # region 매대 배치하기
 
