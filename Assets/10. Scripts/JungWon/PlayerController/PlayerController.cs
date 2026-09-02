@@ -74,9 +74,10 @@ namespace TeamSH
             
             if (SimpleInput.GetKeyDown(Key.Space))
             {
-                Animator.SetLayerWeight(1,1);
-                Animator.SetTrigger(IS_PUSH);
+                PlayPushAnimation();
                 pushTimer += pushCoolTime;
+
+                LiarClient.Instance.RequestPushAnimation();
             }
         }
         

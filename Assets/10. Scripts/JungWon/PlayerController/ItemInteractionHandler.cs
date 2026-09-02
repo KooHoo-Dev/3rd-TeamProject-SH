@@ -66,7 +66,7 @@ namespace TeamSH
             }
 
             int itemId = currentStand.Items[nearestIndex].ItemId;
-            LiarClient.Instance.RequestTryGetItem(itemId);
+            LiarClient.Instance.RequestTryGetItem(itemId); // 주석 해제 + 새 메서드 연결
             Debug.Log($"서버에 {currentStand.Items[nearestIndex].ItemName}을 집고싶다 요청 보냄");
         }
         
@@ -101,15 +101,16 @@ namespace TeamSH
         }
 
         // 서버가 가방 넣기 결과를 알려줄 때 호출됨.
-        public void SuccessPutDownItem(bool isSuccess)
+        public void SuccessPutDownItem(bool isSuccess, string changedItemId = null)
         {
             if (handItem == null) return;
-
-            // 실패 시에만 원래 매대 자리를 다시 활성화한다.
-            // (성공 시 매대 자리를 다시 켤지 여부는 "가방에 넣은 아이템이 매대에서 영구히 사라지는가"라는
-            //  게임 기획 문제이므로, 지금은 원래 테스트 코드의 동작(항상 재활성화)을 유지하려면
-            //  이 조건문을 지우고 항상 RequestActiveItem()을 호출하면 됩니다. 서버팀과 확정 필요.)
-            if (isSuccess == false) { handItem.RequestActiveItem(); }
+            
+            if (isSuccess == false) handItem.RequestActiveItem(); 
+            else if (string.IsNullOrEmpty(changedItemId) == false)
+            {
+                // 아이템 교체 내용 넣기
+                Debug.Log($"[아이템 교체] 기존에 가방에 있던 아이템(id:{changedItemId})이 교체되었습니다.");
+            }
 
             Destroy(handItem.gameObject);
             handItem = null;

@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: -7930338786351535698}
   - component: {fileID: 5730751569202337309}
   - component: {fileID: 854079931304702125}
+  - component: {fileID: 3314958677348802473}
   - component: {fileID: 9199929324415156545}
   - component: {fileID: 643297642833712815}
   - component: {fileID: 1006583272637948065}
@@ -304,6 +305,7 @@ MonoBehaviour:
   canMove: 1
   smooth: 10
   body: {fileID: 6039462857329746840}
+  delayTime: 0
 --- !u!114 &854079931304702125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,6 +326,20 @@ MonoBehaviour:
   externalDrag: 12
   showCastGizmos: 1
   castPreviewDistance: 0.5
+--- !u!114 &3314958677348802473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371521968274464321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5338047ee44440d99ad8bad7c5b805be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeamSH.ItemInteractionHandler
+  <Owner>k__BackingField: {fileID: 0}
+  itemBonePivot: {fileID: 5698209311293110406}
 --- !u!114 &9199929324415156545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -620,6 +636,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7446515298502418600}
   m_SourcePrefab: {fileID: 100100000, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+--- !u!4 &5698209311293110406 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2608668263107762579, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+  m_PrefabInstance: {fileID: 7721354333483000085}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6039462857329746840 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4104953696132219533, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}

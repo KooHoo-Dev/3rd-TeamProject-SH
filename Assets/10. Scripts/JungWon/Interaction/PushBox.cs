@@ -47,20 +47,12 @@ namespace TeamSH
             Interaction_Player receiver = pushableBox.Owner;
 
             if (receiver == null) return;
+            if (sender != LiarClient.Instance.Local) return; //미는게 나일때만 보고
 
-            // 밀쳐낼 방향 계산 (XZ 평면 기준 정규화)
-            Vector3 hitDir = (receiver.transform.position - sender.transform.position);
-            hitDir.y = 0.0f;
-            hitDir.Normalize();
-
-            // 밀치기 이벤트 생성
-            InteractionEvent @event;
-            @event.Position = collision.ClosestPoint(sender.transform.position);
-            @event.HitDirection = hitDir;
-            @event.PushPower = Owner.PushPower;
-
-            // Interaction_System을 통해 전달
-            Interaction_System.Instance.To(sender, receiver, @event);
+            string receiverId = LiarClient.Instance.GetPlayerId(receiver); //미는사람 Id 받아오기
+            if(receiverId == null) return;
+            
+            LiarClient.Instance.RequestPushQuery(receiverId);
         }
     }
 }
