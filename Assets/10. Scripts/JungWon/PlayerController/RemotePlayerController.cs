@@ -26,7 +26,7 @@ namespace TeamSH
         
         public void Teleport(Vector3 position)
         {
-            delayTime = 1f;
+            delayTime = 1f; //씬이동까지의 딜레이시간
             transform.position = position;
             target = position;
             lastPos = position;

@@ -91,7 +91,7 @@ public static class NetworkManager
     public static Action<bool,bool, string, string> OnItemDropQuery;
     public static Action<bool,bool, string, string> OnItemDropAnswer;
     public static Action<bool,bool, string, string> OnItemPutInBagQuery;
-    public static Action<bool,bool, string, string> OnItemPutInBagAnswer;
+    public static Action<bool,bool, string, string, string> OnItemPutInBagAnswer; //아마 가방에 넣을 아이템 결과 알려줄때 교체할 아이템도 알려줄듯?
 
 
 
@@ -286,7 +286,17 @@ public static class NetworkManager
                 break;
 
             case Protocol.InteractionType.ItemPutInBagAnswer:
-                OnItemPutInBagAnswer?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId);
+                string changedItemId = null;
+                
+                if (string.IsNullOrEmpty(msg.Parameter) == false) //파라미터에서 값꺼내기 코드 (임시)
+                {
+                    var change = Parse<Protocol.ChangeItem>(msg.Parameter);
+                    changedItemId = change?.changedItemId;
+                }
+
+                OnItemPutInBagAnswer?.Invoke(msg.IsValid, msg.IsSuccess, 
+                    msg.senderId, msg.receivedId, changedItemId);
+                
                 break;
 
             default:

@@ -62,6 +62,8 @@ namespace TeamSH
 
         public List<string> WinnerUserID { get; private set; }
 
+        #region Get관련
+
         // 점수 높은 순서대로 정렬
         public List<string> GetScoreSorted()
         {
@@ -76,9 +78,7 @@ namespace TeamSH
 
             return scoreSortedList;
         }
-
-        #region Get관련
-
+        
         // Id로 닉네임 찾기
         public string GetNickName(string userId) // ID로 닉네임 찾기
         {
@@ -221,6 +221,11 @@ namespace TeamSH
                 // 턴 상태 메세지 전부가 TurnMessage 하나로 통합됨 (TurnMessageType으로 내부 분기), 나머지는 그대로인듯
                 case "turnMessage":
                     ParseNetworkManager.NetworkManager.MessageParse(JsonConvert.DeserializeObject<TurnMessage>(json));
+                    break;
+                
+                // 상호 작용
+                case "userInteraction":
+                    ParseNetworkManager.NetworkManager.MessageParse(JsonConvert.DeserializeObject<UserInteractionMessage>(json));
                     break;
 
                 case "Select": OnSelect(JsonConvert.DeserializeObject<SelectMessage>(json)); break;
@@ -608,6 +613,42 @@ namespace TeamSH
 
         #endregion
 
+        #region 마트 처리
+
+        // 집기 결과
+        private void OnItemHoldAnswer(bool isValid, bool isSuccess, string senderId, string receivedId)
+        {
+            // 레이스 컨디션에서 진 경우(다른 사람이 먼저 집음) → 완전히 무시
+            if (isValid == false) return;
+
+            if (isSuccess == false)
+            {
+                Debug.Log($"[아이템] {senderId} 집기 실패 (itemId:{receivedId})");
+                return;
+            }
+
+            Interaction_Player player = GetPlayer(senderId);
+            ItemInteractionHandler handler = player.GetComponentInChildren<ItemInteractionHandler>();
+            if (handler == null) return;
+
+            if (int.TryParse(receivedId, out int itemId))
+                handler.SuccessGetItem(itemId);
+        }
+
+        // 가방 넣기 결과 (교체 정보 포함)
+        private void OnItemPutInBagAnswer(bool isValid, bool isSuccess, string senderId, string receivedId, string changedItemId)
+        {
+            if (isValid == false) return;
+
+            Interaction_Player player = GetPlayer(senderId);
+            ItemInteractionHandler handler = player.GetComponentInChildren<ItemInteractionHandler>();
+            if (handler == null) return;
+
+            handler.SuccessPutDownItem(isSuccess, changedItemId);
+        }
+        
+        #endregion
+
         // 지속적으로 계속 돈다.
         private void OnState(StateMessage message)
         {
@@ -743,14 +784,12 @@ namespace TeamSH
 
                 if (id == Me.Id)
                 {
-                    //localPlayer.transform.GetChild(0).transform.rotation = rot; // 본체와 몸체 회전이 별개기때문에 별도처리
                     localPlayer.transform.position = pos;
                     localPlayer.Body.transform.rotation = rot;
                 }
                 else if (remotes.TryGetValue(id, out RemotePlayer remote))
                 {
-                    //remote.transform.GetChild(0).transform.rotation = rot; // 본체와 몸체 회전이 별개기때문에 별도처리
-                    remote.transform.position = pos;
+                    remote.Teleport(pos);
                     remote.Body.transform.rotation = rot;
                 }
             }
@@ -821,6 +860,41 @@ namespace TeamSH
 
         #endregion
 
+        #region 마트 처리
+
+        // 아이템 집기 요청
+        public void RequestTryGetItem(int itemId)
+        {
+            if (Me == null) return;
+
+            var msg = InteractionMessageFactory.ItemHoldQuery(
+                Protocol.InteractionType.ItemHoldQuery,
+                isValid: true,
+                isSuccess: false,
+                senderId: Me.Id,
+                receivedId: itemId.ToString());
+
+            SendAsync(msg).Forget();
+        }
+        
+        // 가방에 넣기 요청
+        public void RequestTryInputItemInBag(int itemId)
+        {
+            if (Me == null) return;
+
+            var msg = InteractionMessageFactory.ItemPutInBagQuery(
+                Protocol.InteractionType.ItemPutInBagQuery,
+                isValid: true,
+                isSuccess: false,
+                senderId: Me.Id,
+                receivedId: itemId.ToString());
+
+            SendAsync(msg).Forget();
+        }
+        
+
+        #endregion
+
         #endregion
 
         protected override void Awake()
@@ -861,7 +935,12 @@ namespace TeamSH
             ParseNetworkManager.NetworkManager.OnFinalResultEndState += OnFinalResultEndState;
             
             ParseNetworkManager.NetworkManager.OnLiarOutButtonPressedState += OnLiarOutButtonPressedState;
-
+            
+            // 마트 처리
+            ParseNetworkManager.NetworkManager.OnItemHoldAnswer     += OnItemHoldAnswer;
+            ParseNetworkManager.NetworkManager.OnItemPutInBagAnswer += OnItemPutInBagAnswer;
+            
+            //채팅 처리
             ParseNetworkManager.NetworkManager.OnNormalChat += OnNormalChat;
             ParseNetworkManager.NetworkManager.OnSpecialChat += OnSpecialChat;
             ParseNetworkManager.NetworkManager.OnKeywordGuessChat += OnKeywordGuessChat;
@@ -894,6 +973,11 @@ namespace TeamSH
             
             ParseNetworkManager.NetworkManager.OnLiarOutButtonPressedState -= OnLiarOutButtonPressedState;
 
+            //마트 처리
+            ParseNetworkManager.NetworkManager.OnItemHoldAnswer     -= OnItemHoldAnswer;
+            ParseNetworkManager.NetworkManager.OnItemPutInBagAnswer -= OnItemPutInBagAnswer;
+            
+            //채팅 처리
             ParseNetworkManager.NetworkManager.OnNormalChat -= OnNormalChat;
             ParseNetworkManager.NetworkManager.OnSpecialChat -= OnSpecialChat;
             ParseNetworkManager.NetworkManager.OnKeywordGuessChat -= OnKeywordGuessChat;
@@ -1004,7 +1088,9 @@ namespace TeamSH
                 // 씬 전환 중 아직 재연결 전이면 잠시 쉰다.
                 if (localPlayer == null) continue;
 
-                // 여기 아마 마트에서만 서버로 좌표 보내도록 제한 조건 붙히는게 좋을듯한데 일단 테스트로 그냥 둡니다.
+                // 마트아니면 이동좌표 안보냄(테스트 용)
+                if (activeContentScene != "01. Mart") continue;
+                
                 Vector3 position = localPlayer.transform.position;
                 await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y, Z = position.z });
             }
