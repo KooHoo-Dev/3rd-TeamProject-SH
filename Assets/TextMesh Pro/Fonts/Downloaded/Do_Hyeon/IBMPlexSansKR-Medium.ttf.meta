@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 729229c9e4053b748ad409493e5c94ae
+guid: 179e8713a26dad14ea10b28bc55ab464
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Cafe24 PRO Slim
+  - IBM Plex Sans KR
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

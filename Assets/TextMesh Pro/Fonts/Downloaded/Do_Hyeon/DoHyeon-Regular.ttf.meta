@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 14e2e1d2763ce2f4daed1e473813cdf2
+guid: e8d689fba72cb374cac957587527fe35
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Cafe24 PRO Slim
+  - Do Hyeon
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
