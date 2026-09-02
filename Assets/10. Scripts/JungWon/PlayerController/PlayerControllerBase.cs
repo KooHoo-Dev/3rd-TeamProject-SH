@@ -21,6 +21,13 @@ namespace TeamSH
         
         protected abstract void OnAwake();
         
+        public void PlayPushAnimation()
+        {
+            if (canMove == false) return; // 이동 불가 상태(회의실 등)에서는 애니메이션도 재생하지 않음
+            Animator.SetLayerWeight(1, 1);
+            Animator.SetTrigger(IS_PUSH);
+        }
+        
         public void ApplyMartPlayer()
         {
             canMove = true;

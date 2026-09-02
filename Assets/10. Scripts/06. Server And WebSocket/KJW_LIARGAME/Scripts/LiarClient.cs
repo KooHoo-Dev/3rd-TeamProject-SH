@@ -99,6 +99,21 @@ namespace TeamSH
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.pointPivot : localPlayer.pointPivot;
         }
 
+        public string GetPlayerId(Interaction_Player player)
+        {
+            string playerId = null;
+            
+            foreach (var remote in remotes.Values)
+            {
+                // RemotePlayer가 Interaction_Player를 상속받으므로 직접 비교 가능
+                if (remote == player)
+                {
+                    return remote.User.Id;
+                }
+            }
+
+            return null;
+        }
         #endregion
 
         [Header("방 정보")]
@@ -226,6 +241,11 @@ namespace TeamSH
                 // 상호 작용
                 case "userInteraction":
                     ParseNetworkManager.NetworkManager.MessageParse(JsonConvert.DeserializeObject<UserInteractionMessage>(json));
+                    break;
+                
+                // 밀기 애니메이션 적용
+                case "PushAnimation":
+                    OnPushAnimationMessage(JsonConvert.DeserializeObject<PushAnimationMessage>(json));
                     break;
 
                 case "Select": OnSelect(JsonConvert.DeserializeObject<SelectMessage>(json)); break;
@@ -615,6 +635,39 @@ namespace TeamSH
 
         #region 마트 처리
 
+        // 다른 사람의 밀기 애니메이션 수신
+        private void OnPushAnimationMessage(PushAnimationMessage message)
+        {
+            if (Me != null && message.UserID == Me.Id) return; // 내가 보낸 것은 무시
+
+            if (remotes.TryGetValue(message.UserID, out RemotePlayer remote))
+                remote.PlayPushAnimation();
+        }
+        
+        // 서버에서 밀치기 결과 수신
+        private void OnPushAnswer(bool isValid, bool isSuccess, string senderId, string receivedId)
+        {
+            if (isValid == false) return;
+            if (isSuccess == false) return;
+
+            Interaction_Player sender = GetPlayer(senderId);
+            Interaction_Player receiver = GetPlayer(receivedId);
+
+            // 밀쳐낼 방향 계산 (XZ 평면 기준 정규화)
+            Vector3 hitDir = (receiver.transform.position - sender.transform.position);
+            hitDir.y = 0.0f;
+            hitDir.Normalize();
+            
+            InteractionEvent @event = new InteractionEvent
+            {
+                HitDirection = hitDir,
+                PushPower = receiver.PushPower,
+                Position = receiver.transform.position
+            };
+            
+            Interaction_System.Instance.To(sender, receiver, @event);
+        }
+        
         // 집기 결과
         private void OnItemHoldAnswer(bool isValid, bool isSuccess, string senderId, string receivedId)
         {
@@ -892,6 +945,28 @@ namespace TeamSH
             SendAsync(msg).Forget();
         }
         
+        // 밀기 애니메이션 요청 (실제로 맞았는지와 무관)
+        public void RequestPushAnimation()
+        {
+            if (Me == null) return;
+            SendAsync(new PushAnimationMessage { UserID = Me.Id }).Forget();
+        }
+        
+        // 밀기 판정 요청
+        public void RequestPushQuery(string receivedId)
+        {
+            if (Me == null) return;
+
+            var msg = InteractionMessageFactory.PushQuery(
+                Protocol.InteractionType.PushQuery,
+                isValid: true,
+                isSuccess: false,
+                senderId: Me.Id,
+                receivedId: receivedId
+                );
+
+            SendAsync(msg).Forget();
+        }
 
         #endregion
 
@@ -939,6 +1014,7 @@ namespace TeamSH
             // 마트 처리
             ParseNetworkManager.NetworkManager.OnItemHoldAnswer     += OnItemHoldAnswer;
             ParseNetworkManager.NetworkManager.OnItemPutInBagAnswer += OnItemPutInBagAnswer;
+            ParseNetworkManager.NetworkManager.OnPushAnswer += OnPushAnswer;
             
             //채팅 처리
             ParseNetworkManager.NetworkManager.OnNormalChat += OnNormalChat;
@@ -976,6 +1052,7 @@ namespace TeamSH
             //마트 처리
             ParseNetworkManager.NetworkManager.OnItemHoldAnswer     -= OnItemHoldAnswer;
             ParseNetworkManager.NetworkManager.OnItemPutInBagAnswer -= OnItemPutInBagAnswer;
+            ParseNetworkManager.NetworkManager.OnPushAnswer -= OnPushAnswer;
             
             //채팅 처리
             ParseNetworkManager.NetworkManager.OnNormalChat -= OnNormalChat;

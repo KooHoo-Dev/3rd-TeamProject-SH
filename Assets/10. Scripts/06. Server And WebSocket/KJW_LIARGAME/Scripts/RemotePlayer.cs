@@ -38,6 +38,8 @@ namespace TeamSH
         
         public void Teleport(Vector3 position) => remoteController.Teleport(position);
         
+        public void PlayPushAnimation() => remoteController.PlayPushAnimation();
+
         public void Setup(User user)
         {
             User = user;
