@@ -358,7 +358,7 @@ namespace TeamSH
         private void OnMartEnterState(float timerMs, int cycle, int round, string questId, CategoryItemArray[] allCategoryItemArrays) 
         {
             DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
-            DoLoadScene("01. Mart");
+            DoLoadScene("02. NewMart");
         }
 
         private void OnMartMoveState(float timerMs, int cycle, int round)
@@ -807,7 +807,7 @@ namespace TeamSH
 
             switch (activeContentScene)
             {
-                case "01. Mart":
+                case "02. NewMart":
                     spawnPoints = MartManager.Instance?.userSpawnPoints;
                     break;
                 case "00. MeetingRoom":
@@ -1166,7 +1166,7 @@ namespace TeamSH
                 if (localPlayer == null) continue;
 
                 // 마트아니면 이동좌표 안보냄(테스트 용)
-                if (activeContentScene != "01. Mart") continue;
+                if (activeContentScene != "02. NewMart") continue;
                 
                 Vector3 position = localPlayer.transform.position;
                 await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y, Z = position.z });

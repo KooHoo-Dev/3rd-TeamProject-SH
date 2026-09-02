@@ -236,7 +236,6 @@ GameObject:
   - component: {fileID: 1420206993541028376}
   - component: {fileID: -7930338786351535698}
   - component: {fileID: 5730751569202337309}
-  - component: {fileID: 854079931304702125}
   - component: {fileID: 3314958677348802473}
   - component: {fileID: 9199929324415156545}
   - component: {fileID: 643297642833712815}
@@ -306,26 +305,7 @@ MonoBehaviour:
   smooth: 10
   body: {fileID: 6039462857329746840}
   delayTime: 0
---- !u!114 &854079931304702125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4371521968274464321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3747107486264947b58088fb46e89652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TeamSH.CharacterController3D
-  speed: 2
-  skinWidth: 0.02
-  collisionLayer:
-    serializedVersion: 2
-    m_Bits: 192
-  externalDrag: 12
-  showCastGizmos: 1
-  castPreviewDistance: 0.5
+  knockbackDrag: 8
 --- !u!114 &3314958677348802473
 MonoBehaviour:
   m_ObjectHideFlags: 0
