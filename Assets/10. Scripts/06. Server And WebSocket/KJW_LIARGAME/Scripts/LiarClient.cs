@@ -142,21 +142,22 @@ namespace TeamSH
         [Header("라이어 정보")]
         // 라이어 ID 저장하는 필드
         public string LiarId { get; private set; } = "";
+        
+        [Header("씬 설정")]
+        private const string BootScene = "LIARGAME_Lobby";
+        // 지금 추가로 떠 있는 씬 이름
+        private string activeContentScene;
+
+        [Header("채팅 설정")]
         // 방에서 오간 말. 로비가 그대로 그린다.
         public IReadOnlyList<string> ChatLog => chatLog;
         // 이번 라운드에 오간 특수채팅 전체. Tab 정보창이 그대로 보여준다 (chatLog와 달리 개수 제한 없음).
         public IReadOnlyList<string> SpecialChatLog => specialChatLog;
         // 맨 처음 씬 이름. activeContentScene의 시작값으로 쓴다.
-        private const string BootScene = "LIARGAME_Lobby";
-        // 지금 추가로 떠 있는 씬 이름
-        private string activeContentScene;
-
         // 오간 말. 너무 쌓이지 않게 앞에서부터 버린다.
         private readonly List<string> chatLog = new List<string>();
-
         // 특수채팅만 따로 모은 기록. Tab 정보창 전용이라 버리지 않는다.
         private List<string> specialChatLog = new List<string>();
-
         // 발언자의 턴에 입력한 특수채팅 단일
         public string specialChat { get; set; }
 
@@ -254,6 +255,10 @@ namespace TeamSH
                     case "Select": OnSelect(JsonConvert.DeserializeObject<SelectMessage>(json)); break;
                     case "NonPoint" : OnNonPointMessage(JsonConvert.DeserializeObject<NonPointMessage>(json)); break;
                     case "Vote": OnVoteMessage(JsonConvert.DeserializeObject<VoteMessage>(json)); break;
+                    
+                    //마트 관련 case
+                    case "WhoSuccessGetItem": OnWhoSuccessGetItem(JsonConvert.DeserializeObject<WhoSuccessGetItemMessage>(json)); break;
+                    case "ResultInputItemInBag": OnResultInputItemInBag(JsonConvert.DeserializeObject<ResultInputItemInBag>(json)); break;
                     
                     case "leave": OnLeave(JsonConvert.DeserializeObject<LeaveMessage>(json)); break;
                     case "state": OnState(JsonConvert.DeserializeObject<StateMessage>(json)); break;
@@ -373,7 +378,6 @@ namespace TeamSH
         {
             DoSetPhase(message.Type, message.TimerMs, message.CurrentCycle, message.CurrentRound);
             DoLoadScene("01. Mart");
-            
         }
 
         private void OnMartMoveState(MartMoveStateMessage message)
@@ -637,6 +641,29 @@ namespace TeamSH
         }
 
         #endregion
+        
+        #region 마트 아이템 처리 (Request / On)
+
+        //누군가 아이템 집기에 성공
+        private void OnWhoSuccessGetItem(WhoSuccessGetItemMessage message)
+        {
+            Interaction_Player player = GetPlayer(message.UserID);
+            ItemInteractionHandler handler = player.GetComponentInChildren<ItemInteractionHandler>();
+
+            if (int.TryParse(message.ItemID, out int itemId) == false) return;
+            handler.SuccessGetItem(itemId);
+        }
+
+        // 가방 넣기 결과
+        private void OnResultInputItemInBag(ResultInputItemInBag message)
+        {
+            Interaction_Player player = GetPlayer(message.UserID);
+            ItemInteractionHandler handler = player.GetComponentInChildren<ItemInteractionHandler>();
+
+            handler.SuccessPutDownItem(message.IsSuccess);
+        }
+
+        #endregion
 
         // 지속적으로 계속 돈다.
         private void OnState(StateMessage message)
@@ -787,7 +814,7 @@ namespace TeamSH
                 else if (remotes.TryGetValue(id, out RemotePlayer remote))
                 {
                     //remote.transform.GetChild(0).transform.rotation = rot; // 본체와 몸체 회전이 별개기때문에 별도처리
-                    remote.transform.position = pos;
+                    remote.Teleport(pos);
                     remote.Body.transform.rotation = rot;
                 }
             }
@@ -855,8 +882,24 @@ namespace TeamSH
 
         #endregion
         
+        #region 마트 아이템 처리
+
+        // 로컬 플레이어 -> 서버 : 집기 시도
+        public void RequestTryGetItem(int itemId)
+        {
+            SendAsync(new TryGetItemMessage { UserID = Me.Id, ItemID = itemId.ToString() }).Forget();
+        }
+
+        // 로컬 플레이어 -> 서버 : 가방 넣기 시도
+        public void RequestTryInputItemInBag(int itemId)
+        {
+            SendAsync(new TryInputItemInBag { UserID = Me.Id, ItemID = itemId.ToString() }).Forget();
+        }
+        
         #endregion
 
+        #endregion
+        
         protected override void Awake()
         {
             base.Awake(); // 싱글턴 등록 + DontDestroyOnLoad. 중복 인스턴스면 여기서 파괴된다.
@@ -972,7 +1015,9 @@ namespace TeamSH
                 // 씬 전환 중 아직 재연결 전이면 잠시 쉰다.
                 if (localPlayer == null) continue;
 
-                // 여기 아마 마트에서만 서버로 좌표 보내도록 제한 조건 붙히는게 좋을듯한데 일단 테스트로 그냥 둡니다.
+                // 회의실에서는 좌표 안보냄
+                if (activeContentScene != "01. Mart") continue;
+                
                 Vector3 position = localPlayer.transform.position;
                 await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y, Z = position.z });
             }

@@ -14,37 +14,36 @@ public enum AreaNum
 }
 public class DisplayStand : MonoBehaviour
 {
+    [Header("매대 범위 설정")]
     public float width;
     public float height;
     public float depth;
     float widthScale = 1f;
     float heightScale = 1f;
     float depthScale = 1f;
+    
     private LineRenderer ViewGrid;
    [field: SerializeField] public bool ShowGrid { get; set; } = false;
-    MeshFilter meshFilter;
-
-    GridCell grid;
-
+    
+    private MeshFilter meshFilter;
+    private GridCell grid;
     public GridCell Grid => grid ??= new GridCell(0, 0, transform.position);
 
-
-    // 아래는 아이템 한개
-    // public ItemDef Item { get; private set; }
-    //
-    // public MartItem MartItem { get; private set; }
+    [Header("매대 아이템 설정")]
+    
+    [field: SerializeField] public AreaNum areaNum { get; private set; } = AreaNum.Area1;
+    public CategoryType CategoryType { get; set; } = CategoryType.None;
 
     // 아이템 여러 개 기억하기 위해 일단 임시 코드
     public List<ItemDef> Items { get; private set; } = new();
     public List<MartItem> MartItems { get; private set; } = new();
     
-    [field: SerializeField] public AreaNum areaNum { get; private set; } = AreaNum.Area1;
-    public CategoryType CategoryType { get; set; } = CategoryType.None;
-
     // 아이템 3등분 위치
     private readonly List<Vector3> itemPositions = new();
     private const int ItemMaxCount = 3;
-    
+
+    #region 진열대 기본 설정
+
     void Awake()
     {
         //parent = transform.parent;
@@ -66,6 +65,7 @@ public class DisplayStand : MonoBehaviour
     {
         await DisplayStandManager.Instance.RegisterDisplayStand(this);
     }
+    
     void InitSize()
     {
         meshFilter = GetComponent<MeshFilter>();
@@ -92,96 +92,6 @@ public class DisplayStand : MonoBehaviour
         SetViewGrid();
     }
     
-    # region 추가 로직
-    /// <summary>
-    /// AreaNum을 CategoryAreaManager에 연결짓는 함수
-    /// </summary>
-    /// <param name="item"></param>
-    public void SetAreaNum(AreaNum areaNum)
-    {
-        this.areaNum = areaNum;
-    }
-
-    /// <summary>
-    /// DisplayStand의 width(x)를 n등분하고 아이템을 가져올 위치를 저장한다.
-    /// </summary>
-    private void GetItemPosition()
-    {
-        BoxCollider boxCollider = GetComponent<BoxCollider>();
-        float startPointX = meshFilter.mesh.bounds.min.x * widthScale;
-        float dividedLength = width / ItemMaxCount;
-
-        for (int i = 0; i < ItemMaxCount; i++)
-        {
-            float x = startPointX + dividedLength * i + dividedLength * 0.5f;
-            float z = meshFilter.mesh.bounds.center.z * depthScale;
-            
-            Vector3 position = new Vector3(x, 0f, z);
-
-            itemPositions.Add(position);
-        }
-    }
-    
-    # endregion
-    
-    
-    public void SetItem(ItemDef item)
-    {
-        Items.Add(item);
-        CategoryType = item.CategoryType;
-        // 아이템 프리펩이 로드되지 않았다면 리턴(현재는 프리펩이 없으므로 이 로직을 만듬) 
-        if(item.PrefabKey == null) return;
-        if (MartItems.Count >= itemPositions.Count) return;
-
-        Vector3 itemPosition = itemPositions[MartItems.Count];
-        
-        MartItem martItem = Instantiate
-            (item.PrefabKey, 
-                transform.position + new Vector3(itemPosition.x, height, itemPosition.z),
-                item.PrefabKey.transform.rotation);
-
-        if (martItem == null) return;
-        martItem.def = item;
-        martItem?.transform.SetParent(transform);
-        MartItems.Add(martItem);
-    }
-
-    /// <summary>
-    ///  가장 가까운 아이템 가져오기
-    /// </summary>
-    public ItemDef GetNearestItem(Vector3 playerPosition)
-    {
-        MartItem nearestItem = MartItems[0];
-        float nearestDistance = float.PositiveInfinity;
-
-        for (int i = 0; i < MartItems.Count; i++)
-        {
-            if (MartItems[i] == null) continue;
-            float distance = (playerPosition - MartItems[i].transform.position).sqrMagnitude;
-            if (distance < nearestDistance)
-            {
-                nearestDistance = distance;
-                nearestItem = MartItems[i];
-            }
-        }
-
-        return nearestItem?.def;
-    }
-    
-    public bool IsStay(Vector3 target)
-    {
-        return grid.IsStay(target);
-    }
-    public bool RayCheck(Vector3 origin, Vector3 target)
-    {
-        return grid.RayCheck(origin, target);
-    }
-    
-    public void RequestActiveItem() // 매대의 물건 활성화/ 비 활성화 호출
-    {
-        
-    }
-        
     private void SetViewGrid()
     {
         if (ViewGrid == null) return;
@@ -204,5 +114,129 @@ public class DisplayStand : MonoBehaviour
         }
 
         ViewGrid.SetPositions(positions);
+    }
+    
+    /// <summary>
+    /// DisplayStand의 width(x)를 n등분하고 아이템을 가져올 위치를 저장한다.
+    /// </summary>
+    private void GetItemPosition()
+    {
+        BoxCollider boxCollider = GetComponent<BoxCollider>();
+        float startPointX = meshFilter.mesh.bounds.min.x * widthScale;
+        float dividedLength = width / ItemMaxCount;
+
+        for (int i = 0; i < ItemMaxCount; i++)
+        {
+            float x = startPointX + dividedLength * i + dividedLength * 0.5f;
+            float z = meshFilter.mesh.bounds.center.z * depthScale;
+            
+            Vector3 position = new Vector3(x, 0f, z);
+
+            itemPositions.Add(position);
+        }
+    }
+
+    #endregion
+    
+    
+    # region 내부 설정(Set)
+    /// <summary>
+    /// AreaNum을 CategoryAreaManager에 연결짓는 함수
+    /// </summary>
+    /// <param name="item"></param>
+    public void SetAreaNum(AreaNum areaNum)
+    {
+        this.areaNum = areaNum;
+    }
+
+    public void SetItem(ItemDef item)
+    {
+        Items.Add(item);
+        CategoryType = item.CategoryType;
+        // 아이템 프리펩이 로드되지 않았다면 리턴(현재는 프리펩이 없으므로 이 로직을 만듬) 
+        if(item.PrefabKey == null) return;
+        if (MartItems.Count >= itemPositions.Count) return;
+
+        Vector3 itemPosition = itemPositions[MartItems.Count];
+        
+        MartItem martItem = Instantiate
+        (item.PrefabKey, 
+            transform.position + new Vector3(itemPosition.x, height, itemPosition.z),
+            item.PrefabKey.transform.rotation);
+
+        if (martItem == null) return;
+        martItem.itemDef = item;
+        martItem?.transform.SetParent(transform);
+        MartItems.Add(martItem);
+    }
+    
+    # endregion
+
+    #region 외부 연결 설정(Get)
+
+    /// 이 매대 안에서 주어진 itemId를 가진 아이템의 슬롯 인덱스를 찾기.
+    /// (근데 서버에서 받을때 ItemId를 string으로 받아서 바뀔지도?)
+    public int GetItemIndexById(int itemId)
+    {
+        for (int i = 0; i < Items.Count; i++)
+        {
+            if (Items[i] != null && Items[i].ItemId == itemId) return i;
+        }
+        return -1;
+    }
+    
+    //  가장 가까운 활성화된 아이템 인덱스 가져오기
+    public int GetNearestActiveItemIndex(Vector3 playerPosition)
+    {
+        int nearestIndex = -1;
+        float nearestDistance = float.PositiveInfinity;
+
+        for (int i = 0; i < MartItems.Count; i++)
+        {
+            if (MartItems[i] == null) continue;
+            if (!MartItems[i].gameObject.activeSelf) continue; // 이미 집힌 아이템은 후보 제외
+
+            float distance = (playerPosition - MartItems[i].transform.position).sqrMagnitude;
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestIndex = i;
+            }
+        }
+
+        return nearestIndex;
+    }
+    
+    public ItemDef GetNearestItem(Vector3 playerPosition)
+    {
+        int idx = GetNearestActiveItemIndex(playerPosition);
+        return idx < 0 ? null : MartItems[idx]?.itemDef;
+    }
+    
+    public MartItem RequestCreateBox(Vector3 spawnPos, int index) // 박스 생성 요청
+    {
+        GameObject newBox = Instantiate(DisplayStandManager.Instance.ItemBox, spawnPos, Quaternion.identity);
+        newBox.AddComponent<MartItem>();
+        MartItem box = newBox.GetComponent<MartItem>();
+        box.SetItemInfo(this, Items[index], index); //여기 아이템 리스트중 하나 골라 보내기코드 필요
+        RequestActiveItem(index);
+        return box;
+    }
+    
+    public void RequestActiveItem(int index) // 매대의 물건 활성화/ 비 활성화 호출
+    {
+        if(MartItems[index].gameObject.activeSelf) MartItems[index].gameObject.SetActive(false);
+        else MartItems[index].gameObject.SetActive(true);
+    }
+
+    #endregion
+    
+    public bool IsStay(Vector3 target)
+    {
+        return grid.IsStay(target);
+    }
+    public bool RayCheck(Vector3 origin, Vector3 target)
+    {
+        return grid.RayCheck(origin, target);
     }
 }

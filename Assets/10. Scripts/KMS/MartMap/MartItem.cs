@@ -9,17 +9,19 @@ namespace TeamSH
     public class MartItem : MonoBehaviour
     {
         private DisplayStand displayStand; // 집에서 ID기반으로 변경해서 DisplayStandManager를 통하여 RequestActiveItem이 일어나게 하도록 수정할 것
-        [FormerlySerializedAs("itemDef")] public ItemDef def;
+        private int itemIndex = -1; //매대 아이템 리스트 인덱스
+        public ItemDef itemDef;
 
-        public void SetItemInfo(DisplayStand displayStand, ItemDef itemDef)
+        public void SetItemInfo(DisplayStand displayStand, ItemDef itemDef, int index)
         {
             this.displayStand = displayStand;
-            this.def = itemDef;
+            this.itemDef = itemDef;
+            this.itemIndex = index;
         }
 
         public void RequestActiveItem()
         {
-            displayStand.RequestActiveItem();
+            displayStand.RequestActiveItem(itemIndex);
         }
     }
 }
