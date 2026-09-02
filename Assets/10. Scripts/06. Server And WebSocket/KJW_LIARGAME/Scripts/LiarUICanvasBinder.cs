@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static TeamSH.Protocol; 
 
 namespace TeamSH
 {
@@ -68,23 +69,10 @@ namespace TeamSH
             // 라밍아웃 버튼 클릭 감지
             liarOutButtonComponent.onClick.AddListener(OnLiarOutButtonClicked);
         }
-        
-        // 모든 UI들
-        private GameObject[] AllUI;
 
         private void Start()
         {
             client = LiarClient.Instance;
-            DownAllUI();
-            
-        }
-
-        private void DownAllUI() // 모든 UI 끄기
-        {
-            foreach (GameObject ui in AllUI)
-            {
-                ui.SetActive(false);
-            }
         }
 
         private void Update()
@@ -123,7 +111,7 @@ namespace TeamSH
         // 화면 우측 상단에 지금 상태의 남은 시간을 보여준다. 순전히 시각용
         private void UpdateTimer()
         {
-            bool show = client.CurrentPhase != "";
+            bool show = client.CurrentState != null; // 현재 페이즈가 null이 아니면 계속 보임
             timerPanel.SetActive(show);
             if (show == false) return;
 
@@ -151,7 +139,7 @@ namespace TeamSH
         {
             // 물건 보여주고 발언 상태 + 제한시간이 3초보다 많을 때 라밍아웃 버튼 활성화
 
-            bool show = client.CurrentPhase == "물건 보여주고 발언 상태" && client.RemainingSeconds > 3f && client.LiarButtonClicked == false;
+            bool show = client.CurrentState == TurnMessageType.ShowItemAndSpeakState && client.RemainingSeconds > 3f && client.LiarButtonClicked == false; 
 
             liarOutButtonComponent.gameObject.SetActive(show);
 
@@ -164,28 +152,32 @@ namespace TeamSH
 
         private void UpdateSpecialChatLog() // 특수채팅 업데이트
         {
-            bool show = client.CurrentPhase == "발언 종료 상태";
+            // 발언 종료 상태일 때
+            bool show = client.CurrentState == TurnMessageType.SpeechEndState; 
             specialChatLogPanel.SetActive(show); // 발언 종료상태일때만 활성화
             if (show == false) return;
 
-            specialChatLogText.text = $"현재 발언자의 특수채팅은 <{client.specialChat}> 입니다";
+            specialChatLogText.text = $"현재 발언자의 특수채팅은 <{client.SpecialChat}> 입니다"; 
         }
 
         // 확정된 유저의 라이어 판별 (라이어 확정 상태)
         // 라이어가 누군지 공개 (라이어의 키워드 맞춤 상태)
         private void UpdateAnnounce()
         {
-            bool show = client.CurrentPhase == "라이어 확정 상태" || client.CurrentPhase == "라이어의 키워드 맞춤 상태";
+            // 라이어 확정 상태일 때 or 키워드 맞춤 상태일 때
+            bool show = client.CurrentState == TurnMessageType.LiarConfirmedState || client.CurrentState == TurnMessageType.LiarKeywordGuessState; 
             announcePanel.SetActive(show);
             if (show == false) return;
 
-            if (client.CurrentPhase == "라이어 확정 상태")
+            // 라이어 확정 상태일 때
+            if (client.CurrentState == TurnMessageType.LiarConfirmedState) 
             {
                 string nick = client.GetNickName(client.CurrentOwnerID);
                 bool isLiar = client.LiarId == client.CurrentOwnerID; // 선정된 라이어와 확정된 유저가 같은지 확인
                 announceText.text = $"확정된 유저는 {nick} 입니다.\n{nick}는 {(isLiar ? "라이어입니다." : "라이어가 아닙니다.")}";
             }
-            if (client.CurrentPhase == "라이어의 키워드 맞춤 상태")
+            // 키워드 맞춤 상태일 때
+            if (client.CurrentState == TurnMessageType.LiarKeywordGuessState) 
             {
                 announceText.text = $"라이어는 {client.GetNickName(client.LiarId)} 입니다.";
             }
@@ -194,22 +186,25 @@ namespace TeamSH
         // 라이어가 입력한 키워드채팅을 모두에게 공개한다. (키워드 맞춤 종료 상태)
         private void UpdateKeywordChat()
         {
-            bool show = client.CurrentPhase == "키워드 맞춤 종료 상태";
+            bool show = client.CurrentState == TurnMessageType.LiarKeywordGuessEndState; 
             keywordChatPanel.SetActive(show);
             if (show == false) return;
 
             keywordChatText.text = $"{client.GetNickName(client.LiarId)}의 키워드 선택은 : {client.KeywordChatText}";
-            liarKeyword.text = $"라이어의 키워드는 {client.liarKeyword} 입니다.";
-            userKeyword.text = $"플레이어의 키워드는 {client.nomalKeyword} 입니다.";
+            liarKeyword.text = $"라이어의 키워드는 {client.LiarKeyword} 입니다."; // 실제 라이어의 키워드
+            userKeyword.text = $"플레이어의 키워드는 {client.NomalKeyword} 입니다."; // 실제 시민의 키워드
         }
 
-        private void UpdateScoreTally()
+        private void UpdateScoreTally() // 점수 공개
         {
-            // 라이어의 키워드 맞춤 상태(라운드 종료) or 점수 집계 상태(게임 종료)일 때 점수 보임
-            bool show = client.CurrentPhase == "키워드 맞춤 종료 상태" || client.CurrentPhase == "점수 집계 상태" || showInfo;
+            // 라이어의 키워드 맞춤 종료 상태(라운드 종료)
+            // 점수 집계 상태(게임 종료)일 때
+            // TAB 누를 때
+            bool show = client.CurrentState == TurnMessageType.LiarKeywordGuessEndState || client.CurrentState == TurnMessageType.ScoreTallyState || showInfo;
             scoreTallyPanel.SetActive(show);
             if (show == false) return;
 
+            // 내림차순으로 정렬
             scoreText.text = "점수 목록\n" + string.Join("\n", client.GetScoreSorted());
 
         }
@@ -218,10 +213,12 @@ namespace TeamSH
         private void UpdateLiarOutButtonResult()
         {
             // 라이어가 버튼을 눌렀을 때 + client.CurrentPhase가 라밍아웃 버튼 누름 상태일 떄
-            bool isLiarResult = client.CurrentPhase == "라밍아웃 버튼 누름 상태"; 
-            
+            bool isLiarResult = 
+                client.CurrentState == TurnMessageType.LiarOutButtonPressedState; 
+
             // 물건 보여주고 발언 상태에서 라이어가 아닌 사람이 버튼을 눌렀을 때 (그 사이클 한번만 텍스트 보임)
-            bool isNotLiarResult = client.CurrentPhase == "물건 보여주고 발언 상태" && client.IsNotLiarPushCycle;
+            bool isNotLiarResult = 
+                client.CurrentState == TurnMessageType.ShowItemAndSpeakState && client.IsNotLiarPushCycle;
 
             // 라이어거나 / 라이어가 아닐 때 (버튼을 누른건 동일)
             bool show = isLiarResult || isNotLiarResult;
@@ -236,7 +233,7 @@ namespace TeamSH
         // 최종 결과 상태 : 승리 / 패배
         private void UpdateWinOrDefeat()
         {
-            bool show = client.CurrentPhase == "최종 결과 상태";
+            bool show = client.CurrentState == TurnMessageType.FinalResultState; 
             winOrDefeatPanel.SetActive(show);
             if (show == false) return;
 
@@ -249,7 +246,7 @@ namespace TeamSH
         private void UpdateFinalResult()
         {
             // 최종 결과 상태일때 활성화
-            bool show = client.CurrentPhase == "최종 결과 종료 상태";
+            bool show = client.CurrentState == TurnMessageType.FinalResultEndState;
             finalResultPanel.SetActive(show);
             if (show == false) return;
 
