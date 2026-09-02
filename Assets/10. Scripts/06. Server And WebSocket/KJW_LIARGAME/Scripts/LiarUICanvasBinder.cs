@@ -70,6 +70,11 @@ namespace TeamSH
             liarOutButtonComponent.onClick.AddListener(OnLiarOutButtonClicked);
         }
 
+        private void Start()
+        {
+            client = LiarClient.Instance;
+        }
+
         private void Update()
         {
             // 추후 마트 UI / 회의실 UI와 분리할 필요성!!
