@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using static TeamSH.Protocol; 
 
 namespace TeamSH
 {
