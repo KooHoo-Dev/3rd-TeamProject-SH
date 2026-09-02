@@ -102,7 +102,7 @@ public static class NetworkManager
     public static void MessageParse(Protocol.TurnMessage msg)
     {
         
-        Debug.Log($"현재 메세지의 타입은 {msg.TurnMessageType.ToString()} 입니다.");
+        Debug.Log($"현재 턴 메세지의 타입은 {msg.TurnMessageType.ToString()} 입니다.");
         
         switch (msg.TurnMessageType)
         {
@@ -238,6 +238,7 @@ public static class NetworkManager
 
     public static void MessageParse(Protocol.ChatMessage msg)
     {
+        Debug.Log($"현재 채팅 메세지의 타입은 {msg.ChatType.ToString()} 입니다.");
         switch (msg.ChatType)
         {
             case Protocol.ChatType.Normal:
@@ -259,6 +260,7 @@ public static class NetworkManager
 
     public static void MessageParse(Protocol.UserInteractionMessage msg)
     {
+        Debug.Log($"현재 상호작용 메세지의 타입은 {msg.InteractionType.ToString()} 입니다.");
         switch (msg.InteractionType)
         {
             case Protocol.InteractionType.PushQuery:
