@@ -50,11 +50,20 @@ namespace TeamSH
         // 투표 단계 UI(VoteUI 패널)를 켜거나 끈다.
         public void RequestVoteUI(bool isShow) => conferenceUI.ApplyVoteUI(isShow);
         
-        # region 발언자 표시 UI, 카테고리/현재 사이클 표시, 장르/키워드 첫 알림 UI
+        # region UI 호출 메서드
 
         // 발언자 표시
         public void RequestSpeakerNoticeUI(bool isShow, string userNickname, string itemName)
             => conferenceUI.ApplySpeakerNoticeUI(isShow, userNickname, itemName);
+        
+        // 지목 후 최후의 변론 or 유효하지 않은 지목
+        public void RequestPointAtUI(bool isShow, string userNickname = "", bool isPointed = true)
+            => conferenceUI.ApplyPointAtResultUI(isShow, userNickname, isPointed);
+        
+        // 라이어 키워드 맞춤 상태
+        public void RequestLiarKeywordChatNoticeUI(bool isShow)
+            => conferenceUI.ApplyLiarKeywordChatNoticeUI(isShow);
+        
         
         // 카테고리/현재 사이클 표시
         public void RequestCategoryCycleUI(bool isShow, string categoryName, int currentCycle)
@@ -63,6 +72,10 @@ namespace TeamSH
         // 장르, 키워드, 현재 라운드수를 잠시 표시해주는 UI
         public void RequestGenreKeywordNoticeUI(bool isShow, int currentRound, string genre, string keyword)
             => conferenceUI.ApplyGenreKeywordUI(isShow, currentRound, genre, keyword);
+        
+        // 퀘스트 결과 UI
+        public void RequestQuestResultUI(bool isShow, bool isSuccess = true)
+            => conferenceUI.ApplyQuestResultUI(isShow, isSuccess);
         
         # endregion
 

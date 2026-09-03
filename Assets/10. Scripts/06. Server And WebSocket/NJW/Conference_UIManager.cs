@@ -21,7 +21,7 @@ namespace TeamSH
         private Vector2 originPos; // "기존 좌표" - 에디터에 배치해 둔 원래 위치(숨김 상태의 기준점)
 
         [Header("발언 설정")]
-        public TextMeshProUGUI speakerNoticeText;
+        public TextMeshProUGUI noticeText;
 
         [Header("카테고리 설정")]
         public GameObject categoryUI;
@@ -32,6 +32,10 @@ namespace TeamSH
         public TextMeshProUGUI currentRoundText;
         public TextMeshProUGUI genreText;
         public TextMeshProUGUI keywordText;
+
+        [Header("퀘스트 결과 설정")] 
+        public GameObject questResultUI;
+        public TextMeshProUGUI questResultText;
 
         private void Awake()
         {
@@ -46,8 +50,11 @@ namespace TeamSH
             ApplySkipButton(false);
             ApplyVoteUI(false);
             ApplySpeakerNoticeUI(false);
+            ApplyPointAtResultUI(false);
+            ApplyLiarKeywordChatNoticeUI(false);
             ApplyCategoryCycleUI(false);
             ApplyGenreKeywordUI(false);
+            ApplyQuestResultUI(false);
         }
 
         public void ApplySkipButton(bool isShow)
@@ -83,26 +90,56 @@ namespace TeamSH
             }
         }
         
-        # region 발언자 표시 UI, 발언 순서 표시 UI, 장르/키워드 첫 알림 UI
+        # region 조건부 호출 UI 메서드
         
-        // 발언자 차례 표시
+        // 발언자 차례 표시 - noticeText 활용
         public void ApplySpeakerNoticeUI(bool isShow, string userNickname = "", string itemName = "")
         {
             if (isShow == false)
             {
-                speakerNoticeText.gameObject.SetActive(false);
+                noticeText.gameObject.SetActive(false);
                 return;
             }
 
             if (string.IsNullOrEmpty(userNickname))
             {
                 Debug.LogWarning("유저 닉네임이 존재하지 않습니다.");
-                speakerNoticeText.gameObject.SetActive(false);
+                noticeText.gameObject.SetActive(false);
                 return;
             }
             
-            speakerNoticeText.SetText($"{userNickname}이 발언 중입니다.\n 공개된 아이템 : {itemName}");
-            speakerNoticeText.gameObject.SetActive(true);
+            noticeText.SetText($"{userNickname}이 발언 중입니다.\n 공개된 아이템 : {itemName}");
+            noticeText.gameObject.SetActive(true);
+        }
+        
+        // 지목대상의 최후의 변론 or 유효하지 않은 지목 - noticeText 활용
+        public void ApplyPointAtResultUI(bool isShow, string userNickname = "", bool isPointed = true)
+        {
+            if (isShow == false)
+            {
+                noticeText.gameObject.SetActive(false);
+                return;
+            }
+            if (string.IsNullOrEmpty(userNickname))
+            {
+                Debug.LogWarning("유저 닉네임이 존재하지 않습니다.");
+                noticeText.gameObject.SetActive(false);
+                return;
+            }
+
+            noticeText.SetText(isPointed ? $"{userNickname}의 최후의 변론이 진행됩니다." : "유효한 결과가 나오지 않았습니다.");
+        }
+        
+        // 라이어의 키워드 맞춤 상태 - noticeText 활용
+        public void ApplyLiarKeywordChatNoticeUI(bool isShow)
+        {
+            if (isShow == false)
+            {
+                noticeText.gameObject.SetActive(false);
+                return;
+            }
+            noticeText.SetText("라이어는 정답을 맞춰주세요.");
+            noticeText.gameObject.SetActive(true);
         }
         
         // 카테고리 표시
@@ -138,6 +175,19 @@ namespace TeamSH
             keywordText.SetText($"키워드 : {keyword}");
 
             genreKeywordNoticeUI.SetActive(true);
+        }
+
+        // 퀘스트 결과 UI
+        public void ApplyQuestResultUI(bool isShow, bool isSuccess = true)
+        {
+            if (isShow == false)
+            {
+                questResultUI.SetActive(false);
+                return;
+            }
+
+            questResultText.SetText(isSuccess ? "퀘스트 성공!" : "퀘스트 실패...");
+            questResultUI.SetActive(true);
         }
 
 

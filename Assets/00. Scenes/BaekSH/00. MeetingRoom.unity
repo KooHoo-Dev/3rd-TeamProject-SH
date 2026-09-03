@@ -175,6 +175,8 @@ MonoBehaviour:
   currentRoundText: {fileID: 1121629843}
   genreText: {fileID: 1121629842}
   keywordText: {fileID: 1121629841}
+  questResultUI: {fileID: 2723775905494964754}
+  questResultText: {fileID: 2723775905494964753}
 --- !u!114 &36600013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,6 +1066,22 @@ MonoBehaviour:
 --- !u!1 &2723775905494964752 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9116817709933487271, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+  m_PrefabInstance: {fileID: 2723775905494964750}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2723775905494964753 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3089963705327851509, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+  m_PrefabInstance: {fileID: 2723775905494964750}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &2723775905494964754 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5139277351532018150, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
   m_PrefabInstance: {fileID: 2723775905494964750}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3669004749767542855
