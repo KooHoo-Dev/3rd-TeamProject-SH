@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 2336401383748982689}
   - component: {fileID: 5530280183875003146}
   - component: {fileID: 2668788966796295975}
+  - component: {fileID: 8262571419605543682}
   - component: {fileID: 9199929324415156545}
   - component: {fileID: 643297642833712815}
   - component: {fileID: 1006583272637948065}
@@ -339,6 +340,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.ItemInteractionHandler
   <Owner>k__BackingField: {fileID: 0}
   itemBonePivot: {fileID: 5698209311293110406}
+--- !u!114 &8262571419605543682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371521968274464321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b858a60ba704527b5e4d870f0631312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeamSH.ItemPutDownResolver
+  bagDetectRadius: 0.5
+  bagLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &9199929324415156545
 MonoBehaviour:
   m_ObjectHideFlags: 0

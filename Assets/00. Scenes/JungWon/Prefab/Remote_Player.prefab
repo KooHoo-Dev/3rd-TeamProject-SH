@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: -7930338786351535698}
   - component: {fileID: 5730751569202337309}
   - component: {fileID: 3314958677348802473}
+  - component: {fileID: 2907320941540943155}
   - component: {fileID: 9199929324415156545}
   - component: {fileID: 643297642833712815}
   - component: {fileID: 1006583272637948065}
@@ -320,6 +321,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.ItemInteractionHandler
   <Owner>k__BackingField: {fileID: 0}
   itemBonePivot: {fileID: 9192252714911948288}
+--- !u!114 &2907320941540943155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371521968274464321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b858a60ba704527b5e4d870f0631312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeamSH.ItemPutDownResolver
+  bagDetectRadius: 0.5
+  bagLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &9199929324415156545
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DisplayStandManager
   ItemBox: {fileID: 9184335440028324779, guid: 6d0a55d3f98924042b3309b9bcef9e77, type: 3}
+  AllStendCount: 0
 --- !u!1 &361889566
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,13 +955,33 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1104935282527283436, guid: 3bdfb37cf5c5aed40b0514166d422cfe, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1399365943}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3426774842816602061, guid: 3bdfb37cf5c5aed40b0514166d422cfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8892422866158722403}
   m_SourcePrefab: {fileID: 100100000, guid: 3bdfb37cf5c5aed40b0514166d422cfe, type: 3}
 --- !u!4 &8892422866158722401 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1104935282527283436, guid: 3bdfb37cf5c5aed40b0514166d422cfe, type: 3}
   m_PrefabInstance: {fileID: 8892422866158722400}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8892422866158722402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3426774842816602061, guid: 3bdfb37cf5c5aed40b0514166d422cfe, type: 3}
+  m_PrefabInstance: {fileID: 8892422866158722400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8892422866158722403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8892422866158722402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b590556c83b54c589707d7199e48b913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeamSH.BagArea
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

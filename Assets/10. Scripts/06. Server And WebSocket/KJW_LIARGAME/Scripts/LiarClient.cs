@@ -955,6 +955,19 @@ namespace TeamSH
             SendAsync(msg).Forget();
         }
         
+        // 아이템 톨려놓기 요청
+        public void RequestTryReturnItem(int itemId)
+        {
+            var msg = InteractionMessageFactory.ItemDropQuery(
+                Protocol.InteractionType.ItemDropQuery,
+                IsValid: true,
+                IsSuccess: false,
+                senderId: Me.Id,
+                receivedId: itemId.ToString());
+            
+            SendAsync(msg).Forget();
+        }
+        
         // 가방에 넣기 요청
         public void RequestTryInputItemInBag(int itemId)
         {
@@ -966,7 +979,7 @@ namespace TeamSH
                 IsSuccess: false,
                 senderId: Me.Id,
                 receivedId: itemId.ToString(),
-                ChangedItemId: "여기 일단 채워야함");
+                ChangedItemId: null);
 
             SendAsync(msg).Forget();
         }

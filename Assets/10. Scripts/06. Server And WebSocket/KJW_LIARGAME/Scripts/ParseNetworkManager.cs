@@ -91,8 +91,8 @@ public static class NetworkManager
     public static Action<bool,bool, string, string> OnItemHoldAnswer;
     public static Action<bool,bool, string, string> OnItemDropQuery;
     public static Action<bool,bool, string, string> OnItemDropAnswer;
-    public static Action<bool,bool, string, string,string> OnItemPutInBagQuery;
-    public static Action<bool,bool, string, string,string> OnItemPutInBagAnswer;
+    public static Action<bool,bool, string, string, string> OnItemPutInBagQuery;
+    public static Action<bool,bool, string, string, string> OnItemPutInBagAnswer;
 
 
 
