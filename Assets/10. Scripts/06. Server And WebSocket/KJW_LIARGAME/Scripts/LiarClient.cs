@@ -403,6 +403,8 @@ namespace TeamSH
             string currentCategory)
         {
             DoSetPhase(TurnMessageType.ShowItemAndSpeakState, timerMs, cycle, round, currentOwnerID);
+            SpecialChat = null;
+            
             hasSentSpecialChat = false;
             IsNotLiarPushCycle = false; // 새 사이클 진입 시 알림 초기화
 
@@ -548,9 +550,11 @@ namespace TeamSH
 
             LiarButtonClicked = false; // 라밍아웃 버튼 눌림상태 해제
 
+            userScoreInfo = new UserScoreInfo[userScoreInfo.Length];
+            
             // UI에 표시한다.
             UserScoreInfo = userScoreInfo; // 서버에서 온 스코어 정보를 클라의 UserScoreInfo에 저장한다. 
-
+            
             for (int i = 0; i < UserScoreInfo.Length; i++) // 받아서 ID/점수를 Dict으로 저장함
             {
                 ScoresDict[UserScoreInfo[i].UserId] = UserScoreInfo[i].UserScore;
@@ -561,7 +565,10 @@ namespace TeamSH
             UserScoreInfo[] userScoreInfo)
         {
             DoSetPhase(TurnMessageType.ScoreTallyState, timerMs, cycle, round);
-
+            
+            userScoreInfo = new UserScoreInfo[UserScoreInfo.Length];
+            ScoresDict = new Dictionary<string, int>();
+            
             UserScoreInfo = userScoreInfo; // userScoreInfo 최신값 받기
 
             // UI에 표시한다.

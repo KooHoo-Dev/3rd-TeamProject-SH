@@ -18,6 +18,16 @@ namespace TeamSH
         [SerializeField] private GameObject timerPanel;
         [SerializeField] private TextMeshProUGUI timerText;
 
+        // [Header("장르 / 키워드 / 현재 라운드 공개 패널")] 
+        // [SerializeField] private GameObject GenreAndKeywordOpenPanel;
+        // [SerializeField] private TextMeshProUGUI genreOpenText;
+        // [SerializeField] private TextMeshProUGUI keywordOpenText;
+        // [SerializeField] private TextMeshProUGUI currentRound;
+
+        // [Header("닉네임 / 아이템 / 카테고리 ")] 
+        // [SerializeField] private GameObject NameItemCategoryPanel;
+        
+        
         [Header("TAB으로 정보창 보기 / 장르 / 키워드 / 특수채팅 목록")]
         [SerializeField] private GameObject infoOverlayPanel;
         [SerializeField] private TextMeshProUGUI genreText;
@@ -81,6 +91,9 @@ namespace TeamSH
             if (client.Me == null) // 방에 들어가기 전
             {
                 timerPanel.SetActive(false);
+                
+                // GenreAndKeywordOpenPanel.SetActive(false);
+                
                 infoOverlayPanel.SetActive(false);
                 liarOutButtonComponent.gameObject.SetActive(false);
                 specialChatLogPanel.SetActive(false);
@@ -99,6 +112,9 @@ namespace TeamSH
             // 아래부터는 회의실 UI
             UpdateInfoOverlay();
             UpdateLiarOutButton();
+            
+            // UpdateGenreAndKeywordOpen();
+            
             UpdateSpecialChatLog();
             UpdateAnnounce();
             UpdateKeywordChat();
@@ -133,6 +149,26 @@ namespace TeamSH
             genreText.text = $"장르 : {client.Genre}";
             keywordText.text = $"내 키워드 : {client.Keyword}";
             infoSpecialChatText.text = "특수 채팅 기록\n" + string.Join("\n", client.SpecialChatLog);
+        }
+
+        // private void UpdateGenreAndKeywordOpen()
+        // {
+        //     // 장르 뿌리기일때 보임
+        //     bool show = client.CurrentState == TurnMessageType.KeywordDistributeState;
+        //     GenreAndKeywordOpenPanel.SetActive(show);
+        //     if (show == false) return;
+        //
+        //     genreOpenText.text = $"현재 당신의 장르는 <{client.Genre}> 입니다"; 
+        //     keywordOpenText.text = $"현재 당신의 키워드는 <{client.Keyword}> 입니다"; 
+        // }
+
+        // 물건 보여주고 발언 상태일 때 닉네임 / 아이템 / 카테고리를 보여줌
+        private void UpdateNameItemCategory()
+        {
+            bool show = client.CurrentState == TurnMessageType.ShowItemAndSpeakState;
+            
+            
+            
         }
 
         private void UpdateLiarOutButton()
