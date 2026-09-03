@@ -1327,7 +1327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &350239388352145282
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1436,10 +1436,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.LiarUICanvasBinder
   timerPanel: {fileID: 8600376423557940475}
   timerText: {fileID: 7282323586471439740}
-  genreOpenPanel: {fileID: 8896043152536033734}
-  genreOpenText: {fileID: 2434999300604590240}
-  keywordOpenPanel: {fileID: 3333743801428682034}
-  keywordOpenText: {fileID: 4818721186908138024}
   infoOverlayPanel: {fileID: 5769492000723642315}
   genreText: {fileID: 1528857737807502295}
   keywordText: {fileID: 4013989061902636560}

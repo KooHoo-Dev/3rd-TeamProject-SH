@@ -58,8 +58,6 @@ namespace TeamSH
 
         public UserScoreInfo[] UserScoreInfo { get; set; } // 유저의 ID, 유저의 Score를 저장하는 필드
 
-        public Dictionary<string, int> ScoresDict = new Dictionary<string, int>(); // userId : score 딕셔너리 
-
         public List<string> WinnerUserID { get; private set; }
 
         #region Get관련
@@ -67,12 +65,14 @@ namespace TeamSH
         // 점수 높은 순서대로 정렬
         public List<string> GetScoreSorted()
         {
+            if (UserScoreInfo == null) Debug.Log("유저 스코어 정보가 없습니다");
+            
             List<string> scoreSortedList = new List<string>(); // 빈 리스트 새로 만듦 (호출될때마다 빈 리스트로 다시생성)
             if (UserScoreInfo == null) return scoreSortedList; // null이면 그냥 내보냄
 
             // 내림차순 진행한다.
             Array.Sort(UserScoreInfo, (a, b) => b.UserScore.CompareTo(a.UserScore));
-
+            
             foreach (UserScoreInfo info in UserScoreInfo)
                 scoreSortedList.Add($"{GetNickName(info.UserId)} : {info.UserScore} 점"); // 순서대로 추가한다.
 
@@ -130,6 +130,7 @@ namespace TeamSH
         private readonly List<string> userOrder = new List<string>();
 
         // 남들. 번호로 찾는다.
+        // 리모트 유저의 ID : 리모트 유저의 프리팹
         public readonly Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
 
         // 화면에 그리는 일은 RoomLobby 가 한다. 여기는 선을 타는 일만 한다.
@@ -384,9 +385,10 @@ namespace TeamSH
 
             string? item = DoGetItem(currentOwnerID);
             Debug.Log($"[발언] {currentOwnerID} 이(가) {currentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
+            
         }
 
-        // 발언 상태에서 발언자의 첫 채팅이 특수채팅. NEW!!!!! ChatMessage(ChatType.Special) 이벤트로 받는다
+        // 발언 상태에서 발언자의 첫 채팅이 특수채팅
         private void OnSpecialChat(string id, string nickName, string text)
         {
             // 다음 발전자에서 단일 특수채팅 초기화
@@ -523,16 +525,12 @@ namespace TeamSH
             specialChatLog.Clear(); // 현재까지의 특수 채팅 초기화
 
             LiarButtonClicked = false; // 라밍아웃 버튼 눌림상태 해제
-
-            userScoreInfo = new UserScoreInfo[userScoreInfo.Length];
+            
+            UserScoreInfo = new UserScoreInfo[userScoreInfo.Length];
             
             // UI에 표시한다.
             UserScoreInfo = userScoreInfo; // 서버에서 온 스코어 정보를 클라의 UserScoreInfo에 저장한다. 
             
-            for (int i = 0; i < UserScoreInfo.Length; i++) // 받아서 ID/점수를 Dict으로 저장함
-            {
-                ScoresDict[UserScoreInfo[i].UserId] = UserScoreInfo[i].UserScore;
-            }
         }
 
         private void OnScoreTallyState(float timerMs, int cycle, int round, string[] liarOutButtonInfo,
@@ -540,16 +538,10 @@ namespace TeamSH
         {
             DoSetPhase(TurnMessageType.ScoreTallyState, timerMs, cycle, round);
             
-            userScoreInfo = new UserScoreInfo[UserScoreInfo.Length];
-            ScoresDict = new Dictionary<string, int>();
+            UserScoreInfo = new UserScoreInfo[userScoreInfo.Length];
             
+            // UI에 표시한다
             UserScoreInfo = userScoreInfo; // userScoreInfo 최신값 받기
-
-            // UI에 표시한다.
-            for (int i = 0; i < UserScoreInfo.Length; i++) // 키워드 맞춤 종료 상태의 점수 상태를 업데이트한다.
-            {
-                ScoresDict[UserScoreInfo[i].UserId] = UserScoreInfo[i].UserScore;
-            }
         }
 
         private void OnScoreTallyEndState(float timerMs, int cycle, int round)
@@ -562,9 +554,8 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.FinalResultState, timerMs, cycle, round);
 
             WinnerUserID = new List<string>(currentOwnerIDs); // 우승자 List 받기
-
+            
             // 최종라운드 후 게임 완전 종료가 되서 점수를 초기화한다.
-            ScoresDict.Clear();
             foreach (string winner in currentOwnerIDs)
             {
                 Debug.Log($"우승자는 {winner} 입니다.");
@@ -575,6 +566,9 @@ namespace TeamSH
         {
             DoSetPhase(TurnMessageType.FinalResultEndState, timerMs, cycle, round);
 
+            // 유저 스코어 초기화 (최종 라운드 종료되어서 점수가 null으로 초기화)
+            UserScoreInfo = null;
+            
             IsGameStarted = false; // 게임시작 아님
             Invoke("DoLoadSceneToLobby", RemainingSeconds); // 제한시간 종료되면 로비로 이동
         }
