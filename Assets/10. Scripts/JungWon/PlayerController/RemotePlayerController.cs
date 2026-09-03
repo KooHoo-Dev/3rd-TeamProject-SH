@@ -6,6 +6,8 @@ namespace TeamSH
     {
         [SerializeField] private float smooth = 10f;
 
+        public ItemInteractionHandler ItemInteraction { get; private set; }
+
         [field: SerializeField] private GameObject body;
 
         // public CharacterController3D Controller3D; 지금 밀치기가 적용되려면 Controller3D가 있는 캐릭터끼리만 적용되기때문에
@@ -22,6 +24,9 @@ namespace TeamSH
         {
             target = transform.position;
             lastPos = transform.position;
+            ItemInteraction = GetComponent<ItemInteractionHandler>();
+            ItemInteraction.OnStartGetItem += GetBox;
+            ItemInteraction.OnStartPutDownItem += PutDownBox;
         }
 
         public void SetTarget(Vector3 position, float smooth)
@@ -83,6 +88,19 @@ namespace TeamSH
         private void Place(Vector3 next)
         {
             transform.position = new Vector3(next.x, transform.position.y, next.z); //3D공간이니 y값만 불변
+        }
+        
+        private void GetBox()
+        {
+            Animator.SetLayerWeight(1,1);
+            Animator.SetBool(GET_ITEM, true);
+        }
+
+        private void PutDownBox()
+        {
+            Animator.SetLayerWeight(0,0);
+            Animator.SetBool(GET_ITEM, false);
+            Animator.SetTrigger(PUT_DOWN);
         }
     }
 }
