@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
@@ -361,35 +361,31 @@ namespace TeamSH
 
         private void OnMartEnterState(float timerMs, int cycle, int round, string questId, CategoryItemArray[] allCategoryItemArrays) 
         {
-            DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
-            DoLoadScene("02. NewMart");
-            
-            Dictionary<CategoryType, List<int>> itemListDic = new Dictionary<CategoryType, List<int>>();
-
-            AreaNum[] areaNums = new AreaNum[itemListDic.Count];
-            for (int i = 0; i < itemListDic.Count; i++)
-            {
-                areaNums[i] = DisplayStandManager.Instance.CategoryDic[allCategoryItemArrays[i].Category];
-            }
-
-            for (int i = 0; i < areaNums.Length; i++)
-            {
-                List<int> itemIdList = new List<int>();
-            
-                for (int j = 0; j < allCategoryItemArrays.Length; j++)
-                {
-                    itemIdList.Clear();
-                    for (int k = 0; k < allCategoryItemArrays[j].ItemIds.Length; k++)
-                    {
-                        if(int.TryParse(allCategoryItemArrays[j].ItemIds[k], out int itemId)) itemIdList.Add(itemId);
-                    }
-                    Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[j].Category}, 아이템 아이디 {itemIdList} ");
-                    itemListDic.Add(allCategoryItemArrays[j].Category, itemIdList);
-                }
-                DisplayStandManager.Instance.SetItemIdBufferForArea(areaNums[i], itemIdList);
-            }
+            OnMartEnterStateAsync(timerMs, cycle, round, questId, allCategoryItemArrays).Forget();
         }
+        private async UniTask OnMartEnterStateAsync(float timerMs, int cycle, int round, string questId, CategoryItemArray[] allCategoryItemArrays)
+        {
+            DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
+            await DoLoadScene("02. NewMart");
+            await UniTask.WaitUntil(() => DisplayStandManager.Instance != null && DisplayStandManager.Instance.IsReady);
+            Dictionary<CategoryType, List<int>> itemListDic = new Dictionary<CategoryType, List<int>>();
+            List<int> itemIdList = new List<int>();
 
+            for (int j = 0; j < allCategoryItemArrays.Length; j++)
+            {
+                itemIdList.Clear();
+                for (int k = 0; k < allCategoryItemArrays[j].ItemIds.Length; k++)
+                {
+                    if (int.TryParse(allCategoryItemArrays[j].ItemIds[k], out int itemId)) itemIdList.Add(itemId);
+                }
+                Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[j].Category}, 아이템 아이디 {itemIdList} ");
+                itemListDic.Add(allCategoryItemArrays[j].Category, itemIdList);
+
+            }
+
+            DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays);
+
+        }
         private void OnMartMoveState(float timerMs, int cycle, int round)
         {
             DoSetPhase(TurnMessageType.MartMoveState, timerMs, cycle, round);
@@ -795,16 +791,16 @@ namespace TeamSH
             string previous = activeContentScene;
             activeContentScene = sceneName;
 
-            SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).completed += _ =>
-            {
+            await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            
                 Scene loaded = SceneManager.GetSceneByName(sceneName);
                 SceneManager.SetActiveScene(loaded);
-                SceneManager.UnloadSceneAsync(previous);
+            await SceneManager.UnloadSceneAsync(previous);
 
                 // 씬이 완전히 로드되어 매니저가 Awake를 끝낸 뒤에 전원 재배치
                 DoRepositionAll();
                 DoSetPlayer(sceneName); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
-            };
+
         }
 
         private void DoSetPlayer(string sceneName)
