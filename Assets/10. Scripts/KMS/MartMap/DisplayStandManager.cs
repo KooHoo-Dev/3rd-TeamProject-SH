@@ -241,22 +241,15 @@ public class DisplayStandManager : MonoBehaviour
     // 생각하고 있는 방식은 구역마다 로드된 아이템 갯수만큼
     // 서버에서 List<int>(index 0,1,2...)를 만들어서, 랜덤으로 섞은 후,
     // 이 클래스의 아이템 버퍼의 인덱스로 사용해 순서대로 아이템을 주입하는 방식
-    public void SetItemIdBufferForArea(AreaNum areaNum, List<int> itemIds)
+    
+    public void SetItemIdBufferForArea(AreaNum areaNum, List<int> itemIds) //서버에서 받은 id랑 areaNum 바로 여기다 넣으면될듯?
     {
-        // switch (areaNum)
-        // {
-        //     case AreaNum.Area1:
-        //         Area1ItemIdBuffer = itemIds;
-        //         break;
-        //     case AreaNum.Area2:
-        //         Area2ItemIdBuffer = itemIds;
-        //         break;
-        //     case AreaNum.Area3:
-        //         Area3ItemIdBuffer = itemIds;
-        //         break;
-        // }
         AreaData area = Areas[(int)areaNum];
         area.ItemIdBuffer = itemIds;
+        for (int i = 0; i < area.DisplayStands.Count; i++)
+        {
+            area.DisplayStands[i].GetItemPosition();
+        }
     }
 
     /// <summary>
@@ -304,35 +297,9 @@ public class DisplayStandManager : MonoBehaviour
             displayStand.SetItem(area.ItemBuffers[0]);
             area.ItemBuffers.RemoveAt(0);
         }
-        
-        // switch (displayStand.areaNum)
-        // {
-        //     case AreaNum.Area1:
-        //     {
-        //         if (Area1ItemBuffer.Count <= 0) break;
-        //         displayStand.SetItem(Area1ItemBuffer[0]);
-        //         Area1ItemBuffer.RemoveAt(0);
-        //         break;
-        //     }
-        //         
-        //     case AreaNum.Area2:
-        //         if (Area2ItemBuffer.Count > 0)
-        //         {
-        //             displayStand.SetItem(Area2ItemBuffer[0]);
-        //             Area2ItemBuffer.RemoveAt(0);
-        //         }
-        //         break;
-        //     case AreaNum.Area3:
-        //         if (Area3ItemBuffer.Count > 0)
-        //         {
-        //             displayStand.SetItem(Area3ItemBuffer[0]);
-        //             Area3ItemBuffer.RemoveAt(0);
-        //         }
-        //         break;
-        // }
     }
     // 이 로직은 서버에서 랜덤으로 섞은 아이템 ID 버퍼를 기반으로, 해당 구역의 아이템 정의 리스트를 섞는 역할을 합니다.
-    private List<ItemDef> ShuffleList(List<ItemDef> list, AreaNum areaNum)
+    private List<ItemDef> ShuffleList(List<ItemDef> list, AreaNum areaNum) //이미 서버에서 랜덤으로 뿌려주므로 Shuffle은 여기서 하면안된다.
     {
         ItemDef temp = new ItemDef();
         List<ItemDef> shuffledList = new List<ItemDef>(list);

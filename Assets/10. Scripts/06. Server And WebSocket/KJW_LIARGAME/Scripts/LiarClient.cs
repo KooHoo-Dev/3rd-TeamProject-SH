@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -359,6 +360,31 @@ namespace TeamSH
         {
             DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
             DoLoadScene("02. NewMart");
+
+            Dictionary<CategoryType, List<int>> itemListDic = new Dictionary<CategoryType, List<int>>();
+
+            AreaNum[] areaNums = new AreaNum[itemListDic.Count];
+            for (int i = 0; i < itemListDic.Count; i++)
+            {
+                areaNums[i] = DisplayStandManager.Instance.CategoryDic[allCategoryItemArrays[i].Category];
+            }
+
+            for (int i = 0; i < areaNums.Length; i++)
+            {
+                List<int> itemIdList = new List<int>();
+            
+                for (int j = 0; j < allCategoryItemArrays.Length; j++)
+                {
+                    itemIdList.Clear();
+                    for (int k = 0; k < allCategoryItemArrays[j].ItemIds.Length; k++)
+                    {
+                        if(int.TryParse(allCategoryItemArrays[j].ItemIds[k], out int itemId)) itemIdList.Add(itemId);
+                    }
+                    Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[j].Category}, 아이템 아이디 {itemIdList} ");
+                    itemListDic.Add(allCategoryItemArrays[j].Category, itemIdList);
+                }
+                DisplayStandManager.Instance.SetItemIdBufferForArea(areaNums[i], itemIdList);
+            }
         }
 
         private void OnMartMoveState(float timerMs, int cycle, int round)

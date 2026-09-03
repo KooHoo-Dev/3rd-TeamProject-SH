@@ -90,6 +90,7 @@ public class DisplayStand : MonoBehaviour
         Vector3 centerOffset = meshFilter.mesh.bounds.center;
         grid = new GridCell(width, depth, transform.position + centerOffset);
         SetViewGrid();
+        Debug.Log($"[그리드 디버그 로직] {grid.GetCenterPosition()}");
     }
     
     private void SetViewGrid()
@@ -119,7 +120,7 @@ public class DisplayStand : MonoBehaviour
     /// <summary>
     /// DisplayStand의 width(x)를 n등분하고 아이템을 가져올 위치를 저장한다.
     /// </summary>
-    private void GetItemPosition()
+    public void GetItemPosition()
     {
         BoxCollider boxCollider = GetComponent<BoxCollider>();
         float startPointX = meshFilter.mesh.bounds.min.x * widthScale;
