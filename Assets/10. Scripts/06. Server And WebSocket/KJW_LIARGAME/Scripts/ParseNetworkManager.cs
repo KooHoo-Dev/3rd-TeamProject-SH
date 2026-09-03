@@ -1,4 +1,4 @@
-using TeamSH;
+﻿using TeamSH;
 using System;
 using Newtonsoft.Json;
 using Jay;
@@ -128,7 +128,8 @@ public static class NetworkManager
             case Protocol.TurnMessageType.MartEnterState:
             {
                 var p = Parse<Protocol.MartEnterParameter>(msg.Parameter);
-                OnMartEnterState?.Invoke(msg.TimerMs, msg.CurrentCycle, msg.CurrentRound, p.TargetItemId,p.AllCategoryItemArrays);
+                        Debug.Log($"MartEnterState 파라미터: TargetItemId={p.TargetItemId}, AllCategoryItemArrays.Length={p.AllCategoryItemArrays?.Length}");
+                        OnMartEnterState?.Invoke(msg.TimerMs, msg.CurrentCycle, msg.CurrentRound, p.TargetItemId,p.AllCategoryItemArrays);
                 break;
             }
 
@@ -308,8 +309,15 @@ public static class NetworkManager
 
     private static T Parse<T>(string json) where T : class
     {
-        if (string.IsNullOrEmpty(json)) return null;
-        return JsonConvert.DeserializeObject<T>(json);
+            if (string.IsNullOrEmpty(json))
+            {
+                Debug.LogWarning($"[ParseNetworkManager]Parse<{typeof(T).Name}>: json is null or empty.");
+                return null;
+            }
+            
+            Debug.LogWarning($"[ParseNetworkManager] 파라미터 Json: {json}");
+
+            return JsonConvert.DeserializeObject<T>(json);
     }
 }
 }

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 using System.Linq;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
 using TeamSH;
+using UnityEngine;
+using static TeamSH.Protocol;
 
 public class DisplayStandManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class DisplayStandManager : MonoBehaviour
     public List<AreaData> Areas = new();
 
     public GameObject ItemBox; //아이템 담을 박스 프리팹 원본
-    
+    public int AllStendCount = 0;
     public bool IsReady { get; private set; } = false;
 
     #region 기본 설정
@@ -44,35 +45,27 @@ public class DisplayStandManager : MonoBehaviour
         Areas.Add(area1);
         Areas.Add(area2);
         Areas.Add(area3);
-
-        SetRandomCategoryForArea();
+       List<DisplayStand> allStands = FindObjectsByType<DisplayStand>(FindObjectsSortMode.None).ToList();
+        AllStendCount = allStands.Count;
+        allStands.Sort((a, b) => a.name.CompareTo(b.name));
+        for (int i = 0; i < allStands.Count; i++)
+        {
+            RegisterDisplayStand(allStands[i]);
+        }
         await UniTask.WaitUntil(() => DataManager.Instance.IsReady);
-        SetItemIdBufferForAreaWithoutServer(); // 임시로 서버 없이 굴러가도록 설정해놓는 함수
-        SetShuffledItemDefs();
+
         IsReady = true;
     }
-    public async UniTask RegisterDisplayStand(DisplayStand displayStand)
+    public void RegisterDisplayStand(DisplayStand displayStand)
     {
-        await UniTask.WaitUntil(() => IsReady);
+ 
 
         AreaData area = Areas[(int)displayStand.areaNum];
         if (area.DisplayStands.Contains(displayStand) == false)
         {
             area.DisplayStands.Add(displayStand);
         }
-        
-        if (CategoryDic.ContainsValue(displayStand.areaNum))
-        {
-            CategoryType categoryType = CategoryDic.FirstOrDefault(x => x.Value == displayStand.areaNum).Key;
-            displayStand.CategoryType = categoryType;
-            SetCategoryItemInStand(displayStand); 
-        }
 
-        for (int i = 0; i < displayStand.Items.Count; i++)
-        {
-            Debug.Log($"[DisplayStandManager] : 매대 {displayStand.areaNum} {displayStand?.name} 등록 완료. " +
-                      $"상태 : {displayStand?.CategoryType}, 가진 아이템 : {displayStand?.Items[i].ItemName}");
-        }
     }
 
     #endregion
@@ -203,115 +196,75 @@ public class DisplayStandManager : MonoBehaviour
             CategoryDic[categoryTypes[i]] = (AreaNum)i;
         }
     }
-    // 이 로직은 쓸 수 없음
-    private void SetRandomCategoryForArea()
+
+
+    
+    public void SetItemIdBufferForArea(CategoryItemArray[] categoryItemArrays) 
     {
-        List<CategoryType> OldCategoryTypes = new List<CategoryType>();
-        Debug.Log($"[DisplayStandManager] : Setting random categories for {Areas.Count} areas.");
-
-        for (int i = 0; i < Areas.Count; i++)
+        CategoryType[] categoryTypes = new CategoryType[categoryItemArrays.Length];
+        for(int i = 0; i < categoryItemArrays.Length; i++)
         {
-            CategoryType randomCategory = (CategoryType)Random.Range(1, (int)CategoryType.None);
-            if (CategoryDic.ContainsKey(randomCategory))
+            categoryTypes[i] = categoryItemArrays[i].Category;
+        }
+        SetCategoryAllArea(categoryTypes);
+        for(int i = 0; i < categoryTypes.Length; i++)
+        {
+            AreaData area = Areas[(int)CategoryDic[categoryTypes[i]]];
+            List<int> intIds = new List<int>();
+            Debug.Log($"[DisplayStandManager] : Setting item ID buffer for area {CategoryDic[categoryTypes[i]]} with category {categoryTypes[i]}.");
+            for(int j = 0; j < categoryItemArrays[i].ItemIds.Length; j++)
             {
-                int MaxTryCount = 10;
-                while (true)
+                
+                intIds.Add(int.Parse(categoryItemArrays[i].ItemIds[j]));
+            }
+            Areas[(int)CategoryDic[categoryTypes[i]]].AddItems(intIds);
+            area.ItemIdBuffer = intIds;
+        }
+        int count = 0;
+        foreach (var CategoryType in categoryTypes)
+        {
+            if (count >= Areas.Count)
+            {
+                Debug.LogError($"[DisplayStandManager] : SetItemIdBufferForArea failed. categoryItemArrays length {categoryItemArrays.Length} exceeds Areas count {Areas.Count}.");
+                return;
+            }
+            AreaData area = Areas[(int)CategoryDic[CategoryType]];
+            
+            for (int j = 0; j < area.DisplayStands.Count; j++)
+            {
+                for(int k = 0; k < DisplayStand.ItemMaxCount; k++)
                 {
-                    if (OldCategoryTypes.Contains(randomCategory) == false)
-                    {
+                    SetCategoryItemInStand(area.DisplayStands[k]);
 
-                        break;
-                    }
-                    if (MaxTryCount <= 0)
-                    {
-                        Debug.LogWarning($"[DisplayStandManager] : MaxTryCount exceeded while trying to find a unique random category for area {i}. Using category {randomCategory}.");
-                        break;
-                    }
-                    randomCategory = (CategoryType)Random.Range(1, (int)CategoryType.None);
-                    MaxTryCount--;
                 }
             }
-            OldCategoryTypes.Add(randomCategory);
-
-            CategoryDic[randomCategory] = (AreaNum)i;
-
+            count++;
         }
-    }
-    // 서버에서 랜덤으로 중복되지 않게 아이템을 주입해줘야 함
-    // 생각하고 있는 방식은 구역마다 로드된 아이템 갯수만큼
-    // 서버에서 List<int>(index 0,1,2...)를 만들어서, 랜덤으로 섞은 후,
-    // 이 클래스의 아이템 버퍼의 인덱스로 사용해 순서대로 아이템을 주입하는 방식
-    
-    public void SetItemIdBufferForArea(AreaNum areaNum, List<int> itemIds) //서버에서 받은 id랑 areaNum 바로 여기다 넣으면될듯?
-    {
-        AreaData area = Areas[(int)areaNum];
-        area.ItemIdBuffer = itemIds;
-        for (int i = 0; i < area.DisplayStands.Count; i++)
-        {
-            area.DisplayStands[i].GetItemPosition();
-        }
+ 
+
+        
+
     }
 
-    /// <summary>
-    /// 임시로 서버 없이 굴러가도록 설정해놓는 함수
-    /// </summary>
-    private void SetItemIdBufferForAreaWithoutServer()
-    {
-        for (int i = 0; i < Areas.Count; i++)
-        {
-            CategoryType categoryType = CategoryDic.FirstOrDefault(x => x.Value == (AreaNum)i).Key;
-            List<ItemDef> itemDefs = DataManager.Instance.GetItemDefsByCategory(categoryType);
-            List<int> itemIdBuffer = new List<int>();
-            for (int j = 0; j < itemDefs.Count; j++)
-            {
-                itemIdBuffer.Add(j);
-            }
-            SetItemIdBufferForArea((AreaNum)i, itemIdBuffer);
-        }
-    }
 
-    private void SetShuffledItemDefs()
-    {
-        for (int i = 0; i < Areas.Count; i++)
-        {
-
-            CategoryType categoryType = CategoryDic.FirstOrDefault(x => x.Value == (AreaNum)i).Key;
-            
-            List<ItemDef> itemDefs = DataManager.Instance.GetItemDefsByCategory(categoryType);
-
-            List<ItemDef> shuffledItemDefs = ShuffleList(itemDefs, (AreaNum)i);
-            GetItemBufferByArea((AreaNum)i).Clear();
-            GetItemBufferByArea((AreaNum)i).AddRange(shuffledItemDefs);
-
-            Debug.Log($"[DisplayStandManager] : Area {(AreaNum)i} shuffled itemDefs set. Count: {GetItemBufferByArea((AreaNum)i).Count}");
-        }
-    }
     private void SetCategoryItemInStand(DisplayStand displayStand)
     {
         AreaData area = Areas[(int)displayStand.areaNum];
 
         // 3은 아이템 개수 하드코딩. 추후 수정
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < DisplayStand.ItemMaxCount; i++)
         {
-            if (area.ItemBuffers.Count <= 0) break;
+            if (area.ItemBuffers.Count <= 0)
+            {
+                Debug.LogWarning($"[DisplayStandManager] : No more items in buffer for area {area.AreaNum}. Cannot set item in stand {displayStand.name}.");
+                break;
+            }
+            Debug.Log($"[DisplayStandManager] : Setting item {area.ItemBuffers[0].ItemId} in stand {displayStand.name} for area {area.AreaNum}.");
             displayStand.SetItem(area.ItemBuffers[0]);
             area.ItemBuffers.RemoveAt(0);
         }
     }
-    // 이 로직은 서버에서 랜덤으로 섞은 아이템 ID 버퍼를 기반으로, 해당 구역의 아이템 정의 리스트를 섞는 역할을 합니다.
-    private List<ItemDef> ShuffleList(List<ItemDef> list, AreaNum areaNum) //이미 서버에서 랜덤으로 뿌려주므로 Shuffle은 여기서 하면안된다.
-    {
-        ItemDef temp = new ItemDef();
-        List<ItemDef> shuffledList = new List<ItemDef>(list);
-        List<int> idBuffer = GetIdBufferByArea(areaNum);
-        for (int i = 0; i < idBuffer.Count; i++)
-        {
-           temp = shuffledList[idBuffer[i]];
-            shuffledList[idBuffer[i]] = shuffledList[i];
-            shuffledList[i] = temp;
-        }
-        return shuffledList;
-    }
+
     private List<int> GetIdBufferByArea(AreaNum areaNum)
     {
         AreaData area = Areas[(int)areaNum];

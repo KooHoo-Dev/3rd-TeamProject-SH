@@ -40,7 +40,7 @@ public class DisplayStand : MonoBehaviour
     
     // 아이템 3등분 위치
     private readonly List<Vector3> itemPositions = new();
-    private const int ItemMaxCount = 3;
+    public const int ItemMaxCount = 3;
 
     #region 진열대 기본 설정
 
@@ -49,21 +49,21 @@ public class DisplayStand : MonoBehaviour
         //parent = transform.parent;
         ViewGrid = GetComponent<LineRenderer>();
         InitSize();
-        GetItemPosition();
+        SetItemPosition();
     }
 
     void Start()
     {
         Debug.Log($"[DisplayStand] AreaNumber : {areaNum} - {gameObject.name}");
-        RegisterAsync().Forget();
+        Register();
     }
     void OnDisable()
     {
-        DisplayStandManager.Instance.UnregisterDisplayStand(this);
+        DisplayStandManager.Instance?.UnregisterDisplayStand(this);
     }
-    private async UniTask RegisterAsync()
+    private void Register()
     {
-        await DisplayStandManager.Instance.RegisterDisplayStand(this);
+        DisplayStandManager.Instance.RegisterDisplayStand(this);
     }
     
     void InitSize()
@@ -120,7 +120,7 @@ public class DisplayStand : MonoBehaviour
     /// <summary>
     /// DisplayStand의 width(x)를 n등분하고 아이템을 가져올 위치를 저장한다.
     /// </summary>
-    public void GetItemPosition()
+    public void SetItemPosition()
     {
         BoxCollider boxCollider = GetComponent<BoxCollider>();
         float startPointX = meshFilter.mesh.bounds.min.x * widthScale;
@@ -162,9 +162,9 @@ public class DisplayStand : MonoBehaviour
         
         MartItem martItem = Instantiate
         (item.PrefabKey, 
-            transform.position + new Vector3(itemPosition.x, height, itemPosition.z),
+            transform.position + new Vector3(itemPosition.x, height + 1.5f, itemPosition.z),
             item.PrefabKey.transform.rotation);
-
+        Debug.Log($"[DisplayStand] SetItem : {item?.ItemName} - {martItem?.name}");
         if (martItem == null) return;
         martItem.itemDef = item;
         martItem?.transform.SetParent(transform);
