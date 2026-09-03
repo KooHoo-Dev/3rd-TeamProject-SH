@@ -835,6 +835,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MartUICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5874030384994532303, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

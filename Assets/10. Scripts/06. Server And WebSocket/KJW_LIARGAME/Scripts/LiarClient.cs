@@ -361,7 +361,7 @@ namespace TeamSH
         {
             DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
             DoLoadScene("02. NewMart");
-
+            
             Dictionary<CategoryType, List<int>> itemListDic = new Dictionary<CategoryType, List<int>>();
 
             AreaNum[] areaNums = new AreaNum[itemListDic.Count];
@@ -786,7 +786,7 @@ namespace TeamSH
             phaseStartTime = Time.time;
         }
 
-        private void DoLoadScene(string sceneName)
+        private async UniTask DoLoadScene(string sceneName)
         {
             if (activeContentScene == sceneName) return; // 이미 그 씬이면 다시 부르지 않는다.
 
