@@ -170,12 +170,10 @@ MonoBehaviour:
   hideEase: 5
   currentSpeakerText: {fileID: 7456677661800364066}
   speakerNoticeText: {fileID: 5005275280856469105}
-  noticeDuration: 1
   genreKeywordNoticeUI: {fileID: 3982919411107366353}
   currentRoundText: {fileID: 3165960257232094677}
   genreText: {fileID: 3347234170411067479}
   keywordText: {fileID: 3432109382689283546}
-  keywordNoticeDuration: 3
 --- !u!114 &36600013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +564,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 770308088605362045, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1529088818908984448, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2281314461221902130, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363893603780475515, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2919175966488664216, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5856128994568881052, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1033,6 +1051,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 28281946766371366, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 467775916963723467, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1759994876652391402, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1878541268357654750, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984825855239641615, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2180770971536254132, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749055367277215739, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4472496042347814814, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1113,9 +1159,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5360113266878307510, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6788655115529200506, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
       propertyPath: m_Name
       value: UICanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788655115529200506, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6927673117182489800, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332480166663813807, guid: b49c801f39fb8a74489f97f6f0f4f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

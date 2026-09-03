@@ -21,18 +21,17 @@ namespace TeamSH
         private Vector2 originPos; // "기존 좌표" - 에디터에 배치해 둔 원래 위치(숨김 상태의 기준점)
 
         [Header("발언 설정")]
-        public TextMeshProUGUI currentSpeakerText;
         public TextMeshProUGUI speakerNoticeText;
-        [SerializeField] private float noticeDuration = 1f;
-        private Tween noticeTween;
+
+        [Header("카테고리 설정")]
+        public GameObject categoryUI;
+        public TextMeshProUGUI categoryText;
 
         [Header("장르, 키워드 알림 설정")] 
         public GameObject genreKeywordNoticeUI;
         public TextMeshProUGUI currentRoundText;
         public TextMeshProUGUI genreText;
         public TextMeshProUGUI keywordText;
-        [SerializeField] private float keywordNoticeDuration = 3f;
-        private Tween keywordNoticeTween;
 
         private void Awake()
         {
@@ -47,7 +46,7 @@ namespace TeamSH
             ApplySkipButton(false);
             ApplyVoteUI(false);
             ApplySpeakerNoticeUI(false);
-            ShowSpeakerUI(false);
+            ApplyCategoryCycleUI(false);
             ApplyGenreKeywordUI(false);
         }
 
@@ -85,59 +84,43 @@ namespace TeamSH
         }
         
         # region 발언자 표시 UI, 발언 순서 표시 UI, 장르/키워드 첫 알림 UI
-
-        public void ApplySpeakerNoticeUI(bool isShow)
-        {
-            DoTweenSpeakerNoticeUI(isShow);
-        }
         
-        // 발언자 차례 잠시 표시
-        public void DoTweenSpeakerNoticeUI(bool isShow)
+        // 발언자 차례 표시
+        public void ApplySpeakerNoticeUI(bool isShow, string userNickname = "", string itemName = "")
         {
-            noticeTween?.Kill();
             if (isShow == false)
             {
                 speakerNoticeText.gameObject.SetActive(false);
                 return;
             }
-            
-            speakerNoticeText.SetText("당신이 발언할 차례입니다.\n 당신의 키워드를 알아차리지 못하도록 하세요.");
-            speakerNoticeText.gameObject.SetActive(true);
-            noticeTween = DOVirtual.DelayedCall(noticeDuration, (() =>
+
+            if (string.IsNullOrEmpty(userNickname))
             {
-                    speakerNoticeText.gameObject.SetActive(false);
-            }));
+                Debug.LogWarning("유저 닉네임이 존재하지 않습니다.");
+                speakerNoticeText.gameObject.SetActive(false);
+                return;
+            }
+            
+            speakerNoticeText.SetText($"{userNickname}이 발언 중입니다.\n 공개된 아이템 : {itemName}");
+            speakerNoticeText.gameObject.SetActive(true);
         }
         
-        // 발언자 상시 표시
-        public void ShowSpeakerUI(bool isShow, string userNickName = "")
+        // 카테고리 표시
+        public void ApplyCategoryCycleUI(bool isShow, string categoryName = "", int currentCycle = 1)
         {
             if (isShow == false)
             {
-                currentSpeakerText.gameObject.SetActive(false);
-                return;
+                categoryUI.SetActive(false);
             }
 
-            if (string.IsNullOrEmpty(userNickName))
-            {
-                Debug.LogWarning("유저 닉네임이 존재하지 않습니다.");
-                currentSpeakerText.gameObject.SetActive(false);
-                return;
-            }
-            currentSpeakerText.SetText($"현재 발언자 : {userNickName}");
-            currentSpeakerText.gameObject.SetActive(true);
+            categoryText.SetText($"카테고리 : {categoryName} \n 사이클 {currentCycle} / 3");
+            categoryUI.SetActive(true);
         }
         
         // 장르 & 키워드 첫 알림 UI
         public void ApplyGenreKeywordUI(bool isShow, int currentRound = 1, string genre = "", string keyword = "")
         {
-            DoTweenGenreKeywordUI(isShow, currentRound, genre, keyword);
-        }
 
-        public void DoTweenGenreKeywordUI(bool isShow, int currentRound, string genre, string keyword)
-        {
-            keywordNoticeTween?.Kill();
-            
             if (isShow == false)
             {
                 genreKeywordNoticeUI.SetActive(false);
@@ -149,19 +132,15 @@ namespace TeamSH
                 genreKeywordNoticeUI.SetActive(false);
                 return;
             }
-            
+
             currentRoundText.SetText($"라운드 {currentRound}");
             genreText.SetText($"장르 : {genre}");
             keywordText.SetText($"키워드 : {keyword}");
-            
+
             genreKeywordNoticeUI.SetActive(true);
-            keywordNoticeTween = DOVirtual.DelayedCall(keywordNoticeDuration, (() =>
-            {
-                genreKeywordNoticeUI.SetActive(false);
-            }));
         }
-        
-        
+
+
         # endregion
     }
 }
