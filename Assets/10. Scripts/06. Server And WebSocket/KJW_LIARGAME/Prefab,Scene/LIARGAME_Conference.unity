@@ -257,14 +257,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.Conference_UIManager
   voteUI: {fileID: 888761064}
-  liarButton: {fileID: 0}
-  dontKnowButton: {fileID: 0}
-  notLiarButton: {fileID: 0}
   skipButton: {fileID: 888761063}
   slideDistance: 300
   tweenDuration: 1
   showEase: 6
   hideEase: 5
+  noticeText: {fileID: 0}
+  categoryUI: {fileID: 0}
+  categoryText: {fileID: 0}
+  genreKeywordNoticeUI: {fileID: 0}
+  currentRoundText: {fileID: 0}
+  genreText: {fileID: 0}
+  keywordText: {fileID: 0}
+  questResultUI: {fileID: 0}
+  questResultText: {fileID: 0}
 --- !u!114 &831731051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,6 +371,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1353950660440994614, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1614355784856953642, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 480
@@ -388,6 +398,10 @@ PrefabInstance:
     - target: {fileID: 3797378064410535530, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: VoteOtherPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3982919411673700189, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4588053488677108821, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
       propertyPath: m_IsActive
@@ -418,6 +432,10 @@ PrefabInstance:
       value: Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 7623303168462745687, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8812782741615004125, guid: d31031dffa1d1b743bc2809586425bb8, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

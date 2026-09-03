@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using TeamSH;
 
 namespace TeamSH
 {
@@ -190,25 +191,19 @@ namespace TeamSH
         }
 
         //서버에서 게산후 담아 보내줌
-        [Serializable]
-        public class ChangeItem
-        {
-            public string changedItemId{ get; set; } // 비어있으면 교체할 필요 없고, 있으면 교체되야하는 가방에 들어있던 아이템 ID
-        }
-        #endregion
 
         [Serializable]
         public class ItemPutInBagParameter
         {
-            public string[] ItemIds { get; set; } // 카테고리별 최종 선택한 아이템
+
+            public string ChangedItemId{ get; set; } // 비어있으면 교체할 필요 없고, 있으면 교체되야하는 가방에 들어있던 아이템 ID
 
         }
 
-        [Serializable]
-        public class ItemInteractiveParameter
-        {
-            public string HoldingItem { get; set; } // 마트에서 들고 이동하는 중인 아이템
-        }
+        #endregion
+
+
+
         #region 공용 데이터 처리
 
         [Serializable]

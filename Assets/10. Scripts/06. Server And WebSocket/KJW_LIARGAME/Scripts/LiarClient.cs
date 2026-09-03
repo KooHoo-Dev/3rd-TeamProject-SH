@@ -13,6 +13,8 @@ using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 using static TeamSH.Protocol; // protocol.cs가 Protocol 클래스로 묶여있어서 일단 using으로 선언함
 
+// 971번 줄 코드 수정해야함 (ChangedItemId)
+
 namespace TeamSH
 {
     // RoomClient가 서버와의 네트워크 작업을 담당한다.
@@ -949,8 +951,8 @@ namespace TeamSH
 
             var msg = InteractionMessageFactory.ItemHoldQuery(
                 Protocol.InteractionType.ItemHoldQuery,
-                isValid: true,
-                isSuccess: false,
+                IsValid: true,
+                IsSuccess: false,
                 senderId: Me.Id,
                 receivedId: itemId.ToString());
 
@@ -964,10 +966,11 @@ namespace TeamSH
 
             var msg = InteractionMessageFactory.ItemPutInBagQuery(
                 Protocol.InteractionType.ItemPutInBagQuery,
-                isValid: true,
-                isSuccess: false,
+                IsValid: true,
+                IsSuccess: false,
                 senderId: Me.Id,
-                receivedId: itemId.ToString());
+                receivedId: itemId.ToString(),
+                ChangedItemId: "여기 일단 채워야함");
 
             SendAsync(msg).Forget();
         }
@@ -986,8 +989,8 @@ namespace TeamSH
 
             var msg = InteractionMessageFactory.PushQuery(
                 Protocol.InteractionType.PushQuery,
-                isValid: true,
-                isSuccess: false,
+                IsValid: true,
+                IsSuccess: false,
                 senderId: Me.Id,
                 receivedId: receivedId
                 );

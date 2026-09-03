@@ -1,8 +1,9 @@
-using TeamSH;
+
 using System;
-using Newtonsoft.Json;
+
 using Jay;
-using UnityEngine;
+using Newtonsoft.Json;
+using TeamSH;
 
 public class ParseNetworkManager
 {
@@ -90,8 +91,8 @@ public static class NetworkManager
     public static Action<bool,bool, string, string> OnItemHoldAnswer;
     public static Action<bool,bool, string, string> OnItemDropQuery;
     public static Action<bool,bool, string, string> OnItemDropAnswer;
-    public static Action<bool,bool, string, string> OnItemPutInBagQuery;
-    public static Action<bool,bool, string, string, string> OnItemPutInBagAnswer; //아마 가방에 넣을 아이템 결과 알려줄때 교체할 아이템도 알려줄듯?
+    public static Action<bool,bool, string, string,string> OnItemPutInBagQuery;
+    public static Action<bool,bool, string, string,string> OnItemPutInBagAnswer;
 
 
 
@@ -101,9 +102,6 @@ public static class NetworkManager
 
     public static void MessageParse(Protocol.TurnMessage msg)
     {
-        
-        Debug.Log($"현재 턴 메세지의 타입은 {msg.TurnMessageType.ToString()} 입니다.");
-        
         switch (msg.TurnMessageType)
         {
             case Protocol.TurnMessageType.GameStartState:
@@ -238,7 +236,6 @@ public static class NetworkManager
 
     public static void MessageParse(Protocol.ChatMessage msg)
     {
-        Debug.Log($"현재 채팅 메세지의 타입은 {msg.ChatType.ToString()} 입니다.");
         switch (msg.ChatType)
         {
             case Protocol.ChatType.Normal:
@@ -260,13 +257,11 @@ public static class NetworkManager
 
     public static void MessageParse(Protocol.UserInteractionMessage msg)
     {
-        Debug.Log($"현재 상호작용 메세지의 타입은 {msg.InteractionType.ToString()} 입니다.");
         switch (msg.InteractionType)
         {
             case Protocol.InteractionType.PushQuery:
                 OnPushQuery?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId);
                 break;
-
             case Protocol.InteractionType.PushAnswer:
                 OnPushAnswer?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId);
                 break;
@@ -284,22 +279,20 @@ public static class NetworkManager
                 break;
 
             case Protocol.InteractionType.ItemPutInBagQuery:
-                OnItemPutInBagQuery?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId);
+            {
+                var  p = Parse<Protocol.ItemPutInBagParameter>(msg.Parameter);
+                OnItemPutInBagQuery?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId,p.ChangedItemId);
                 break;
+            }
+
 
             case Protocol.InteractionType.ItemPutInBagAnswer:
-                string changedItemId = null;
-                
-                if (string.IsNullOrEmpty(msg.Parameter) == false) //파라미터에서 값꺼내기 코드 (임시)
-                {
-                    var change = Parse<Protocol.ChangeItem>(msg.Parameter);
-                    changedItemId = change?.changedItemId;
-                }
-
-                OnItemPutInBagAnswer?.Invoke(msg.IsValid, msg.IsSuccess, 
-                    msg.senderId, msg.receivedId, changedItemId);
-                
+            {
+                var p = Parse<Protocol.ItemPutInBagParameter>(msg.Parameter);
+                OnItemPutInBagAnswer?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId,p.ChangedItemId);
                 break;
+            }
+
 
             default:
                 throw new ArgumentOutOfRangeException();

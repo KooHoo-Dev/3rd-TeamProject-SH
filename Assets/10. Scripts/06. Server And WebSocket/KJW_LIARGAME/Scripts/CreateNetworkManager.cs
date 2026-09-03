@@ -1,4 +1,7 @@
 ﻿using Newtonsoft.Json;
+
+
+using HelloServer;
 using TeamSH;
 
 namespace NetworkManager
@@ -212,37 +215,30 @@ namespace NetworkManager
                 Parameter = JsonConvert.SerializeObject(parameter)
             };
         }
-        public static Protocol.UserInteractionMessage PushQuery(Protocol.InteractionType type, bool isValid,
-            bool isSuccess, string senderId, string receivedId)
-            => CreateSimple(type, isValid, isSuccess, senderId, receivedId);
-
-        public static Protocol.UserInteractionMessage PushAnswer(Protocol.InteractionType type, bool isValid,
-            bool isSuccess, string senderId, string receivedId)
-            => CreateSimple(type, isValid, isSuccess, senderId, receivedId);
-
-        public static Protocol.UserInteractionMessage ItemHoldQuery(Protocol.InteractionType type, bool isValid,
-            bool isSuccess, string senderId, string receivedId)
-            => CreateSimple(type, isValid, isSuccess, senderId, receivedId);
-
-        public static Protocol.UserInteractionMessage ItemHoldAnswer(Protocol.InteractionType type, bool isValid,
-            bool isSuccess, string senderId, string receivedId)
-            => CreateSimple(type, isValid, isSuccess, senderId, receivedId);
-
-        public static Protocol.UserInteractionMessage ItemDropQuery(Protocol.InteractionType type, bool isValid,
-            bool isSuccess, string senderId, string receivedId)
-            => CreateSimple(type, isValid, isSuccess, senderId, receivedId);
-
-        public static Protocol.UserInteractionMessage ItemDropAnswer(Protocol.InteractionType type, bool isValid,
-            bool isSuccess, string senderId, string receivedId)
-            => CreateSimple(type, isValid, isSuccess, senderId, receivedId);
-
-        public static Protocol.UserInteractionMessage ItemPutInBagQuery(Protocol.InteractionType type, bool isValid,
-            bool isSuccess, string senderId, string receivedId)
-            => CreateSimple(type, isValid, isSuccess, senderId, receivedId);
-
-        public static Protocol.UserInteractionMessage ItemPutInBagAnswer(Protocol.InteractionType type, bool isValid,
-            bool isSuccess, string senderId, string receivedId)
-            => CreateSimple(type, isValid, isSuccess, senderId, receivedId);
+        public static Protocol.UserInteractionMessage PushQuery(Protocol.InteractionType type, bool IsValid
+       , bool IsSuccess, string senderId, string receivedId)
+            => CreateSimple(type, IsValid, IsSuccess,senderId, receivedId);
+        public static Protocol.UserInteractionMessage PushAnswer(Protocol.InteractionType type, bool IsValid
+            , bool IsSuccess , string senderId, string receivedId)
+            => CreateSimple(type,IsValid, IsSuccess, senderId, receivedId);
+        public static Protocol.UserInteractionMessage ItemHoldQuery(Protocol.InteractionType type, bool IsValid
+            , bool IsSuccess , string senderId, string receivedId)
+            => CreateSimple(type, IsValid,IsSuccess, senderId, receivedId);
+        public static Protocol.UserInteractionMessage ItemHoldAnswer(Protocol.InteractionType type, bool IsValid
+            , bool IsSuccess , string senderId, string receivedId)
+            => CreateSimple(type,IsValid, IsSuccess, senderId, receivedId);
+        public static Protocol.UserInteractionMessage ItemDropQuery(Protocol.InteractionType type, bool IsValid
+            , bool IsSuccess, string senderId, string receivedId)
+            => CreateSimple(type, IsValid, IsSuccess,senderId, receivedId);
+        public static Protocol.UserInteractionMessage ItemDropAnswer(Protocol.InteractionType type, bool IsValid
+            , bool IsSuccess, string senderId, string receivedId)
+            => CreateSimple(type, IsValid, IsSuccess,senderId, receivedId);
+        public static Protocol.UserInteractionMessage ItemPutInBagQuery(Protocol.InteractionType type, bool IsValid
+            , bool IsSuccess, string senderId, string receivedId,string ChangedItemId)
+            => Create(type,IsValid, IsSuccess, senderId, receivedId,ChangedItemId);
+        public static Protocol.UserInteractionMessage ItemPutInBagAnswer(Protocol.InteractionType type, bool IsValid
+            , bool IsSuccess, string senderId, string receivedId,string ChangedItemId)
+            => Create(type, IsValid, IsSuccess,senderId, receivedId, ChangedItemId);
     }
 
 }
