@@ -13,9 +13,91 @@ public class ParseNetworkManager
     /// </summary>
     public static class NetworkManager
     {
-        Debug.Log($"현재 턴 메세지는 {msg.TurnMessageType.ToString()} 입니다.");
-        
-        switch (msg.TurnMessageType)
+        // ============================================================
+        // ===== TurnMessage 이벤트 (전부 TimerMs, Cycle, Round 선행) =====
+        // ============================================================
+
+        public static Action<float, int, int> OnGameStartState;
+
+        // GenreId, CurrentOwnerID
+        public static Action<float, int, int, int, string> OnGenreAssignAndLiarSelectState;
+
+        // KeywordId
+        public static Action<float, int, int, int> OnKeywordDistributeState;
+
+        // QuestId
+        public static Action<float, int, int, string, Protocol.CategoryItemArray[]> OnMartEnterState;
+
+        public static Action<float, int, int> OnMartMoveState;
+
+        // userScoreInfo
+        public static Action<float, int, int, Protocol.UserItemList[], Protocol.UserQuestInfo[]> OnMartReturnState;
+
+        // CurrentFocusID, CurrentCategory
+        public static Action<float, int, int, string, string> OnShowItemAndSpeakState;
+
+        public static Action<float, int, int> OnSpeechEndState;
+
+        public static Action<float, int, int> OnPointAtSuspectState;
+
+        // CurrentFocusID (최다 득표자, 동률/없음이면 빈 문자열)
+        public static Action<float, int, int, string> OnPointAtSuspectEndState;
+
+        public static Action<float, int, int> OnDebateTimeState;
+        public static Action<float, int, int> OnDebateEndState;
+
+        public static Action<float, int, int> OnVoteState;
+        public static Action<float, int, int> OnVoteEndState;
+
+        // CurrentFocusID (확정된 라이어)
+        public static Action<float, int, int, string> OnLiarConfirmedState;
+
+        public static Action<float, int, int> OnLiarKeywordGuessState;
+
+        // liarKeyword, nomalKeyword, IsRightAnswer, userScoreInfo
+        public static Action<float, int, int, string, string, bool, Protocol.UserScoreInfo[]>
+            OnLiarKeywordGuessEndState;
+
+        // LiarOutButtonInfo, userScoreInfo
+        public static Action<float, int, int, string[], Protocol.UserScoreInfo[]> OnScoreTallyState;
+
+        public static Action<float, int, int> OnScoreTallyEndState;
+
+        // CurrentOwnerIDs
+        public static Action<float, int, int, string[]> OnFinalResultState;
+
+        public static Action<float, int, int> OnFinalResultEndState;
+
+        // CurrentFocusID (라이어 버튼을 누른 라이어)
+        public static Action<float, int, int, string> OnLiarOutButtonPressedState;
+
+        // ============================================================
+        // ===== ChatMessage 이벤트 (ID, NickName, Text) =====
+        // ============================================================
+
+        public static Action<string, string, string> OnNormalChat;
+        public static Action<string, string, string> OnSpecialChat;
+        public static Action<string, string, string> OnKeywordGuessChat;
+
+        // ============================================================
+        // ===== UserInteractionMessage 이벤트 (IsValid, senderId, receivedId) =====
+        // ============================================================
+
+        public static Action<bool, bool, string, string> OnPushQuery;
+        public static Action<bool, bool, string, string> OnPushAnswer;
+        public static Action<bool, bool, string, string> OnItemHoldQuery;
+        public static Action<bool, bool, string, string> OnItemHoldAnswer;
+        public static Action<bool, bool, string, string> OnItemDropQuery;
+        public static Action<bool, bool, string, string> OnItemDropAnswer;
+        public static Action<bool, bool, string, string, string> OnItemPutInBagQuery;
+        public static Action<bool, bool, string, string, string> OnItemPutInBagAnswer;
+
+
+        // ============================================================
+        // ===== 메시지 해석 진입점 (메시지 종류별 오버로드) =====
+        // ============================================================
+
+        public static void MessageParse(Protocol.TurnMessage msg)
         {
             switch (msg.TurnMessageType)
             {
@@ -53,7 +135,8 @@ public class ParseNetworkManager
                 case Protocol.TurnMessageType.MartReturnState:
                 {
                     var p = Parse<Protocol.MartReturnParameter>(msg.Parameter);
-                    OnMartReturnState?.Invoke(msg.TimerMs, msg.CurrentCycle, msg.CurrentRound, p.IsSuccess);
+                    OnMartReturnState?.Invoke(msg.TimerMs, msg.CurrentCycle, msg.CurrentRound, p.UserItemList,
+                        p.UserQuestInfo);
                     break;
                 }
 
@@ -223,76 +306,4 @@ public class ParseNetworkManager
             return JsonConvert.DeserializeObject<T>(json);
         }
     }
-
-    public static void MessageParse(Protocol.ChatMessage msg)
-    {
-        switch (msg.ChatType)
-        {
-            case Protocol.ChatType.Normal:
-                OnNormalChat?.Invoke(msg.ID, msg.NickName, msg.Text);
-                break;
-
-            case Protocol.ChatType.Special:
-                OnSpecialChat?.Invoke(msg.ID, msg.NickName, msg.Text);
-                break;
-
-            case Protocol.ChatType.KeywordGuess:
-                OnKeywordGuessChat?.Invoke(msg.ID, msg.NickName, msg.Text);
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-
-    public static void MessageParse(Protocol.UserInteractionMessage msg)
-    {
-        switch (msg.InteractionType)
-        {
-            case Protocol.InteractionType.PushQuery:
-                OnPushQuery?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId);
-                break;
-            case Protocol.InteractionType.PushAnswer:
-                OnPushAnswer?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId);
-                break;
-            case Protocol.InteractionType.ItemHoldQuery:
-                OnItemHoldQuery?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId);
-                break;
-            case Protocol.InteractionType.ItemHoldAnswer:
-                OnItemHoldAnswer?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId);
-                break;
-            case Protocol.InteractionType.ItemDropQuery:
-                OnItemDropQuery?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId);
-                break;
-            case Protocol.InteractionType.ItemDropAnswer:
-                OnItemDropAnswer?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId);
-                break;
-
-            case Protocol.InteractionType.ItemPutInBagQuery:
-            {
-                var  p = Parse<Protocol.ItemPutInBagParameter>(msg.Parameter);
-                OnItemPutInBagQuery?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId,p?.ChangedItemId ?? "");
-                break;
-            }
-
-
-            case Protocol.InteractionType.ItemPutInBagAnswer:
-            {
-                var p = Parse<Protocol.ItemPutInBagParameter>(msg.Parameter);
-                OnItemPutInBagAnswer?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId,p?.ChangedItemId ?? "");
-                break;
-            }
-
-
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-
-    private static T Parse<T>(string json) where T : class
-    {
-        if (string.IsNullOrEmpty(json)) return null;
-        return JsonConvert.DeserializeObject<T>(json);
-    }
-}
 }

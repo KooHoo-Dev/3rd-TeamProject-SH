@@ -200,7 +200,7 @@ public class DisplayStandManager : MonoBehaviour
 
 
     
-    public void SetItemIdBufferForArea(CategoryItemArray[] CategoryItemArrays) 
+    public void SetItemIdBufferForArea(CategoryItemArray[] categoryItemArrays) 
     {
         categoryTypes = new CategoryType[categoryItemArrays.Length];
         for(int i = 0; i < categoryItemArrays.Length; i++)

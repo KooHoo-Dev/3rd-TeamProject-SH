@@ -65,9 +65,11 @@ namespace NetworkManager
             => CreateSimple(Protocol.TurnMessageType.MartMoveState, timerMs, cycle, round);
 
         public static Protocol.TurnMessage MartReturn(float timerMs, int cycle, int round,
-            bool isSuccess)
+            Protocol.UserItemList[] userItemLists, Protocol.UserQuestInfo[]  userQuestInfos)
             => Create(Protocol.TurnMessageType.MartReturnState, timerMs, cycle, round,
-                new Protocol.MartReturnParameter { IsSuccess = isSuccess });
+                new Protocol.MartReturnParameter { 
+                    UserItemList = userItemLists, 
+                    UserQuestInfo = userQuestInfos});
 
         // ===== 턴 처리: 발언 =====
         public static Protocol.TurnMessage ShowItemAndSpeak(float timerMs, int cycle, int round, string ownerId,
@@ -242,5 +244,4 @@ namespace NetworkManager
             => Create(type, IsValid, IsSuccess,senderId, receivedId, 
                 new Protocol.ItemPutInBagParameter { ChangedItemId =  changedItemId });
     }
-
 }

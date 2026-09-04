@@ -370,16 +370,8 @@ namespace TeamSH
             await DoLoadScene("02. NewMart");
             await UniTask.WaitUntil(() => DisplayStandManager.Instance != null && DisplayStandManager.Instance.IsReady);
 
-            for (int j = 0; j < allCategoryItemArrays.Length; j++)
-            {
-                itemIdList.Clear();
-                for (int k = 0; k < allCategoryItemArrays[j].ItemIds.Length; k++)
-                {
-                    if (int.TryParse(allCategoryItemArrays[j].ItemIds[k], out int itemId)) itemIdList.Add(itemId);
-                }
-                Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[j].Category}, 아이템 아이디 {itemIdList} ");
-                itemListDic.Add(allCategoryItemArrays[j].Category, itemIdList);
-            }
+            for (int i = 0; i < allCategoryItemArrays.Length; i++)
+                Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[i].Category}, 아이템 내역 {allCategoryItemArrays[i].ItemIds.ToString()} ");
             
             DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays);
         }
@@ -392,11 +384,11 @@ namespace TeamSH
         public bool QuestSuccess; 
         
         private void OnMartReturnState(float timerMs, int cycle, int round,
-                bool isSuccess) 
+            Protocol.UserItemList[] userItemLists, Protocol.UserQuestInfo[] userQuestInfos) 
         {
             DoSetPhase(TurnMessageType.MartReturnState, timerMs, cycle, round);
             
-            QuestSuccess = isSuccess;
+            //QuestSuccess = isSuccess; 서버에서 isSuccess삭제됨
             
             if (QuestSuccess) Debug.Log("당신은 퀘스트를 성공했습니다");
             else Debug.Log("당신은 퀘스트를 실패하였습니다");
@@ -419,9 +411,9 @@ namespace TeamSH
             hasSentSpecialChat = false;
             IsNotLiarPushCycle = false; // 새 사이클 진입 시 알림 초기화
 
-            string? item = DoGetItem(currentOwnerID, currentCategory);
+            string? item = DoGetItem(currentFocusID, currentCategory);
             
-            Debug.Log($"[발언] {currentOwnerID} 이(가) {currentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
+            Debug.Log($"[발언] {currentFocusID} 이(가) {currentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
         }
 
         // 발언 상태에서 발언자의 첫 채팅이 특수채팅
