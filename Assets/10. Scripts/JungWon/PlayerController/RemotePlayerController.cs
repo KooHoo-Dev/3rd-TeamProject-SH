@@ -17,7 +17,7 @@ namespace TeamSH
         public float delayTime = 0f;
         
         [Header("넉백 설정")]
-        [SerializeField] private float knockbackDrag = 8f;
+        [SerializeField] private float knockbackDrag = 12f; //CharacterController3D랑 동일하게 할것
         private Vector3 knockbackVelocity = Vector3.zero;
 
         protected override void OnAwake()

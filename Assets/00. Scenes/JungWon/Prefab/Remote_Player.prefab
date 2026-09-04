@@ -306,7 +306,7 @@ MonoBehaviour:
   smooth: 10
   body: {fileID: 6039462857329746840}
   delayTime: 0
-  knockbackDrag: 8
+  knockbackDrag: 12
 --- !u!114 &3314958677348802473
 MonoBehaviour:
   m_ObjectHideFlags: 0

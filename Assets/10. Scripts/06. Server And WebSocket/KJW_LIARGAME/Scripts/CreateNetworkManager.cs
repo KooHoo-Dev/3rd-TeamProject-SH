@@ -232,11 +232,13 @@ namespace NetworkManager
             , bool IsSuccess, string senderId, string receivedId)
             => CreateSimple(type, IsValid, IsSuccess,senderId, receivedId);
         public static Protocol.UserInteractionMessage ItemPutInBagQuery(Protocol.InteractionType type, bool IsValid
-            , bool IsSuccess, string senderId, string receivedId,string ChangedItemId)
-            => Create(type,IsValid, IsSuccess, senderId, receivedId,ChangedItemId);
+            , bool IsSuccess, string senderId, string receivedId,string changedItemId)
+            => Create(type,IsValid, IsSuccess, senderId, receivedId,
+                new Protocol.ItemPutInBagParameter { ChangedItemId =  changedItemId });
         public static Protocol.UserInteractionMessage ItemPutInBagAnswer(Protocol.InteractionType type, bool IsValid
-            , bool IsSuccess, string senderId, string receivedId,string ChangedItemId)
-            => Create(type, IsValid, IsSuccess,senderId, receivedId, ChangedItemId);
+            , bool IsSuccess, string senderId, string receivedId,string changedItemId)
+            => Create(type, IsValid, IsSuccess,senderId, receivedId, 
+                new Protocol.ItemPutInBagParameter { ChangedItemId =  changedItemId });
     }
 
 }

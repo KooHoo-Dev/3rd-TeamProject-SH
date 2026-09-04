@@ -1,4 +1,5 @@
 using System;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace TeamSH
@@ -107,29 +108,58 @@ namespace TeamSH
         }
 
         // 서버가 가방 넣기 결과를 알려줄 때 호출됨.
-        public void SuccessPutDownItem(bool isSuccess, string changedItemId = null)
+        public void SuccessPutDownItemInBag(bool isSuccess, string changedItemId = null)
         {
             if (HandItem == null) return;
             
-            if (isSuccess == false) HandItem.RequestActiveItem(); 
-            else if (string.IsNullOrEmpty(changedItemId) == false)
+            if (isSuccess == false)
             {
+                //HandItem.RequestActiveItem();
+                Debug.Log($"[ItemInteractionHandler] 아이템 가방에 넣기 실패");
+                return;
+            }
+            
+            if (string.IsNullOrEmpty(changedItemId) == false)
+            {
+                if (int.TryParse(changedItemId, out int itemId))
+                {
+                    DisplayStandManager.Instance.TryFindStandByItemId(itemId, 
+                    out DisplayStand itemStand, out int index);
+
+                    itemStand.RequestActiveItem(index);
+                    
+                    Owner.SelectedObjects.RemoveAll(x => x.itemDef.ItemId == index);
+                    Owner.SelectedObjects.Add(HandItem);
+                }
                 // 아이템 교체 내용 넣기
                 Debug.Log($"[아이템 교체] 기존에 가방에 있던 아이템(id:{changedItemId})이 교체되었습니다.");
             }
+            else
+            {
+                Owner.SelectedObjects.Add(HandItem);
+            }
+            
+            ClearHandItem();
 
-            Destroy(HandItem.gameObject);
-            HandItem = null;
+            OnStartPutDownItem?.Invoke();
+        }
+
+        public void SuccesReturnItemInStand(bool isSuccess)
+        {
+            if (isSuccess == false) return;
+            
+            HandItem.RequestActiveItem();
+
+            ClearHandItem();
 
             OnStartPutDownItem?.Invoke();
         }
         
-        public void ClearHandItemLocal()
+        public void ClearHandItem()
         {
             if (HandItem == null) return;
             Destroy(HandItem.gameObject);
             HandItem = null;
-            OnStartPutDownItem?.Invoke();
         }
     }
 }

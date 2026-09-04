@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -91,15 +90,15 @@ namespace TeamSH
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.User.NickName : userId;
         }
 
+        public Transform GetPointPivot(string userId) // Id가 remote에 없으면 나다.
+        {
+            return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.pointPivot : localPlayer.pointPivot;
+        }
+        
         public Interaction_Player GetPlayer(string userId)
         {
             if (userId == Me.Id) return localPlayer;
             return remotes[userId];
-        }
-
-        public Transform GetPointPivot(string userId) // Id가 remote에 없으면 나다.
-        {
-            return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.pointPivot : localPlayer.pointPivot;
         }
 
         public string GetPlayerId(Interaction_Player player)
@@ -380,11 +379,9 @@ namespace TeamSH
                 }
                 Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[j].Category}, 아이템 아이디 {itemIdList} ");
                 itemListDic.Add(allCategoryItemArrays[j].Category, itemIdList);
-
             }
-
+            
             DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays);
-
         }
         private void OnMartMoveState(float timerMs, int cycle, int round)
         {
@@ -407,9 +404,9 @@ namespace TeamSH
             hasSentSpecialChat = false;
             IsNotLiarPushCycle = false; // 새 사이클 진입 시 알림 초기화
 
-            string? item = DoGetItem(currentOwnerID);
-            Debug.Log($"[발언] {currentOwnerID} 이(가) {currentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
+            string? item = DoGetItem(currentOwnerID, currentCategory);
             
+            Debug.Log($"[발언] {currentOwnerID} 이(가) {currentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
         }
 
         // 발언 상태에서 발언자의 첫 채팅이 특수채팅
@@ -722,7 +719,18 @@ namespace TeamSH
             ItemInteractionHandler handler = player.GetComponentInChildren<ItemInteractionHandler>();
             if (handler == null) return;
 
-            handler.SuccessPutDownItem(isSuccess, changedItemId);
+            handler.SuccessPutDownItemInBag(isSuccess, changedItemId);
+        }
+
+        private void OnItemReturnInStandAnswer(bool isValid, bool isSuccess, string senderId, string receivedId)
+        {
+            if (isValid == false) return;
+            Interaction_Player player = GetPlayer(senderId);
+            ItemInteractionHandler handler = player.GetComponentInChildren<ItemInteractionHandler>();
+            if (handler == null) return;
+
+            //돌려놓기는 손에든 아이템을 돌려놓는건데 아이템자체에 되돌리기 코드있어서 receivedId가 쓸모없어지는듯?
+            handler.SuccesReturnItemInStand(isSuccess);
         }
         
         #endregion
@@ -765,7 +773,7 @@ namespace TeamSH
             remotes[user.Id] = remote;
 
             // 이미 마트/회의실에 들어와 있는 상태라면 새로 들어온 사람까지 포함해서 즉시 재배치
-            DoRepositionAll();
+            DoResponseAll();
         }
 
         #endregion
@@ -798,7 +806,7 @@ namespace TeamSH
             await SceneManager.UnloadSceneAsync(previous);
 
                 // 씬이 완전히 로드되어 매니저가 Awake를 끝낸 뒤에 전원 재배치
-                DoRepositionAll();
+                DoResponseAll(); //이거 비동기로 바꿔서 스폰이 완벽하게 이루어진 후 설정되게해야 좌표문제가 안생길듯
                 DoSetPlayer(sceneName); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
 
         }
@@ -814,12 +822,29 @@ namespace TeamSH
         }
 
         // userId가 이번 사이클에 고른 아이템을 찾는다. 나 자신이거나, remotes에 있는 사람만 알 수 있다.
-        // PlayerState.item이 사라져서 일단 null처리함
-        private string DoGetItem(string userId) 
-        { return null; }
+        private string DoGetItem(string userId , string currentCategory)
+        {
+            Interaction_Player player = GetPlayer(userId); //id로 플레이어가져와서 처리해야함
+            
+            // 임시 코드입니다. 나중에바꿔야함
+            string currentMartItemName = "";
 
+            for (int i = 0; i < player.SelectedObjects.Count; i++)
+            {
+                if (currentCategory == player.SelectedObjects[i].itemDef.CategoryType.ToString())
+                {
+                    currentMartItemName = player.SelectedObjects[i].itemDef.ItemName;
+                }
+            }
+            return currentMartItemName;
+        }
+
+        private void DoResponseAll()
+        {
+            AsyncResponseAll();
+        }
         // 현재 씬(마트/회의실)의 스폰 포인트를 가져와서 접속 순서대로 배치한다.
-        private void DoRepositionAll()
+        private async UniTask AsyncResponseAll() //스폰좌표가 자꾸 문제생긴다 비동기 처리로 바꾸자
         {
             userOrder.Sort((a, b) =>
             {
@@ -833,10 +858,10 @@ namespace TeamSH
             switch (activeContentScene)
             {
                 case "02. NewMart":
-                    spawnPoints = MartManager.Instance?.userSpawnPoints;
+                    spawnPoints = MartManager.Instance.userSpawnPoints;
                     break;
                 case "00. MeetingRoom":
-                    spawnPoints = ConferenceManager.Instance?.userSpawnPoints;
+                    spawnPoints = ConferenceManager.Instance.userSpawnPoints;
                     break;
                 default:
                     return; // 로비처럼 위치가 필요 없는 씬이면 조용히 넘어간다.
@@ -863,11 +888,13 @@ namespace TeamSH
                 if (id == Me.Id)
                 {
                     localPlayer.transform.position = pos;
+                    localPlayer.Body.transform.position = pos;
                     localPlayer.Body.transform.rotation = rot;
                 }
                 else if (remotes.TryGetValue(id, out RemotePlayer remote))
                 {
                     remote.Teleport(pos);
+                    remote.transform.position = pos;
                     remote.Body.transform.rotation = rot;
                 }
             }
@@ -979,7 +1006,7 @@ namespace TeamSH
                 IsSuccess: false,
                 senderId: Me.Id,
                 receivedId: itemId.ToString(),
-                ChangedItemId: null);
+                changedItemId: null);
 
             SendAsync(msg).Forget();
         }
@@ -1052,6 +1079,7 @@ namespace TeamSH
             
             // 마트 처리
             ParseNetworkManager.NetworkManager.OnItemHoldAnswer     += OnItemHoldAnswer;
+            ParseNetworkManager.NetworkManager.OnItemDropAnswer += OnItemReturnInStandAnswer;
             ParseNetworkManager.NetworkManager.OnItemPutInBagAnswer += OnItemPutInBagAnswer;
             ParseNetworkManager.NetworkManager.OnPushAnswer += OnPushAnswer;
             
@@ -1090,6 +1118,7 @@ namespace TeamSH
 
             //마트 처리
             ParseNetworkManager.NetworkManager.OnItemHoldAnswer     -= OnItemHoldAnswer;
+            ParseNetworkManager.NetworkManager.OnItemDropAnswer -= OnItemReturnInStandAnswer;
             ParseNetworkManager.NetworkManager.OnItemPutInBagAnswer -= OnItemPutInBagAnswer;
             ParseNetworkManager.NetworkManager.OnPushAnswer -= OnPushAnswer;
             

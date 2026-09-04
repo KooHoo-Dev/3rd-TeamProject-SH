@@ -119,6 +119,41 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &16053357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 16053358}
+  m_Layer: 5
+  m_Name: ItemDescription
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &16053358
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16053357}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1008350696230345247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &54629284
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,6 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90981d54348545ba823a63ab95bb4c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.MartManager
+  martUIManager: {fileID: 1008350696230345245}
   userSpawnPoints:
   - {fileID: 361889567}
   - {fileID: 448959314}
@@ -185,6 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c95b8df84fb1804f9c300b99c20f19e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DisplayStandManager
+  categoryTypes: 
   ItemBox: {fileID: 9184335440028324779, guid: 6d0a55d3f98924042b3309b9bcef9e77, type: 3}
   AllStendCount: 0
 --- !u!1 &361889566
@@ -638,6 +675,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FollowingPlayer
   Target: {fileID: 0}
   CameraSpeed: 10
+--- !u!1 &1202399426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1202399427}
+  m_Layer: 5
+  m_Name: MartQuestUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1202399427
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202399426}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1008350696230345247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1212487281
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,13 +910,64 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5874030384994532303, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2675859035669830176, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1202399427}
+    - targetCorrespondingSourceObject: {fileID: 2675859035669830176, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 16053358}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3635398586607267836, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1008350696230345245}
   m_SourcePrefab: {fileID: 100100000, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
+--- !u!1 &1008350696230345244 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3635398586607267836, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
+  m_PrefabInstance: {fileID: 1008350696230345243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1008350696230345245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008350696230345244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20f162e03e3405eb9942a8adfbdf4aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeamSH.MartUIManager
+  selectMartItemUI: {fileID: 1008350696230345246}
+  categorysUI: {fileID: 1008350696230345249}
+  itemsUI: {fileID: 1008350696230345248}
+  martQuestUI: {fileID: 0}
+  itemDescriptionText: {fileID: 0}
+--- !u!1 &1008350696230345246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5874030384994532303, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
+  m_PrefabInstance: {fileID: 1008350696230345243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1008350696230345247 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2675859035669830176, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
+  m_PrefabInstance: {fileID: 1008350696230345243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1008350696230345248 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8837251504080395150, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
+  m_PrefabInstance: {fileID: 1008350696230345243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1008350696230345249 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7294893043787405612, guid: 6fde57e5c9f6d62488061df0aa4ea712, type: 3}
+  m_PrefabInstance: {fileID: 1008350696230345243}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8892422866158722400
 PrefabInstance:
   m_ObjectHideFlags: 0
