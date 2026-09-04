@@ -109,8 +109,9 @@ namespace TeamSH
         [SerializeField] private TextMeshProUGUI chatLogText;
         [SerializeField] private TMP_InputField chatInput;
         [SerializeField] private Button sendButton;
-        
-        
+        [SerializeField] private ScrollRect chatScrollRect; 
+
+        private int lastChatLogCount = -1; 
 
         // 방에 들어간 후: 방 정보 / 게임시작 버튼 / 채팅 (예전 LiarLobby.DrawRoom)
         // 참고: 아직 씬별로 분리되지 않아서 마트/회의실에서도 계속 보임 (예전 OnGUI와 동일한 동작)
@@ -119,7 +120,19 @@ namespace TeamSH
             roomGroup.SetActive(true);
             roomInfoLabel.text = $"방 {client.RoomCode}    나 : {client.Me.NickName}({client.Me.Id})    남 : {client.RemoteCount}명";
             gameStartButton.gameObject.SetActive(client.IsHost && client.IsGameStarted == false);
-            chatLogText.text = string.Join("\n", client.ChatLog);
+
+            if (client.ChatLog.Count != lastChatLogCount)
+            {
+                lastChatLogCount = client.ChatLog.Count;
+                chatLogText.text = string.Join("\n", client.ChatLog);
+
+                // Content 크기(ContentSizeFitter)를 즉시 갱신한 뒤 맨 아래로 스크롤
+                if (chatScrollRect != null)
+                {
+                    Canvas.ForceUpdateCanvases();
+                    chatScrollRect.verticalNormalizedPosition = 0f;
+                }
+            }
         }
 
         private void OnSendButtonClicked()
