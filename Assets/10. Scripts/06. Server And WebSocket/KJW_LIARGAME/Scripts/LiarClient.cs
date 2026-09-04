@@ -370,20 +370,11 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
             await DoLoadScene("02. NewMart");
             await UniTask.WaitUntil(() => DisplayStandManager.Instance != null && DisplayStandManager.Instance.IsReady);
-            Dictionary<CategoryType, List<int>> itemListDic = new Dictionary<CategoryType, List<int>>();
-            List<int> itemIdList = new List<int>();
 
-            for (int j = 0; j < allCategoryItemArrays.Length; j++)
-            {
-                itemIdList.Clear();
-                for (int k = 0; k < allCategoryItemArrays[j].ItemIds.Length; k++)
-                {
-                    if (int.TryParse(allCategoryItemArrays[j].ItemIds[k], out int itemId)) itemIdList.Add(itemId);
-                }
-                Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[j].Category}, 아이템 아이디 {itemIdList} ");
-                itemListDic.Add(allCategoryItemArrays[j].Category, itemIdList);
+ 
+            for (int i = 0; i < allCategoryItemArrays.Length; i++)
+                Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[i].Category}, 아이템 내역 {allCategoryItemArrays[i].ItemIds.ToString()} ");
 
-            }
 
             DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays);
 
