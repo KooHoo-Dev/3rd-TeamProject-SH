@@ -1,9 +1,8 @@
-
 using System;
-
 using Jay;
 using Newtonsoft.Json;
 using TeamSH;
+using UnityEngine;
 
 public class ParseNetworkManager
 {
@@ -102,6 +101,8 @@ public static class NetworkManager
 
     public static void MessageParse(Protocol.TurnMessage msg)
     {
+        Debug.Log($"현재 턴 메세지는 {msg.TurnMessageType.ToString()} 입니다.");
+        
         switch (msg.TurnMessageType)
         {
             case Protocol.TurnMessageType.GameStartState:
@@ -281,7 +282,7 @@ public static class NetworkManager
             case Protocol.InteractionType.ItemPutInBagQuery:
             {
                 var  p = Parse<Protocol.ItemPutInBagParameter>(msg.Parameter);
-                OnItemPutInBagQuery?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId,p.ChangedItemId);
+                OnItemPutInBagQuery?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId,p?.ChangedItemId ?? "");
                 break;
             }
 
@@ -289,7 +290,7 @@ public static class NetworkManager
             case Protocol.InteractionType.ItemPutInBagAnswer:
             {
                 var p = Parse<Protocol.ItemPutInBagParameter>(msg.Parameter);
-                OnItemPutInBagAnswer?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId,p.ChangedItemId);
+                OnItemPutInBagAnswer?.Invoke(msg.IsValid,msg.IsSuccess, msg.senderId, msg.receivedId,p?.ChangedItemId ?? "");
                 break;
             }
 

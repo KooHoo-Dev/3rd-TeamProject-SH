@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &907501359
+--- !u!1001 &173179189
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -209,10 +209,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6788655115529200506, guid: 3e963d2fdeac6e7429f5f8593925945d, type: 3}
       propertyPath: m_Name
-      value: UICanvas 1
+      value: Old_AllUIs
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3345284137448018278, guid: 3e963d2fdeac6e7429f5f8593925945d, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -621,6 +620,7 @@ MonoBehaviour:
   sendPerSecond: 20
   localPlayer: {fileID: 1869631655}
   remotePrefab: {fileID: -7930338786351535698, guid: d1e1a9f6d5bc41e4cb0565ed8f43f434, type: 3}
+  QuestSuccess: 0
 --- !u!4 &1975179185
 Transform:
   m_ObjectHideFlags: 0
@@ -728,5 +728,5 @@ SceneRoots:
   - {fileID: 1668927538}
   - {fileID: 1975179185}
   - {fileID: 2053393196}
-  - {fileID: 907501359}
   - {fileID: 1538419069}
+  - {fileID: 173179189}

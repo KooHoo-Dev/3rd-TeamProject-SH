@@ -168,7 +168,7 @@ MonoBehaviour:
   tweenDuration: 1
   showEase: 6
   hideEase: 5
-  speakerNoticeText: {fileID: 1121629846}
+  noticeText: {fileID: 1121629846}
   categoryUI: {fileID: 2723775905494964752}
   categoryText: {fileID: 2723775905494964751}
   genreKeywordNoticeUI: {fileID: 1121629844}
@@ -963,9 +963,53 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1853990230022556818, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 36600011}
+    - target: {fileID: 1853990230022556818, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: VoteOtherPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219902011672419085, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 36600011}
+    - target: {fileID: 4219902011672419085, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: VoteOtherPlayer
+      objectReference: {fileID: 0}
     - target: {fileID: 4236582469111036533, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247039675070615566, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247039675070615566, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247039675070615566, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 36600011}
+    - target: {fileID: 4247039675070615566, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247039675070615566, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SkipPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247039675070615566, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TeamSH.Vote_System, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247039675070615566, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7985989171655873257, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
       propertyPath: m_Pivot.x
@@ -1046,6 +1090,14 @@ PrefabInstance:
     - target: {fileID: 7985989171655873257, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8089906165404381469, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 36600011}
+    - target: {fileID: 8089906165404381469, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: VoteOtherPlayer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

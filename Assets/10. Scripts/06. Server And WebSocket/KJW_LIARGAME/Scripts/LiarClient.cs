@@ -195,7 +195,6 @@ namespace TeamSH
         // TimerMs를 받은 그 때의 시간 (Time.time)
         private float phaseStartTime;
         
-
         // 지금 상태에서 남은 시간(초).
         public float RemainingSeconds => Mathf.Max(0f, TimerMs / 1000f - (Time.time - phaseStartTime));
 
@@ -215,6 +214,8 @@ namespace TeamSH
 
         // 라이어가 보낸 키워드채팅 텍스트. 키워드 맞춤 종료 상태에서 전체 공개할 때 쓴다.
         public string KeywordChatText { get; private set; } = "";
+        
+        
 
         #endregion
 
@@ -265,7 +266,7 @@ namespace TeamSH
         }
 
         #region 서버 -> 클라이언트 (On)
-
+        
         private void OnWelcome(WelcomeMessage message)
         {
             Me = message.User;
@@ -288,6 +289,7 @@ namespace TeamSH
             userOrder.Add(Me.Id);
 
             Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
+            
         }
 
         private void OnJoin(JoinMessage message)
@@ -391,24 +393,39 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.MartMoveState, timerMs, cycle, round);
         }
 
+        // 퀘스트 성공 / 실패 여부 저장
+        public bool QuestSuccess; 
+        
         private void OnMartReturnState(float timerMs, int cycle, int round,
                 bool isSuccess) 
         {
             DoSetPhase(TurnMessageType.MartReturnState, timerMs, cycle, round);
+            
+            QuestSuccess = isSuccess;
+            
+            if (QuestSuccess) Debug.Log("당신은 퀘스트를 성공했습니다");
+            else Debug.Log("당신은 퀘스트를 실패하였습니다");
+            
             DoLoadScene("00. MeetingRoom");
         }
 
-        private void OnShowItemAndSpeakState(float timerMs, int cycle, int round, string currentOwnerID,
+        public string CurrentCategory { get; set; }
+        
+        private void OnShowItemAndSpeakState(float timerMs, int cycle, int round, string currentFocusID,
             string currentCategory)
         {
-            DoSetPhase(TurnMessageType.ShowItemAndSpeakState, timerMs, cycle, round, currentOwnerID);
+            DoSetPhase(TurnMessageType.ShowItemAndSpeakState, timerMs, cycle, round, currentFocusID);
             SpecialChat = null;
+            
+            // 서버에서 현재 카테고리 받기
+            CurrentCategory = currentCategory;
+            
             
             hasSentSpecialChat = false;
             IsNotLiarPushCycle = false; // 새 사이클 진입 시 알림 초기화
 
-            string? item = DoGetItem(currentOwnerID);
-            Debug.Log($"[발언] {currentOwnerID} 이(가) {currentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
+            string? item = DoGetItem(currentFocusID);
+            Debug.Log($"[발언] {currentFocusID} 이(가) {currentCategory} 카테고리의 '{item}' 을(를) 보여주며 발언 중");
             
         }
 
@@ -554,6 +571,12 @@ namespace TeamSH
             
             // UI에 표시한다.
             UserScoreInfo = userScoreInfo; // 서버에서 온 스코어 정보를 클라의 UserScoreInfo에 저장한다. 
+
+            for (int i = 0; i < UserScoreInfo.Length; i++)
+            {
+                Debug.Log($"유저의 ID는 {UserScoreInfo[i].UserId} 이고, 점수는 {UserScoreInfo[i].UserScore} 입니다.");
+            }
+            
             
         }
 
@@ -566,6 +589,11 @@ namespace TeamSH
             
             // UI에 표시한다
             UserScoreInfo = userScoreInfo; // userScoreInfo 최신값 받기
+            
+            for (int i = 0; i < UserScoreInfo.Length; i++)
+            {
+                Debug.Log($"유저의 ID는 {UserScoreInfo[i].UserId} 이고, 점수는 {UserScoreInfo[i].UserScore} 입니다.");
+            }
         }
 
         private void OnScoreTallyEndState(float timerMs, int cycle, int round)
@@ -966,7 +994,7 @@ namespace TeamSH
                 IsSuccess: false,
                 senderId: Me.Id,
                 receivedId: itemId.ToString(),
-                ChangedItemId: "여기 일단 채워야함");
+                changedItemId: "여기 일단 채워야함");
 
             SendAsync(msg).Forget();
         }

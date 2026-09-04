@@ -69,8 +69,6 @@ namespace TeamSH
             UpdateInfoOverlay();
             UpdateLiarOutButton();
 
-            // UpdateGenreAndKeywordOpen();
-
             UpdateSpecialChatLog();
             UpdateAnnounce();
             UpdateKeywordChat();
@@ -111,6 +109,8 @@ namespace TeamSH
         [SerializeField] private TextMeshProUGUI chatLogText;
         [SerializeField] private TMP_InputField chatInput;
         [SerializeField] private Button sendButton;
+        
+        
 
         // 방에 들어간 후: 방 정보 / 게임시작 버튼 / 채팅 (예전 LiarLobby.DrawRoom)
         // 참고: 아직 씬별로 분리되지 않아서 마트/회의실에서도 계속 보임 (예전 OnGUI와 동일한 동작)
@@ -188,7 +188,6 @@ namespace TeamSH
                         && client.LiarButtonClicked == false;
 
             liarOutButtonComponent.gameObject.SetActive(show);
-
         }
 
         private void OnLiarOutButtonClicked() // 라밍아웃 버튼을 눌렀을 때
