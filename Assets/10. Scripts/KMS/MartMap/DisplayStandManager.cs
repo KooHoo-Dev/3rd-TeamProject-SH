@@ -199,10 +199,13 @@ public class DisplayStandManager : MonoBehaviour
 
 
     
-    public void SetItemIdBufferForArea(CategoryItemArray[] categoryItemArrays) 
+    public void SetItemIdBufferForArea(CategoryItemArray[] CategoryItemArrays) 
     {
+        CategoryItemArray[] categoryItemArrays = new CategoryItemArray[CategoryItemArrays.Length];
+        categoryItemArrays = (CategoryItemArray[])CategoryItemArrays.Clone();
+         
         CategoryType[] categoryTypes = new CategoryType[categoryItemArrays.Length];
-        for(int i = 0; i < categoryItemArrays.Length; i++)
+        for (int i = 0; i < categoryItemArrays.Length; i++)
         {
             categoryTypes[i] = categoryItemArrays[i].Category;
         }
@@ -214,7 +217,7 @@ public class DisplayStandManager : MonoBehaviour
             Debug.Log($"[DisplayStandManager] : Setting item ID buffer for area {CategoryDic[categoryTypes[i]]} with category {categoryTypes[i]}.");
             for(int j = 0; j < categoryItemArrays[i].ItemIds.Length; j++)
             {
-                
+                Debug.Log($"[DisplayStandManager] : Adding item ID {categoryItemArrays[i].ItemIds[j]} to buffer for area {CategoryDic[categoryTypes[i]]}.");
                 intIds.Add(int.Parse(categoryItemArrays[i].ItemIds[j]));
             }
             Areas[(int)CategoryDic[categoryTypes[i]]].AddItems(intIds);
