@@ -10,7 +10,8 @@ public class DisplayStandManager : MonoBehaviour
     public static DisplayStandManager Instance { get; private set; }
     
     public Dictionary<CategoryType, AreaNum> CategoryDic = new Dictionary<CategoryType, AreaNum>();
-
+    public CategoryType[] categoryTypes; // UI에 CategoryType에 맞게 정렬하기 위해 임시로 빼둠
+    
     public List<AreaData> Areas = new();
 
     public GameObject ItemBox; //아이템 담을 박스 프리팹 원본
@@ -201,11 +202,8 @@ public class DisplayStandManager : MonoBehaviour
     
     public void SetItemIdBufferForArea(CategoryItemArray[] CategoryItemArrays) 
     {
-        CategoryItemArray[] categoryItemArrays = new CategoryItemArray[CategoryItemArrays.Length];
-        categoryItemArrays = (CategoryItemArray[])CategoryItemArrays.Clone();
-         
-        CategoryType[] categoryTypes = new CategoryType[categoryItemArrays.Length];
-        for (int i = 0; i < categoryItemArrays.Length; i++)
+        categoryTypes = new CategoryType[categoryItemArrays.Length];
+        for(int i = 0; i < categoryItemArrays.Length; i++)
         {
             categoryTypes[i] = categoryItemArrays[i].Category;
         }

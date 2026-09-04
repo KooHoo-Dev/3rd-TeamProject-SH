@@ -44,7 +44,7 @@ namespace TeamSH
                 return false;
             }
 
-            Debug.Log($"그리드 크기 X 여부{target.x >= boundaryMinX && target.x <= boundaryMaxX}, Z 여부 {target.z >= boundaryMinZ && target.z <= boundaryMaxZ}");
+            //Debug.Log($"그리드 크기 X 여부{target.x >= boundaryMinX && target.x <= boundaryMaxX}, Z 여부 {target.z >= boundaryMinZ && target.z <= boundaryMaxZ}");
             if (target.x >= boundaryMinX && target.x <= boundaryMaxX &&
                 target.z >= boundaryMinZ && target.z <= boundaryMaxZ)
             {
