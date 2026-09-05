@@ -1,3 +1,4 @@
+/*
 using System;
 using Study.Utilities;
 using TMPro;
@@ -126,10 +127,13 @@ namespace TeamSH
                 lastChatLogCount = client.ChatLog.Count;
                 chatLogText.text = string.Join("\n", client.ChatLog);
 
-                // Content 크기(ContentSizeFitter)를 즉시 갱신한 뒤 맨 아래로 스크롤
                 if (chatScrollRect != null)
                 {
-                    Canvas.ForceUpdateCanvases();
+                    RectTransform contentRT = chatScrollRect.content;
+                    float width = contentRT.rect.width;
+                    float height = chatLogText.GetPreferredValues(chatLogText.text, width, 0f).y;
+                    contentRT.sizeDelta = new Vector2(contentRT.sizeDelta.x, height);
+
                     chatScrollRect.verticalNormalizedPosition = 0f;
                 }
             }
@@ -266,7 +270,7 @@ namespace TeamSH
 
             keywordChatText.text = $"{client.GetNickName(client.LiarId)}의 키워드 선택은 : {client.KeywordChatText}";
             liarKeyword.text = $"라이어의 키워드는 {client.LiarKeyword} 입니다."; // 실제 라이어의 키워드
-            userKeyword.text = $"플레이어의 키워드는 {client.NomalKeyword} 입니다."; // 실제 시민의 키워드
+            userKeyword.text = $"플레이어의 키워드는 {client.NormalKeyword} 입니다."; // 실제 시민의 키워드
         }
 
         [Header("점수 목록")]
@@ -346,3 +350,4 @@ namespace TeamSH
         #endregion
     }
 }
+*/

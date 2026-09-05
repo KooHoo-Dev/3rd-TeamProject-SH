@@ -99,6 +99,7 @@ public class ParseNetworkManager
 
         public static void MessageParse(Protocol.TurnMessage msg)
         {
+            Debug.Log($"현재 턴 메세지는 {msg.TurnMessageType.ToString()} 입니다.");
             switch (msg.TurnMessageType)
             {
                 case Protocol.TurnMessageType.GameStartState:
