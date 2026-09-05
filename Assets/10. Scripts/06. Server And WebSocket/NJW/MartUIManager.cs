@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace TeamSH
@@ -17,9 +18,12 @@ namespace TeamSH
         
         [Header("퀘스트 UI 설정")]
         public GameObject martQuestUI; //퀘스트 UI
+        public TextMeshProUGUI questDescriptionText; //퀘스트 설명 Text;
         
-        [Header("아이템 UI 설정")]
-        public TMP_Text itemDescriptionText; // 아이템 설명 텍스트 활성화되면 아이템 위에 뜨게할 예정
+        [Header("아이템 설명 UI 설정")]
+        public ItemDescriptionUI itemDescriptionUI; // 아이템 설명 텍스트 활성화되면 아이템 위에 뜨게할 예정
+        public TextMeshProUGUI itemCategoryText;
+        public TextMeshProUGUI itemNameText;
 
         private void Awake()
         {
@@ -29,23 +33,17 @@ namespace TeamSH
         
         public void ApplySelectMartItemUI(bool isShow, List<MartItem> playerItems)
         {
-            SetMartItemUI(playerItems);
+            SetSelectedMartItemUI(playerItems);
             selectMartItemUI.SetActive(isShow);
-        }
-
-        public void ApplyMartQuestUI(bool isShow, MartItem item)
-        {
-            SetMartQuest(item);
-            martQuestUI.SetActive(isShow);
         }
 
         public void ApplyItemDescriptionText(bool isShow, MartItem item)
         {
-            SetItemDescriptionText(item);
-            itemDescriptionText.gameObject.SetActive(isShow);
+            if (isShow) itemDescriptionUI.Show(item, itemCategoryText, itemNameText);
+            else        itemDescriptionUI.Hide();
         }
 
-        private void SetMartItemUI(List<MartItem> playerItems)
+        private void SetSelectedMartItemUI(List<MartItem> playerItems)
         {
             //여기 본인이 잡은 아이템 설명 UI 설정변경 넣어야함
             for (int i = 0; i < categoryText.Length; i++)
@@ -66,14 +64,9 @@ namespace TeamSH
             }
         }
 
-        public void SetMartQuest(MartItem item) // 마트 퀘스트 정보를 받아서 적용시키기
+        public void SetMartQuest(ItemDef itemDef) // 마트 퀘스트 정보를 받아서 적용시키기
         {
-            
-        }
-
-        private void SetItemDescriptionText(MartItem item)
-        {
-            
+            questDescriptionText.SetText($"{itemDef.ItemName} 선택 시 \n점수 + 1점"); //여기 +점수값 추가하기
         }
     }
 }

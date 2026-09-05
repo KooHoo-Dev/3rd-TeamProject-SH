@@ -176,7 +176,6 @@ public class DisplayStand : MonoBehaviour
     #region 외부 연결 설정(Get)
 
     /// 이 매대 안에서 주어진 itemId를 가진 아이템의 슬롯 인덱스를 찾기.
-    /// (근데 서버에서 받을때 ItemId를 string으로 받아서 바뀔지도?)
     public int GetItemIndexById(int itemId)
     {
         for (int i = 0; i < Items.Count; i++)

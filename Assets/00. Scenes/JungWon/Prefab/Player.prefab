@@ -340,6 +340,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.ItemInteractionHandler
   <Owner>k__BackingField: {fileID: 0}
   itemBonePivot: {fileID: 5698209311293110406}
+  itemDetectRadius: 1
+  itemLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &8262571419605543682
 MonoBehaviour:
   m_ObjectHideFlags: 0

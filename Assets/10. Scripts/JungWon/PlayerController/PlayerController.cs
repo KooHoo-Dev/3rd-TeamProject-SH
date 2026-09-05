@@ -29,7 +29,7 @@ namespace TeamSH
 
         private void Update()
         {
-            if (canMove == false)
+            if (canMove == false || Controller3D.HasKnockback)
             {
                 Controller3D.SetMoveInput(Vector3.zero);
                 return;
