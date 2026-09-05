@@ -16,8 +16,9 @@ namespace TeamSH
         private bool getItemRequested = false;
         private bool putDownItemRequested = false;
         
+        [Header("아이템 감지 설정 (설명 UI용)")]
+        private MartItem currentDescriptionItem;
 
-        
         #region 이벤트
         
         public event Action OnStartGetItem;
@@ -35,8 +36,11 @@ namespace TeamSH
         {
             TryGetItem();
             TryPutDownItem();
+            DetectItemForDescription(); // 추가
         }
-        
+
+        #region 외부 요청 설정
+
         public void RequestGetItem()
         {
             if (getItemRequested || HandItem != null) return;
@@ -48,6 +52,49 @@ namespace TeamSH
             if (putDownItemRequested || HandItem == null) return;
             putDownItemRequested = true;
         }
+
+        #endregion
+
+        #region 내부 UI요청용 아이템찾기 설정
+
+        private void DetectItemForDescription()
+        { 
+            if (Owner != LiarClient.Instance.Local) return;
+            
+            MartItem closest = FindMartItemByStand();
+
+            if (closest == currentDescriptionItem) return; // 대상이 바뀌지 않았으면 아무것도 하지 않는다.
+
+            if (currentDescriptionItem != null)
+                MartManager.Instance?.RequestItemDescription(false, currentDescriptionItem);
+
+            currentDescriptionItem = closest;
+
+            if (currentDescriptionItem != null)
+                MartManager.Instance?.RequestItemDescription(true, currentDescriptionItem);
+        }
+        
+        private MartItem FindMartItemByStand()
+        {
+            if (DisplayStandManager.Instance == null) return null;
+
+            Vector3 pivotPos = Owner.FindItemPivot.position;
+
+            DisplayStand stand = DisplayStandManager.Instance.CheckWhenStend(pivotPos);
+            if (stand == null) return null;
+
+            int itemIndex = stand.GetNearestActiveItemIndex(pivotPos);
+            if (itemIndex < 0) return null;
+
+            MartItem item = stand.MartItems[itemIndex];
+            
+            if (item == null || item.gameObject.activeSelf == false || item == HandItem) return null;
+
+            return item;
+        }
+
+        #endregion
+        
 
         public void TryGetItem()
         {
@@ -88,7 +135,9 @@ namespace TeamSH
             //LiarClient.Instance.RequestTryInputItemInBag(HandItem.itemDef.ItemId);
             //Debug.Log($"서버에 {HandItem.itemDef.ItemName}을 가방에 넣고싶다 요청보냄");
         }
-        
+
+        #region 서버->클라로 온 정보 처리
+
         // 서버가 아이템 집기 성공시 호출
         public void SuccessGetItem(int itemId)
         {
@@ -128,15 +177,15 @@ namespace TeamSH
 
                     itemStand.RequestActiveItem(index);
                     
-                    Owner.SelectedObjects.RemoveAll(x => x.itemDef.ItemId == index);
-                    Owner.SelectedObjects.Add(HandItem);
+                    Owner.SelectedItems.RemoveAll(x => x.itemDef.ItemId == index);
+                    Owner.SelectedItems.Add(HandItem);
                 }
                 // 아이템 교체 내용 넣기
                 Debug.Log($"[아이템 교체] 기존에 가방에 있던 아이템(id:{changedItemId})이 교체되었습니다.");
             }
             else
             {
-                Owner.SelectedObjects.Add(HandItem);
+                Owner.SelectedItems.Add(HandItem);
             }
             
             ClearHandItem();
@@ -154,6 +203,9 @@ namespace TeamSH
 
             OnStartPutDownItem?.Invoke();
         }
+
+        #endregion
+        
         
         public void ClearHandItem()
         {

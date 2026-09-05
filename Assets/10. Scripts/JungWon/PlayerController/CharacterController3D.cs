@@ -24,11 +24,13 @@ namespace TeamSH
         public float HorizontalVelocity { get; private set; } = 0.0f; // 최종 x값
         public float VerticalVelocity { get; private set; } = 0.0f; // 최종 z값
 
+        public bool HasKnockback => externalVelocity.sqrMagnitude > 0.0001f;
+        
         private void Awake()
         {
             col = GetComponent<Collider>();
             rBody = GetComponent<Rigidbody>();
-            //rBody.isKinematic = true; 테스트중
+            rBody.isKinematic = true;
         }
 
         private void FixedUpdate()
@@ -58,7 +60,7 @@ namespace TeamSH
                 Vector3.zero,
                 externalDrag * Time.fixedDeltaTime);
             
-            //if (externalVelocity.z < 0.0f) externalVelocity.z = 0.0f;
+            if (externalVelocity.sqrMagnitude < 0.0001f)  externalVelocity = Vector3.zero;
 
             rBody.MovePosition(transform.position + moveVector);
         }

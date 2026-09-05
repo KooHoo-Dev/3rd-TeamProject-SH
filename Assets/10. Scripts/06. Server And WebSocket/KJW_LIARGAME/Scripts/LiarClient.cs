@@ -108,7 +108,6 @@ namespace TeamSH
             
             foreach (var remote in remotes.Values)
             {
-                // RemotePlayer가 Interaction_Player를 상속받으므로 직접 비교 가능
                 if (remote == player)
                 {
                     return remote.User.Id;
@@ -388,9 +387,10 @@ namespace TeamSH
             await UniTask.WaitUntil(() => DisplayStandManager.Instance != null && DisplayStandManager.Instance.IsReady);
 
             for (int i = 0; i < allCategoryItemArrays.Length; i++)
-                Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[i].Category}, 아이템 내역 {allCategoryItemArrays[i].ItemIds.ToString()} ");
+                Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[i].Category}, 아이템 내역 {allCategoryItemArrays[i].ItemIds} ");
             
             DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays);
+            MartQuestManager.Instance.SetPlayerMartQuest(questId);
         }
         private void OnMartMoveState(float timerMs, int cycle, int round)
         {

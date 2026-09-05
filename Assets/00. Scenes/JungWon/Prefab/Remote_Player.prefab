@@ -305,8 +305,11 @@ MonoBehaviour:
   canMove: 1
   smooth: 10
   body: {fileID: 6039462857329746840}
-  delayTime: 0
+  delayTime: 1
   knockbackDrag: 12
+  collisionLayer:
+    serializedVersion: 2
+    m_Bits: 192
 --- !u!114 &3314958677348802473
 MonoBehaviour:
   m_ObjectHideFlags: 0

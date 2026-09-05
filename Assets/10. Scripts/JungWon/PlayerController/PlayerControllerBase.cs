@@ -43,6 +43,5 @@ namespace TeamSH
         }
         
         public abstract void ApplyKnockback(Vector3 hitDirection, float power);
-
     }
 }
