@@ -390,7 +390,7 @@ namespace TeamSH
                 Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[i].Category}, 아이템 내역 {allCategoryItemArrays[i].ItemIds} ");
             
             DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays);
-            MartQuestManager.Instance.SetPlayerMartQuest(questId);
+            MartQuestManager.Instance.SetPlayerMartQuest(targetItemId);
         }
         private void OnMartMoveState(float timerMs, int cycle, int round)
         {
