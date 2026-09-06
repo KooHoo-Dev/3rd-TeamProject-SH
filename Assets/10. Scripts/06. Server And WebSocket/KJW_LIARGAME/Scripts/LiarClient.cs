@@ -121,6 +121,21 @@ namespace TeamSH
 
         #endregion
 
+        #region 플레이어 색상 설정
+
+        public PlayerColorSet colorSet;
+        
+        private Color ColorOf(string id)
+        {
+            if (colorSet != null) return colorSet.GetColor(id);
+
+            int hash = 0;
+            foreach (char c in id) hash = hash * 31 + c;
+            return Color.HSVToRGB(Mathf.Abs(hash % 360) / 360f, 0.65f, 0.95f);
+        }
+        
+        #endregion
+        
         [Header("방 정보")]
         // 게임 시작 확인을 받았는지 확인
         public bool IsGameStarted { get; private set; }
@@ -506,7 +521,10 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.PointAtSuspectState, timerMs, cycle, round);
             //여기 지목단계 시작
             Vote_System.Instance?.SetTurnType(Vote_System.TurnType.Point, timerMs);
-            ConferenceManager.Instance?.RequestSkipPointUI(true); // 스킵 버튼 켜기
+            
+            //maxCycle 정의가 없는거같아서 일단 하드코딩. 나중에 바꿀 수 있음
+            if(cycle != 3) ConferenceManager.Instance?.RequestSkipPointUI(true); // 스킵 버튼 켜기
+
             MeetingRoomUIManager.Instance?.ShowPointAtNotice(); // 라이어 지목 공지 UI
         }
 
@@ -1150,7 +1168,7 @@ namespace TeamSH
             base.Awake(); // 싱글턴 등록 + DontDestroyOnLoad. 중복 인스턴스면 여기서 파괴된다.
 
             activeContentScene = BootScene;
-
+            colorSet = GetComponent<PlayerColorSet>();
             // true로 해둬야 백그라운드에서도 데이터 수신 가능
             Application.runInBackground = true;
 
@@ -1412,14 +1430,7 @@ namespace TeamSH
             }
         }
 
-        private static Color ColorOf(string id)
-        {
-            int hash = 0;
 
-            foreach (char c in id) hash = hash * 31 + c;
-
-            return Color.HSVToRGB(Mathf.Abs(hash % 360) / 360f, 0.65f, 0.95f);
-        }
 
         private void OnDestroy() // 사라지면 모두 구독 해제
         {

@@ -289,8 +289,7 @@ MonoBehaviour:
   <SelectedItems>k__BackingField: []
   pointPivot: {fileID: 7147807229905590947}
   label: {fileID: 3656310425659863684}
-  body: {fileID: 0}
-  bodyMaterials: []
+  skin: {fileID: 26916515820139307}
 --- !u!114 &2336401383748982689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -652,6 +651,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 991234532523343840}
   m_SourcePrefab: {fileID: 100100000, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+--- !u!137 &26916515820139307 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7744048097048760894, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+  m_PrefabInstance: {fileID: 7721354333483000085}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5698209311293110406 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2608668263107762579, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
