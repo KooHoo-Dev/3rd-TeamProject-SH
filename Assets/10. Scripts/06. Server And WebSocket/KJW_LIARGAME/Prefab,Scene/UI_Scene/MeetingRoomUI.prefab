@@ -1318,7 +1318,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 127, y: 97}
+  m_AnchoredPosition: {x: 127, y: 309}
   m_SizeDelta: {x: 300, y: 120}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &5564483088822839545
@@ -1958,7 +1958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.MeetingRoomUIManager
   speakerNoticePanel: {fileID: 1874053852451139822}
   speakerNoticeText: {fileID: 7091512356577795409}
-  liarOutButtonComponent: {fileID: 9052053726229304909}
+  liarOutButton: {fileID: 0}
   liarOutButtonResultPanel: {fileID: 7586926679534292483}
   liarOutButtonResultText: {fileID: 2908572345742743892}
   speechEndPanel: {fileID: 1342418888514649583}
