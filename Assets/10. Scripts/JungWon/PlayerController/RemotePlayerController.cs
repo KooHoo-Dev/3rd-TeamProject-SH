@@ -12,29 +12,19 @@ namespace TeamSH
         
         private Vector3 target;
         private Vector3 lastPos;
-        //고무줄 현상 어떻게 해결해야 하는지 모르겠다 딜레이시간 직접넣자
+        
+        [Header("씬 전환 직후 옛 좌표 무시용 쿨다운")]
         public float delayTime = 1f;
         private float delayTimer = 0f;
-        
-        [Header("넉백 설정")]
-        [SerializeField] private float knockbackDrag = 12f; //CharacterController3D랑 동일하게 할것
-        private Vector3 knockbackVelocity = Vector3.zero;
-        public bool HasKnockback => knockbackVelocity.sqrMagnitude > 0.0001f;
 
-        [Header("충돌 설정 (CharacterController3D의 값과 반드시 동일하게 맞출 것)")]
-        private float skinWidth = 0.02f;
-        public LayerMask collisionLayer;
+        [Header("비정상 좌표 무시 설정")]
+        [SerializeField] private float maxWalkableSqrDistance = 9f; // 대략 3미터 이상은 비정상으로 간주
 
-        private Collider col;
-        private Rigidbody rBody;
-        
+
         protected override void OnAwake()
         {
             target = transform.position;
             lastPos = transform.position;
-            col = GetComponent<Collider>();
-            rBody = GetComponent<Rigidbody>();
-            rBody.isKinematic = true;
 
             ItemInteraction = GetComponent<ItemInteractionHandler>();
             ItemInteraction.OnStartGetItem += GetBox;
@@ -44,7 +34,11 @@ namespace TeamSH
         public void SetTarget(Vector3 position, float smooth)
         {
             if (delayTimer > 0f) return;
-            if (HasKnockback) return;
+            
+            // 2차 방어선(이번에 새로 추가하는 핵심): 마지막 좌표 기준으로 비정상적으로 먼 좌표(텔포) 가 들어오면,
+            // 스냅해서 이동시키는 게 아니라 아예 값을 갱신하지 않고 버린다.
+            // → 캐릭터는 그 자리에서 한 발짝도 움직이지 않고, 다음에 정상적인(가까운) 좌표가 올 때까지 기다린다.
+            if ((position - target).sqrMagnitude > maxWalkableSqrDistance)return;
             
             target = position;
             this.smooth = smooth;
@@ -53,55 +47,27 @@ namespace TeamSH
         public void Teleport(Vector3 position)
         {
             delayTimer = delayTime;
-            knockbackVelocity = Vector3.zero; 
             
             transform.position = position;
             target = position;
             lastPos = position;
         }
         
-        // 서버가 승인한 밀치기 결과를 실제로 반영하는 부분
         public override void ApplyKnockback(Vector3 hitDirection, float power)
         {
-            knockbackVelocity += hitDirection * power;
+            // 뭐 연출넣을거면 여기넣자
         }
-
+        
         private void Update()
         {
             if (delayTimer > 0f) delayTimer -= Time.deltaTime;
-
             if (canMove == false) return;
-            
-            if (knockbackVelocity.sqrMagnitude > 0.0001f)
-            {
-                Vector3 desireMove = knockbackVelocity * Time.deltaTime;
-                Vector3 moveVector;
-                
-                Bounds box = GetCastBox();
 
-                float boxX = ResolveAxisMovement(box, desireMove.x, Vector3.right);
-                box.center += new Vector3(boxX, 0, 0); // X를 먼저 반영해야 벽 모서리 미끄러짐이 로컬과 같아진다.
-                float boxZ = ResolveAxisMovement(box, desireMove.z, Vector3.forward);
+            float t = 1f - Mathf.Exp(-smooth * Time.deltaTime);
+            Place(Vector3.Lerp(transform.position, target, t));
 
-                moveVector = new Vector3(boxX, 0, boxZ);
-
-                if (moveVector.x != desireMove.x) knockbackVelocity.x = 0.0f;
-                if (moveVector.z != desireMove.z) knockbackVelocity.z = 0.0f;
-
-                Place(transform.position + moveVector);
-                target = transform.position; // 서버의 옛 좌표로 되돌아가지 않도록 목표도 같이 갱신
-                
-                knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, knockbackDrag * Time.deltaTime);
-                if(knockbackVelocity.sqrMagnitude < 0.0001f) knockbackVelocity = Vector3.zero;
-            }
-            else
-            {
-                float t = 1f - Mathf.Exp(-smooth * Time.deltaTime);
-                Place(Vector3.Lerp(transform.position, target, t));
-            }
-            
             Vector3 moveDirection = transform.position - lastPos;
-            moveDirection.y = 0f; // 위아래로 기울어지는 것 방지
+            moveDirection.y = 0f;
 
             bool isMoving = moveDirection.sqrMagnitude > 0.0001f;
             Animator.SetBool(IS_MOVE, isMoving);
@@ -114,60 +80,19 @@ namespace TeamSH
 
         private void Place(Vector3 next)
         {
-            transform.position = new Vector3(next.x, transform.position.y, next.z); //3D공간이니 y값만 불변
-        }
-        
-        #region 충돌 계산 (CharacterController3D와 동일)
-
-        private float ResolveAxisMovement(Bounds box, float move, Vector3 axis)
-        {
-            if (move == 0.0f) return 0.0f;
-
-            Vector3 dir = move > 0.0f ? axis : -axis;
-            float distance = Mathf.Abs(move);
-
-            RaycastHit hit;
-            bool isHit = Physics.BoxCast(
-                box.center,
-                box.extents,
-                dir,
-                out hit,
-                Quaternion.identity,
-                distance,
-                collisionLayer
-            );
-
-            if (!isHit) return move;
-
-            float allowed = Mathf.Max(0, hit.distance - skinWidth);
-            return Mathf.Sign(move) * allowed;
+            transform.position = new Vector3(next.x, transform.position.y, next.z);
         }
 
-        private Bounds GetCastBox()
-        {
-            Bounds box = col.bounds;
-
-            Vector3 size = box.size;
-            size.x -= skinWidth * 2;
-            size.z -= skinWidth * 2;
-            box.size = size;
-
-            return box;
-        }
-
-        #endregion
-        
         private void GetBox()
         {
-            Animator.SetLayerWeight(1,1);
+            Animator.SetLayerWeight(1, 1);
             Animator.SetBool(GET_ITEM, true);
         }
 
         private void PutDownBox()
         {
-            Animator.SetLayerWeight(0,0);
+            Animator.SetLayerWeight(0, 0);
             Animator.SetBool(GET_ITEM, false);
-            Animator.SetTrigger(PUT_DOWN);
         }
     }
 }

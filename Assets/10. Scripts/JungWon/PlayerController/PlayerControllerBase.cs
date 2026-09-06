@@ -6,7 +6,6 @@ namespace TeamSH
     {
         protected static readonly int IS_MOVE = Animator.StringToHash("IsMove");
         protected static readonly int GET_ITEM = Animator.StringToHash("GetItem");
-        protected static readonly int PUT_DOWN = Animator.StringToHash("PutDown");
         protected static readonly int IS_PUSH = Animator.StringToHash("IsPush");
         protected static readonly int IsSitting = Animator.StringToHash("IsSitting");
         
@@ -39,6 +38,7 @@ namespace TeamSH
             canMove = false;
             Animator.SetLayerWeight(0, 0);
             Animator.SetBool(IS_MOVE, false);
+            Animator.SetBool(GET_ITEM, false);
             Animator.SetBool(IsSitting, true);
         }
         

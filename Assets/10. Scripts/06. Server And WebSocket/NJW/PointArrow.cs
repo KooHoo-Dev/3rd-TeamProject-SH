@@ -113,13 +113,15 @@ namespace TeamSH
             fwdFlat.Normalize();
             float tSide = Mathf.InverseLerp(20f, 70f, Vector3.Angle(fwdFlat, dirFlat));
 
+            float sideSign = Vector3.Cross(fwdFlat, dirFlat).y >= 0f ? -1f : 1f;
+            
             Vector3 perp = Vector3.Cross(normal, dirFlat);
             if (perp.sqrMagnitude < 1e-6f) perp = Vector3.Cross(normal, Vector3.forward);
             perp.Normalize();
 
             Vector3 mid = (start + end) * 0.5f;
-            Vector3 control = mid + perp * (chordLen * sideCurveStrength * tSide) + normal * (frontLift * (1f - tSide));
-
+            Vector3 control = mid + perp * (chordLen * sideCurveStrength * tSide * sideSign) + normal * (frontLift * (1f - tSide));
+            
             Vector3 endTanRaw = (end - control) * 2f;
             endTanRaw.y = 0f;
             if (endTanRaw.sqrMagnitude < 1e-6f) endTanRaw = dirFlat;

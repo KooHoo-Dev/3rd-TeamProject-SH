@@ -74,6 +74,7 @@ namespace TeamSH
             
             if (SimpleInput.GetKeyDown(Key.Space))
             {
+                if (ItemInteraction.HandItem != null) return; //아이템들고있다면 밀기 불가
                 PlayPushAnimation();
                 pushTimer += pushCoolTime;
 
@@ -91,7 +92,6 @@ namespace TeamSH
         {
             Animator.SetLayerWeight(0,0);
             Animator.SetBool(GET_ITEM, false);
-            Animator.SetTrigger(PUT_DOWN);
         }
         
         public override void ApplyKnockback(Vector3 hitDirection, float power)

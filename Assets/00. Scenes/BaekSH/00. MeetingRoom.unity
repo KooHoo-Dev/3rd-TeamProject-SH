@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 36600013}
   - component: {fileID: 36600012}
   - component: {fileID: 36600011}
+  - component: {fileID: 36600015}
   m_Layer: 0
   m_Name: ConferneceManager
   m_TagString: GameManager
@@ -339,6 +340,23 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1989004793698420134, guid: 3f6c77acb21b847448ae3a014f91daa5, type: 3}
   m_PrefabInstance: {fileID: 240506406}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &36600015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36600010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a045fe527ae34a3a90fa81542bf73e7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeamSH.PointerHighlightController
+  raycastCamera: {fileID: 0}
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 1
+  fallbackHighlightColor: {r: 1, g: 0.85, b: 0.3, a: 1}
 --- !u!1 &633563189
 GameObject:
   m_ObjectHideFlags: 0

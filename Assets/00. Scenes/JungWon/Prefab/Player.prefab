@@ -286,11 +286,10 @@ MonoBehaviour:
   <Body>k__BackingField: {fileID: 6039462857329746840}
   <PushBox>k__BackingField: {fileID: 5998201562409651203}
   <PushPower>k__BackingField: 30
-  <SelectedObjects>k__BackingField: []
+  <SelectedItems>k__BackingField: []
   pointPivot: {fileID: 7147807229905590947}
   label: {fileID: 3656310425659863684}
-  body: {fileID: 0}
-  bodyMaterials: []
+  skin: {fileID: 26916515820139307}
 --- !u!114 &2336401383748982689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,10 +339,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.ItemInteractionHandler
   <Owner>k__BackingField: {fileID: 0}
   itemBonePivot: {fileID: 5698209311293110406}
-  itemDetectRadius: 1
-  itemLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
 --- !u!114 &8262571419605543682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,6 +651,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 991234532523343840}
   m_SourcePrefab: {fileID: 100100000, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+--- !u!137 &26916515820139307 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7744048097048760894, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+  m_PrefabInstance: {fileID: 7721354333483000085}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5698209311293110406 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2608668263107762579, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}

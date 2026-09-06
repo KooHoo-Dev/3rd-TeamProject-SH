@@ -62,8 +62,11 @@ namespace TeamSH
 
         private void HandlePushEvent(Interaction_Player sender, Interaction_Player receiver, InteractionEvent @event)
         {
-            // 수신 대상에게 충격량(밀치기) 전달
-            receiver.ApplyKnockback(@event.HitDirection, @event.PushPower);
+
+            if (receiver == LiarClient.Instance.Local)
+            {
+                receiver.ApplyKnockback(@event.HitDirection, @event.PushPower);
+            }
 
             // 옵저버들에게 알림
             for (int i = 0; i < observerList.Count; ++i)

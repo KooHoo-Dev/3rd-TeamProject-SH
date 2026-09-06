@@ -25,7 +25,12 @@ namespace TeamSH
         [SerializeField] private float smooth = 10f;
         
         [Header("모양")]
-        [SerializeField] private SpriteRenderer body;
+        // 인스펙터에서 색을 입힐 SkinnedMeshRenderer 를 끌어다 놓는다.
+        // (프리팹 루트의 SkinnedMeshRenderer 를 지정하면 깨끗하다)
+        public SkinnedMeshRenderer skin;
+
+        public Material SkinMaterial { get; private set; }
+        public Color PlayerColor { get; private set; } = Color.white;
         
         private void Awake()
         {
@@ -40,17 +45,23 @@ namespace TeamSH
         
         public void PlayPushAnimation() => remoteController.PlayPushAnimation();
 
-        public void Setup(User user)
+        public void Setup(User user, Color color)
         {
             User = user;
+            PlayerColor = color;
             PlayerState.Id = user.Id;
             label.text = $"{user.NickName} ({user.Id})";
 
-            // 처음 나타날 때 원점에서 날아오지 않게 지금 자리를 목표로 둔다.
-            //target = transform.position;
-
-            // 씬이 바껴도 삭제 X
+            ApplyColor(color);
             DontDestroyOnLoad(gameObject);
+        }
+        
+        public void ApplyColor(Color color)
+        {
+            PlayerColor = color;
+            PlayerColorSet colorSet = LiarClient.Instance?.colorSet;
+            colorSet.ApplyColor(skin, color);
+            SkinMaterial = skin.material;
         }
     }
 }

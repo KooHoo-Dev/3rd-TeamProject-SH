@@ -17,7 +17,7 @@ namespace TeamSH
         [field: SerializeField] public int PushPower { get; private set; }
 
         [field: SerializeField] public List<MartItem> SelectedItems { get; private set; }
-
+        
         public void ApplyKnockback(Vector3 hitDirection, float power) => controller.ApplyKnockback(hitDirection, power);
 
         public void SetPlayerWithScenes(string sceneName)
@@ -29,13 +29,6 @@ namespace TeamSH
             }
         }
 
-        public void SetSelectedMartItemList(MartItem[] userItemLists)
-        {
-            SelectedItems.Clear();
-            for (int i = 0; i < userItemLists.Length; i++)
-            {
-                SelectedItems.Add(userItemLists[i]);
-            }
-        }
+        public void ClearSelectedItems() => SelectedItems.Clear();
     }
 }

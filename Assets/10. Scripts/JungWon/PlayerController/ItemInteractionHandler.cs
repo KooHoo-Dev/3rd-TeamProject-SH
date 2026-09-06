@@ -210,6 +210,7 @@ namespace TeamSH
         public void ClearHandItem()
         {
             if (HandItem == null) return;
+            //OnStartPutDownItem?.Invoke();
             Destroy(HandItem.gameObject);
             HandItem = null;
         }
