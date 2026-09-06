@@ -58,6 +58,7 @@ namespace TeamSH
             keywordChatPanel.SetActive(false);
             winOrDefeatPanel.SetActive(false);
             finalResultPanel.SetActive(false);
+            questResultPanel.SetActive(false);
         }
 
         // 점수 목록과 결합해서 보여줘야 하는 지점(ScoreTallyState)에서
@@ -90,6 +91,22 @@ namespace TeamSH
 
         #endregion
 
+        #region 마트 복귀 (퀘스트 성공 / 실패)
+
+        [Header("퀘스트 결과")]
+        [SerializeField] private GameObject questResultPanel;
+        [SerializeField] private TextMeshProUGUI questResultText;
+
+        // 마트 복귀 씬 로드가 끝난 뒤 LiarClient가 호출한다.
+        public void ShowQuestResult(bool isSuccess)
+        {
+            HideAllPanels();
+            questResultPanel.SetActive(true);
+            questResultText.text = isSuccess ? "퀘스트에 성공했습니다!" : "퀘스트에 실패했습니다.";
+        }
+
+        #endregion
+
         #region 라밍아웃 결과 (라밍아웃 버튼 누름 상태 + 라이어 아닌 사람이 눌렀을 때, 두 상태에 걸쳐 겹쳐 보임)
 
         [Header("라밍아웃 결과")]
@@ -99,6 +116,7 @@ namespace TeamSH
         // 서버가 라이어의 라밍아웃을 전체에 방송했을 때 (OnLiarOutButtonPressedState)
         public void ShowLiarOutAnnounce(string liarNickname)
         {
+            HideAllPanels(); // 이전 패널 다 끔
             liarOutButtonResultPanel.SetActive(true);
             liarOutButtonResultText.text = $"라이어 {liarNickname}이(가) 라밍아웃 버튼을 눌렀습니다.";
         }
@@ -118,11 +136,11 @@ namespace TeamSH
         [SerializeField] private GameObject speechEndPanel;
         [SerializeField] private TextMeshProUGUI speechEndText;
 
-        public void ShowSpeechEndNotice(string specialChat)
+        public void ShowSpeechEndNotice(string speakerNickname, string specialChat)
         {
             HideAllPanels();
             speechEndPanel.SetActive(true);
-            speechEndText.text = $"현재 발언자의 특수채팅은 <{specialChat}> 입니다";
+            speechEndText.text = $"{speakerNickname} : {specialChat}";
         }
 
         #endregion
@@ -172,11 +190,11 @@ namespace TeamSH
             debateNoticeText.text = $"현재 {debaterNickname}가 변론중입니다.";
         }
 
-        public void ShowDebateEndNotice(string specialChat)
+        public void ShowDebateEndNotice()
         {
             HideAllPanels();
             debateEndPanel.SetActive(true);
-            debateEndText.text = $"최후 변론자의 특수채팅은 <{specialChat}> 입니다.";
+            debateEndText.text = "변론이 끝났습니다.";
         }
 
         #endregion
@@ -191,13 +209,13 @@ namespace TeamSH
         [SerializeField] private GameObject liarGuessingNoticePanel;
         [SerializeField] private TextMeshProUGUI liarGuessingNoticeText;
 
-        public void ShowLiarConfirmed(string electedNickname, string liarNickname)
+        public void ShowLiarConfirmed(string mostSelectNickname, string liarNickname)
         {
             HideAllPanels();
             liarConfirmedPanel.SetActive(true);
 
-            if (electedNickname == liarNickname) liarConfirmedText.text = $"{electedNickname}는 라이어가 맞습니다";
-            else liarConfirmedText.text = $"{electedNickname}은 라이어가 아닙니다.\n라이어는 {liarNickname} 입니다";
+            if (mostSelectNickname == liarNickname) liarConfirmedText.text = $"{mostSelectNickname}는 라이어가 맞습니다";
+            else liarConfirmedText.text = $"{mostSelectNickname}은 라이어가 아닙니다.\n라이어는 {liarNickname} 입니다";
         }
 
         public void ShowLiarGuessingNotice()

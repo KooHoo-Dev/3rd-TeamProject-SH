@@ -21,7 +21,6 @@ namespace TeamSH
 
             joinGroup.SetActive(true);
             roomGroup.SetActive(false);
-            keywordRevealPanel.SetActive(false);
         }
 
         private void OnDestroy()
@@ -96,21 +95,6 @@ namespace TeamSH
 
             roomInfoLabel.text = $"방 {client.RoomCode}    나 : {client.Me.NickName}({client.Me.Id})    남 : {client.RemoteCount}명";
             gameStartButton.gameObject.SetActive(client.IsHost && client.IsGameStarted == false);
-        }
-
-        #endregion
-
-        #region 키워드 뿌리기 (게임 도중 이 씬을 잠깐 거쳐가는 동안 뜸 - 마트 진입 전까지는 아직 로비 씬)
-
-        [Header("장르 / 키워드 / 라운드 공개")]
-        [SerializeField] private GameObject keywordRevealPanel;
-        [SerializeField] private TextMeshProUGUI keywordRevealText;
-
-        // OnKeywordDistributeState에서 LiarClient가 호출한다.
-        public void ShowKeywordReveal(string genre, string keyword, int round, int maxRound)
-        {
-            keywordRevealPanel.SetActive(true);
-            keywordRevealText.text = $"장르 : {genre}\n키워드 : {keyword}\n현재 라운드 : {round} / {maxRound}";
         }
 
         #endregion

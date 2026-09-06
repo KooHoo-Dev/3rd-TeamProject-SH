@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Study.Utilities;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -26,6 +27,7 @@ namespace TeamSH
             timerPanel.SetActive(false);
             infoOverlayPanel.SetActive(false);
             chatGroup.SetActive(false);
+            keywordRevealPanel.SetActive(false);
         }
 
         private void Start()
@@ -52,6 +54,14 @@ namespace TeamSH
                     keywordText.text = $"내 키워드 : {client.Keyword}";
                     infoSpecialChatText.text = "특수 채팅 기록\n" + string.Join("\n", client.SpecialChatLog);
                 }
+            }
+
+            // 채팅창이 떠 있고 아직 입력 포커스가 없을 때 Enter를 누르면 입력창에 포커스를 준다.
+            if (chatGroup.activeSelf && chatInput.isFocused == false &&
+                (SimpleInput.GetKeyDown(Key.Enter)))
+            {
+                chatInput.ActivateInputField();
+                chatInput.Select();
             }
         }
 
@@ -101,8 +111,18 @@ namespace TeamSH
         private readonly List<string> chatLines = new List<string>();
         private const int ChatKeep = 12;
 
-        public void ShowChat() => chatGroup.SetActive(true);
-        public void HideChat() => chatGroup.SetActive(false);
+        public void ShowChat()
+        {
+            chatGroup.SetActive(true);
+            RefreshChatText(); // 비활성 상태였던 동안 밀린 렌더를 다시 강제
+        }
+
+        public void HideChat()
+        {
+            chatGroup.SetActive(false);
+            chatInput.text = ""; // 입력 중이던 텍스트 삭제
+            EventSystem.current?.SetSelectedGameObject(null); // 포커스 해제
+        }
 
         // 방 입장 후 새 채팅 한 줄이 생길 때마다 LiarClient가 직접 호출한다 (폴링 없음).
         public void AppendChatLine(string line)
@@ -115,6 +135,7 @@ namespace TeamSH
         private void RefreshChatText()
         {
             chatLogText.text = string.Join("\n", chatLines);
+            chatLogText.ForceMeshUpdate(); // TMP 메시 재생성 
 
             if (chatScrollRect != null)
             {
@@ -127,6 +148,8 @@ namespace TeamSH
 
                 chatScrollRect.verticalNormalizedPosition = 0f;
             }
+
+            Canvas.ForceUpdateCanvases(); // 캔버스 레이아웃/그래픽 즉시 재계산
         }
 
         private void OnSendButtonClicked()
@@ -135,6 +158,24 @@ namespace TeamSH
             client.Say(chatInput.text);
             chatInput.text = "";
         }
+
+        #endregion
+
+        #region 장르 / 키워드 / 라운드 공개 (매 라운드 KeywordDistributeState에서 뜸)
+
+        [Header("장르 / 키워드 / 라운드 공개")]
+        [SerializeField] private GameObject keywordRevealPanel;
+        [SerializeField] private TextMeshProUGUI keywordRevealText;
+
+        // OnKeywordDistributeState에서 LiarClient가 호출한다.
+        public void ShowKeywordReveal(string genre, string keyword, int round, int maxRound)
+        {
+            keywordRevealPanel.SetActive(true);
+            keywordRevealText.text = $"장르 : {genre}\n키워드 : {keyword}\n현재 라운드 : {round} / {maxRound}";
+        }
+
+        // 마트 진입(OnMartEnterStateAsync) 시 LiarClient가 호출한다.
+        public void HideKeywordReveal() => keywordRevealPanel.SetActive(false);
 
         #endregion
     }

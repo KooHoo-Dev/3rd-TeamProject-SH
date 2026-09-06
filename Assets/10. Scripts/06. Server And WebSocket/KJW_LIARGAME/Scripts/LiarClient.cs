@@ -13,8 +13,6 @@ using Newtonsoft.Json;
 using Unity.VisualScripting;
 using static TeamSH.Protocol; // protocol.cs가 Protocol 클래스로 묶여있어서 일단 using으로 선언함
 
-// 971번 줄 코드 수정해야함 (ChangedItemId)
-
 namespace TeamSH
 {
     // RoomClient가 서버와의 네트워크 작업을 담당한다.
@@ -53,7 +51,7 @@ namespace TeamSH
         [SerializeField] private RemotePlayer remotePrefab;
 
         public string LiarKeyword { get; private set; } // 라이어의 키워드
-        public string NormalKeyword { get; private set; } // 일반인의 키워드 (서버 프로토콜 필드명 자체는 오타(nomal)라 그대로 두고, 클라 쪽 이름만 바로잡음)
+        public string NormalKeyword { get; private set; } // 일반인의 키워드 
 
 
         public bool LiarButtonClicked { get; set; } // 라이어 버튼을 눌렀는지 확인하는 bool값
@@ -371,7 +369,7 @@ namespace TeamSH
             // 메세지로 온 키워드 ID 저장
             Keyword = DataManager.Instance.GetKeyWordDef(keywordId).KeywordName;
 
-            LobbyUIManager.Instance?.ShowKeywordReveal(Genre, Keyword, round, NewGameConfig.MaxRound); // 이 시점엔 아직 로비 씬이라 LobbyUIManager가 담당 
+            CommonUIManager.Instance?.ShowKeywordReveal(Genre, Keyword, round, NewGameConfig.MaxRound); // commonUIManager로 옮김
         }
 
         private void OnMartEnterState(float timerMs, int cycle, int round, string questId, CategoryItemArray[] allCategoryItemArrays) 
@@ -382,7 +380,7 @@ namespace TeamSH
         {
             DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
             CommonUIManager.Instance?.HideChat(); // 마트 진입시 채팅창 숨김
-            CommonUIManager.Instance?.EnableTabInfo(); // tab키 활성화
+            CommonUIManager.Instance?.HideKeywordReveal(); // 마트 진입하면 키워드 공개 끔
             await DoLoadScene("02. NewMart");
             await UniTask.WaitUntil(() => DisplayStandManager.Instance != null && DisplayStandManager.Instance.IsReady);
 
@@ -400,38 +398,52 @@ namespace TeamSH
         // 로컬 유저가 가진 아이템 리스트
         public string[] MeItemList { get; set; } // 카테고리별로 1개씩
 
+        // 이번 라운드 내 퀘스트 성공 / 실패 여부 
+        public bool QuestSuccess { get; private set; } 
+
         // 마트 복귀 시 서버가 준 유저별 아이템 ID 목록. 
         // <유저 id / 아이템 id 배열>
         private Dictionary<string, string[]> itemListsByUser = new Dictionary<string, string[]>();
-        
+
+        // 씬을 이동하는 OnMartEnterState와 동일한 구조로 async 구조 래핑 진행
+        private void OnMartReturnState(float timerMs, int cycle, int round, 
+            Protocol.UserItemList[] userItemLists, Protocol.UserQuestInfo[] userQuestInfos) 
+        {
+            OnMartReturnStateAsync(timerMs, cycle, round, userItemLists, userQuestInfos).Forget(); 
+        }
 
         // 씬 로드가 끝나기 전에 다음 상태(발언 등)가 와서 MeetingRoomUIManager가
-        // 아직 없는 상태로 호출되는 걸 막기 위해 씬 로드를 기다린다. 
-        private async void OnMartReturnState(float timerMs, int cycle, int round,
+        // 아직 없는 상태로 호출되는 걸 막기 위해 씬 로드를 기다린다.
+        private async UniTask OnMartReturnStateAsync(float timerMs, int cycle, int round, 
             Protocol.UserItemList[] userItemLists, Protocol.UserQuestInfo[] userQuestInfos)
         {
             DoSetPhase(TurnMessageType.MartReturnState, timerMs, cycle, round);
 
-            // 디버깅용 로그 (퀘스트 성공 / 실패 여부)
+            // 내 퀘스트 성공 / 실패 여부 저장 
             foreach (UserQuestInfo userQuestInfo in userQuestInfos)
             {
-                if (userQuestInfo.UserId == Me.Id && userQuestInfo.IsSuccess) Debug.Log("퀘스트 성공!");
-                if (userQuestInfo.UserId == Me.Id && userQuestInfo.IsSuccess == false) Debug.Log("퀘스트 실패!");
+                if (userQuestInfo.UserId != Me.Id) continue; 
+                QuestSuccess = userQuestInfo.IsSuccess; 
+                Debug.Log(QuestSuccess ? "퀘스트 성공!" : "퀘스트 실패!"); 
             }
-            
+
             foreach (UserItemList userItemList in userItemLists)
             {
                 // 내 이름과 일치하면 그 아이템 배열 가져옴
                 if (userItemList.UserId == Me.Id) MeItemList = userItemList.ItemList;
-                
-                itemListsByUser[userItemList.UserId] = userItemList.ItemList; 
+
+                itemListsByUser[userItemList.UserId] = userItemList.ItemList;
             }
 
             // 디버깅용 로그 (내가 가진 아이템 목록 보기)
             Debug.Log(string.Join(",", MeItemList));
-            
-            CommonUIManager.Instance?.ShowChat(); // 마트 복귀할때 채팅 켜짐
+
+            // 씬 이동을 먼저 끝내고, 그 다음에 UI를 켠다 (MeetingRoomUIManager가 씬에 있어야 호출이 먹힘) 
             await DoLoadScene("00. MeetingRoom"); 
+
+            CommonUIManager.Instance?.ShowChat(); // 마트 복귀할때 채팅 켜짐
+            CommonUIManager.Instance?.EnableTabInfo(); // tab키 정보창은 마트가 아니라 미팅룸 복귀 시점부터 활성화
+            MeetingRoomUIManager.Instance?.ShowQuestResult(QuestSuccess); // 퀘스트 성공/실패 UI
         }
 
         // 현재 발언자
@@ -439,12 +451,25 @@ namespace TeamSH
         // 현재 카테고리
         public string CurrentCategory { get; set; }
         
+        // 특수채팅 초기화용 필드
+        private int lastClearedCycle = -1;
+        private int lastClearedRound = -1;
+
         private void OnShowItemAndSpeakState(float timerMs, int cycle, int round, string currentFocusID,
             string currentCategory)
         {
+            // 같은 라운드거나 같은 사이클이면 초기화 안함, 다르면 초기화함
+            if (cycle != lastClearedCycle || round != lastClearedRound) 
+            {
+                specialChatLog.Clear();
+                lastClearedCycle = cycle;
+                lastClearedRound = round;
+            }
+
             DoSetPhase(TurnMessageType.ShowItemAndSpeakState, timerMs, cycle, round, currentFocusID);
             SpecialChat = null;
-            
+            CurrentFocusID = currentFocusID; // 발언자 닉네임
+
             // 서버에서 현재 카테고리 받기
             CurrentCategory = currentCategory;
             
@@ -485,7 +510,7 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.SpeechEndState, timerMs, cycle, round);
 
             Debug.Log("현재 발언자의 특수채팅 : " + SpecialChat);
-            MeetingRoomUIManager.Instance?.ShowSpeechEndNotice(SpecialChat); // 발언자의 특수채팅 모두에게 공지
+            MeetingRoomUIManager.Instance?.ShowSpeechEndNotice(GetNickName(CurrentFocusID), SpecialChat); 
         }
 
         private void OnPointAtSuspectState(float timerMs, int cycle, int round)
@@ -519,8 +544,6 @@ namespace TeamSH
         private void OnDebateTimeState(float timerMs, int cycle, int round)
         {
             DoSetPhase(TurnMessageType.DebateTimeState, timerMs, cycle, round);
-            hasSentSpecialChat = false;
-            SpecialChat = null; // 발언 상태에서 쓰던 특수채팅 초기화
             Debug.Log("변론 단계 시작");
             MeetingRoomUIManager.Instance?.ShowDebateNotice(GetNickName(MostSelectId)); // 변론중인 사람 닉네임
         }
@@ -529,7 +552,7 @@ namespace TeamSH
         {
             DoSetPhase(TurnMessageType.DebateEndState, timerMs, cycle, round);
             Debug.Log("변론 끝");
-            MeetingRoomUIManager.Instance?.ShowDebateEndNotice(SpecialChat); // 변론자의 특수채팅
+            MeetingRoomUIManager.Instance?.ShowDebateEndNotice(); // "변론이 끝났습니다."
         }
 
         private void OnVoteState(float timerMs, int cycle, int round)
@@ -558,10 +581,12 @@ namespace TeamSH
         {
             DoSetPhase(TurnMessageType.LiarConfirmedState, timerMs, cycle, round, electedId);
 
-            Debug.Log($"확정된 유저는 {electedId} 입니다.");
+            // 최종 선택된 사람 = MostSelectId
+            // 지목종료(PointAtSuspectEndState) 때부터 갖고 있던 MostSelectId(투표받은 사람)를 그대로 쓴다.
+            Debug.Log($"확정된 유저는 {MostSelectId} 입니다.");
 
             Debug.Log($"라이어는 {GetNickName(LiarId)} 입니다.");
-            MeetingRoomUIManager.Instance?.ShowLiarConfirmed(GetNickName(electedId), GetNickName(LiarId));
+            MeetingRoomUIManager.Instance?.ShowLiarConfirmed(GetNickName(MostSelectId), GetNickName(LiarId)); 
         }
 
         private void OnLiarKeywordGuessState(float timerMs, int cycle, int round)
@@ -639,8 +664,6 @@ namespace TeamSH
 
             MeetingRoomUIManager.Instance?.ClearTurnNotices(); // 모든 UI 끄기
             MeetingRoomUIManager.Instance?.ShowScoreTally(); // 점수 공개
-
-            Invoke("DoLoadSceneToLobby", RemainingSeconds); // 제한시간 종료 시 로비로 이동
         }
 
         private void OnScoreTallyEndState(float timerMs, int cycle, int round)
@@ -652,7 +675,6 @@ namespace TeamSH
 
         private void OnFinalResultState(float timerMs, int cycle, int round, string[] currentOwnerIDs)
         {
-            CancelInvoke(nameof(DoLoadSceneToLobby)); // 마지막 라운드는 로비로 아직 이동안함
             DoSetPhase(TurnMessageType.FinalResultState, timerMs, cycle, round);
 
             WinnerUserID = new List<string>(currentOwnerIDs); // 우승자 List 받기
@@ -1343,14 +1365,6 @@ namespace TeamSH
             // 발언 상태 + 내가 발언자 + 이번 차례에 아직 특수채팅을 안 보냈으면, 첫 마디는 특수채팅이 된다.
             if (CurrentState == TurnMessageType.ShowItemAndSpeakState && CurrentOwnerID == Me.Id &&
                 hasSentSpecialChat == false)
-            {
-                hasSentSpecialChat = true;
-                RequestSpecialChat(text);
-                return;
-            }
-
-            // 변론 시간 상태 + 내가 득표된 사람 + 아직 특수채팅을 안 보냈으면, 첫 마디는 특수채팅이 된다.
-            if (CurrentState == TurnMessageType.DebateTimeState && MostSelectId == Me.Id && hasSentSpecialChat == false)
             {
                 hasSentSpecialChat = true;
                 RequestSpecialChat(text);
