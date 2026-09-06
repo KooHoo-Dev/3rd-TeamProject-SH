@@ -285,7 +285,7 @@ MonoBehaviour:
   <Body>k__BackingField: {fileID: 6039462857329746840}
   <PushBox>k__BackingField: {fileID: 5998201562409651203}
   <PushPower>k__BackingField: 30
-  <SelectedObjects>k__BackingField: []
+  <SelectedItems>k__BackingField: []
   pointPivot: {fileID: 7147807229905590947}
   label: {fileID: 3656310425659863684}
   smooth: 10
@@ -306,10 +306,6 @@ MonoBehaviour:
   smooth: 10
   body: {fileID: 6039462857329746840}
   delayTime: 1
-  knockbackDrag: 12
-  collisionLayer:
-    serializedVersion: 2
-    m_Bits: 192
 --- !u!114 &3314958677348802473
 MonoBehaviour:
   m_ObjectHideFlags: 0

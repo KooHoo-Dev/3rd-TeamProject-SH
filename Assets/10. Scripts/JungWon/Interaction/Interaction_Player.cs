@@ -29,13 +29,9 @@ namespace TeamSH
             }
         }
 
-        public void SetSelectedMartItemList(MartItem[] userItemLists)
+        public void ClearSelectedItems()
         {
             SelectedItems.Clear();
-            for (int i = 0; i < userItemLists.Length; i++)
-            {
-                SelectedItems.Add(userItemLists[i]);
-            }
         }
     }
 }

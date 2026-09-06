@@ -286,7 +286,7 @@ MonoBehaviour:
   <Body>k__BackingField: {fileID: 6039462857329746840}
   <PushBox>k__BackingField: {fileID: 5998201562409651203}
   <PushPower>k__BackingField: 30
-  <SelectedObjects>k__BackingField: []
+  <SelectedItems>k__BackingField: []
   pointPivot: {fileID: 7147807229905590947}
   label: {fileID: 3656310425659863684}
   body: {fileID: 0}
@@ -340,10 +340,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.ItemInteractionHandler
   <Owner>k__BackingField: {fileID: 0}
   itemBonePivot: {fileID: 5698209311293110406}
-  itemDetectRadius: 1
-  itemLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
 --- !u!114 &8262571419605543682
 MonoBehaviour:
   m_ObjectHideFlags: 0

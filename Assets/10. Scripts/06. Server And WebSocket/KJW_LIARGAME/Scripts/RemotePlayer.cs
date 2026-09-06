@@ -40,16 +40,13 @@ namespace TeamSH
         
         public void PlayPushAnimation() => remoteController.PlayPushAnimation();
 
-        public void Setup(User user)
+        public void Setup(User user, Color color)
         {
             User = user;
             PlayerState.Id = user.Id;
             label.text = $"{user.NickName} ({user.Id})";
 
-            // 처음 나타날 때 원점에서 날아오지 않게 지금 자리를 목표로 둔다.
-            //target = transform.position;
-
-            // 씬이 바껴도 삭제 X
+            Debug.Log($"[RemotePlayer]{user.Id},{user.NickName} - {color}");
             DontDestroyOnLoad(gameObject);
         }
     }

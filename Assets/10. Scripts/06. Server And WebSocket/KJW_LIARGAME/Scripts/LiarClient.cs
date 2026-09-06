@@ -116,6 +116,9 @@ namespace TeamSH
 
             return null;
         }
+        
+        public Color GetColorOf(string id) => ColorOf(id);
+
         #endregion
 
         [Header("방 정보")]
@@ -272,7 +275,8 @@ namespace TeamSH
             RoomCode = message.RoomCode;
             IsHost = message.Users == null || message.Users.Length == 0;
 
-            localPlayer.Setup(Me);
+            // [변경] 컬러도 함께 넘김
+            localPlayer.Setup(Me, ColorOf(Me.Id));
 
             // 누가 들어올때마다 순서 초기화하고처음부터 다시세운다.
             userOrder.Clear();
@@ -411,7 +415,16 @@ namespace TeamSH
             Protocol.UserItemList[] userItemLists, Protocol.UserQuestInfo[] userQuestInfos)
         {
             DoSetPhase(TurnMessageType.MartReturnState, timerMs, cycle, round);
-
+            
+            // 여기 마트복귀했을때 플레이어/remote의 리스트에 쌓인 아이템 클리어하고 손에든 아이템도 지운다.
+            for (int i = 0; i < userItemLists.Length; i++)
+            {
+                Interaction_Player player = GetPlayer(userItemLists[i].UserId);
+                player.ClearSelectedItems();
+                ItemInteractionHandler handler = player.GetComponent<ItemInteractionHandler>();
+                handler.ClearHandItem();
+            }
+            
             // 디버깅용 로그 (퀘스트 성공 / 실패 여부)
             foreach (UserQuestInfo userQuestInfo in userQuestInfos)
             {
@@ -852,7 +865,7 @@ namespace TeamSH
 
             RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
 
-            remote.Setup(user);
+            remote.Setup(user, ColorOf(user.Id));   // [변경] 컬러 전달
             // remote.Setup(user, ColorOf(user.Id));
 
             remotes[user.Id] = remote;
@@ -896,7 +909,7 @@ namespace TeamSH
             await SceneManager.UnloadSceneAsync(previous);
 
                 // 씬이 완전히 로드되어 매니저가 Awake를 끝낸 뒤에 전원 재배치
-                DoResponseAll(); //이거 비동기로 바꿔서 스폰이 완벽하게 이루어진 후 설정되게해야 좌표문제가 안생길듯
+                DoResponseAll(); 
                 DoSetPlayer(sceneName); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
 
         }
@@ -979,11 +992,12 @@ namespace TeamSH
                     localPlayer.transform.position = pos;
                     localPlayer.Body.transform.position = pos;
                     localPlayer.Body.transform.rotation = rot;
+                    // 다음 SendLoop 틱을 기다리지 않고 재배치된 좌표를 즉시 한 번 더 전송
+                    SendAsync(new MoveMessage { Id = Me.Id, X = pos.x, Y = pos.y, Z = pos.z }).Forget();
                 }
                 else if (remotes.TryGetValue(id, out RemotePlayer remote))
                 {
                     remote.Teleport(pos);
-                    remote.transform.position = pos;
                     remote.Body.transform.rotation = rot;
                 }
             }

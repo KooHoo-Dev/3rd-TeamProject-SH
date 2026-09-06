@@ -21,6 +21,7 @@ namespace TeamSH
         [Header("모양")]
         [SerializeField] private SpriteRenderer body;
         public Material[] bodyMaterials;
+        
 
         private void Awake()
         {
@@ -30,12 +31,12 @@ namespace TeamSH
             ItemInteractionHandler = GetComponent<ItemInteractionHandler>();
         }
         
-        public void Setup(User user)
+        public void Setup(User user, Color color)
         {
             User = user;
             label.SetText($"{user.NickName} ({user.Id})");
-            //bodyMaterials = GetComponentsInChildren<Material>();
-            // 씬이 바껴도 삭제 X
+            
+            Debug.Log($"[LocalPlayer]{user.Id},{user.NickName} - {color}");
             DontDestroyOnLoad(gameObject);
         }
     }
