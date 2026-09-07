@@ -862,6 +862,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LightManager
   directionalLight: {fileID: 1577076702}
   spotLight: {fileID: 1225040287}
+  goalIntensity: 650
+  tweenTime: 5
+  focusRange: 10
+  tableRange: 30
+  tableTransform: {fileID: 3669004749767542860}
+  LiarPlusIntensity: 500
 --- !u!4 &2037544794
 Transform:
   m_ObjectHideFlags: 0
@@ -1510,6 +1516,11 @@ Transform:
 --- !u!4 &3669004749767542859 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5608969927055097257, guid: e6eddd4526d2d7744af0ae6a14fec0c7, type: 3}
+  m_PrefabInstance: {fileID: 3669004749767542855}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3669004749767542860 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1284817430179767249, guid: e6eddd4526d2d7744af0ae6a14fec0c7, type: 3}
   m_PrefabInstance: {fileID: 3669004749767542855}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7106304473530442728 stripped

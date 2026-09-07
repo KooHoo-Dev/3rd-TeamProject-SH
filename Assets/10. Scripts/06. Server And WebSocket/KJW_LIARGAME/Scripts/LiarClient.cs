@@ -356,11 +356,21 @@ namespace TeamSH
             UserScoreInfo = null; // 이전 게임 점수 초기화
             LobbyUIManager.Instance?.RefreshRoomInfo(); // 방 시작 시 정보 갱신
             DoSetPlayer("GameReady"); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
+            
+            
         }
 
         private void OnGameStartState(float timerMs, int cycle, int round)
         {
+            OnGameStartStateAsync(timerMs, cycle, round);
+        }
+
+        private async UniTask OnGameStartStateAsync(float timerMs, int cycle, int round)
+        {
+            await DoLoadScene("00. MeetingRoom"); // 게임 시작하면 회의실로 이동
+         
             DoSetPhase(TurnMessageType.GameStartState, timerMs, cycle, round);
+            DoSetPlayer("applyMeeting"); // 회의실에 앉은 상태
             CommonUIManager.Instance?.ShowTimer(); // 타이머 보여줌
         }
 
@@ -555,13 +565,15 @@ namespace TeamSH
 
         private void OnPointAtSuspectState(float timerMs, int cycle, int round)
         {
-            
             DoSetPhase(TurnMessageType.PointAtSuspectState, timerMs, cycle, round);
             //여기 지목단계 시작
             Vote_System.Instance?.SetTurnType(Vote_System.TurnType.Point, timerMs);
             
             //maxCycle 정의가 없는거같아서 일단 하드코딩. 나중에 바꿀 수 있음
             if(cycle != 3) ConferenceManager.Instance?.RequestSkipPointUI(true); // 스킵 버튼 켜기
+            
+            // 지목단계일 시 테이블에 조명을 포커싱한다.
+            LightManager.Instance?.TurnOnFocusTable();
             
             MeetingRoomUIManager.Instance?.ShowPointAtNotice(); // 라이어 지목 공지 UI
         }
@@ -575,6 +587,9 @@ namespace TeamSH
             ConferenceManager.Instance?.ClearAllArrows(); // 모든 화살표 지우기
 
             MostSelectId = mostSelectedId; //변론할 사람
+
+            LightManager.Instance?.TurnOnDotween(GetPointPivot(mostSelectedId)); // 가장 많이 지목받은 사람 조명 포커싱
+            
             MeetingRoomUIManager.Instance?.ShowPointAtResult(string.IsNullOrEmpty(mostSelectedId) ? "" : GetNickName(mostSelectedId)); // 변론중인 사람이 잇으면 닉네임, 없으면 ""
 
             if (string.IsNullOrEmpty(mostSelectedId)) Debug.Log($"투표가 스킵되었습니다.");
@@ -630,6 +645,8 @@ namespace TeamSH
             Debug.Log($"확정된 유저는 {MostSelectId} 입니다.");
 
             Debug.Log($"라이어는 {GetNickName(LiarId)} 입니다.");
+            
+            LightManager.Instance?.TurnOnLiar(GetPointPivot(LiarId)); // 라이어 조명 포커싱
             MeetingRoomUIManager.Instance?.ShowLiarConfirmed(GetNickName(MostSelectId), GetNickName(LiarId)); 
         }
 
@@ -645,6 +662,8 @@ namespace TeamSH
         private void OnLiarOutButtonPressedState(float timerMs, int cycle, int round, string liarId)
         {
             DoSetPhase(TurnMessageType.LiarOutButtonPressedState, timerMs, cycle, round);
+            
+            LightManager.Instance?.TurnOnLiar(GetPointPivot(liarId)); // 라이어 조명 포커싱
             MeetingRoomUIManager.Instance?.ShowLiarOutAnnounce(GetNickName(liarId)); // 라이어의 라밍아웃 버튼 누름 공지
         }
 
@@ -706,6 +725,8 @@ namespace TeamSH
                 Debug.Log($"유저의 ID는 {UserScoreInfo[i].UserId} 이고, 점수는 {UserScoreInfo[i].UserScore} 입니다.");
             }
 
+            LightManager.Instance?.TurnOnFocusTable();
+            
             MeetingRoomUIManager.Instance?.ClearTurnNotices(); // 모든 UI 끄기
             MeetingRoomUIManager.Instance?.ShowScoreTally(); // 점수 공개
         }
@@ -789,6 +810,8 @@ namespace TeamSH
             }
             else Debug.Log($"{message.UserID}가 기권했습니다.");
 
+            LightManager.Instance?.TurnOffSpotLight(); // 전체 조명 초기화
+            
             ConferenceManager.Instance?.RemoveArrow(message.UserID);
         }
 
