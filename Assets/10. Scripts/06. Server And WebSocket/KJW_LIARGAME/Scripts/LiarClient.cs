@@ -512,10 +512,13 @@ namespace TeamSH
 
             Debug.Log($"[발언] {GetNickName(currentFocusID)} 이(가) {currentCategory} 카테고리의 '{itemName}' 을(를) 보여주며 발언 중");
 
-            // 조명을 모두 끈다
+            /*// 조명을 모두 끈다
             LightManager.Instance?.TurnOffSpotLight();
             // 현재 발언자의 pivot transform 위치에 spotlight를 비친다.
-            LightManager.Instance?.TurnOnSpotLight(GetPointPivot(currentFocusID));
+            LightManager.Instance?.TurnOnSpotLight(GetPointPivot(currentFocusID));*/
+            
+            // 현재 발언자의 pivot transform 위치에 spotlight를 비친다.
+            LightManager.Instance?.TurnOnDotween(GetPointPivot(currentFocusID));
             
             // 현재 포커싱된 사람 닉네임, 아이템(없으면 ""), 현재 카테고리, 현재 사이클, 최종 사이클
             MeetingRoomUIManager.Instance?.ShowSpeakerNotice(GetNickName(currentFocusID), itemName ?? "", currentCategory, cycle, NewGameConfig.MaxCycle);
