@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JunWon.Scripts.ItemInteractionHandler
   <Owner>k__BackingField: {fileID: 0}
-  itemBonePivot: {fileID: 2434660345533987776}
+  itemBonePivot: {fileID: 5698209311293110406}
 --- !u!114 &8262571419605543682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,7 +472,7 @@ Transform:
   m_GameObject: {fileID: 6064649675465937781}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0.75000024}
+  m_LocalPosition: {x: 0, y: 2.4, z: 0.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -656,9 +656,9 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7744048097048760894, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
   m_PrefabInstance: {fileID: 7721354333483000085}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2434660345533987776 stripped
+--- !u!4 &5698209311293110406 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5399363452850739925, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2608668263107762579, guid: db32a7091cdd3ce479f3eb18c6f5ffc8, type: 3}
   m_PrefabInstance: {fileID: 7721354333483000085}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &6039462857329746840 stripped
