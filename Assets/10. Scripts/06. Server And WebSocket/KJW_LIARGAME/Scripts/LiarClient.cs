@@ -766,6 +766,7 @@ namespace TeamSH
 
             MeetingRoomUIManager.Instance?.ShowKeywordGuessResult(KeywordChatText, liarKeyword, normalKeyword); // 라이어의 키워드채팅, 라이어 키워드, 시민 키워드
             MeetingRoomUIManager.Instance?.ShowScoreTally(); // 점수 공개
+            MeetingRoomUIManager.Instance?.HideGenreKeyword(); // 장르/키워드 상시표시 종료 
         }
 
         private void OnScoreTallyState(float timerMs, int cycle, int round, string[] liarOutButtonInfo,
@@ -794,7 +795,6 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.ScoreTallyEndState, timerMs, cycle, round);
             CommonUIManager.Instance?.DisableTabInfo(); // 점수 집계 종료되면 Tab 꺼짐
             MeetingRoomUIManager.Instance?.HideScoreTally(); // 점수 공개 멈춤
-            MeetingRoomUIManager.Instance?.HideGenreKeyword(); // 장르/키워드 상시표시 종료 
         }
 
         private void OnFinalResultState(float timerMs, int cycle, int round, string[] currentOwnerIDs)
