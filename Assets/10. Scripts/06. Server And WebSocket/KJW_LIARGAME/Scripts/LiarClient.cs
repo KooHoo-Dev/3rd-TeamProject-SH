@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -44,8 +45,8 @@ namespace TeamSH
 
         [Header("플레이어 프리팹 설정")]
         // 내가 조종하는 캐릭터. 씬에 미리 놓아 둔다.
-        [SerializeField]
-        private LocalPlayer localPlayer;
+        [SerializeField] private LocalPlayer LocalPlayerPrefab;
+        public LocalPlayer localPlayer { get; private set; }
 
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
@@ -292,7 +293,16 @@ namespace TeamSH
             Me = message.User;
             RoomCode = message.RoomCode;
             IsHost = message.Users == null || message.Users.Length == 0;
-
+            
+            // 이미 있으면 지움
+            if (localPlayer != null) Destroy(localPlayer.gameObject);
+            // 프리팹으로 로컬 플레이어 생성
+            localPlayer = Instantiate(LocalPlayerPrefab, Vector3.zero, Quaternion.identity);
+            
+            // 마트 카메라 추적 로직 중 Target이 오브젝트 이름으로 추적함
+            localPlayer.gameObject.name = "Player";
+            
+            
             // [변경] 컬러도 함께 넘김
             localPlayer.Setup(Me, ColorOf(Me.Id));
 
@@ -330,7 +340,9 @@ namespace TeamSH
         private void OnLeave(LeaveMessage message)
         {
             if (remotes.TryGetValue(message.Id, out RemotePlayer remote) == false) return;
-
+            
+            if (message.Id == Me.Id) Destroy(localPlayer.gameObject); // 메세지의 Id가 나의 Id면 오브젝트 삭제
+            
             remotes.Remove(message.Id);
             userOrder.Remove(message.Id); // 순서 에서 제거
 
