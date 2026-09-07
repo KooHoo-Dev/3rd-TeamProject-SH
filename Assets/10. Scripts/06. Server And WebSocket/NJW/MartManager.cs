@@ -22,6 +22,9 @@ namespace TeamSH
 
         public void Update() //테스트용 인풋
         {
+            var martManager = DisplayStandManager.Instance;
+            if (martManager == null|| martManager.IsReady == false || martManager.IsFinishSetItem == false) return;   // 데이터 준비 전 스킵
+            
             if (SimpleInput.GetKeyDown(Key.Q))
             {
                 if (isQInput) isQInput = false;

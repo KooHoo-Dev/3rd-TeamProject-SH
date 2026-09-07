@@ -125,6 +125,13 @@ namespace TeamSH
         
         private Color ColorOf(string id)
         {
+            // 방 접속 순서를 그대로 팔레트 인덱스로 사용
+            int idx = userOrder.IndexOf(id);
+
+            if (colorSet != null && idx >= 0 && idx < colorSet.Palette.Length)
+                return colorSet.Palette[idx];
+
+            // userOrder에 아직 없는 id(타이밍 문제)나 정원 초과 상황을 위한 폴백
             if (colorSet != null) return colorSet.GetColor(id);
 
             int hash = 0;
@@ -293,9 +300,6 @@ namespace TeamSH
             RoomCode = message.RoomCode;
             IsHost = message.Users == null || message.Users.Length == 0;
 
-            // [변경] 컬러도 함께 넘김
-            localPlayer.Setup(Me, ColorOf(Me.Id));
-
             // 누가 들어올때마다 순서 초기화하고처음부터 다시세운다.
             userOrder.Clear();
             if (message.Users != null)
@@ -306,8 +310,10 @@ namespace TeamSH
                     Spawn(user);
                 }
             }
-
             userOrder.Add(Me.Id);
+            // [변경] 컬러도 함께 넘김
+            localPlayer.Setup(Me, ColorOf(Me.Id));
+            DoSetPlayer("GameReady");
 
             Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
 
@@ -323,6 +329,8 @@ namespace TeamSH
             userOrder.Add(message.User.Id); // 순서 리스트에 추가
 
             Spawn(message.User);
+            DoSetPlayer("GameReady");
+
             Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
 
             //Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
@@ -441,17 +449,17 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
             CommonUIManager.Instance?.HideChat(); // 마트 진입시 채팅창 숨김
             CommonUIManager.Instance?.HideKeywordReveal(); // 마트 진입하면 키워드 공개 끔
-            DoSetPlayer("GameReady");
             await DoLoadScene("02. NewMart");
+            DoSetPlayer("GameReady");
             await UniTask.WaitUntil(() => DisplayStandManager.Instance != null && DisplayStandManager.Instance.IsReady);
 
             for (int i = 0; i < allCategoryItemArrays.Length; i++)
                 Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[i].Category}, 아이템 내역 {allCategoryItemArrays[i].ItemIds} ");
             
-            DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays);
+            await DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays); // 배치(비동기) 완전 종료까지 대기
             MartQuestManager.Instance.SetPlayerMartQuest(targetItemId);
-            MartManager.Instance.SetGenreAndKeyword(genre, keyWord);
             MartManager.Instance.SetMartCategoryStand();
+            MartManager.Instance.SetGenreAndKeyword(genre, keyWord);
         }
         private void OnMartMoveState(float timerMs, int cycle, int round)
         {
@@ -808,6 +816,7 @@ namespace TeamSH
         private void DoLoadSceneToLobby()
         {
             DoLoadScene("LIARGAME_Lobby");
+            DoSetPlayer("GameReady");
             CurrentState = null; // 문자열이 아니라 ""가 안되서 null로 처리함
             CommonUIManager.Instance?.HideTimer(); // 로비로 가면 타이머 비활성화
         }
@@ -982,7 +991,6 @@ namespace TeamSH
             RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
 
             remote.Setup(user, ColorOf(user.Id));   // [변경] 컬러 전달
-            // remote.Setup(user, ColorOf(user.Id));
 
             remotes[user.Id] = remote;
 

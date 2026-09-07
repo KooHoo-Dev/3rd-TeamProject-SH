@@ -323,7 +323,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   externalDrag: 12
-  showCastGizmos: 1
+  showCastGizmos: 0
   castPreviewDistance: 0.5
 --- !u!114 &2668788966796295975
 MonoBehaviour:

@@ -20,8 +20,10 @@ namespace TeamSH
         public TextMeshProUGUI keywordText;
 
         [Header("매대 카테고리UI 설정")] 
-        public GameObject standUI;
-        public TextMeshProUGUI[] standUIText;
+        public TextMeshProUGUI standArea1Text;
+        public TextMeshProUGUI standArea2Text;
+        public TextMeshProUGUI standArea3Text;
+
         
         [Header("퀘스트 UI 설정")]
         public TextMeshProUGUI questDescriptionText; //퀘스트 설명 Text;
@@ -35,7 +37,6 @@ namespace TeamSH
         {
             categoryText = categorysUI.GetComponentsInChildren<TextMeshProUGUI>();
             itemText = itemsUI.GetComponentsInChildren<TextMeshProUGUI>();
-            //standUIText = standUI.GetComponentsInChildren<TextMeshProUGUI>();
         }
         
         public void ApplySelectMartItemUI(bool isShow, List<MartItem> playerItems)
@@ -53,9 +54,9 @@ namespace TeamSH
         private void SetSelectedMartItemUI(List<MartItem> playerItems)
         {
             //여기 본인이 잡은 아이템 설명 UI 설정변경 넣어야함
-            for (int i = 0; i < categoryText.Length; i++)
+            for (int i = 0; i < DisplayStandManager.Instance.currentCategoryTypes.Length; i++)
             {
-                categoryText[i].SetText(DisplayStandManager.Instance.categoryTypes[i].ToString());
+                categoryText[i].SetText(DisplayStandManager.Instance.currentCategoryTypes[i].ToString());
             }
             
             for (int i = 0; i < itemText.Length; i++)
@@ -79,22 +80,30 @@ namespace TeamSH
 
         public void SetMartCategoryStand()
         {
-            var categoryDic = DisplayStandManager.Instance.CategoryDic;
-
-            // 0: Area1, 1: Area2, 2: Area3
-            for (int i = 0; i < standUIText.Length; i++)
+            Dictionary<CategoryType, AreaNum> dic = DisplayStandManager.Instance?.CategoryDic;
+            if (dic == null || dic.Count < 3)
             {
-                AreaNum targetArea = (AreaNum)i;
-
-                foreach (var pair in categoryDic)
-                {
-                    if (pair.Value == targetArea)
-                    {
-                        standUIText[i].SetText(pair.Key.ToString());
-                        break;
-                    }
-                }
+                Debug.LogWarning("[MartUIManager] CategoryDic가 아직 준비되지 않았습니다.");
+                return;
             }
+
+            CategoryType cat1 = GetCategoryByArea(dic, AreaNum.Area1);
+            CategoryType cat2 = GetCategoryByArea(dic, AreaNum.Area2);
+            CategoryType cat3 = GetCategoryByArea(dic, AreaNum.Area3);
+
+            if (standArea1Text != null) standArea1Text.SetText(cat1.ToString());
+            if (standArea2Text != null) standArea2Text.SetText(cat2.ToString());
+            if (standArea3Text != null) standArea3Text.SetText(cat3.ToString());
+
+            Debug.Log($"[UI검증] Area1={cat1}, Area2={cat2}, Area3={cat3}");
+        }
+
+        // 카테고리 -> AreaNum 역방향 조회: AreaNum에 배정된 카테고리를 찾는다
+        private static CategoryType GetCategoryByArea(Dictionary<CategoryType, AreaNum> dic, AreaNum area)
+        {
+            foreach (KeyValuePair<CategoryType, AreaNum> pair in dic)
+                if (pair.Value == area) return pair.Key;
+            return CategoryType.None;
         }
 
         public void SetMartQuest(ItemDef itemDef) // 마트 퀘스트 정보를 받아서 적용시키기
