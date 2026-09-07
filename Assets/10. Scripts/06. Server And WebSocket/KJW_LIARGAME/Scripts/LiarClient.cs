@@ -416,8 +416,8 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
             CommonUIManager.Instance?.HideChat(); // 마트 진입시 채팅창 숨김
             CommonUIManager.Instance?.HideKeywordReveal(); // 마트 진입하면 키워드 공개 끔
-            DoSetPlayer("GameReady");
             await DoLoadScene("02. NewMart");
+            DoSetPlayer("GameReady");
             await UniTask.WaitUntil(() => DisplayStandManager.Instance != null && DisplayStandManager.Instance.IsReady);
 
             for (int i = 0; i < allCategoryItemArrays.Length; i++)
