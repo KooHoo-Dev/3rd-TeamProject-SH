@@ -515,6 +515,7 @@ namespace TeamSH
             CommonUIManager.Instance?.ShowChat(); // 마트 복귀할때 채팅 켜짐
             CommonUIManager.Instance?.EnableTabInfo(); // tab키 정보창은 마트가 아니라 미팅룸 복귀 시점부터 활성화
             MeetingRoomUIManager.Instance?.ShowQuestResult(QuestSuccess); // 퀘스트 성공/실패 UI
+            MeetingRoomUIManager.Instance?.ShowGenreKeyword(); // 장르/키워드 상시표시 시작 
         }
 
         // 현재 발언자
@@ -769,6 +770,7 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.ScoreTallyEndState, timerMs, cycle, round);
             CommonUIManager.Instance?.DisableTabInfo(); // 점수 집계 종료되면 Tab 꺼짐
             MeetingRoomUIManager.Instance?.HideScoreTally(); // 점수 공개 멈춤
+            MeetingRoomUIManager.Instance?.HideGenreKeyword(); // 장르/키워드 상시표시 종료 
         }
 
         private void OnFinalResultState(float timerMs, int cycle, int round, string[] currentOwnerIDs)

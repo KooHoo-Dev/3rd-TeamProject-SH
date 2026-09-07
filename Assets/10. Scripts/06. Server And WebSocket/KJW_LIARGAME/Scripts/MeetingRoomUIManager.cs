@@ -24,6 +24,7 @@ namespace TeamSH
                 HideAllPanels();
                 liarOutButtonResultPanel.SetActive(false);
                 scoreTallyPanel.SetActive(false);
+                genreKeywordPanel.SetActive(false); 
             }
             else
             {
@@ -37,19 +38,25 @@ namespace TeamSH
             if (Instance == this) Instance = null;
         }
 
-        [Header("장르 / 키워드 (이 씬에 있는 동안 상시 표시)")] 
-        [SerializeField] private GameObject genreKeywordPanel; 
+        [Header("장르 / 키워드 (마트 복귀 ~ 점수 집계 종료 구간에만 표시)")] 
+        [SerializeField] private GameObject genreKeywordPanel;
         [SerializeField] private TextMeshProUGUI genreOpenText;
         [SerializeField] private TextMeshProUGUI keywordOpenText;
-
         
+        // OnMartReturnState에서 호출
+        public void ShowGenreKeyword() 
+        {
+            genreKeywordPanel.SetActive(true); 
+            genreOpenText.text = $"장르 : {client.Genre}"; 
+            keywordOpenText.text = $"키워드 : {client.Keyword}"; 
+        }
+
+        // OnScoreTallyEndState에서 호출
+        public void HideGenreKeyword() => genreKeywordPanel.SetActive(false); 
+
         private void Start()
         {
             client = LiarClient.Instance;
-            
-            genreKeywordPanel.SetActive(true); 
-            genreOpenText.text = $"장르 : {client.Genre}";
-            keywordOpenText.text = $"키워드 : {client.Keyword}";
         }
 
         private void Update()
