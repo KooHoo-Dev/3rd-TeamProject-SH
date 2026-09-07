@@ -53,7 +53,7 @@ namespace TeamSH
             if (joinGroup.activeSelf)
             {
                 joinButton.interactable = client.IsBusy == false;
-                joinButtonLabel.text = client.IsBusy ? "들어가는 중…" : "들어가기";
+                joinButtonLabel.text = client.IsBusy ? "들어가는 중…" : "Enter";
             }
         }
 

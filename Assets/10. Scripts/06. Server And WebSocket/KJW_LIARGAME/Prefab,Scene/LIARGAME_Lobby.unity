@@ -793,6 +793,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 490660946704159996, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 706753083368732689, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1701422917607093535, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2274944002310248746, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2647314051515766159, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.95
@@ -977,6 +993,18 @@ PrefabInstance:
     - target: {fileID: 5639544802717752955, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
       propertyPath: m_Name
       value: LobbyUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814415346707865475, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895485392467250375, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895485392467250375, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
