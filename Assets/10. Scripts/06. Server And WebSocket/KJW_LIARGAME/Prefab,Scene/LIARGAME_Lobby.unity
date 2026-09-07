@@ -793,6 +793,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2647314051515766159, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.95
+      objectReference: {fileID: 0}
     - target: {fileID: 3548544798737560072, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_Name
       value: CommonUI
