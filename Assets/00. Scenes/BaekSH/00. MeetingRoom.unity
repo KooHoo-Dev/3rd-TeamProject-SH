@@ -1371,6 +1371,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6339022328576673146, guid: c32db2c5442e40a43a2e508879ef9e6f, type: 3}
+      propertyPath: genreOpenText
+      value: 
+      objectReference: {fileID: 3339268259584705073}
+    - target: {fileID: 6339022328576673146, guid: c32db2c5442e40a43a2e508879ef9e6f, type: 3}
+      propertyPath: keywordOpenText
+      value: 
+      objectReference: {fileID: 3339268259584705072}
+    - target: {fileID: 6339022328576673146, guid: c32db2c5442e40a43a2e508879ef9e6f, type: 3}
+      propertyPath: genreKeywordPanel
+      value: 
+      objectReference: {fileID: 3339268259584705074}
     - target: {fileID: 6546884982326786217, guid: c32db2c5442e40a43a2e508879ef9e6f, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1412,6 +1424,33 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c32db2c5442e40a43a2e508879ef9e6f, type: 3}
+--- !u!114 &3339268259584705072 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8747467583662845450, guid: c32db2c5442e40a43a2e508879ef9e6f, type: 3}
+  m_PrefabInstance: {fileID: 3339268259584705071}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &3339268259584705073 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4425174815354807504, guid: c32db2c5442e40a43a2e508879ef9e6f, type: 3}
+  m_PrefabInstance: {fileID: 3339268259584705071}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &3339268259584705074 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2128008805839108177, guid: c32db2c5442e40a43a2e508879ef9e6f, type: 3}
+  m_PrefabInstance: {fileID: 3339268259584705071}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3669004749767542855
 PrefabInstance:
   m_ObjectHideFlags: 0

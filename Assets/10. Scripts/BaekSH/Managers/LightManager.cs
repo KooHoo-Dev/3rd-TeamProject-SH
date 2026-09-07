@@ -1,4 +1,6 @@
+using System;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TeamSH
@@ -10,6 +12,9 @@ namespace TeamSH
         [Header("Lights")]
         [SerializeField] private Light directionalLight;
         [SerializeField] private Light spotLight;
+
+        [Header("우승자 전용 Light(복수 가능)")]
+        [SerializeField] private Light[] WinnersLights;
 
         private float zeroIntensity = 0f;
         private float fullIntensity = 1f;
@@ -28,6 +33,12 @@ namespace TeamSH
             else Destroy(this);
 
             InitLights();
+        }
+
+        // 씬 언로드될때 터질 수 있어서 일단 방어코드로 심음
+        private void OnDestroy()
+        {
+            if (Instance == this) Instance = null;
         }
 
         private void InitLights()
@@ -56,6 +67,7 @@ namespace TeamSH
         // Dotween 기반 조명 특정 트랜스폼의 조명 켜기
         public void TurnOnDotween(Transform currentSpeaker) // 0 -> 목표 밝기까지 3초동안 천천히 증가 (OutQuad)
         {
+            spotLight.DOKill(); // 이전 트윈 강종
             directionalLight.intensity = zeroIntensity;
             RenderSettings.ambientIntensity = zeroIntensity;
             spotLight.transform.position =
@@ -81,6 +93,7 @@ namespace TeamSH
 
         public void TurnOnFocusTable()
         {
+            spotLight.DOKill(); // 이전 트윈 강종
             directionalLight.intensity = zeroIntensity;
             RenderSettings.ambientIntensity = zeroIntensity;
             spotLight.transform.position =
@@ -96,6 +109,7 @@ namespace TeamSH
         
         public void TurnOnLiar(Transform currentSpeaker)
         {
+            spotLight.DOKill(); // 이전 트윈 강종
             directionalLight.intensity = zeroIntensity;
             RenderSettings.ambientIntensity = zeroIntensity;
             spotLight.transform.position =
@@ -107,6 +121,48 @@ namespace TeamSH
             
             // 라이어는 추가 빛 량을 추가한다.
             spotLight.DOIntensity(goalIntensity + LiarPlusIntensity, tweenTime).SetEase(Ease.OutQuad); 
+        }
+
+        public void TurnOnWinners(Transform[] winnersPivot)
+        {
+            spotLight.DOKill(); // 이전 트윈 강종
+            
+            directionalLight.intensity = zeroIntensity;
+            RenderSettings.ambientIntensity = zeroIntensity;
+
+            WinnersLights = new Light[winnersPivot.Length]; // 매개변수의 배열 길이만큼 WinnersLights의 배열 길이 지정
+            
+            for (int i = 0; i < WinnersLights.Length; i++)
+            {
+                WinnersLights[i] = Instantiate(spotLight); // spotLight의 복사본 생성
+            }
+            
+            
+            spotLight.enabled = false; // 기본 spotlight는 끈다.
+
+            // for문으로 우승자 한명한명 밝힌다
+            for (int i = 0; i < WinnersLights.Length; i++)
+            {
+                WinnersLights[i].enabled = false; // 일단 끈다
+                WinnersLights[i].transform.position =
+                    new Vector3(winnersPivot[i].position.x, 10f, winnersPivot[i].position.z);
+                WinnersLights[i].intensity = zeroIntensity; // 0 밝기로 강제 지정
+                WinnersLights[i].range = focusRange; // 특정 사람 전용 Range로 변경
+                WinnersLights[i].color = Color.white;
+                WinnersLights[i].enabled = true;
+                WinnersLights[i].DOIntensity(goalIntensity, tweenTime).SetEase(Ease.OutQuad);
+            }
+        }
+
+        public void TurnOffWinners()
+        {
+            // for문으로 우승자 한명한명 밝힌다
+            for (int i = 0; i < WinnersLights.Length; i++)
+            {
+                WinnersLights[i].DOKill(); // 이전 트윈 강종
+                WinnersLights[i].enabled = false;
+                Destroy(WinnersLights[i].gameObject);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -44,8 +45,8 @@ namespace TeamSH
 
         [Header("플레이어 프리팹 설정")]
         // 내가 조종하는 캐릭터. 씬에 미리 놓아 둔다.
-        [SerializeField]
-        private LocalPlayer localPlayer;
+        [SerializeField] private LocalPlayer LocalPlayerPrefab;
+        public LocalPlayer localPlayer { get; private set; }
 
         // 남이 들어올 때마다 이걸로 하나씩 만든다.
         [SerializeField] private RemotePlayer remotePrefab;
@@ -92,6 +93,18 @@ namespace TeamSH
         public Transform GetPointPivot(string userId) // Id가 remote에 없으면 나다.
         {
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.pointPivot : localPlayer.pointPivot;
+        }
+
+        public Transform[] GetPointPivot(List<string> winnerId) // 우승자ID 리스트 전용 유틸함수 
+        {
+            Transform[] winnerPivot = new Transform[winnerId.Count];
+            for (int i = 0; i < winnerId.Count; i++)
+            {
+                winnerPivot[i] = remotes.TryGetValue(winnerId[i], out RemotePlayer remote) 
+                    ? remote.pointPivot : localPlayer.pointPivot;
+            }
+
+            return winnerPivot; // 우승자 transform[] 리턴
         }
         
         public Interaction_Player GetPlayer(string userId)
@@ -299,6 +312,18 @@ namespace TeamSH
             Me = message.User;
             RoomCode = message.RoomCode;
             IsHost = message.Users == null || message.Users.Length == 0;
+            
+            // 이미 있으면 지움
+            if (localPlayer != null) Destroy(localPlayer.gameObject);
+            // 프리팹으로 로컬 플레이어 생성
+            localPlayer = Instantiate(LocalPlayerPrefab, Vector3.zero, Quaternion.identity);
+            
+            // 마트 카메라 추적 로직 중 Target이 오브젝트 이름으로 추적함
+            localPlayer.gameObject.name = "Player";
+            
+            
+            // [변경] 컬러도 함께 넘김
+            localPlayer.Setup(Me, ColorOf(Me.Id));
 
             // 누가 들어올때마다 순서 초기화하고처음부터 다시세운다.
             userOrder.Clear();
@@ -341,7 +366,9 @@ namespace TeamSH
         private void OnLeave(LeaveMessage message)
         {
             if (remotes.TryGetValue(message.Id, out RemotePlayer remote) == false) return;
-
+            
+            if (message.Id == Me.Id) Destroy(localPlayer.gameObject); // 메세지의 Id가 나의 Id면 오브젝트 삭제
+            
             remotes.Remove(message.Id);
             userOrder.Remove(message.Id); // 순서 에서 제거
 
@@ -526,6 +553,7 @@ namespace TeamSH
             CommonUIManager.Instance?.ShowChat(); // 마트 복귀할때 채팅 켜짐
             CommonUIManager.Instance?.EnableTabInfo(); // tab키 정보창은 마트가 아니라 미팅룸 복귀 시점부터 활성화
             MeetingRoomUIManager.Instance?.ShowQuestResult(QuestSuccess); // 퀘스트 성공/실패 UI
+            MeetingRoomUIManager.Instance?.ShowGenreKeyword(); // 장르/키워드 상시표시 시작 
         }
 
         // 현재 발언자
@@ -534,17 +562,15 @@ namespace TeamSH
         public string CurrentCategory { get; set; }
         
         // 특수채팅 초기화용 필드
-        private int lastClearedCycle = -1;
         private int lastClearedRound = -1;
         
         private void OnShowItemAndSpeakState(float timerMs, int cycle, int round, string currentFocusID,
             string currentCategory)
         {
-            // 같은 라운드거나 같은 사이클이면 초기화 안함, 다르면 초기화함
-            if (cycle != lastClearedCycle || round != lastClearedRound) 
+            // 같은 사이클이면 초기화 안함, 라운드가 다르면 초기화함
+            if (round != lastClearedRound) 
             {
                 specialChatLog.Clear();
-                lastClearedCycle = cycle;
                 lastClearedRound = round;
             }
 
@@ -581,7 +607,7 @@ namespace TeamSH
             SpecialChat = null;
 
             string mine = Me != null && id == Me.Id ? " (나)" : "";
-            string line = $"[특수] {RichTextUtils.ToColoredRichText(nickName + id + mine + " : " + text, colorSet.GetColor(id))}";
+            string line = $"[특수] {nickName}{mine} : {text}"; // 일반 채팅창용 (아이템 표시 없음)
 
             chatLog.Add(line);
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
@@ -590,7 +616,9 @@ namespace TeamSH
             // 단일로 저장
             SpecialChat = text;
 
-            specialChatLog.Add(line);
+            // TAB 정보창용 특수채팅로그
+            string itemName = DoGetItem(id, CurrentCategory); 
+            specialChatLog.Add($"[특수] {nickName}({itemName}){mine} : {text}"); // 현재 카테고리의 아이템 이름 시각화
 
             Debug.Log($"[특수] {id} : {text}");
         }
@@ -628,15 +656,19 @@ namespace TeamSH
 
             MostSelectId = mostSelectedId; //변론할 사람
 
-            LightManager.Instance?.TurnOnDotween(GetPointPivot(mostSelectedId)); // 가장 많이 지목받은 사람 조명 포커싱
-            
             MeetingRoomUIManager.Instance?.ShowPointAtResult(string.IsNullOrEmpty(mostSelectedId) ? "" : GetNickName(mostSelectedId)); // 변론중인 사람이 잇으면 닉네임, 없으면 ""
 
-            if (string.IsNullOrEmpty(mostSelectedId)) Debug.Log($"투표가 스킵되었습니다.");
+            if (string.IsNullOrEmpty(mostSelectedId))
+            {
+                Debug.Log($"투표가 스킵되었습니다.");
+                // 스킵되면 다시 발언 상태로 돌아가니까 테이블 조명으로 전환 !
+                LightManager.Instance?.TurnOnFocusTable(); 
+            }
             else
             {
                 Debug.Log($"가장 많이 지목된 유저 {mostSelectedId}");
                 Vote_System.Instance?.SetPointTarget(mostSelectedId);
+                LightManager.Instance?.TurnOnDotween(GetPointPivot(mostSelectedId)); // 가장 많이 지목받은 사람 조명 포커싱 
             }
         }
 
@@ -748,6 +780,7 @@ namespace TeamSH
 
             MeetingRoomUIManager.Instance?.ShowKeywordGuessResult(KeywordChatText, liarKeyword, normalKeyword); // 라이어의 키워드채팅, 라이어 키워드, 시민 키워드
             MeetingRoomUIManager.Instance?.ShowScoreTally(); // 점수 공개
+            MeetingRoomUIManager.Instance?.HideGenreKeyword(); // 장르/키워드 상시표시 종료 
         }
 
         private void OnScoreTallyState(float timerMs, int cycle, int round, string[] liarOutButtonInfo,
@@ -790,10 +823,16 @@ namespace TeamSH
                 Debug.Log($"우승자는 {winner} 입니다.");
             }
 
+            LightManager.Instance?.TurnOnWinners(GetPointPivot(WinnerUserID)); // 우승자 조명 강조
             MeetingRoomUIManager.Instance?.ShowWinOrDefeat(WinnerUserID.Contains(Me.Id)); // 승리 or 패배
         }
 
-        private void OnFinalResultEndState(float timerMs, int cycle, int round)
+        private void OnFinalResultEndState(float timerMs, int cycle, int round) 
+        {
+            OnFinalResultEndStateAsync(timerMs, cycle, round).Forget(); 
+        }
+
+        private async UniTask OnFinalResultEndStateAsync(float timerMs, int cycle, int round) 
         {
             DoSetPhase(TurnMessageType.FinalResultEndState, timerMs, cycle, round);
 
@@ -803,22 +842,23 @@ namespace TeamSH
             {
                 winnerNickNames.Add(GetNickName(winnerId));
             }
-            
-            MeetingRoomUIManager.Instance?.ShowFinalResult(winnerNickNames); // 우승자 ID
+
+            MeetingRoomUIManager.Instance?.ShowFinalResult(winnerNickNames); 
 
             // 유저 스코어 초기화 (최종 라운드 종료되어서 점수가 null으로 초기화)
             UserScoreInfo = null;
 
             IsGameStarted = false; // 게임시작 아님
-            Invoke("DoLoadSceneToLobby", RemainingSeconds); // 제한시간 종료되면 로비로 이동
-        }
 
-        private void DoLoadSceneToLobby()
-        {
-            DoLoadScene("LIARGAME_Lobby");
+            // 제한시간에서 3초 남을 때까지 결과 화면을 보여주고 로비로 이동 
+            float delay = Mathf.Max(0f, RemainingSeconds - 3f); 
+            await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: destroyCancellationToken);
+
+            LightManager.Instance?.TurnOffWinners(); // 로비 이동하기 전에 다 끔
+
+            await DoLoadScene("LIARGAME_Lobby");
+            CommonUIManager.Instance?.HideTimer(); 
             DoSetPlayer("GameReady");
-            CurrentState = null; // 문자열이 아니라 ""가 안되서 null로 처리함
-            CommonUIManager.Instance?.HideTimer(); // 로비로 가면 타이머 비활성화
         }
 
         #region 투표 처리
@@ -850,8 +890,6 @@ namespace TeamSH
                 Debug.Log($"나 는 투표에서 기권했다.");
             }
             else Debug.Log($"{message.UserID}가 기권했습니다.");
-
-            LightManager.Instance?.TurnOffSpotLight(); // 전체 조명 초기화
             
             ConferenceManager.Instance?.RemoveArrow(message.UserID);
         }
@@ -1016,11 +1054,6 @@ namespace TeamSH
 
         private async UniTask DoLoadScene(string sceneName)
         {
-            // ScoreTallyState에서 예약해 둔 "잠시 후 로비로 복귀"가 뒤늦게 실행되면
-            // 이미 진행된 다음 씬 전환(마트 입장 등)을 덮어써버리는 문제가 있어서,
-            // 새로운 씬 전환이 시작되는 순간 그 예약을 무효화한다
-            CancelInvoke(nameof(DoLoadSceneToLobby)); 
-
             if (activeContentScene == sceneName) return; // 이미 그 씬이면 다시 부르지 않는다.
 
             string previous = activeContentScene;
@@ -1043,6 +1076,23 @@ namespace TeamSH
             {
                 remote.SetPlayerWithScenes(playerState);
             }
+        }
+
+        // TAB 정보창에서 현재 라운드의 카테고리별 아이템"들"을 string으로 보여주는 로직
+        public string GetMyItemList() 
+        {
+            if (MeItemList == null) return ""; 
+
+            List<string> lines = new List<string>(); 
+            foreach (string idText in MeItemList) 
+            {
+                if (int.TryParse(idText, out int itemId) == false) continue; 
+
+                ItemDef itemDef = DataManager.Instance.GetItemDef(itemId); 
+                if (itemDef != null) lines.Add($"{itemDef.CategoryType} : {itemDef.ItemName}"); 
+            }
+
+            return string.Join("\n", lines); 
         }
 
         // userId가 이번 라운드 마트에서 고른 아이템 중, currentCategory에 해당하는 아이템 이름을 찾는다. !
