@@ -66,16 +66,15 @@ namespace TeamSH
             float t = 1f - Mathf.Exp(-smooth * Time.deltaTime);
             Place(Vector3.Lerp(transform.position, target, t));
 
-            Vector3 moveDirection = transform.position - lastPos;
+            Vector3 moveDirection = target - transform.position;
             moveDirection.y = 0f;
 
-            bool isMoving = moveDirection.sqrMagnitude > 0.0001f;
+            bool isMoving = (target - transform.position).sqrMagnitude > 0.0001f;
             Animator.SetBool(IS_MOVE, isMoving);
 
             if (isMoving)
                 body.transform.forward = moveDirection.normalized;
 
-            lastPos = transform.position;
         }
 
         private void Place(Vector3 next)
