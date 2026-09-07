@@ -34,6 +34,10 @@ namespace TeamSH
         {
             martUIManager.SetMartQuest(item);
         }
+
+        public void SetGenreAndKeyword(string genre, string keyWord) => martUIManager.SetGenreAndKeyword(genre, keyWord);
+
+        public void SetMartCategoryStand() => martUIManager.SetMartCategoryStand();
         
         public void RequestSelectMartItemUI(bool isShow, List<MartItem> playerItems)
         {
