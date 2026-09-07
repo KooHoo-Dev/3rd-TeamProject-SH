@@ -651,7 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b439c62fce6b764e931446ab7666be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KJW_LIARGAME.Scripts.LiarClient
-  url: ws://34.50.63.204:5003/room
+  url: ws://192.168.0.98:5203/room
   nickName: "\uC774\uB984\uC5C6\uC74C"
   roomCode: ABCD
   sendPerSecond: 20
@@ -993,18 +993,6 @@ PrefabInstance:
     - target: {fileID: 5639544802717752955, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
       propertyPath: m_Name
       value: LobbyUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 5814415346707865475, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5895485392467250375, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 5895485392467250375, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

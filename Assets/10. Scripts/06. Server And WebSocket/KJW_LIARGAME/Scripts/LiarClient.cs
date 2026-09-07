@@ -145,7 +145,7 @@ namespace TeamSH
         [Header("내부 유저 정보")]
 
         // 접속 순서를 그대로 기록
-        private readonly List<string> userOrder = new List<string>();
+        public readonly List<string> userOrder = new List<string>();
 
         // 남들. 번호로 찾는다.
         // 리모트 유저의 ID : 리모트 유저의 프리팹
@@ -246,6 +246,8 @@ namespace TeamSH
                 case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
                 case "join": OnJoin(JsonConvert.DeserializeObject<JoinMessage>(json)); break;
 
+                case "ready": OnReady(); break;
+                case "AllReady": OnAllReady(); break;
                 case "게임 시작 확인": OnGameStartOK(JsonConvert.DeserializeObject<GameStartOKMessage>(json)); break;
 
                 // 채팅 3종(normalChat/specialChat/KeywordChat)이 ChatMessage 하나로 통합됨
@@ -347,10 +349,30 @@ namespace TeamSH
             Debug.Log($"[일반] {id} : {text}");
         }
 
+        public int ReadyCount { get; private set; } = 0;
+
+        private void OnReady()
+        {
+            ReadyCount++;
+            
+            LobbyUIManager.Instance?.UpdateReadyCountUI(ReadyCount,userOrder.Count);
+        }
+
+        public void RequestReadyMessage()
+        {
+            SendAsync(new ReadyMessage{ID = Me.Id}).Forget();
+        }
+        private void OnAllReady()
+        {
+            LobbyUIManager.Instance?.ActivateGameStartButton(true);
+        }
         private void OnGameStartOK(GameStartOKMessage message)
         {
             Debug.Log("게임 시작 완료 메세지를 받고 config 데이터 저장");
-
+            
+            ReadyCount = 0;
+            
+            
             NewGameConfig = message.newGameConfig;
             IsGameStarted = true;
             UserScoreInfo = null; // 이전 게임 점수 초기화

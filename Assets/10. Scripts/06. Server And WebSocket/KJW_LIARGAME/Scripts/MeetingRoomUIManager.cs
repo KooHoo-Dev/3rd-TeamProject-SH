@@ -16,11 +16,20 @@ namespace TeamSH
 
         private void Awake()
         {
-            Instance = this;
-            liarOutButton.onClick.AddListener(OnLiarOutButtonClicked);
-            HideAllPanels();
-            liarOutButtonResultPanel.SetActive(false);
-            scoreTallyPanel.SetActive(false);
+            if (Instance == null)
+            {
+                Instance = this;
+                liarOutButton.onClick.AddListener(OnLiarOutButtonClicked);
+                
+                HideAllPanels();
+                liarOutButtonResultPanel.SetActive(false);
+                scoreTallyPanel.SetActive(false);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
         }
 
         private void OnDestroy()

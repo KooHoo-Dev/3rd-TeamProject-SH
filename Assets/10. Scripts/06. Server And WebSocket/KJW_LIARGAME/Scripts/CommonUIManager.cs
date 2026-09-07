@@ -18,16 +18,23 @@ namespace TeamSH
 
         private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
 
-            sendButton.onClick.AddListener(OnSendButtonClicked);
-            chatInput.onSubmit.AddListener(_ => OnSendButtonClicked());
+                sendButton.onClick.AddListener(OnSendButtonClicked);
+                chatInput.onSubmit.AddListener(_ => OnSendButtonClicked());
 
-            timerPanel.SetActive(false);
-            infoOverlayPanel.SetActive(false);
-            chatGroup.SetActive(false);
-            keywordRevealPanel.SetActive(false);
+                timerPanel.SetActive(false);
+                infoOverlayPanel.SetActive(false);
+                chatGroup.SetActive(false);
+                keywordRevealPanel.SetActive(false);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void Start()
