@@ -53,7 +53,7 @@ namespace TeamSH
         private void SetSelectedMartItemUI(List<MartItem> playerItems)
         {
             //여기 본인이 잡은 아이템 설명 UI 설정변경 넣어야함
-            for (int i = 0; i < categoryText.Length; i++)
+            for (int i = 0; i < DisplayStandManager.Instance.currentCategoryTypes.Length; i++)
             {
                 categoryText[i].SetText(DisplayStandManager.Instance.currentCategoryTypes[i].ToString());
             }

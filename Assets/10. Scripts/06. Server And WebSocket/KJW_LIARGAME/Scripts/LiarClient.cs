@@ -311,6 +311,7 @@ namespace TeamSH
             userOrder.Add(Me.Id);
             // [변경] 컬러도 함께 넘김
             localPlayer.Setup(Me, ColorOf(Me.Id));
+            DoSetPlayer("GameReady");
 
             Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
 
@@ -323,6 +324,8 @@ namespace TeamSH
             userOrder.Add(message.User.Id); // 순서 리스트에 추가
 
             Spawn(message.User);
+            DoSetPlayer("GameReady");
+
             Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
 
             //Vote_System.Instance.SetUserCount(remotes); //모든 유저 카운트알림 다른유저 + 본인
@@ -963,7 +966,6 @@ namespace TeamSH
             RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
 
             remote.Setup(user, ColorOf(user.Id));   // [변경] 컬러 전달
-            // remote.Setup(user, ColorOf(user.Id));
 
             remotes[user.Id] = remote;
 
