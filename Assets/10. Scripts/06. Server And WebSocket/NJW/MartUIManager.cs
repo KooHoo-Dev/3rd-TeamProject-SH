@@ -80,18 +80,30 @@ namespace TeamSH
 
         public void SetMartCategoryStand()
         {
-            CategoryType[] types = DisplayStandManager.Instance?.currentCategoryTypes;
-            if (types == null || types.Length < 3)
+            Dictionary<CategoryType, AreaNum> dic = DisplayStandManager.Instance?.CategoryDic;
+            if (dic == null || dic.Count < 3)
             {
-                Debug.LogWarning("[MartUIManager] currentCategoryTypes가 아직 준비되지 않았습니다.");
+                Debug.LogWarning("[MartUIManager] CategoryDic가 아직 준비되지 않았습니다.");
                 return;
             }
-            
-            if (standArea1Text != null) standArea1Text.SetText(types[0].ToString());
-            if (standArea2Text != null) standArea2Text.SetText(types[1].ToString());
-            if (standArea3Text != null) standArea3Text.SetText(types[2].ToString());
 
-            Debug.Log($"[UI검증] Area1={types[0]}, Area2={types[1]}, Area3={types[2]}");
+            CategoryType cat1 = GetCategoryByArea(dic, AreaNum.Area1);
+            CategoryType cat2 = GetCategoryByArea(dic, AreaNum.Area2);
+            CategoryType cat3 = GetCategoryByArea(dic, AreaNum.Area3);
+
+            if (standArea1Text != null) standArea1Text.SetText(cat1.ToString());
+            if (standArea2Text != null) standArea2Text.SetText(cat2.ToString());
+            if (standArea3Text != null) standArea3Text.SetText(cat3.ToString());
+
+            Debug.Log($"[UI검증] Area1={cat1}, Area2={cat2}, Area3={cat3}");
+        }
+
+        // 카테고리 -> AreaNum 역방향 조회: AreaNum에 배정된 카테고리를 찾는다
+        private static CategoryType GetCategoryByArea(Dictionary<CategoryType, AreaNum> dic, AreaNum area)
+        {
+            foreach (KeyValuePair<CategoryType, AreaNum> pair in dic)
+                if (pair.Value == area) return pair.Key;
+            return CategoryType.None;
         }
 
         public void SetMartQuest(ItemDef itemDef) // 마트 퀘스트 정보를 받아서 적용시키기
