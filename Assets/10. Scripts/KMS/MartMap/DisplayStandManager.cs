@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TeamSH;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static TeamSH.Protocol;
 
 public class DisplayStandManager : MonoBehaviour
@@ -10,13 +11,14 @@ public class DisplayStandManager : MonoBehaviour
     public static DisplayStandManager Instance { get; private set; }
     
     public Dictionary<CategoryType, AreaNum> CategoryDic = new Dictionary<CategoryType, AreaNum>();
-    public CategoryType[] categoryTypes; // UI에 CategoryType에 맞게 정렬하기 위해 임시로 빼둠
+    public CategoryType[] currentCategoryTypes; // UI에 CategoryType에 맞게 정렬하기 위해 임시로 빼둠
     
     public List<AreaData> Areas = new();
 
     public GameObject ItemBox; //아이템 담을 박스 프리팹 원본
-    public int AllStendCount = 0;
+    public int AllStandCount = 0;
     public bool IsReady { get; private set; } = false;
+    public bool IsFinishSetItem { get; private set; } = false;
 
     #region 기본 설정
 
@@ -47,14 +49,14 @@ public class DisplayStandManager : MonoBehaviour
         Areas.Add(area2);
         Areas.Add(area3);
        List<DisplayStand> allStands = FindObjectsByType<DisplayStand>(FindObjectsSortMode.None).ToList();
-        AllStendCount = allStands.Count;
+        AllStandCount = allStands.Count;
         allStands.Sort((a, b) => a.name.CompareTo(b.name));
         for (int i = 0; i < allStands.Count; i++)
         {
             RegisterDisplayStand(allStands[i]);
         }
         await UniTask.WaitUntil(() => DataManager.Instance.IsReady);
-
+        
         IsReady = true;
     }
     public void RegisterDisplayStand(DisplayStand displayStand)
@@ -192,6 +194,9 @@ public class DisplayStandManager : MonoBehaviour
                  $"categoryTypes length {categoryTypes.Length} does not match AllArea count {Areas.Count}.");
             return;
         }
+
+        CategoryDic.Clear(); //딕셔너리 초기화
+        
         for (int i = 0; i < categoryTypes.Length; i++)
         {
             CategoryDic[categoryTypes[i]] = (AreaNum)i;
@@ -200,29 +205,44 @@ public class DisplayStandManager : MonoBehaviour
 
 
     
-    public void SetItemIdBufferForArea(CategoryItemArray[] categoryItemArrays) 
+    public void SetItemIdBufferForArea(CategoryItemArray[] categoryItemArrays)
     {
-        categoryTypes = new CategoryType[categoryItemArrays.Length];
+        IsFinishSetItem = false; //처음들어왔을때 false로 시작
+        currentCategoryTypes = new CategoryType[categoryItemArrays.Length];
         for(int i = 0; i < categoryItemArrays.Length; i++)
         {
-            categoryTypes[i] = categoryItemArrays[i].Category;
+            currentCategoryTypes[i] = categoryItemArrays[i].Category;
         }
-        SetCategoryAllArea(categoryTypes);
-        for(int i = 0; i < categoryTypes.Length; i++)
+        SetCategoryAllArea(currentCategoryTypes);
+        for(int i = 0; i < currentCategoryTypes.Length; i++)
         {
-            AreaData area = Areas[(int)CategoryDic[categoryTypes[i]]];
+            AreaData area = Areas[(int)CategoryDic[currentCategoryTypes[i]]];
             List<int> intIds = new List<int>();
-            Debug.Log($"[DisplayStandManager] : Setting item ID buffer for area {CategoryDic[categoryTypes[i]]} with category {categoryTypes[i]}.");
+            Debug.Log($"[DisplayStandManager] : Setting item ID buffer for area {CategoryDic[currentCategoryTypes[i]]} with category {currentCategoryTypes[i]}.");
             for(int j = 0; j < categoryItemArrays[i].ItemIds.Length; j++)
             {
-                Debug.Log($"[DisplayStandManager] : Adding item ID {categoryItemArrays[i].ItemIds[j]} to buffer for area {CategoryDic[categoryTypes[i]]}.");
+                Debug.Log($"[DisplayStandManager] : Adding item ID {categoryItemArrays[i].ItemIds[j]} to buffer for area {CategoryDic[currentCategoryTypes[i]]}.");
                 intIds.Add(int.Parse(categoryItemArrays[i].ItemIds[j]));
             }
-            Areas[(int)CategoryDic[categoryTypes[i]]].AddItems(intIds);
+            Areas[(int)CategoryDic[currentCategoryTypes[i]]].AddItems(intIds);
             area.ItemIdBuffer = intIds;
         }
+        
+        // 각 Area 안의 모든 매대에 정확히 한 번씩만 아이템을 배정 (버그 수정 지점)
+        for (int i = 0; i < currentCategoryTypes.Length; i++)
+        {
+            AreaData area = Areas[(int)CategoryDic[currentCategoryTypes[i]]];
+
+            for (int j = 0; j < area.DisplayStands.Count; j++) // 매대 인덱스는 반드시 j
+            {
+                if (area.ItemBuffers.Count <= 0) break; // 버퍼 소진 시 조기 종료 (안전장치)
+                SetCategoryItemInStand(area.DisplayStands[j]); // 매대 하나당 딱 한 번만 호출
+            }
+        }
+        
+        /* 문제있다고 하여 일단 주석처리
         int count = 0;
-        foreach (var CategoryType in categoryTypes)
+        foreach (var CategoryType in currentCategoryTypes)
         {
             if (count >= Areas.Count)
             {
@@ -241,10 +261,7 @@ public class DisplayStandManager : MonoBehaviour
             }
             count++;
         }
- 
-
-        
-
+        */
     }
 
 
@@ -264,6 +281,8 @@ public class DisplayStandManager : MonoBehaviour
             displayStand.SetItem(area.ItemBuffers[0]);
             area.ItemBuffers.RemoveAt(0);
         }
+        
+        IsFinishSetItem = true;
     }
 
     private List<int> GetIdBufferByArea(AreaNum areaNum)

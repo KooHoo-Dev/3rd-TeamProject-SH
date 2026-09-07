@@ -35,7 +35,7 @@ namespace TeamSH
         {
             categoryText = categorysUI.GetComponentsInChildren<TextMeshProUGUI>();
             itemText = itemsUI.GetComponentsInChildren<TextMeshProUGUI>();
-            //standUIText = standUI.GetComponentsInChildren<TextMeshProUGUI>();
+            standUIText = standUI.GetComponentsInChildren<TextMeshProUGUI>();
         }
         
         public void ApplySelectMartItemUI(bool isShow, List<MartItem> playerItems)
@@ -55,7 +55,7 @@ namespace TeamSH
             //여기 본인이 잡은 아이템 설명 UI 설정변경 넣어야함
             for (int i = 0; i < categoryText.Length; i++)
             {
-                categoryText[i].SetText(DisplayStandManager.Instance.categoryTypes[i].ToString());
+                categoryText[i].SetText(DisplayStandManager.Instance.currentCategoryTypes[i].ToString());
             }
             
             for (int i = 0; i < itemText.Length; i++)
@@ -79,22 +79,12 @@ namespace TeamSH
 
         public void SetMartCategoryStand()
         {
-            var categoryDic = DisplayStandManager.Instance.CategoryDic;
+            CategoryType[] types = DisplayStandManager.Instance.currentCategoryTypes;
 
-            // 0: Area1, 1: Area2, 2: Area3
-            for (int i = 0; i < standUIText.Length; i++)
+            for (int i = 0; i < types.Length; i++)
             {
-                AreaNum targetArea = (AreaNum)i;
-
-                foreach (var pair in categoryDic)
-                {
-                    if (pair.Value == targetArea)
-                    {
-                        standUIText[i].SetText(pair.Key.ToString());
-                        break;
-                    }
-                }
-            }
+                standUIText[i].SetText(types[i].ToString());
+            }   
         }
 
         public void SetMartQuest(ItemDef itemDef) // 마트 퀘스트 정보를 받아서 적용시키기

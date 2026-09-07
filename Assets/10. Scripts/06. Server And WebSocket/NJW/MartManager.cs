@@ -22,6 +22,9 @@ namespace TeamSH
 
         public void Update() //테스트용 인풋
         {
+            if (DisplayStandManager.Instance == null
+                || DisplayStandManager.Instance.IsReady == false) return;   // 데이터 준비 전 스킵
+            
             if (SimpleInput.GetKeyDown(Key.Q))
             {
                 if (isQInput) isQInput = false;

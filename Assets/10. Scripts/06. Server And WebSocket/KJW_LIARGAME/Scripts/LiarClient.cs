@@ -125,6 +125,13 @@ namespace TeamSH
         
         private Color ColorOf(string id)
         {
+            // 방 접속 순서를 그대로 팔레트 인덱스로 사용
+            int idx = userOrder.IndexOf(id);
+
+            if (colorSet != null && idx >= 0 && idx < colorSet.Palette.Length)
+                return colorSet.Palette[idx];
+
+            // userOrder에 아직 없는 id(타이밍 문제)나 정원 초과 상황을 위한 폴백
             if (colorSet != null) return colorSet.GetColor(id);
 
             int hash = 0;
@@ -291,9 +298,6 @@ namespace TeamSH
             RoomCode = message.RoomCode;
             IsHost = message.Users == null || message.Users.Length == 0;
 
-            // [변경] 컬러도 함께 넘김
-            localPlayer.Setup(Me, ColorOf(Me.Id));
-
             // 누가 들어올때마다 순서 초기화하고처음부터 다시세운다.
             userOrder.Clear();
             if (message.Users != null)
@@ -304,8 +308,9 @@ namespace TeamSH
                     Spawn(user);
                 }
             }
-
             userOrder.Add(Me.Id);
+            // [변경] 컬러도 함께 넘김
+            localPlayer.Setup(Me, ColorOf(Me.Id));
 
             Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
 
@@ -424,9 +429,10 @@ namespace TeamSH
                 Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[i].Category}, 아이템 내역 {allCategoryItemArrays[i].ItemIds} ");
             
             DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays);
+            await UniTask.WaitUntil(()=> DisplayStandManager.Instance.IsFinishSetItem); //아이템 생성로직이 끝날때까지 대기
             MartQuestManager.Instance.SetPlayerMartQuest(targetItemId);
-            MartManager.Instance.SetGenreAndKeyword(genre, keyWord);
             MartManager.Instance.SetMartCategoryStand();
+            MartManager.Instance.SetGenreAndKeyword(genre, keyWord);
         }
         private void OnMartMoveState(float timerMs, int cycle, int round)
         {

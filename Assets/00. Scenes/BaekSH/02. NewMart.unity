@@ -187,9 +187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c95b8df84fb1804f9c300b99c20f19e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DisplayStandManager
-  categoryTypes: 
+  currentCategoryTypes: 
   ItemBox: {fileID: 9184335440028324779, guid: 6d0a55d3f98924042b3309b9bcef9e77, type: 3}
-  AllStendCount: 0
+  AllStandCount: 0
 --- !u!114 &54629289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1703,7 +1703,7 @@ GameObject:
   - component: {fileID: 1254861430}
   - component: {fileID: 1254861429}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: StandUICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3736,10 +3736,7 @@ MonoBehaviour:
   genreText: {fileID: 792668629}
   keywordText: {fileID: 1800640903}
   standUI: {fileID: 1254861428}
-  standUIText:
-  - {fileID: 1726266629}
-  - {fileID: 1727136568}
-  - {fileID: 1309174000}
+  standUIText: []
   questDescriptionText: {fileID: 1604969423}
   itemDescriptionUI: {fileID: 423827504}
   itemCategoryText: {fileID: 1372610907}
