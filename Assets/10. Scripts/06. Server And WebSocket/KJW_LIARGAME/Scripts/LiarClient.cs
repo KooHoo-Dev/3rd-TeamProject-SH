@@ -355,6 +355,7 @@ namespace TeamSH
             IsGameStarted = true;
             UserScoreInfo = null; // 이전 게임 점수 초기화
             LobbyUIManager.Instance?.RefreshRoomInfo(); // 방 시작 시 정보 갱신
+            DoSetPlayer("GameReady"); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
         }
 
         private void OnGameStartState(float timerMs, int cycle, int round)
@@ -400,6 +401,7 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
             CommonUIManager.Instance?.HideChat(); // 마트 진입시 채팅창 숨김
             CommonUIManager.Instance?.HideKeywordReveal(); // 마트 진입하면 키워드 공개 끔
+            DoSetPlayer("GameReady");
             await DoLoadScene("02. NewMart");
             await UniTask.WaitUntil(() => DisplayStandManager.Instance != null && DisplayStandManager.Instance.IsReady);
 
@@ -412,6 +414,7 @@ namespace TeamSH
         private void OnMartMoveState(float timerMs, int cycle, int round)
         {
             DoSetPhase(TurnMessageType.MartMoveState, timerMs, cycle, round);
+            DoSetPlayer("applyMart"); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
         }
 
         // 로컬 유저가 가진 아이템 리스트
@@ -467,6 +470,7 @@ namespace TeamSH
             Debug.Log(string.Join(",", MeItemList));
 
             // 씬 이동을 먼저 끝내고, 그 다음에 UI를 켠다 (MeetingRoomUIManager가 씬에 있어야 호출이 먹힘) 
+            DoSetPlayer("applyMeeting"); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
             await DoLoadScene("00. MeetingRoom"); 
 
             CommonUIManager.Instance?.ShowChat(); // 마트 복귀할때 채팅 켜짐
@@ -947,20 +951,17 @@ namespace TeamSH
                 Scene loaded = SceneManager.GetSceneByName(sceneName);
                 SceneManager.SetActiveScene(loaded);
             await SceneManager.UnloadSceneAsync(previous);
-
-                // 씬이 완전히 로드되어 매니저가 Awake를 끝낸 뒤에 전원 재배치
-                DoResponseAll(); 
-                DoSetPlayer(sceneName); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
-
+            
+            DoResponseAll(); // 씬이 완전히 로드되어 매니저가 Awake를 끝낸 뒤에 전원 재배치
         }
 
-        private void DoSetPlayer(string sceneName)
+        private void DoSetPlayer(string playerState)
         {
-            Debug.Log($"플레이어 위치변경 {sceneName}");
-            localPlayer.SetPlayerWithScenes(sceneName);
+            Debug.Log($"플레이어 상태 {playerState}");
+            localPlayer.SetPlayerWithScenes(playerState);
             foreach (RemotePlayer remote in remotes.Values)
             {
-                remote.SetPlayerWithScenes(sceneName);
+                remote.SetPlayerWithScenes(playerState);
             }
         }
 
@@ -1038,6 +1039,7 @@ namespace TeamSH
                 else if (remotes.TryGetValue(id, out RemotePlayer remote))
                 {
                     remote.Teleport(pos);
+                    remote.Body.transform.position = pos;
                     remote.Body.transform.rotation = rot;
                 }
             }

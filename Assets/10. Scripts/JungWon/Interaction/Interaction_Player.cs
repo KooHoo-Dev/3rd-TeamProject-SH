@@ -20,12 +20,14 @@ namespace TeamSH
         
         public void ApplyKnockback(Vector3 hitDirection, float power) => controller.ApplyKnockback(hitDirection, power);
 
-        public void SetPlayerWithScenes(string sceneName)
+        public void SetPlayerWithScenes(string playerState)
         {
-            switch (sceneName)
+            switch (playerState)
             {
-                case "00. MeetingRoom": controller.ApplyMeetingPlayer(); break;
-                case "02. NewMart": controller.ApplyMartPlayer(); break;
+                case "GameReady": controller.ApplyReadyPlayer(); break;
+                case "applyMeeting": controller.ApplyMeetingPlayer(); break;
+                case "applyMart": controller.ApplyMartPlayer(); break;
+                default: controller.ApplyReadyPlayer(); break;
             }
         }
 
