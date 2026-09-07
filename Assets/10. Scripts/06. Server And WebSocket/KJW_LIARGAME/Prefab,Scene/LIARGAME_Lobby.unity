@@ -286,10 +286,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16baff45c5ce9545b6dbeed826cf9e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
-  bgmSource: {fileID: 1450988438}
-  sfxSource: {fileID: 1450988438}
-  bgmClips: []
-  sfxClips: []
+  audioSource: {fileID: 1450988438}
+  bgmClips:
+  - {fileID: 8300000, guid: a2747d43ac1de04409c4f4079c7a5bf9, type: 3}
+  - {fileID: 8300000, guid: efa9ebe825720d9469ab8bc7692bf040, type: 3}
+  - {fileID: 8300000, guid: bcbc8b9f508a97d47850067a33bf81c1, type: 3}
+  - {fileID: 8300000, guid: e793004f3b79d0146b477680c2854015, type: 3}
+  - {fileID: 8300000, guid: b31aa3a7081cce04f9bc19082d7d6261, type: 3}
+  - {fileID: 8300000, guid: cdfe7d99ca3c15246bb6321a9f14e542, type: 3}
+  - {fileID: 8300000, guid: e25d4587080e67449b7bbd457a899844, type: 3}
+  sfxClips:
+  - {fileID: 8300000, guid: a33b378db00e1bb43b9e2f2e7e513689, type: 3}
+  - {fileID: 8300000, guid: 053ece7440ac0fe40b056a5fd2fa5001, type: 3}
+  - {fileID: 8300000, guid: 8c0d563257315c944b55342e41b02d70, type: 3}
+  - {fileID: 8300000, guid: 263a0ec858ddd6b44b2097f8ef8cbcd8, type: 3}
+  - {fileID: 8300000, guid: 2f1be7236fe30f04090ed4af20cdebbd, type: 3}
+  - {fileID: 8300000, guid: b937a3198bf1c304f95776a355f5ac83, type: 3}
+  - {fileID: 8300000, guid: b58f50412b5837843b4637f812b0f54c, type: 3}
+  - {fileID: 8300000, guid: a708fe4920f1df64ca3a1809dfbf0c6e, type: 3}
+  - {fileID: 8300000, guid: 8e19fa3413903a7489e19d88a35c7b53, type: 3}
+  - {fileID: 8300000, guid: 7895a7dc1721c6b469b4ece47cb6f6b7, type: 3}
+  - {fileID: 8300000, guid: 65b928d7aa67bb74592f3bf3db7226cc, type: 3}
+  - {fileID: 8300000, guid: c94d8cd9c50b32b40b105ce55788c03d, type: 3}
+  - {fileID: 8300000, guid: bc54778785d40024d932e5afbe461de1, type: 3}
+  - {fileID: 8300000, guid: 0352d7676f8923141895ea51935788b8, type: 3}
+  - {fileID: 8300000, guid: f75b0a59b85fd0640b39f2e88b8e46dc, type: 3}
 --- !u!4 &1450988437
 Transform:
   m_ObjectHideFlags: 0
@@ -660,6 +681,7 @@ MonoBehaviour:
   colorSet: {fileID: 0}
   genre: 
   keyWord: 
+  IsReady: 0
 --- !u!4 &1975179185
 Transform:
   m_ObjectHideFlags: 0
