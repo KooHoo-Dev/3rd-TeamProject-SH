@@ -34,7 +34,7 @@ namespace TeamSH
         {
             client = LiarClient.Instance;
         }
-
+        
         private void Update()
         {
             if (timerPanel.activeSelf)

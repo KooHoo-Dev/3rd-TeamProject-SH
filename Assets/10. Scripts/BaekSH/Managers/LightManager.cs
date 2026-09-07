@@ -29,12 +29,12 @@ namespace TeamSH
         }
 
         // 발언자를 매개변수로 넣어 발언할 때 주변 조명을 끄고 해당 발언자에 스포트라이트를 켜게 해준다.
-        public void TurnOnSpotLight(GameObject currentSpeaker)
+        public void TurnOnSpotLight(Transform currentSpeaker)
         {
             directionalLight.intensity = zeroIntensity;
             RenderSettings.ambientIntensity = zeroIntensity;
             spotLight.transform.position =
-                new Vector3(currentSpeaker.transform.position.x, 10f, currentSpeaker.transform.position.z);
+                new Vector3(currentSpeaker.position.x, 10f, currentSpeaker.position.z);
             spotLight.enabled = true;
         }
     
