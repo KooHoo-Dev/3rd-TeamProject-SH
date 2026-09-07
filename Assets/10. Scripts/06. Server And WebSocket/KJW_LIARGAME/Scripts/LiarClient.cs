@@ -353,11 +353,11 @@ namespace TeamSH
         }
 
         public int ReadyCount { get; private set; } = 0;
-
+        public bool IsReady;
         private void OnReady()
         {
             ReadyCount++;
-            
+            IsReady = true;
             LobbyUIManager.Instance?.UpdateReadyCountUI(ReadyCount,userOrder.Count - 1);
         }
 
@@ -374,8 +374,8 @@ namespace TeamSH
             Debug.Log("게임 시작 완료 메세지를 받고 config 데이터 저장");
             
             ReadyCount = 0;
-            
-            
+            IsReady = false;
+
             NewGameConfig = message.newGameConfig;
             IsGameStarted = true;
             UserScoreInfo = null; // 이전 게임 점수 초기화

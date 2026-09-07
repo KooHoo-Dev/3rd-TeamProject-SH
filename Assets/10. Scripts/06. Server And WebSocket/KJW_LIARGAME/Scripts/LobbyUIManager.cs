@@ -133,8 +133,8 @@ namespace TeamSH
             {
                 ActivateGameStartButton(false);
                 gameStartButton.gameObject.SetActive(client.IsHost);
-                readyText.gameObject.SetActive(false);
-                readyButton.gameObject.SetActive(client.IsHost == false);
+                readyText.gameObject.SetActive(client.IsReady);
+                readyButton.gameObject.SetActive(client.IsHost == false && client.IsReady == false);
                 UpdateReadyCountUI(client.ReadyCount, client.userOrder.Count - 1);
                 ActivateGameStartButton(client.ReadyCount >= (client.userOrder.Count - 1));
             }
