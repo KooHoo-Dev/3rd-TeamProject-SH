@@ -348,7 +348,7 @@ namespace TeamSH
         private void OnNormalChat(string id, string nickName, string text)
         {
             string mine = Me != null && id == Me.Id ? "(나)" : "";
-            string line = $"[일반] {nickName}{mine} : {text}"; // 채팅창 로그 표시
+            string line = $"[일반] {RichTextUtils.ToColoredRichText(nickName + mine + " : " + text, colorSet.GetColor(id))}"; // 채팅창 로그 표시
             chatLog.Add(line); // 로그에 추가
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
             CommonUIManager.Instance?.AppendChatLine(line); // 채팅창 라인 추가
@@ -573,7 +573,7 @@ namespace TeamSH
             SpecialChat = null;
 
             string mine = Me != null && id == Me.Id ? " (나)" : "";
-            string line = $"[특수] {nickName}{id}{mine} : {text}";
+            string line = $"[특수] {RichTextUtils.ToColoredRichText(nickName + id + mine + " : " + text, colorSet.GetColor(id))}";
 
             chatLog.Add(line);
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
@@ -1467,6 +1467,8 @@ namespace TeamSH
         {
             if (string.IsNullOrWhiteSpace(text)) return;
             if (Me == null) return;
+
+           text = RichTextUtils.ToColoredRichText(text, colorSet.GetColor(Me.Id));
 
             // 발언 상태 + 내가 발언자 + 이번 차례에 아직 특수채팅을 안 보냈으면, 첫 마디는 특수채팅이 된다.
             if (CurrentState == TurnMessageType.ShowItemAndSpeakState && CurrentOwnerID == Me.Id &&
