@@ -13,7 +13,7 @@ namespace TeamSH
         public static MeetingRoomUIManager Instance { get; private set; }
 
         private LiarClient client;
-
+        
         private void Awake()
         {
             if (Instance == null)
@@ -37,9 +37,19 @@ namespace TeamSH
             if (Instance == this) Instance = null;
         }
 
+        [Header("장르 / 키워드 (이 씬에 있는 동안 상시 표시)")] 
+        [SerializeField] private GameObject genreKeywordPanel; 
+        [SerializeField] private TextMeshProUGUI genreOpenText;
+        [SerializeField] private TextMeshProUGUI keywordOpenText;
+
+        
         private void Start()
         {
             client = LiarClient.Instance;
+            
+            genreKeywordPanel.SetActive(true); 
+            genreOpenText.text = $"장르 : {client.Genre}";
+            keywordOpenText.text = $"키워드 : {client.Keyword}";
         }
 
         private void Update()

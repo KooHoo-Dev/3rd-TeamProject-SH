@@ -57,8 +57,7 @@ namespace TeamSH
                 infoOverlayPanel.SetActive(showInfo);
                 if (showInfo)
                 {
-                    genreText.text = $"장르 : {client.Genre}";
-                    keywordText.text = $"내 키워드 : {client.Keyword}";
+                    itemText.text = "내 아이템들 : \n" + client.GetMyItemList(); // 한 줄씩 보임
                     infoSpecialChatText.text = "특수 채팅 기록\n" + string.Join("\n", client.SpecialChatLog);
                 }
             }
@@ -85,10 +84,9 @@ namespace TeamSH
 
         #region TAB 정보창
 
-        [Header("TAB 정보창 (장르 / 키워드 / 특수채팅 기록)")]
+        [Header("TAB 정보창 (아이템 / 특수채팅 기록)")]
         [SerializeField] private GameObject infoOverlayPanel;
-        [SerializeField] private TextMeshProUGUI genreText;
-        [SerializeField] private TextMeshProUGUI keywordText;
+        [SerializeField] private TextMeshProUGUI itemText; // 현재 라운드에 보유한 아이템 표시
         [SerializeField] private TextMeshProUGUI infoSpecialChatText;
 
         private bool tabInfoEnabled;
