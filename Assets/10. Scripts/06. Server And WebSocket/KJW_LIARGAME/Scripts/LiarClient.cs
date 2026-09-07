@@ -94,6 +94,18 @@ namespace TeamSH
         {
             return remotes.TryGetValue(userId, out RemotePlayer remote) ? remote.pointPivot : localPlayer.pointPivot;
         }
+
+        public Transform[] GetPointPivot(List<string> winnerId) // 우승자ID 리스트 전용 유틸함수 
+        {
+            Transform[] winnerPivot = new Transform[winnerId.Count];
+            for (int i = 0; i < winnerId.Count; i++)
+            {
+                winnerPivot[i] = remotes.TryGetValue(winnerId[i], out RemotePlayer remote) 
+                    ? remote.pointPivot : localPlayer.pointPivot;
+            }
+
+            return winnerPivot; // 우승자 transform[] 리턴
+        }
         
         public Interaction_Player GetPlayer(string userId)
         {
@@ -797,6 +809,7 @@ namespace TeamSH
                 Debug.Log($"우승자는 {winner} 입니다.");
             }
 
+            LightManager.Instance?.TurnOnWinners(GetPointPivot(WinnerUserID)); // 우승자 조명 강조
             MeetingRoomUIManager.Instance?.ShowWinOrDefeat(WinnerUserID.Contains(Me.Id)); // 승리 or 패배
         }
 
@@ -825,7 +838,9 @@ namespace TeamSH
 
             // 제한시간에서 3초 남을 때까지 결과 화면을 보여주고 로비로 이동 
             float delay = Mathf.Max(0f, RemainingSeconds - 3f); 
-            await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: destroyCancellationToken); 
+            await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: destroyCancellationToken);
+
+            LightManager.Instance?.TurnOffWinners(); // 로비 이동하기 전에 다 끔
 
             await DoLoadScene("LIARGAME_Lobby");
             CommonUIManager.Instance?.HideTimer(); 
