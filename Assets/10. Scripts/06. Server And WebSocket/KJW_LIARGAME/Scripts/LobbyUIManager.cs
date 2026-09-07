@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -103,7 +103,7 @@ namespace TeamSH
         }
         public void UpdateReadyCountUI(int readyCount, int allMemberCount)
         {
-            readyCountText.text = $"준비 {readyCount} /{allMemberCount} ";
+            readyCountText.text = (client.userOrder.Count < 3)? $"현재 인원이 3명 미만입니다. 3명 이상이 필요합니다." : $"준비 {readyCount} /{allMemberCount}명 ";
         }
         // 방 입장(OnWelcome) 시 LiarClient가 호출한다.
         public void ShowRoomGroup()
@@ -120,13 +120,24 @@ namespace TeamSH
 
             roomInfoLabel.text = $"방 {client.RoomCode}    나 : {client.Me.NickName}({client.Me.Id})    남 : {client.RemoteCount}명";
             gameStartButton.gameObject.SetActive(client.IsHost && client.IsGameStarted == false);
-            ActivateGameStartButton(false);
        
-            gameStartButton.gameObject.SetActive(client.IsHost);
-            readyText.gameObject.SetActive(false);
-            readyButton.gameObject.SetActive(client.IsHost == false);
-            readyCountText.text = $"준비 {client.ReadyCount} /{client.userOrder.Count} ";
-            ActivateGameStartButton(client.ReadyCount >= (client.userOrder.Count - 1));
+
+            if (client.IsGameStarted)
+            {
+                gameStartButton.gameObject.SetActive(false);
+                readyText.gameObject.SetActive(false);
+                readyCountText.gameObject.SetActive(false);
+                readyButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                ActivateGameStartButton(false);
+                gameStartButton.gameObject.SetActive(client.IsHost);
+                readyText.gameObject.SetActive(false);
+                readyButton.gameObject.SetActive(client.IsHost == false);
+                UpdateReadyCountUI(client.ReadyCount, client.userOrder.Count - 1);
+                ActivateGameStartButton(client.ReadyCount >= (client.userOrder.Count - 1));
+            }
         }
 
         #endregion

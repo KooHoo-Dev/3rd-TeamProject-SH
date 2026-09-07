@@ -355,7 +355,7 @@ namespace TeamSH
         {
             ReadyCount++;
             
-            LobbyUIManager.Instance?.UpdateReadyCountUI(ReadyCount,userOrder.Count);
+            LobbyUIManager.Instance?.UpdateReadyCountUI(ReadyCount,userOrder.Count - 1);
         }
 
         public void RequestReadyMessage()
