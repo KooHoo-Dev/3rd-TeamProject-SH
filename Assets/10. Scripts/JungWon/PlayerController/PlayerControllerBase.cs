@@ -26,10 +26,13 @@ namespace TeamSH
             Animator.SetLayerWeight(1, 1);
             Animator.SetTrigger(IS_PUSH);
         }
-        
-        public void ApplyMartPlayer()
+
+        public void ApplyReadyPlayer()
         {
-            canMove = true;
+            canMove = false;
+            Animator.SetLayerWeight(0, 0);
+            Animator.SetBool(IS_MOVE, false);
+            Animator.SetBool(GET_ITEM, false);
             Animator.SetBool(IsSitting, false);
         }
         
@@ -40,6 +43,12 @@ namespace TeamSH
             Animator.SetBool(IS_MOVE, false);
             Animator.SetBool(GET_ITEM, false);
             Animator.SetBool(IsSitting, true);
+        }
+        
+        public void ApplyMartPlayer()
+        {
+            canMove = true;
+            Animator.SetBool(IsSitting, false);
         }
         
         public abstract void ApplyKnockback(Vector3 hitDirection, float power);
