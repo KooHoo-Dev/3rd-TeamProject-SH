@@ -157,7 +157,7 @@ namespace TeamSH
         }
 
         // 서버가 가방 넣기 결과를 알려줄 때 호출됨.
-        public void SuccessPutDownItemInBag(bool isSuccess, string changedItemId = null)
+        public void SuccessPutDownItemInBag(bool isSuccess, string changedItemId)
         {
             if (HandItem == null) return;
             

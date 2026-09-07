@@ -205,9 +205,10 @@ public class DisplayStandManager : MonoBehaviour
 
 
     
-    public void SetItemIdBufferForArea(CategoryItemArray[] categoryItemArrays)
+    public async UniTask SetItemIdBufferForArea(CategoryItemArray[] categoryItemArrays)
     {
         IsFinishSetItem = false; //처음들어왔을때 false로 시작
+        
         currentCategoryTypes = new CategoryType[categoryItemArrays.Length];
         for(int i = 0; i < categoryItemArrays.Length; i++)
         {
@@ -227,41 +228,35 @@ public class DisplayStandManager : MonoBehaviour
             Areas[(int)CategoryDic[currentCategoryTypes[i]]].AddItems(intIds);
             area.ItemIdBuffer = intIds;
         }
-        
-        // 각 Area 안의 모든 매대에 정확히 한 번씩만 아이템을 배정 (버그 수정 지점)
-        for (int i = 0; i < currentCategoryTypes.Length; i++)
-        {
-            AreaData area = Areas[(int)CategoryDic[currentCategoryTypes[i]]];
-
-            for (int j = 0; j < area.DisplayStands.Count; j++) // 매대 인덱스는 반드시 j
-            {
-                if (area.ItemBuffers.Count <= 0) break; // 버퍼 소진 시 조기 종료 (안전장치)
-                SetCategoryItemInStand(area.DisplayStands[j]); // 매대 하나당 딱 한 번만 호출
-            }
-        }
-        
-        /* 문제있다고 하여 일단 주석처리
         int count = 0;
         foreach (var CategoryType in currentCategoryTypes)
         {
             if (count >= Areas.Count)
             {
-                Debug.LogError($"[DisplayStandManager] : SetItemIdBufferForArea failed. categoryItemArrays length {categoryItemArrays.Length} exceeds Areas count {Areas.Count}.");
+                Debug.LogError(
+                    $"[DisplayStandManager] : SetItemIdBufferForArea failed. categoryItemArrays length {categoryItemArrays.Length} exceeds Areas count {Areas.Count}.");
                 return;
             }
+
             AreaData area = Areas[(int)CategoryDic[CategoryType]];
-            
+
             for (int j = 0; j < area.DisplayStands.Count; j++)
             {
-                for(int k = 0; k < DisplayStand.ItemMaxCount; k++)
+                for (int k = 0; k < DisplayStand.ItemMaxCount; k++)
                 {
                     SetCategoryItemInStand(area.DisplayStands[k]);
 
                 }
             }
+
             count++;
         }
-        */
+        
+        IsFinishSetItem = true;
+        foreach (KeyValuePair<CategoryType, AreaNum> pair in CategoryDic)
+        {
+            Debug.Log($"[DisplayStandManger][CategoryDic] 카테고리: {pair.Key} ---> 구역: {pair.Value}");
+        }
     }
 
 
@@ -281,8 +276,6 @@ public class DisplayStandManager : MonoBehaviour
             displayStand.SetItem(area.ItemBuffers[0]);
             area.ItemBuffers.RemoveAt(0);
         }
-        
-        IsFinishSetItem = true;
     }
 
     private List<int> GetIdBufferByArea(AreaNum areaNum)

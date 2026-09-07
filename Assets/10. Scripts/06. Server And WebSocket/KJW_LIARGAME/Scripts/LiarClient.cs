@@ -431,8 +431,7 @@ namespace TeamSH
             for (int i = 0; i < allCategoryItemArrays.Length; i++)
                 Debug.Log($"받은 아이템 정보 : 아이템 카테고리 {allCategoryItemArrays[i].Category}, 아이템 내역 {allCategoryItemArrays[i].ItemIds} ");
             
-            DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays);
-            await UniTask.WaitUntil(()=> DisplayStandManager.Instance.IsFinishSetItem); //아이템 생성로직이 끝날때까지 대기
+            await DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays); // 배치(비동기) 완전 종료까지 대기
             MartQuestManager.Instance.SetPlayerMartQuest(targetItemId);
             MartManager.Instance.SetMartCategoryStand();
             MartManager.Instance.SetGenreAndKeyword(genre, keyWord);
@@ -792,6 +791,7 @@ namespace TeamSH
         private void DoLoadSceneToLobby()
         {
             DoLoadScene("LIARGAME_Lobby");
+            DoSetPlayer("GameReady");
             CurrentState = null; // 문자열이 아니라 ""가 안되서 null로 처리함
             CommonUIManager.Instance?.HideTimer(); // 로비로 가면 타이머 비활성화
         }

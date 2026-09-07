@@ -20,8 +20,10 @@ namespace TeamSH
         public TextMeshProUGUI keywordText;
 
         [Header("매대 카테고리UI 설정")] 
-        public GameObject standUI;
-        public TextMeshProUGUI[] standUIText;
+        public TextMeshProUGUI standArea1Text;
+        public TextMeshProUGUI standArea2Text;
+        public TextMeshProUGUI standArea3Text;
+
         
         [Header("퀘스트 UI 설정")]
         public TextMeshProUGUI questDescriptionText; //퀘스트 설명 Text;
@@ -35,7 +37,6 @@ namespace TeamSH
         {
             categoryText = categorysUI.GetComponentsInChildren<TextMeshProUGUI>();
             itemText = itemsUI.GetComponentsInChildren<TextMeshProUGUI>();
-            standUIText = standUI.GetComponentsInChildren<TextMeshProUGUI>();
         }
         
         public void ApplySelectMartItemUI(bool isShow, List<MartItem> playerItems)
@@ -79,12 +80,18 @@ namespace TeamSH
 
         public void SetMartCategoryStand()
         {
-            CategoryType[] types = DisplayStandManager.Instance.currentCategoryTypes;
-
-            for (int i = 0; i < types.Length; i++)
+            CategoryType[] types = DisplayStandManager.Instance?.currentCategoryTypes;
+            if (types == null || types.Length < 3)
             {
-                standUIText[i].SetText(types[i].ToString());
-            }   
+                Debug.LogWarning("[MartUIManager] currentCategoryTypes가 아직 준비되지 않았습니다.");
+                return;
+            }
+            
+            if (standArea1Text != null) standArea1Text.SetText(types[0].ToString());
+            if (standArea2Text != null) standArea2Text.SetText(types[1].ToString());
+            if (standArea3Text != null) standArea3Text.SetText(types[2].ToString());
+
+            Debug.Log($"[UI검증] Area1={types[0]}, Area2={types[1]}, Area3={types[2]}");
         }
 
         public void SetMartQuest(ItemDef itemDef) // 마트 퀘스트 정보를 받아서 적용시키기

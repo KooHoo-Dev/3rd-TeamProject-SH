@@ -3737,6 +3737,9 @@ MonoBehaviour:
   keywordText: {fileID: 1800640903}
   standUI: {fileID: 1254861428}
   standUIText: []
+  standArea1Text: {fileID: 1726266629}
+  standArea2Text: {fileID: 1727136568}
+  standArea3Text: {fileID: 1309174000}
   questDescriptionText: {fileID: 1604969423}
   itemDescriptionUI: {fileID: 423827504}
   itemCategoryText: {fileID: 1372610907}
