@@ -63,7 +63,7 @@ ItemId	CategoryType	CategoryName	ItemName	PrefabKey
 62	Kitchenware	주방용품	나이프	Prefabs/Items/Kitchenware/Table_knife
 63	Kitchenware	주방용품	주전자	Prefabs/Items/Kitchenware/Tea_kettle_01
 64	Kitchenware	주방용품	토스터	Prefabs/Items/Kitchenware/Toaster_red
-65	Kitchenware	생활용품	액체 비누	Prefabs/Items/Kitchenware/Liquid_soap
+65	Household	생활용품	액체 비누	Prefabs/Items/Household/Liquid_soap
 66	Household	생활용품	바구니	Prefabs/Items/Household/Basket_01
 67	Household	생활용품	양동이	Prefabs/Items/Household/Bucket_01
 68	Household	생활용품	빨래집게	Prefabs/Items/Household/Clip_01
