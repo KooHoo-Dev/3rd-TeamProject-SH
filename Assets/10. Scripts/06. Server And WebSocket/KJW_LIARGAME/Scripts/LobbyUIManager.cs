@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,13 +14,25 @@ namespace TeamSH
 
         private void Awake()
         {
-            Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
 
-            joinButton.onClick.AddListener(OnJoinButtonClicked);
-            gameStartButton.onClick.AddListener(() => LiarClient.Instance.RequestGameStart());
+                joinButton.onClick.AddListener(OnJoinButtonClicked);
+                gameStartButton.onClick.AddListener(() => LiarClient.Instance.RequestGameStart());
+                readyButton.onClick.AddListener(OnReadyButtonClicked);
+;
+                
+                gameStartButton.gameObject.SetActive(false);
+                readyButton.gameObject.SetActive(false);
+                joinGroup.SetActive(true);
+                roomGroup.SetActive(false);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
 
-            joinGroup.SetActive(true);
-            roomGroup.SetActive(false);
         }
 
         private void OnDestroy()
@@ -33,18 +45,10 @@ namespace TeamSH
             client = LiarClient.Instance;
 
             if (client.Me == null) return; // 아직 입장 전 - Awake의 기본값(입장 폼)을 그대로 둔다
-
-            if (client.IsGameStarted)
-            {
-                // 게임 진행 중 라운드 사이에 로비 씬을 잠깐 거쳐가는 경우 - 로비 UI를 아예 보여주지 않는다.
-                joinGroup.SetActive(false);
-                roomGroup.SetActive(false);
-            }
-            else
-            {
-                // 이미 입장했고 아직 게임 시작 전(진짜 로비 대기 중)이면 방 대기실을 보여준다.
+            
                 ShowRoomGroup();
-            }
+
+
         }
 
         private void Update()
@@ -55,6 +59,7 @@ namespace TeamSH
                 joinButton.interactable = client.IsBusy == false;
                 joinButtonLabel.text = client.IsBusy ? "들어가는 중…" : "Enter";
             }
+            
         }
 
         #region 입장 전
@@ -65,12 +70,7 @@ namespace TeamSH
         [SerializeField] private TMP_InputField roomCodeInput;
         [SerializeField] private Button joinButton;
         [SerializeField] private TextMeshProUGUI joinButtonLabel;
-
-        private void OnJoinButtonClicked()
-        {
-            client.Join(roomCodeInput.text, nameInput.text);
-        }
-
+   
         #endregion
 
         #region 방 대기실
@@ -79,7 +79,32 @@ namespace TeamSH
         [SerializeField] private GameObject roomGroup;
         [SerializeField] private TextMeshProUGUI roomInfoLabel;
         [SerializeField] private Button gameStartButton;
+        [SerializeField] private Button readyButton;
+        [SerializeField] private TMP_Text readyText;
+        [SerializeField] private TMP_Text readyCountText;
 
+        private void OnJoinButtonClicked()
+        {
+            client.Join(roomCodeInput.text, nameInput.text);
+        }
+
+        public void OnReadyButtonClicked()
+        {
+            readyText.gameObject.SetActive(true);
+            readyButton.gameObject.SetActive(false);
+            client.RequestReadyMessage();
+        }
+
+        public void ActivateGameStartButton(bool isActive)
+        {
+            gameStartButton.GetComponentInChildren<TextMeshProUGUI>().text =
+                (isActive == false) ? $"게임 준비 안됨" : "게임 시작";
+            gameStartButton.interactable = isActive;
+        }
+        public void UpdateReadyCountUI(int readyCount, int allMemberCount)
+        {
+            readyCountText.text = (client.userOrder.Count < 3)? $"현재 인원이 3명 미만입니다. 3명 이상이 필요합니다." : $"준비 {readyCount} /{allMemberCount}명 ";
+        }
         // 방 입장(OnWelcome) 시 LiarClient가 호출한다.
         public void ShowRoomGroup()
         {
@@ -95,6 +120,24 @@ namespace TeamSH
 
             roomInfoLabel.text = $"방 {client.RoomCode}    나 : {client.Me.NickName}({client.Me.Id})    남 : {client.RemoteCount}명";
             gameStartButton.gameObject.SetActive(client.IsHost && client.IsGameStarted == false);
+       
+
+            if (client.IsGameStarted)
+            {
+                gameStartButton.gameObject.SetActive(false);
+                readyText.gameObject.SetActive(false);
+                readyCountText.gameObject.SetActive(false);
+                readyButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                ActivateGameStartButton(false);
+                gameStartButton.gameObject.SetActive(client.IsHost);
+                readyText.gameObject.SetActive(false);
+                readyButton.gameObject.SetActive(client.IsHost == false);
+                UpdateReadyCountUI(client.ReadyCount, client.userOrder.Count - 1);
+                ActivateGameStartButton(client.ReadyCount >= (client.userOrder.Count - 1));
+            }
         }
 
         #endregion

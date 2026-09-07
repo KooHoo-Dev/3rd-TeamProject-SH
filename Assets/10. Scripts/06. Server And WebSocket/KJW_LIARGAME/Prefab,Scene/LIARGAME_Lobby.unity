@@ -658,6 +658,8 @@ MonoBehaviour:
   localPlayer: {fileID: 1869631655}
   remotePrefab: {fileID: -7930338786351535698, guid: d1e1a9f6d5bc41e4cb0565ed8f43f434, type: 3}
   colorSet: {fileID: 0}
+  genre: 
+  keyWord: 
 --- !u!4 &1975179185
 Transform:
   m_ObjectHideFlags: 0
@@ -993,18 +995,6 @@ PrefabInstance:
     - target: {fileID: 5639544802717752955, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
       propertyPath: m_Name
       value: LobbyUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 5814415346707865475, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5895485392467250375, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 5895485392467250375, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
