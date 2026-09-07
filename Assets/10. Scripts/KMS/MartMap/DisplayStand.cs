@@ -73,9 +73,9 @@ public class DisplayStand : MonoBehaviour
         height = meshFilter.mesh.bounds.size.y;
         depth = meshFilter.mesh.bounds.size.z;
 
-        widthScale = transform.localScale.x;
-        heightScale = transform.localScale.y;
-        depthScale = transform.localScale.z;
+        widthScale = transform.lossyScale.x;
+        heightScale = transform.lossyScale.y;
+        depthScale = transform.lossyScale.z;
 
         width *= widthScale;
         height *= heightScale;
@@ -88,6 +88,7 @@ public class DisplayStand : MonoBehaviour
     {
         // 피봇을 mesh의 중심으로 옮기는 오프셋 계산 
         Vector3 centerOffset = meshFilter.mesh.bounds.center;
+        centerOffset = new Vector3(centerOffset.x * widthScale, centerOffset.y * heightScale, centerOffset.z * depthScale);
         grid = new GridCell(width, depth, transform.position + centerOffset);
         SetViewGrid();
         Debug.Log($"[그리드 디버그 로직] {grid.GetCenterPosition()}");

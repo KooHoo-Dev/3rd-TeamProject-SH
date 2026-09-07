@@ -359,6 +359,7 @@ namespace TeamSH
         {
             public string Type { get; set; } = "join";
             public User User { get; set; }
+
         }
 
         [Serializable]
@@ -370,6 +371,7 @@ namespace TeamSH
 
             public User User { get; set; }
             public User[] Users { get; set; }
+            public int ReadyCount { get; set; }
         }
 
         // 누가 나갔다.
@@ -427,6 +429,7 @@ namespace TeamSH
         {
             public string Type { get; set; } = "ready";
             public string ID { get; set; }
+            public int ReadyCount { get; set; }
         }
 
         [Serializable]

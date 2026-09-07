@@ -249,7 +249,7 @@ namespace TeamSH
                 case "welcome": OnWelcome(JsonConvert.DeserializeObject<WelcomeMessage>(json)); break;
                 case "join": OnJoin(JsonConvert.DeserializeObject<JoinMessage>(json)); break;
 
-                case "ready": OnReady(); break;
+                case "ready": OnReady(JsonConvert.DeserializeObject<ReadyMessage>(json)); break;
                 case "AllReady": OnAllReady(); break;
                 case "게임 시작 확인": OnGameStartOK(JsonConvert.DeserializeObject<GameStartOKMessage>(json)); break;
 
@@ -313,6 +313,9 @@ namespace TeamSH
 
             CommonUIManager.Instance?.ShowChat(); // 채팅창 활성화
             LobbyUIManager.Instance?.ShowRoomGroup(); // 방 그룹 활성화
+
+            ReadyCount = message.ReadyCount;
+            LobbyUIManager.Instance?.RefreshRoomInfo(); // 방 정보 갱신
         }
 
         private void OnJoin(JoinMessage message)
@@ -354,10 +357,10 @@ namespace TeamSH
 
         public int ReadyCount { get; private set; } = 0;
         public bool IsReady;
-        private void OnReady()
+        private void OnReady(ReadyMessage ready)
         {
-            ReadyCount++;
-            IsReady = true;
+            if(ready.ID == Me.Id) IsReady = true;
+            ReadyCount = ready.ReadyCount;
             LobbyUIManager.Instance?.UpdateReadyCountUI(ReadyCount,userOrder.Count - 1);
         }
 
