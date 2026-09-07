@@ -142,7 +142,7 @@ namespace TeamSH
         public bool IsHost { get; private set; }
         public string RoomCode { get; private set; } // 서버가 다듬어 알려 준 방 코드. abcd 로 쳐도 ABCD 가 옴.
 
-        [Header("내부 유저 정보")]
+        [Header("내부 정보")]
 
         // 접속 순서를 그대로 기록
         private readonly List<string> userOrder = new List<string>();
@@ -151,6 +151,9 @@ namespace TeamSH
         // 리모트 유저의 ID : 리모트 유저의 프리팹
         public readonly Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
 
+        public string genre = "";
+        public string keyWord = "";
+        
         // 화면에 그리는 일은 RoomLobby 가 한다. 여기는 선을 타는 일만 한다.
         public int RemoteCount => remotes.Count;
 
@@ -354,6 +357,8 @@ namespace TeamSH
             NewGameConfig = message.newGameConfig;
             IsGameStarted = true;
             UserScoreInfo = null; // 이전 게임 점수 초기화
+            genre = ""; //장르 초기화
+            keyWord = ""; //키워드 초기화
             LobbyUIManager.Instance?.RefreshRoomInfo(); // 방 시작 시 정보 갱신
             DoSetPlayer("GameReady"); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
         }
@@ -369,7 +374,7 @@ namespace TeamSH
         {
             DoSetPhase(TurnMessageType.GenreAssignAndLiarSelectState, timerMs, cycle, round, liarId);
             Genre = DataManager.Instance.GetGenreDef(genreId).GenreName;
-
+            this.genre = Genre; //장르 사용위해 저장 this는 분별용
             // 매 라운드 시작마다 오는 상태라 여기서도 켜준다.
             // 라운드 끝날 때 로비 경유하면서 HideTimer가 불려서 2라운드부턴 안 켜지던 버그
             CommonUIManager.Instance?.ShowTimer();
@@ -388,7 +393,7 @@ namespace TeamSH
 
             // 메세지로 온 키워드 ID 저장
             Keyword = DataManager.Instance.GetKeyWordDef(keywordId).KeywordName;
-
+            this.keyWord = Keyword; // 헷갈려서 this붙임
             CommonUIManager.Instance?.ShowKeywordReveal(Genre, Keyword, round, NewGameConfig.MaxRound); // commonUIManager로 옮김
         }
 
@@ -410,6 +415,8 @@ namespace TeamSH
             
             DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays);
             MartQuestManager.Instance.SetPlayerMartQuest(targetItemId);
+            MartManager.Instance.SetGenreAndKeyword(genre, keyWord);
+            MartManager.Instance.SetMartCategoryStand();
         }
         private void OnMartMoveState(float timerMs, int cycle, int round)
         {

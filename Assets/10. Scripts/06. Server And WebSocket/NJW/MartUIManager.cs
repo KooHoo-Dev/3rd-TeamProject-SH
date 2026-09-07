@@ -10,14 +10,20 @@ namespace TeamSH
     {
         [Header("선택한 아이템 UI 설정")]
         public GameObject selectMartItemUI; //내가 선택한 아이템 UI
-
         public GameObject categorysUI;
         public GameObject itemsUI;
         private TextMeshProUGUI[] categoryText; //카테고리 텍스트 배열
         private TextMeshProUGUI[] itemText; // 아이템 텍스트 배열
+
+        [Header("마트 장르/키워드 설정")] 
+        public TextMeshProUGUI genreText;
+        public TextMeshProUGUI keywordText;
+
+        [Header("매대 카테고리UI 설정")] 
+        public GameObject standUI;
+        public TextMeshProUGUI[] standUIText;
         
         [Header("퀘스트 UI 설정")]
-        public GameObject martQuestUI; //퀘스트 UI
         public TextMeshProUGUI questDescriptionText; //퀘스트 설명 Text;
         
         [Header("아이템 설명 UI 설정")]
@@ -29,6 +35,7 @@ namespace TeamSH
         {
             categoryText = categorysUI.GetComponentsInChildren<TextMeshProUGUI>();
             itemText = itemsUI.GetComponentsInChildren<TextMeshProUGUI>();
+            //standUIText = standUI.GetComponentsInChildren<TextMeshProUGUI>();
         }
         
         public void ApplySelectMartItemUI(bool isShow, List<MartItem> playerItems)
@@ -59,6 +66,32 @@ namespace TeamSH
                     if (categoryText[i].text == playerItems[j].itemDef.CategoryType.ToString())
                     {
                         itemText[i].SetText(playerItems[j].itemDef.ItemName);
+                    }
+                }
+            }
+        }
+
+        public void SetGenreAndKeyword(string genre, string keyWord)
+        {
+            genreText.SetText(genre);
+            keywordText.SetText(keyWord);
+        }
+
+        public void SetMartCategoryStand()
+        {
+            var categoryDic = DisplayStandManager.Instance.CategoryDic;
+
+            // 0: Area1, 1: Area2, 2: Area3
+            for (int i = 0; i < standUIText.Length; i++)
+            {
+                AreaNum targetArea = (AreaNum)i;
+
+                foreach (var pair in categoryDic)
+                {
+                    if (pair.Value == targetArea)
+                    {
+                        standUIText[i].SetText(pair.Key.ToString());
+                        break;
                     }
                 }
             }
