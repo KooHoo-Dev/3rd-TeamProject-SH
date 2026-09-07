@@ -203,4 +203,13 @@ namespace TeamSH
             return mat;
         }
     }
+    // ================= RichText 색상 문자열 변환 유틸 =================
+    public static class RichTextUtils
+    {
+        public static string ToColoredRichText(string text, Color color)
+        {
+            string hex = ColorUtility.ToHtmlStringRGB(color);
+            return $"<color=#{hex}>{text}</color>";
+        }
+    }
 }

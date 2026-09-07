@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static TeamSH.Protocol;
@@ -149,7 +149,7 @@ namespace TeamSH
         {
             HideAllPanels();
             speechEndPanel.SetActive(true);
-            speechEndText.text = $"{speakerNickname} : {specialChat}";
+            speechEndText.text = $"{RichTextUtils.ToColoredRichText(speakerNickname + " : " + specialChat, client.colorSet.GetColor(client.Me.Id))}";
         }
 
         #endregion
