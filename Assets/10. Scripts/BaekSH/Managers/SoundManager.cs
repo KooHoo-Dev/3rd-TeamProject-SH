@@ -105,5 +105,17 @@ namespace TeamSH
             }
         }
 
+        // 오디오 초기화
+        public void StopBGM()
+        {
+            audioSource.Stop(); 
+        }
+
+        // 오디오 일시정지
+        public void PauseBGM()
+        {
+            audioSource.Pause();
+        }
+
     }
 }

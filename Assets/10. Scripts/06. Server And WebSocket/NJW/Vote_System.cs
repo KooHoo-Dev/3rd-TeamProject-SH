@@ -119,6 +119,8 @@ namespace TeamSH
                     CurrentSelectUser = remotePlayer.User;
                 }
             }
+            
+            SoundManager.Instance.PlaySfx(SoundManager.GameSfx.PointAtPlayer); // 지목 시 SFX
         }
 
         
@@ -132,6 +134,8 @@ namespace TeamSH
             
             LiarClient.Instance.RequestVoteMessage(message);
             ConferenceManager.Instance.RequestVoteUI(false); //정보 보내고 UI닫아버리기
+            
+            SoundManager.Instance?.PlaySfx(SoundManager.GameSfx.VoteButtonClick); // 투표 버튼 클릭 시 SFX
         }
 
         // 빠른스킵 전달
