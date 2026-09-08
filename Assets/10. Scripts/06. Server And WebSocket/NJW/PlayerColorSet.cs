@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace TeamSH
 {
@@ -63,14 +64,11 @@ namespace TeamSH
             if (string.IsNullOrEmpty(id) || palette == null || palette.Length == 0)
                 return Color.white;
             
-            int orderIndex = -1;
-            for (int i = 0; i < LiarClient.Instance.userOrder.Count; i++)
-                if (LiarClient.Instance.userOrder[i] == id) orderIndex = i;
-            
-            if (orderIndex < 0) return Color.white;
-
-            int idx = orderIndex % palette.Length;
-            return palette[idx];
+            LiarClient client = LiarClient.Instance;
+            int index = client.userOrder.IndexOf(id);
+            if (index >= 0) return palette[index % palette.Length];
+            Debug.LogWarning($"[색상] {id} 가 userOrder에 없어 임시 색상을 사용합니다.");
+            return Color.white;
         }
 
         // ================= 외곽선용 색 =================
@@ -210,6 +208,7 @@ namespace TeamSH
         public static string ToColoredRichText(string text, Color color)
         {
             string hex = ColorUtility.ToHtmlStringRGB(color);
+            
             return $"<color=#{hex}>{text}</color>";
         }
     }

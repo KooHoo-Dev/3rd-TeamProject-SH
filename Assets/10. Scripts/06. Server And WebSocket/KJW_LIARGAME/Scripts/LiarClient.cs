@@ -312,12 +312,10 @@ namespace TeamSH
             
             // 마트 카메라 추적 로직 중 Target이 오브젝트 이름으로 추적함
             localPlayer.gameObject.name = "Player";
-            
-            // [변경] 컬러도 함께 넘김
-            //localPlayer.Setup(Me, ColorOf(Me.Id));
 
             // 누가 들어올때마다 순서 초기화하고처음부터 다시세운다.
             userOrder.Clear();
+            userOrder.Add(Me.Id);
             for (int i = 0; i < message.Users.Length; i++)
             {
                 Debug.Log($"[LiarClient] {message.Users[i].Id}, {message.Users[i].NickName}");
@@ -327,14 +325,14 @@ namespace TeamSH
                 foreach (User user in message.Users)
                 {
                     userOrder.Add(user.Id);
+                    userOrder.Sort((a, b) => string.CompareOrdinal(a, b));
                     Spawn(user);
                 }
             }
-            userOrder.Add(Me.Id);
-            
+            localPlayer.Setup(Me);
             DoResponseAll(); // 플레이어위치 변경
-            // [변경] 컬러도 함께 넘김
-            localPlayer.Setup(Me, (colorSet.GetColor(Me.Id)));
+            DoRefreshAllPlayerColors();  // 정렬된 순서 기준으로 색상 일괄 적용
+
             DoSetPlayer(MEETINGSTATE);
 
             Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
@@ -352,8 +350,10 @@ namespace TeamSH
         private void OnJoin(JoinMessage message)
         {
             userOrder.Add(message.User.Id); // 순서 리스트에 추가
+            userOrder.Sort((a, b) => string.CompareOrdinal(a, b));
 
             Spawn(message.User);
+            DoRefreshAllPlayerColors();  //새로 들어온 사람을 포함해 전원 색상 재적용
             DoSetPlayer(MEETINGSTATE);
 
             Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
@@ -505,7 +505,7 @@ namespace TeamSH
 
         // 씬을 이동하는 OnMartEnterState와 동일한 구조로 async 구조 래핑 진행
         private void OnMartReturnState(float timerMs, int cycle, int round, 
-            Protocol.UserItemList[] userItemLists, Protocol.UserQuestInfo[] userQuestInfos) 
+            UserItemList[] userItemLists, UserQuestInfo[] userQuestInfos) 
         {
             OnMartReturnStateAsync(timerMs, cycle, round, userItemLists, userQuestInfos).Forget(); 
         }
@@ -513,7 +513,7 @@ namespace TeamSH
         // 씬 로드가 끝나기 전에 다음 상태(발언 등)가 와서 MeetingRoomUIManager가
         // 아직 없는 상태로 호출되는 걸 막기 위해 씬 로드를 기다린다.
         private async UniTask OnMartReturnStateAsync(float timerMs, int cycle, int round, 
-            Protocol.UserItemList[] userItemLists, Protocol.UserQuestInfo[] userQuestInfos)
+            UserItemList[] userItemLists, UserQuestInfo[] userQuestInfos)
         {
             DoSetPhase(TurnMessageType.MartReturnState, timerMs, cycle, round);
             
@@ -1061,9 +1061,7 @@ namespace TeamSH
             // 이미 있으면 만들지 않는다. welcome 과 join 이 겹칠 수 있다.
             if (remotes.ContainsKey(user.Id)) return;
             RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
-
-            remote.Setup(user, colorSet.GetColor(user.Id));   // [변경] 컬러 전달
-
+            remote.Setup(user);
             remotes[user.Id] = remote;
             // 이미 마트/회의실에 들어와 있는 상태라면 새로 들어온 사람까지 포함해서 즉시 재배치
             DoResponseAll();
@@ -1185,8 +1183,6 @@ namespace TeamSH
                     localPlayer.transform.position = pos;
                     localPlayer.Body.transform.position = pos;
                     localPlayer.Body.transform.rotation = rot;
-                    // 다음 SendLoop 틱을 기다리지 않고 재배치된 좌표를 즉시 한 번 더 전송
-                    SendAsync(new MoveMessage { Id = Me.Id, X = pos.x, Y = pos.y, Z = pos.z }).Forget();
                 }
                 else if (remotes.TryGetValue(id, out RemotePlayer remote))
                 {
@@ -1197,6 +1193,24 @@ namespace TeamSH
             }
         }
 
+        private void DoRefreshAllPlayerColors()
+        {
+            for (int i = 0; i < userOrder.Count; i++)
+            {
+                string id = userOrder[i];
+                Color color = colorSet.GetColor(id);
+
+                if (Me != null && id == Me.Id)
+                {
+                    localPlayer?.ApplyColor(color);
+                }
+                else if (remotes.TryGetValue(id, out RemotePlayer remote))
+                {
+                    remote.ApplyColor(color);
+                }
+            }
+        }
+        
         #endregion
 
         #region 클라이언트 -> 서버 (Request)
