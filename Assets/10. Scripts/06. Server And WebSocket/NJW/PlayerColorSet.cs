@@ -65,17 +65,10 @@ namespace TeamSH
             
             int orderIndex = -1;
             for (int i = 0; i < LiarClient.Instance.userOrder.Count; i++)
-            {
                 if (LiarClient.Instance.userOrder[i] == id) orderIndex = i;
-            }
             
-            // userOrder에서 찾지 못했을 경우 폴백 처리 (기본 ID 해시 또는 흰색)
-            if (orderIndex < 0)
-            {
-                return Color.white;
-            }
+            if (orderIndex < 0) return Color.white;
 
-            // 순서(0, 1, 2, 3)를 직접 팔레트 인덱스로 사용
             int idx = orderIndex % palette.Length;
             return palette[idx];
         }

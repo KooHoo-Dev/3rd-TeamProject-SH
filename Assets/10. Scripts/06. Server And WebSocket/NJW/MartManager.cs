@@ -29,8 +29,8 @@ namespace TeamSH
             {
                 if (isQInput) isQInput = false;
                 else if(isQInput == false) isQInput = true;
+                RequestSelectMartItemUI(isQInput, player.SelectedItems);
             }
-            RequestSelectMartItemUI(isQInput, player.SelectedItems);
         }
         
         public void SetMartQuestUI(ItemDef item)
