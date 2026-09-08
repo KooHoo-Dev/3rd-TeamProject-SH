@@ -35,13 +35,10 @@ namespace TeamSH
             ItemInteractionHandler = GetComponent<ItemInteractionHandler>();
         }
         
-        public void Setup(User user, Color color)
+        public void Setup(User user)
         {
             User = user;
-            PlayerColor = color;
             label.SetText($"{user.NickName} ({user.Id})");
-            
-            ApplyColor(color);
             DontDestroyOnLoad(gameObject);
         }
         
