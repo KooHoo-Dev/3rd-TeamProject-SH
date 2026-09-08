@@ -23,7 +23,9 @@ namespace TeamSH
         public TextMeshProUGUI standArea1Text;
         public TextMeshProUGUI standArea2Text;
         public TextMeshProUGUI standArea3Text;
-
+        public DisplayStand area1Stand;
+        public DisplayStand area2Stand;
+        public DisplayStand area3Stand;
         
         [Header("퀘스트 UI 설정")]
         public TextMeshProUGUI questDescriptionText; //퀘스트 설명 Text;
@@ -80,6 +82,7 @@ namespace TeamSH
 
         public void SetMartCategoryStand()
         {
+            /*
             Dictionary<CategoryType, AreaNum> dic = DisplayStandManager.Instance?.CategoryDic;
             if (dic == null || dic.Count < 3)
             {
@@ -96,6 +99,11 @@ namespace TeamSH
             if (standArea3Text != null) standArea3Text.SetText(cat3.ToString());
 
             Debug.Log($"[UI검증] Area1={cat1}, Area2={cat2}, Area3={cat3}");
+            */
+            
+            standArea1Text.SetText(area1Stand.CategoryType.ToString());
+            standArea2Text.SetText(area2Stand.CategoryType.ToString());
+            standArea3Text.SetText(area3Stand.CategoryType.ToString());
         }
 
         // 카테고리 -> AreaNum 역방향 조회: AreaNum에 배정된 카테고리를 찾는다
