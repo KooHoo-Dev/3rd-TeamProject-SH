@@ -52,7 +52,10 @@ namespace TeamSH
             if (tabInfoEnabled)
             {
                 bool chatting = chatInput != null && chatInput.isFocused;
+                // 누를때 TAB 활성화
                 if (chatting == false && SimpleInput.GetKeyDown(Key.Tab)) showInfo = !showInfo;
+                // 뗄 때 TAB 비활성화
+                if (chatting == false && SimpleInput.GetKeyUp(Key.Tab)) showInfo = !showInfo;
 
                 infoOverlayPanel.SetActive(showInfo);
                 if (showInfo)

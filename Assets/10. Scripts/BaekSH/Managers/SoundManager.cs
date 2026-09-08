@@ -5,7 +5,8 @@ using UnityEngine.Serialization;
 
 namespace TeamSH
 {
-    public class SoundManager : MonoBehaviour
+    // 싱글톤 오브젝트로 변경했습니다.
+    public class SoundManager : SingletonBase<SoundManager>
     {
         public static SoundManager Instance;
         
@@ -103,6 +104,18 @@ namespace TeamSH
             {
                 Debug.LogWarning("SFX not found");
             }
+        }
+
+        // 오디오 초기화
+        public void StopBGM(GameBGM bgm)
+        {
+            audioSource.Stop(); 
+        }
+
+        // 오디오 일시정지
+        public void PauseBGM(GameBGM bgm)
+        {
+            audioSource.Pause();
         }
 
     }

@@ -305,6 +305,12 @@ namespace TeamSH
             }
         }
 
+        private void Start()
+        {
+            // 타이틀 (게임 플레이 시 시작되는 Sound)
+            SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.Title); // 타이틀 BGM
+        }
+
         #region 서버 -> 클라이언트 (On)
         
         private void OnWelcome(WelcomeMessage message)
@@ -347,6 +353,8 @@ namespace TeamSH
 
             ReadyCount = message.ReadyCount;
             LobbyUIManager.Instance?.RefreshRoomInfo(); // 방 정보 갱신
+            
+            SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.Lobby); // 로비 BGM
         }
 
         private void OnJoin(JoinMessage message)
@@ -487,6 +495,7 @@ namespace TeamSH
             MartQuestManager.Instance.SetPlayerMartQuest(targetItemId);
             MartManager.Instance.SetMartCategoryStand();
             MartManager.Instance.SetGenreAndKeyword(genre, keyWord);
+            
         }
         private void OnMartMoveState(float timerMs, int cycle, int round)
         {
@@ -606,6 +615,7 @@ namespace TeamSH
             // 다음 발전자에서 단일 특수채팅 초기화
             SpecialChat = null;
 
+            
             string mine = Me != null && id == Me.Id ? " (나)" : "";
             string line = $"[특수] {nickName}{mine} : {text}"; // 일반 채팅창용 (아이템 표시 없음)
 
