@@ -913,6 +913,8 @@ namespace TeamSH
 
                 Color arrowColor = (colorSet.GetColor((message.selectID))); // 지목한 사람마다 고유 색
                 ConferenceManager.Instance?.DrawArrow(message.selectID, fromPivot, toPivot, arrowColor);
+                
+                SoundManager.Instance.PlaySfx(SoundManager.GameSfx.PointAtPlayer); // 지목 시 SFX 
             }
             else
             {

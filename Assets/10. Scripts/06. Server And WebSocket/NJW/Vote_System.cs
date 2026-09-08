@@ -119,8 +119,6 @@ namespace TeamSH
                     CurrentSelectUser = remotePlayer.User;
                 }
             }
-            
-            SoundManager.Instance.PlaySfx(SoundManager.GameSfx.PointAtPlayer); // 지목 시 SFX
         }
 
         
