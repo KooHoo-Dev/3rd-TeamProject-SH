@@ -56,15 +56,12 @@ namespace TeamSH
             if (tabInfoEnabled)
             {
                 bool chatting = chatInput != null && chatInput.isFocused;
-                // 누를때 TAB 활성화
-                if (chatting == false && SimpleInput.GetKeyDown(Key.Tab)) showInfo = !showInfo;
-                // 뗄 때 TAB 비활성화
-                if (chatting == false && SimpleInput.GetKeyUp(Key.Tab)) showInfo = !showInfo;
+                showInfo = chatting == false && SimpleInput.GetKey(Key.Tab); // 토글 대신 누르는 동안 true로
 
                 infoOverlayPanel.SetActive(showInfo);
                 if (showInfo)
                 {
-                    itemText.text = "내 아이템들 : \n" + client.GetMyItemList(); // 한 줄씩 보임
+                    itemText.text = "내 아이템들 : \n" + client.GetMyItemList();
                     infoSpecialChatText.text = "특수 채팅 기록\n" + string.Join("\n", client.SpecialChatLog);
                 }
             }
