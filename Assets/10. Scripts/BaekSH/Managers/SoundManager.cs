@@ -41,7 +41,8 @@ namespace TeamSH
         }
 
         [Header("AudioSource")]
-        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioSource bgmAudioSource;
+        [SerializeField] private AudioSource sfxAudioSource;
 
         [Header("AudioClip")]
         [SerializeField] private AudioClip[] bgmClips;
@@ -83,9 +84,9 @@ namespace TeamSH
         {
             if (bgmDict.TryGetValue(bgm, out var clip))
             {
-                audioSource.clip = clip;
-                audioSource.loop = true;
-                audioSource.Play();
+                bgmAudioSource.clip = clip;
+                bgmAudioSource.loop = true;
+                bgmAudioSource.Play();
             }
             else
             {
@@ -97,7 +98,7 @@ namespace TeamSH
         {
             if (sfxDict.TryGetValue(sfx, out var clip))
             {
-                audioSource.PlayOneShot(clip);
+                sfxAudioSource.PlayOneShot(clip);
             }
             else
             {
@@ -108,13 +109,13 @@ namespace TeamSH
         // 오디오 초기화
         public void StopBGM()
         {
-            audioSource.Stop(); 
+            bgmAudioSource.Stop(); 
         }
 
         // 오디오 일시정지
         public void PauseBGM()
         {
-            audioSource.Pause();
+            bgmAudioSource.Pause();
         }
 
     }
