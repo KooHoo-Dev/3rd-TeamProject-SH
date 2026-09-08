@@ -128,29 +128,11 @@ namespace TeamSH
             return null;
         }
         
-        public Color GetColorOf(string id) => ColorOf(id);
-
         #endregion
 
         #region 플레이어 색상 설정
 
         public PlayerColorSet colorSet;
-        
-        private Color ColorOf(string id)
-        {
-            // 방 접속 순서를 그대로 팔레트 인덱스로 사용
-            int idx = userOrder.IndexOf(id);
-
-            if (colorSet != null && idx >= 0 && idx < colorSet.Palette.Length)
-                return colorSet.Palette[idx];
-
-            // userOrder에 아직 없는 id(타이밍 문제)나 정원 초과 상황을 위한 폴백
-            if (colorSet != null) return colorSet.GetColor(id);
-
-            int hash = 0;
-            foreach (char c in id) hash = hash * 31 + c;
-            return Color.HSVToRGB(Mathf.Abs(hash % 360) / 360f, 0.65f, 0.95f);
-        }
         
         #endregion
         
@@ -321,12 +303,15 @@ namespace TeamSH
             // 마트 카메라 추적 로직 중 Target이 오브젝트 이름으로 추적함
             localPlayer.gameObject.name = "Player";
             
-            
             // [변경] 컬러도 함께 넘김
-            localPlayer.Setup(Me, ColorOf(Me.Id));
+            //localPlayer.Setup(Me, ColorOf(Me.Id));
 
             // 누가 들어올때마다 순서 초기화하고처음부터 다시세운다.
             userOrder.Clear();
+            for (int i = 0; i < message.Users.Length; i++)
+            {
+                Debug.Log($"[LiarClient] {message.Users[i].Id}, {message.Users[i].NickName}");
+            }
             if (message.Users != null)
             {
                 foreach (User user in message.Users)
@@ -337,7 +322,7 @@ namespace TeamSH
             }
             userOrder.Add(Me.Id);
             // [변경] 컬러도 함께 넘김
-            localPlayer.Setup(Me, ColorOf(Me.Id));
+            localPlayer.Setup(Me, (colorSet.GetColor(Me.Id)));
             DoSetPlayer("GameReady");
 
             Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
@@ -871,7 +856,7 @@ namespace TeamSH
                 Transform fromPivot = GetPointPivot(message.selectID);
                 Transform toPivot = GetPointPivot(message.selectedID);
 
-                Color arrowColor = ColorOf(message.selectID); // 지목한 사람마다 고유 색
+                Color arrowColor = (colorSet.GetColor((message.selectID))); // 지목한 사람마다 고유 색
                 ConferenceManager.Instance?.DrawArrow(message.selectID, fromPivot, toPivot, arrowColor);
             }
             else
@@ -1025,15 +1010,17 @@ namespace TeamSH
         {
             // 이미 있으면 만들지 않는다. welcome 과 join 이 겹칠 수 있다.
             if (remotes.ContainsKey(user.Id)) return;
-
+            Debug.Log("[LiarClient] 스폰 시작");
             RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
+            Debug.Log("[LiarClient] 생성 시작");
 
-            remote.Setup(user, ColorOf(user.Id));   // [변경] 컬러 전달
+            remote.Setup(user, colorSet.GetColor(user.Id));   // [변경] 컬러 전달
 
             remotes[user.Id] = remote;
-
+            Debug.Log("[LiarClient] 정보 입력");
             // 이미 마트/회의실에 들어와 있는 상태라면 새로 들어온 사람까지 포함해서 즉시 재배치
             DoResponseAll();
+            Debug.Log("[LiarClient] 스폰 완료");
         }
 
         #endregion
@@ -1124,9 +1111,9 @@ namespace TeamSH
                 if (int.TryParse(a, out int idA) && int.TryParse(b, out int idB))
                     return idA.CompareTo(idB);
                 return string.CompareOrdinal(a, b);
-            });
+            }); // 위치바꾸기?
 
-            Transform[] spawnPoints;
+            Transform[] spawnPoints = new Transform[userOrder.Count];
 
             switch (activeContentScene)
             {
@@ -1136,8 +1123,6 @@ namespace TeamSH
                 case "00. MeetingRoom":
                     spawnPoints = ConferenceManager.Instance.userSpawnPoints;
                     break;
-                default:
-                    return; // 로비처럼 위치가 필요 없는 씬이면 조용히 넘어간다.
             }
 
             if (spawnPoints == null || spawnPoints.Length == 0)
@@ -1155,8 +1140,8 @@ namespace TeamSH
                 }
 
                 string id = userOrder[i];
-                Vector3 pos = spawnPoints[i].position;
-                Quaternion rot = spawnPoints[i].rotation;
+                Vector3 pos = spawnPoints[i]?.position ?? Vector3.zero;
+                Quaternion rot = spawnPoints[i]?.rotation ?? Quaternion.identity;
 
                 if (id == Me.Id)
                 {

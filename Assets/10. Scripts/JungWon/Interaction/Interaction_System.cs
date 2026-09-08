@@ -57,6 +57,7 @@ namespace TeamSH
             }
 
             Debug.Log($"{sender.name}이(가) {receiver.name}에게 밀치기 충격량({@event.PushPower}) 전달!");
+            SoundManager.Instance.PlaySfx(SoundManager.GameSfx.PlayerPushed);
             HandlePushEvent(sender, receiver, @event);
         }
 

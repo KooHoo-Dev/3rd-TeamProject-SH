@@ -45,6 +45,8 @@ namespace TeamSH
         {
             SetSelectedMartItemUI(playerItems);
             selectMartItemUI.SetActive(isShow);
+            if(isShow) SoundManager.Instance.PlaySfx(SoundManager.GameSfx.PopUpScreenOpened);
+            else SoundManager.Instance.PlaySfx(SoundManager.GameSfx.PopUpScreenClosed);
         }
 
         public void ApplyItemDescriptionText(bool isShow, MartItem item)
@@ -82,28 +84,23 @@ namespace TeamSH
 
         public void SetMartCategoryStand()
         {
-            /*
-            Dictionary<CategoryType, AreaNum> dic = DisplayStandManager.Instance?.CategoryDic;
-            if (dic == null || dic.Count < 3)
-            {
-                Debug.LogWarning("[MartUIManager] CategoryDic가 아직 준비되지 않았습니다.");
-                return;
-            }
+             
+             Dictionary<CategoryType, AreaNum> dic = DisplayStandManager.Instance?.CategoryDic;
+             if (dic == null || dic.Count < 3)
+             {
+                 Debug.LogWarning("[MartUIManager] CategoryDic가 아직 준비되지 않았습니다.");
+                 return;
+             }
+             
+             CategoryType cat1 = GetCategoryByArea(dic, AreaNum.Area1);
+             CategoryType cat2 = GetCategoryByArea(dic, AreaNum.Area2);
+             CategoryType cat3 = GetCategoryByArea(dic, AreaNum.Area3);
 
-            CategoryType cat1 = GetCategoryByArea(dic, AreaNum.Area1);
-            CategoryType cat2 = GetCategoryByArea(dic, AreaNum.Area2);
-            CategoryType cat3 = GetCategoryByArea(dic, AreaNum.Area3);
+             if (standArea1Text != null) standArea1Text.SetText(cat1.ToString());
+             if (standArea2Text != null) standArea2Text.SetText(cat2.ToString());
+             if (standArea3Text != null) standArea3Text.SetText(cat3.ToString());
 
-            if (standArea1Text != null) standArea1Text.SetText(cat1.ToString());
-            if (standArea2Text != null) standArea2Text.SetText(cat2.ToString());
-            if (standArea3Text != null) standArea3Text.SetText(cat3.ToString());
-
-            Debug.Log($"[UI검증] Area1={cat1}, Area2={cat2}, Area3={cat3}");
-            */
-            
-            standArea1Text.SetText(area1Stand.CategoryType.ToString());
-            standArea2Text.SetText(area2Stand.CategoryType.ToString());
-            standArea3Text.SetText(area3Stand.CategoryType.ToString());
+             Debug.Log($"[UI검증] Area1={cat1}, Area2={cat2}, Area3={cat3}");
         }
 
         // 카테고리 -> AreaNum 역방향 조회: AreaNum에 배정된 카테고리를 찾는다

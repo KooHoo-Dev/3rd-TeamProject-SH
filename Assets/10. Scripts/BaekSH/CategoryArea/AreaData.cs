@@ -18,7 +18,7 @@ namespace TeamSH
         {
             Debug.Log($"[AreaData AddItems] : {items.Count} items");
             DataManager dataManager = DataManager.Instance;
-            List<ItemDef> itemDefs = new();
+            // List<ItemDef> itemDefs = new(); ?
             for (int i = 0; i < items.Count; i++)
             {
                 ItemIdBuffer.Add(items[i]);
@@ -26,7 +26,6 @@ namespace TeamSH
                 Debug.Log($"[AreaData AddItems] : {itemDef.ItemName} / {itemDef.CategoryType}");
                 ItemBuffers.Add(itemDef);
             }
-            
         }
     }
 }
