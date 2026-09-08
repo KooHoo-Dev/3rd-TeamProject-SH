@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 4492451803100732366}
   - component: {fileID: 5176944700833307204}
   m_Layer: 0
-  m_Name: Chair3
+  m_Name: Chair4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 3749398487620413585}
   - component: {fileID: 3135931275773720702}
   m_Layer: 0
-  m_Name: Chair2
+  m_Name: Chair3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1367,7 +1367,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6307795274369003963}
-  - component: {fileID: 8207482936766046839}
   m_Layer: 0
   m_Name: Chairs
   m_TagString: Untagged
@@ -1389,29 +1388,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4237976347529991360}
+  - {fileID: 6833209851253991452}
   - {fileID: 1905493740136382567}
   - {fileID: 1877187091442651201}
-  - {fileID: 6833209851253991452}
   m_Father: {fileID: 546979148104580518}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8207482936766046839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5903531854072782814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0398f4367402b1046bb57ae81ad59d02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaekSH.ChairManager
-  sittingPoints:
-  - {fileID: 5608969927055097257}
-  - {fileID: 2619308233738993224}
-  - {fileID: 5194963843872676842}
-  - {fileID: 7638698494037611582}
-  character: {fileID: 0}
 --- !u!1 &6207611773102023809
 GameObject:
   m_ObjectHideFlags: 0
@@ -1674,7 +1655,7 @@ GameObject:
   - component: {fileID: 4410342507807441366}
   - component: {fileID: 4723011499409321468}
   m_Layer: 0
-  m_Name: Chair4
+  m_Name: Chair2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

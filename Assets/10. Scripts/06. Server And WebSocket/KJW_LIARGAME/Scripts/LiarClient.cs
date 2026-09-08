@@ -176,7 +176,14 @@ namespace TeamSH
         public IReadOnlyList<string> SpecialChatLog => specialChatLog;
 
         // 맨 처음 씬 이름. activeContentScene의 시작값으로 쓴다.
-        private const string BootScene = "LIARGAME_Lobby";
+        private const string BootScene = "00. LobbyRoom";
+        public const string LOBBYSCENE = "00. LobbyRoom";
+        public const string CONFERENCESCENE = "01. MeetingRoom";
+        public const string MARTSCENE = "02. Mart";
+
+        public const string READYSTATE = "GameReady";
+        public const string MEETINGSTATE = "applyMeeting";
+        public const string MARTSTATE = "applyMart";
 
         // 지금 추가로 떠 있는 씬 이름
         private string activeContentScene;
@@ -196,13 +203,13 @@ namespace TeamSH
         private readonly SemaphoreSlim sendLock = new SemaphoreSlim(1, 1);
 
         #region 라이어 게임 필드
-
+        
         // NewGameConfig 저장할 클래스 (아직 쓴적 없음, 아마 라운드 지나갈때마다 라운드 표시 UI로 쓸 수 있을듯)
         public NewGameConfig NewGameConfig;
 
         // 동적으로 변하는 플레이어 상태
         public PlayerState PlayerState = new PlayerState();
-
+  
         // 서버한테 메세지 받을때마다 갱신되는 정보
 
         // 메세지로 받은 현재 페이즈 (처음엔 null값, Enum은 값타입이라 null을 못가져서 ? 붙여서 null 가질수 있게함)
@@ -321,9 +328,10 @@ namespace TeamSH
                 }
             }
             userOrder.Add(Me.Id);
+            DoResponseAll(); // 플레이어위치 변경
             // [변경] 컬러도 함께 넘김
             localPlayer.Setup(Me, (colorSet.GetColor(Me.Id)));
-            DoSetPlayer("GameReady");
+            DoSetPlayer(MEETINGSTATE);
 
             Debug.Log($"[방] {RoomCode} 에 들어왔다. 내 번호는 {Me.Id}, 이미 {message.Users.Length}명 있다");
 
@@ -339,7 +347,7 @@ namespace TeamSH
             userOrder.Add(message.User.Id); // 순서 리스트에 추가
 
             Spawn(message.User);
-            DoSetPlayer("GameReady");
+            DoSetPlayer(MEETINGSTATE);
 
             Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
 
@@ -405,9 +413,6 @@ namespace TeamSH
             genre = ""; //장르 초기화
             keyWord = ""; //키워드 초기화
             LobbyUIManager.Instance?.RefreshRoomInfo(); // 방 시작 시 정보 갱신
-            DoSetPlayer("GameReady"); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
-            
-            
         }
 
         private void OnGameStartState(float timerMs, int cycle, int round)
@@ -417,10 +422,10 @@ namespace TeamSH
 
         private async UniTask OnGameStartStateAsync(float timerMs, int cycle, int round)
         {
-            await DoLoadScene("00. MeetingRoom"); // 게임 시작하면 회의실로 이동
+            await DoLoadScene(CONFERENCESCENE); // 게임 시작하면 회의실로 이동
          
             DoSetPhase(TurnMessageType.GameStartState, timerMs, cycle, round);
-            DoSetPlayer("applyMeeting"); // 회의실에 앉은 상태
+            DoSetPlayer(MEETINGSTATE); // 회의실에 앉은 상태
             CommonUIManager.Instance?.ShowTimer(); // 타이머 보여줌
         }
 
@@ -461,8 +466,8 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.MartEnterState, timerMs, cycle, round);
             CommonUIManager.Instance?.HideChat(); // 마트 진입시 채팅창 숨김
             CommonUIManager.Instance?.HideKeywordReveal(); // 마트 진입하면 키워드 공개 끔
-            await DoLoadScene("02. NewMart");
-            DoSetPlayer("GameReady");
+            await DoLoadScene(MARTSCENE);
+            DoSetPlayer(READYSTATE);
             await UniTask.WaitUntil(() => DisplayStandManager.Instance != null && DisplayStandManager.Instance.IsReady);
 
             for (int i = 0; i < allCategoryItemArrays.Length; i++)
@@ -476,7 +481,7 @@ namespace TeamSH
         private void OnMartMoveState(float timerMs, int cycle, int round)
         {
             DoSetPhase(TurnMessageType.MartMoveState, timerMs, cycle, round);
-            DoSetPlayer("applyMart"); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
+            DoSetPlayer(MARTSTATE); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
         }
 
         // 로컬 유저가 가진 아이템 리스트
@@ -532,8 +537,8 @@ namespace TeamSH
             Debug.Log(string.Join(",", MeItemList));
 
             // 씬 이동을 먼저 끝내고, 그 다음에 UI를 켠다 (MeetingRoomUIManager가 씬에 있어야 호출이 먹힘) 
-            DoSetPlayer("applyMeeting"); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
-            await DoLoadScene("00. MeetingRoom"); 
+            DoSetPlayer(MEETINGSTATE); //모든 플레이어 설정변경: ex)마트 무브x, 회의실 무브O
+            await DoLoadScene(CONFERENCESCENE); 
 
             CommonUIManager.Instance?.ShowChat(); // 마트 복귀할때 채팅 켜짐
             CommonUIManager.Instance?.EnableTabInfo(); // tab키 정보창은 마트가 아니라 미팅룸 복귀 시점부터 활성화
@@ -841,9 +846,9 @@ namespace TeamSH
 
             LightManager.Instance?.TurnOffWinners(); // 로비 이동하기 전에 다 끔
 
-            await DoLoadScene("LIARGAME_Lobby");
+            await DoLoadScene(LOBBYSCENE);
             CommonUIManager.Instance?.HideTimer(); 
-            DoSetPlayer("GameReady");
+            DoSetPlayer(READYSTATE);
         }
 
         #region 투표 처리
@@ -1010,17 +1015,13 @@ namespace TeamSH
         {
             // 이미 있으면 만들지 않는다. welcome 과 join 이 겹칠 수 있다.
             if (remotes.ContainsKey(user.Id)) return;
-            Debug.Log("[LiarClient] 스폰 시작");
             RemotePlayer remote = Instantiate(remotePrefab, Vector3.zero, Quaternion.identity);
-            Debug.Log("[LiarClient] 생성 시작");
 
             remote.Setup(user, colorSet.GetColor(user.Id));   // [변경] 컬러 전달
 
             remotes[user.Id] = remote;
-            Debug.Log("[LiarClient] 정보 입력");
             // 이미 마트/회의실에 들어와 있는 상태라면 새로 들어온 사람까지 포함해서 즉시 재배치
             DoResponseAll();
-            Debug.Log("[LiarClient] 스폰 완료");
         }
 
         #endregion
@@ -1117,11 +1118,14 @@ namespace TeamSH
 
             switch (activeContentScene)
             {
-                case "02. NewMart":
-                    spawnPoints = MartManager.Instance.userSpawnPoints;
+                case "00. LobbyRoom":
+                    spawnPoints = LobbyManager.Instance.userSpawnPoints;
                     break;
-                case "00. MeetingRoom":
+                case "01. MeetingRoom":
                     spawnPoints = ConferenceManager.Instance.userSpawnPoints;
+                    break;
+                case "02. Mart":
+                    spawnPoints = MartManager.Instance.userSpawnPoints;
                     break;
             }
 
