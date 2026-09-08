@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using Jay;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI; // new!!!!!
 
 namespace TeamSH
 {
@@ -48,6 +50,10 @@ namespace TeamSH
         [SerializeField] private AudioClip[] bgmClips;
         [SerializeField] private AudioClip[] sfxClips;
 
+        [Header("볼륨 스크롤바")] 
+        [SerializeField] private Scrollbar bgmSlider; 
+        [SerializeField] private Scrollbar sfxSlider; 
+
         private Dictionary<GameBGM, AudioClip> bgmDict;
         private Dictionary<GameSfx, AudioClip> sfxDict;
 
@@ -59,8 +65,15 @@ namespace TeamSH
                 DontDestroyOnLoad(gameObject);
             }
             else Destroy(gameObject);
-            
+
             InitDictionaries();
+
+
+            bgmVolume = bgmAudioSource.volume; 
+            sfxVolume = sfxAudioSource.volume; 
+
+            if (bgmSlider != null) bgmSlider.value = bgmVolume;
+            if (sfxSlider != null) sfxSlider.value = sfxVolume; 
         }
         
         // 딕셔너리 초기화
@@ -116,6 +129,23 @@ namespace TeamSH
         public void PauseBGM()
         {
             bgmAudioSource.Pause();
+        }
+        
+        // BGM, SFX
+        private float bgmVolume;
+        private float sfxVolume;
+
+        // BGM 조절
+        public void SetBGMVolume(float volume) 
+        {
+            bgmVolume = volume; 
+            bgmAudioSource.volume = bgmVolume; 
+        }
+        // SFX 조절
+        public void SetSfxVolume(float volume) 
+        {
+            sfxVolume = volume; 
+            sfxAudioSource.volume = sfxVolume; 
         }
 
     }

@@ -30,6 +30,10 @@ namespace TeamSH
                 infoOverlayPanel.SetActive(false);
                 chatGroup.SetActive(false);
                 keywordRevealPanel.SetActive(false);
+                
+                // 볼륨 설정 버튼 추가
+                volumeButton.onClick.AddListener(ActiveVolumePanel);
+                volumePanel.SetActive(false);
             }
             else
             {
@@ -72,7 +76,21 @@ namespace TeamSH
                 chatInput.ActivateInputField();
                 chatInput.Select();
             }
+
+            volumePanel.SetActive(IsVolumeButtonPressed); // bool값이 true일때만 .SetActive(true)
         }
+
+        #region 볼륨 조절
+
+        [Header("볼륨 조절")] 
+        [SerializeField] private Button volumeButton;
+
+        [SerializeField] private GameObject volumePanel;
+
+        private bool IsVolumeButtonPressed = false; // 초기값은 false
+        private void ActiveVolumePanel() => IsVolumeButtonPressed = !IsVolumeButtonPressed; // 누를때마다 bool값 바뀜
+
+        #endregion
 
         #region 타이머
 
