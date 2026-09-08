@@ -559,7 +559,7 @@ namespace TeamSH
             CommonUIManager.Instance?.ShowChat(); // 마트 복귀할때 채팅 켜짐
             CommonUIManager.Instance?.EnableTabInfo(); // tab키 정보창은 마트가 아니라 미팅룸 복귀 시점부터 활성화
             MeetingRoomUIManager.Instance?.ShowQuestResult(QuestSuccess); // 퀘스트 성공/실패 UI
-            MeetingRoomUIManager.Instance?.ShowGenreKeyword(); // 장르/키워드 상시표시 시작 
+            MeetingRoomUIManager.Instance?.ShowGenreKeyword(Genre, Keyword); // 장르/키워드 상시표시 시작 
             
             // 퀘스트에 성공할 시 QuestClear, 퀘스트에 실패할 시 QuestFail SFX 활성화
             SoundManager.Instance?.PlaySfx(QuestSuccess ? SoundManager.GameSfx.QuestClear : SoundManager.GameSfx.QuestFail);

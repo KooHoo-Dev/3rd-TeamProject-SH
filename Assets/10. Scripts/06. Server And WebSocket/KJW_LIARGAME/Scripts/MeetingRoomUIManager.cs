@@ -44,11 +44,11 @@ namespace TeamSH
         [SerializeField] private TextMeshProUGUI keywordOpenText;
         
         // OnMartReturnState에서 호출
-        public void ShowGenreKeyword() 
+        public void ShowGenreKeyword(string genre, string keyword) 
         {
             genreKeywordPanel.SetActive(true); 
-            genreOpenText.text = $"장르 : {client.Genre}"; 
-            keywordOpenText.text = $"키워드 : {client.Keyword}"; 
+            genreOpenText.text = $"장르 : {genre}"; 
+            keywordOpenText.text = $"키워드 : {keyword}"; 
         }
 
         // OnScoreTallyEndState에서 호출
