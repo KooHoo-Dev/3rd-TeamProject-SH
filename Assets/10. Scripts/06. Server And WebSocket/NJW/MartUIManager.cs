@@ -39,6 +39,7 @@ namespace TeamSH
         {
             categoryText = categorysUI.GetComponentsInChildren<TextMeshProUGUI>();
             itemText = itemsUI.GetComponentsInChildren<TextMeshProUGUI>();
+            selectMartItemUI.SetActive(false);
         }
         
         public void ApplySelectMartItemUI(bool isShow, List<MartItem> playerItems)
