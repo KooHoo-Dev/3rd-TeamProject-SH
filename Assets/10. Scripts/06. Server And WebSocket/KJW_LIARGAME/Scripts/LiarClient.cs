@@ -334,6 +334,7 @@ namespace TeamSH
                 }
             }
             userOrder.Add(Me.Id);
+            
             DoResponseAll(); // 플레이어위치 변경
             // [변경] 컬러도 함께 넘김
             localPlayer.Setup(Me, (colorSet.GetColor(Me.Id)));
@@ -894,7 +895,7 @@ namespace TeamSH
 
             await DoLoadScene(LOBBYSCENE);
             CommonUIManager.Instance?.HideTimer(); 
-            DoSetPlayer(READYSTATE);
+            DoSetPlayer(MEETINGSTATE);
             
             SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
             SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.Lobby); // 로비 BGM 활성화
@@ -1161,7 +1162,7 @@ namespace TeamSH
                 if (int.TryParse(a, out int idA) && int.TryParse(b, out int idB))
                     return idA.CompareTo(idB);
                 return string.CompareOrdinal(a, b);
-            }); // 위치바꾸기?
+            }); // userOrder 오름차순 정렬
 
             Transform[] spawnPoints = new Transform[userOrder.Count];
 

@@ -163,7 +163,5 @@ namespace TeamSH
             // LiarClient를 통해 서버로 전송
             LiarClient.Instance.RequestSelectMessage(message);
         }
-        
-        
     }
 }

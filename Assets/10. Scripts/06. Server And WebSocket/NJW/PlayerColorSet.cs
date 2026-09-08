@@ -63,6 +63,13 @@ namespace TeamSH
             if (string.IsNullOrEmpty(id) || palette == null || palette.Length == 0)
                 return Color.white;
             
+            LiarClient.Instance.userOrder.Sort((a, b) =>
+            {
+                if (int.TryParse(a, out int idA) && int.TryParse(b, out int idB))
+                    return idA.CompareTo(idB);
+                return string.CompareOrdinal(a, b);
+            }); // userOrder 오름차순 정렬
+            
             int orderIndex = -1;
             for (int i = 0; i < LiarClient.Instance.userOrder.Count; i++)
                 if (LiarClient.Instance.userOrder[i] == id) orderIndex = i;
