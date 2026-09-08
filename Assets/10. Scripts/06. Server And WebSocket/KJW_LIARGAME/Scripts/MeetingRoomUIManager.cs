@@ -166,7 +166,7 @@ namespace TeamSH
         {
             HideAllPanels();
             speechEndPanel.SetActive(true);
-            speechEndText.text = $"{(speakerNickname + " : " + RichTextUtils.ToColoredRichText(specialChat, client.colorSet.GetColor(client.Me.Id)))}";
+            speechEndText.text = $"{(RichTextUtils.ToColoredRichText(speakerNickname + " : " + specialChat, client.colorSet.GetColor(client.Me.Id)))}";
         }
 
         #endregion

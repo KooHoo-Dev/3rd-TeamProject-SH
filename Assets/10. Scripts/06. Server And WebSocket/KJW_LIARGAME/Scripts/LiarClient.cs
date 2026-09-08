@@ -312,9 +312,6 @@ namespace TeamSH
             
             // 마트 카메라 추적 로직 중 Target이 오브젝트 이름으로 추적함
             localPlayer.gameObject.name = "Player";
-            
-            // [변경] 컬러도 함께 넘김
-            //localPlayer.Setup(Me, ColorOf(Me.Id));
 
             // 누가 들어올때마다 순서 초기화하고처음부터 다시세운다.
             userOrder.Clear();
@@ -328,27 +325,13 @@ namespace TeamSH
                 foreach (User user in message.Users)
                 {
                     userOrder.Add(user.Id);
+                    userOrder.Sort((a, b) => string.CompareOrdinal(a, b));
                     Spawn(user);
                 }
             }
-            userOrder.Sort((a, b) => { return string.CompareOrdinal(a, b); }); // userOrder 오름차순 정렬
-            DoResponseAll(); // 플레이어위치 변경
             localPlayer.Setup(Me);
-            
-            for (int i = 0; i < userOrder.Count; i++)
-            {
-                string id = userOrder[i];
-                Color assignedColor = colorSet.GetColor(id);
-
-                if (id == Me.Id)
-                {
-                    localPlayer.ApplyColor(assignedColor);
-                }
-                else if (remotes.TryGetValue(id, out RemotePlayer remote))
-                {
-                    remote.ApplyColor(assignedColor);
-                }
-            }
+            DoResponseAll(); // 플레이어위치 변경
+            DoRefreshAllPlayerColors();  // 정렬된 순서 기준으로 색상 일괄 적용
 
             DoSetPlayer(MEETINGSTATE);
 
@@ -367,8 +350,10 @@ namespace TeamSH
         private void OnJoin(JoinMessage message)
         {
             userOrder.Add(message.User.Id); // 순서 리스트에 추가
+            userOrder.Sort((a, b) => string.CompareOrdinal(a, b));
 
             Spawn(message.User);
+            DoRefreshAllPlayerColors();  //새로 들어온 사람을 포함해 전원 색상 재적용
             DoSetPlayer(MEETINGSTATE);
 
             Debug.Log($"[방] {message.User.NickName}({message.User.Id}) 이(가) 들어왔다");
@@ -1196,8 +1181,6 @@ namespace TeamSH
                     localPlayer.transform.position = pos;
                     localPlayer.Body.transform.position = pos;
                     localPlayer.Body.transform.rotation = rot;
-                    // 다음 SendLoop 틱을 기다리지 않고 재배치된 좌표를 즉시 한 번 더 전송
-                    SendAsync(new MoveMessage { Id = Me.Id, X = pos.x, Y = pos.y, Z = pos.z }).Forget();
                 }
                 else if (remotes.TryGetValue(id, out RemotePlayer remote))
                 {
@@ -1208,6 +1191,24 @@ namespace TeamSH
             }
         }
 
+        private void DoRefreshAllPlayerColors()
+        {
+            for (int i = 0; i < userOrder.Count; i++)
+            {
+                string id = userOrder[i];
+                Color color = colorSet.GetColor(id);
+
+                if (Me != null && id == Me.Id)
+                {
+                    localPlayer?.ApplyColor(color);
+                }
+                else if (remotes.TryGetValue(id, out RemotePlayer remote))
+                {
+                    remote.ApplyColor(color);
+                }
+            }
+        }
+        
         #endregion
 
         #region 클라이언트 -> 서버 (Request)
