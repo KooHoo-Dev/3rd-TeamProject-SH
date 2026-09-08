@@ -45,14 +45,11 @@ namespace TeamSH
         
         public void PlayPushAnimation() => remoteController.PlayPushAnimation();
 
-        public void Setup(User user, Color color)
+        public void Setup(User user)
         {
             User = user;
-            PlayerColor = color;
             PlayerState.Id = user.Id;
             label.text = $"{user.NickName} ({user.Id})";
-
-            ApplyColor(color);
             DontDestroyOnLoad(gameObject);
         }
         

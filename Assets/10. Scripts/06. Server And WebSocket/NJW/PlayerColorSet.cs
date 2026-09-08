@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace TeamSH
 {
@@ -64,8 +65,11 @@ namespace TeamSH
                 return Color.white;
             
             int orderIndex = -1;
-            for (int i = 0; i < LiarClient.Instance.userOrder.Count; i++)
-                if (LiarClient.Instance.userOrder[i] == id) orderIndex = i;
+            
+            List<string> userOrder = LiarClient.Instance.userOrder;
+                
+            for (int i = 0; i < userOrder.Count; i++)
+                if (userOrder[i] == id) orderIndex = i;
             
             if (orderIndex < 0) return Color.white;
 
