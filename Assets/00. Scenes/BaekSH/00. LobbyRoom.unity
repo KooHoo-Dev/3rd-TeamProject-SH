@@ -210,6 +210,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CommonUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3548544798737560072, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4894597519621791512, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_Pivot.x
       value: 0
