@@ -1551,7 +1551,7 @@ namespace TeamSH
                 if (localPlayer == null) continue;
 
                 // 마트아니면 이동좌표 안보냄(테스트 용)
-                if (activeContentScene != "02. NewMart") continue;
+                if (activeContentScene != MARTSCENE) continue;
                 
                 Vector3 position = localPlayer.transform.position;
                 await SendAsync(new MoveMessage { Id = Me.Id, X = position.x, Y = position.y, Z = position.z });
