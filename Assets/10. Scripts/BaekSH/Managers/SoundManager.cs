@@ -5,8 +5,7 @@ using UnityEngine.Serialization;
 
 namespace TeamSH
 {
-    // 싱글톤 오브젝트로 변경했습니다.
-    public class SoundManager : SingletonBase<SoundManager>
+    public class SoundManager : MonoBehaviour
     {
         public static SoundManager Instance;
         
@@ -107,13 +106,13 @@ namespace TeamSH
         }
 
         // 오디오 초기화
-        public void StopBGM(GameBGM bgm)
+        public void StopBGM()
         {
             audioSource.Stop(); 
         }
 
         // 오디오 일시정지
-        public void PauseBGM(GameBGM bgm)
+        public void PauseBGM()
         {
             audioSource.Pause();
         }

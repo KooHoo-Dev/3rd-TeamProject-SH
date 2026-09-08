@@ -353,7 +353,8 @@ namespace TeamSH
 
             ReadyCount = message.ReadyCount;
             LobbyUIManager.Instance?.RefreshRoomInfo(); // 방 정보 갱신
-            
+
+            SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
             SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.Lobby); // 로비 BGM
         }
 
@@ -473,6 +474,8 @@ namespace TeamSH
             Keyword = DataManager.Instance.GetKeyWordDef(keywordId).KeywordName;
             this.keyWord = Keyword; // 헷갈려서 this붙임
             CommonUIManager.Instance?.ShowKeywordReveal(Genre, Keyword, round, NewGameConfig.MaxRound); // commonUIManager로 옮김
+            
+            SoundManager.Instance?.PlaySfx(SoundManager.GameSfx.GetGenreKeyword); // 장르 + 키워드 받을 때 생성됨
         }
 
         private void OnMartEnterState(float timerMs, int cycle, int round, string questId, CategoryItemArray[] allCategoryItemArrays) 
@@ -495,6 +498,9 @@ namespace TeamSH
             MartQuestManager.Instance.SetPlayerMartQuest(targetItemId);
             MartManager.Instance.SetMartCategoryStand();
             MartManager.Instance.SetGenreAndKeyword(genre, keyWord);
+            
+            SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
+            SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.Mart); // 마트 BGM 활성화
             
         }
         private void OnMartMoveState(float timerMs, int cycle, int round)
@@ -563,6 +569,12 @@ namespace TeamSH
             CommonUIManager.Instance?.EnableTabInfo(); // tab키 정보창은 마트가 아니라 미팅룸 복귀 시점부터 활성화
             MeetingRoomUIManager.Instance?.ShowQuestResult(QuestSuccess); // 퀘스트 성공/실패 UI
             MeetingRoomUIManager.Instance?.ShowGenreKeyword(); // 장르/키워드 상시표시 시작 
+            
+            // 퀘스트에 성공할 시 QuestClear, 퀘스트에 실패할 시 QuestFail SFX 활성화
+            SoundManager.Instance?.PlaySfx(QuestSuccess ? SoundManager.GameSfx.QuestClear : SoundManager.GameSfx.QuestFail);
+            
+            SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
+            SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.LiarGameBasic); // 회의실 기본 BGM 활성화
         }
 
         // 현재 발언자
@@ -654,6 +666,9 @@ namespace TeamSH
             LightManager.Instance?.TurnOnFocusTable();
             
             MeetingRoomUIManager.Instance?.ShowPointAtNotice(); // 라이어 지목 공지 UI
+            
+            SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
+            SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.LiarGameVoteOrPoint); // 지목 BGM 활성화
         }
 
         private void OnPointAtSuspectEndState(float timerMs, int cycle, int round, string mostSelectedId)
@@ -687,6 +702,9 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.DebateTimeState, timerMs, cycle, round);
             Debug.Log("변론 단계 시작");
             MeetingRoomUIManager.Instance?.ShowDebateNotice(GetNickName(MostSelectId)); // 변론중인 사람 닉네임
+            
+            SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
+            SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.LiarGameBasic); // 회의실 기본 BGM
         }
 
         private void OnDebateEndState(float timerMs, int cycle, int round)
@@ -706,6 +724,9 @@ namespace TeamSH
 
             // 턴 패널 비활성화
             MeetingRoomUIManager.Instance?.ClearTurnNotices(); 
+            
+            SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
+            SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.LiarGameVoteOrPoint); // 투표 BGM
         }
 
         private void OnVoteEndState(float timerMs, int cycle, int round)
@@ -730,6 +751,11 @@ namespace TeamSH
             
             LightManager.Instance?.TurnOnLiar(GetPointPivot(LiarId)); // 라이어 조명 포커싱
             MeetingRoomUIManager.Instance?.ShowLiarConfirmed(GetNickName(MostSelectId), GetNickName(LiarId)); 
+            
+            // 확정된 유저의 ID와 실제 라이어의 ID가 동일하지 않을 시의 추정 실패 SFX 
+            if (MostSelectId != LiarId) SoundManager.Instance?.PlaySfx(SoundManager.GameSfx.LiarConfirmedFail);
+            
+            SoundManager.Instance?.PlaySfx(SoundManager.GameSfx.LiarRevealed); // 라이어 공개 SFX
         }
 
         private void OnLiarKeywordGuessState(float timerMs, int cycle, int round)
@@ -747,6 +773,8 @@ namespace TeamSH
             
             LightManager.Instance?.TurnOnLiar(GetPointPivot(liarId)); // 라이어 조명 포커싱
             MeetingRoomUIManager.Instance?.ShowLiarOutAnnounce(GetNickName(liarId)); // 라이어의 라밍아웃 버튼 누름 공지
+            
+            SoundManager.Instance?.PlaySfx(SoundManager.GameSfx.LiarOutSuccess); // 라이어가 라밍아웃 버튼을 누를 때 SFX
         }
 
         // 라이어의 키워드 맞춤 상태에서 라이어의 첫 채팅이 키워드채팅. 
@@ -791,6 +819,8 @@ namespace TeamSH
             MeetingRoomUIManager.Instance?.ShowKeywordGuessResult(KeywordChatText, liarKeyword, normalKeyword); // 라이어의 키워드채팅, 라이어 키워드, 시민 키워드
             MeetingRoomUIManager.Instance?.ShowScoreTally(); // 점수 공개
             MeetingRoomUIManager.Instance?.HideGenreKeyword(); // 장르/키워드 상시표시 종료 
+            
+            SoundManager.Instance?.PlaySfx(SoundManager.GameSfx.ScoreTally); // 점수 공개 SFX
         }
 
         private void OnScoreTallyState(float timerMs, int cycle, int round, string[] liarOutButtonInfo,
@@ -812,6 +842,8 @@ namespace TeamSH
             
             MeetingRoomUIManager.Instance?.ClearTurnNotices(); // 모든 UI 끄기
             MeetingRoomUIManager.Instance?.ShowScoreTally(); // 점수 공개
+            
+            SoundManager.Instance?.PlaySfx(SoundManager.GameSfx.ScoreTally); // 점수 공개 SFX
         }
 
         private void OnScoreTallyEndState(float timerMs, int cycle, int round)
@@ -835,6 +867,10 @@ namespace TeamSH
 
             LightManager.Instance?.TurnOnWinners(GetPointPivot(WinnerUserID)); // 우승자 조명 강조
             MeetingRoomUIManager.Instance?.ShowWinOrDefeat(WinnerUserID.Contains(Me.Id)); // 승리 or 패배
+            
+            SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
+            // 우승자 ID중에 내 ID가 포함되어 있다면 Victory, 아니면 Defeat 사운드를 활성화한다.
+            SoundManager.Instance?.PlayBGM((WinnerUserID.Contains(Me.Id)) ? SoundManager.GameBGM.Victory : SoundManager.GameBGM.Defeat);
         }
 
         private void OnFinalResultEndState(float timerMs, int cycle, int round) 
@@ -869,6 +905,9 @@ namespace TeamSH
             await DoLoadScene("LIARGAME_Lobby");
             CommonUIManager.Instance?.HideTimer(); 
             DoSetPlayer("GameReady");
+            
+            SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
+            SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.Lobby); // 로비 BGM 활성화
         }
 
         #region 투표 처리
