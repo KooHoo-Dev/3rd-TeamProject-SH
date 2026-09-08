@@ -57,7 +57,7 @@ namespace TeamSH
             if (joinGroup.activeSelf)
             {
                 joinButton.interactable = client.IsBusy == false;
-                joinButtonLabel.text = client.IsBusy ? "들어가는 중…" : "Enter";
+                joinButtonLabel.text = client.IsBusy ? "들어가는 중…" : "들어가기";
             }
             
         }
@@ -80,7 +80,7 @@ namespace TeamSH
         [SerializeField] private TextMeshProUGUI roomInfoLabel;
         [SerializeField] private Button gameStartButton;
         [SerializeField] private Button readyButton;
-        [SerializeField] private TMP_Text readyText;
+        [SerializeField] private GameObject readyText;
         [SerializeField] private TMP_Text readyCountText;
 
         private void OnJoinButtonClicked()
@@ -90,7 +90,7 @@ namespace TeamSH
 
         public void OnReadyButtonClicked()
         {
-            readyText.gameObject.SetActive(true);
+            readyText.SetActive(true);
             readyButton.gameObject.SetActive(false);
             client.RequestReadyMessage();
         }
