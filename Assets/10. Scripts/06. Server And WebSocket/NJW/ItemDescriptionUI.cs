@@ -40,7 +40,6 @@ namespace TeamSH
             itemCategoryText.SetText($"{item.itemDef.CategoryType}");
             itemNameText.SetText($"{item.itemDef.ItemName}");
             gameObject.SetActive(true);
-
             Follow();
         }
 

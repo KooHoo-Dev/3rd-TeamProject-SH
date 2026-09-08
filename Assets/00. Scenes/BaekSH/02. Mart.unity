@@ -3735,11 +3735,12 @@ MonoBehaviour:
   itemsUI: {fileID: 1008350696230345248}
   genreText: {fileID: 792668629}
   keywordText: {fileID: 1800640903}
-  standUI: {fileID: 1254861428}
-  standUIText: []
   standArea1Text: {fileID: 1726266629}
   standArea2Text: {fileID: 1727136568}
   standArea3Text: {fileID: 1309174000}
+  area1Stand: {fileID: 8892422866158722405}
+  area2Stand: {fileID: 8892422866158722404}
+  area3Stand: {fileID: 8892422866158722401}
   questDescriptionText: {fileID: 1604969423}
   itemDescriptionUI: {fileID: 423827504}
   itemCategoryText: {fileID: 1372610907}
@@ -3881,6 +3882,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8892422866158722403}
   m_SourcePrefab: {fileID: 100100000, guid: 3bdfb37cf5c5aed40b0514166d422cfe, type: 3}
+--- !u!114 &8892422866158722401 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6921121447755328909, guid: 3bdfb37cf5c5aed40b0514166d422cfe, type: 3}
+  m_PrefabInstance: {fileID: 8892422866158722400}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6139b22e8bad1748a6e2068bb138609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisplayStand
 --- !u!1 &8892422866158722402 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3426774842816602061, guid: 3bdfb37cf5c5aed40b0514166d422cfe, type: 3}
@@ -3898,6 +3910,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b590556c83b54c589707d7199e48b913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamSH.BagArea
+--- !u!114 &8892422866158722404 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 180662635299960951, guid: 3bdfb37cf5c5aed40b0514166d422cfe, type: 3}
+  m_PrefabInstance: {fileID: 8892422866158722400}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6139b22e8bad1748a6e2068bb138609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisplayStand
+--- !u!114 &8892422866158722405 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3709696860351448534, guid: 3bdfb37cf5c5aed40b0514166d422cfe, type: 3}
+  m_PrefabInstance: {fileID: 8892422866158722400}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6139b22e8bad1748a6e2068bb138609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisplayStand
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

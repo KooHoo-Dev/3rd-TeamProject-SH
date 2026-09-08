@@ -214,20 +214,26 @@ public class DisplayStandManager : MonoBehaviour
         {
             currentCategoryTypes[i] = categoryItemArrays[i].Category;
         }
+        
         SetCategoryAllArea(currentCategoryTypes);
+        
         for(int i = 0; i < currentCategoryTypes.Length; i++)
         {
-            AreaData area = Areas[(int)CategoryDic[currentCategoryTypes[i]]];
+            int areDataIdx = (int)CategoryDic[currentCategoryTypes[i]];
+            Debug.Log($"[DisplayStandManager] : Setting item ID buffer for area {areDataIdx} with category {currentCategoryTypes[i]}.");
+            
             List<int> intIds = new List<int>();
-            Debug.Log($"[DisplayStandManager] : Setting item ID buffer for area {CategoryDic[currentCategoryTypes[i]]} with category {currentCategoryTypes[i]}.");
             for(int j = 0; j < categoryItemArrays[i].ItemIds.Length; j++)
             {
-                Debug.Log($"[DisplayStandManager] : Adding item ID {categoryItemArrays[i].ItemIds[j]} to buffer for area {CategoryDic[currentCategoryTypes[i]]}.");
-                intIds.Add(int.Parse(categoryItemArrays[i].ItemIds[j]));
+                int itemId = int.Parse(categoryItemArrays[i].ItemIds[j]);
+                Debug.Log($"[DisplayStandManager] : Adding item ID {itemId} to buffer for area {areDataIdx}.");
+                intIds.Add(itemId);
             }
-            Areas[(int)CategoryDic[currentCategoryTypes[i]]].AddItems(intIds);
-            area.ItemIdBuffer = intIds;
+            
+            AreaData area = Areas[areDataIdx];
+            area.AddItems(intIds);
         }
+        
         int count = 0;
         foreach (var CategoryType in currentCategoryTypes)
         {
@@ -244,15 +250,10 @@ public class DisplayStandManager : MonoBehaviour
             {
                 SetCategoryItemInStand(area.DisplayStands[j]);
             }
-
             count++;
         }
         
         IsFinishSetItem = true;
-        foreach (KeyValuePair<CategoryType, AreaNum> pair in CategoryDic)
-        {
-            Debug.Log($"[DisplayStandManger][CategoryDic] 카테고리: {pair.Key} ---> 구역: {pair.Value}");
-        }
     }
 
 

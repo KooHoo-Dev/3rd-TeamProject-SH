@@ -25,6 +25,7 @@ namespace TeamSH
             if (canMove == false) return; // 이동 불가 상태(회의실 등)에서는 애니메이션도 재생하지 않음
             Animator.SetLayerWeight(1, 1);
             Animator.SetTrigger(IS_PUSH);
+            SoundManager.Instance.PlaySfx(SoundManager.GameSfx.PlayerPush);
         }
 
         public void ApplyReadyPlayer()

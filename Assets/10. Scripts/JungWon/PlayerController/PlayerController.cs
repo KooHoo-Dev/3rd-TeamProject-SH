@@ -86,12 +86,14 @@ namespace TeamSH
         {
             Animator.SetLayerWeight(1,1);
             Animator.SetBool(GET_ITEM, true);
+            SoundManager.Instance.PlaySfx(SoundManager.GameSfx.ItemPickUp);
         }
 
         private void PutDownBox()
         {
             Animator.SetLayerWeight(0,0);
             Animator.SetBool(GET_ITEM, false);
+            SoundManager.Instance.PlaySfx(SoundManager.GameSfx.ItemPutDown);
         }
         
         public override void ApplyKnockback(Vector3 hitDirection, float power)
