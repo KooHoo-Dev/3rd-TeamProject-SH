@@ -105,8 +105,8 @@ namespace TeamSH
             HideAllPanels();
 
             speakerNoticePanel.SetActive(true);
-            speakerNoticeText.text = $"현재 발언자는 {speakerNickname} 입니다.\n" +
-                                      $"{speakerNickname}가 소유한 아이템은 {itemName} 입니다.\n" +
+            speakerNoticeText.text = $"현재 발언자는 {speakerNickname} 님입니다.\n" +
+                                      $"{speakerNickname} 님이 소개하는 아이템은 {itemName} 입니다.\n" +
                                       $"현재 카테고리 : {category} (사이클 {cycle} / {maxCycle})";
         }
 
@@ -144,7 +144,7 @@ namespace TeamSH
         {
             HideAllPanels(); // 이전 패널 다 끔
             liarOutButtonResultPanel.SetActive(true);
-            liarOutButtonResultText.text = $"라이어 {liarNickname}이(가) 라밍아웃 버튼을 눌렀습니다.";
+            liarOutButtonResultText.text = $"라이어 {liarNickname} 님이 라밍아웃 버튼을 눌렀습니다.";
         }
 
         // 라이어가 아닌 내가 버튼을 눌렀을 때 (나에게만 즉시 표시, 서버 응답 필요 없음)
@@ -194,7 +194,7 @@ namespace TeamSH
             pointAtResultPanel.SetActive(true);
             pointAtResultText.text = string.IsNullOrEmpty(mostVotedNickname)
                 ? "지목이 스킵되었습니다."
-                : $"가장 많이 지목받은 사람은 {mostVotedNickname} 입니다.";
+                : $"가장 많이 지목받은 사람은 {mostVotedNickname} 님입니다.";
         }
 
         #endregion
@@ -213,7 +213,7 @@ namespace TeamSH
         {
             HideAllPanels();
             debateNoticePanel.SetActive(true);
-            debateNoticeText.text = $"현재 {debaterNickname}가 변론중입니다.";
+            debateNoticeText.text = $"현재 {debaterNickname} 님이 변론중입니다.";
         }
 
         public void ShowDebateEndNotice()
@@ -240,8 +240,8 @@ namespace TeamSH
             HideAllPanels();
             liarConfirmedPanel.SetActive(true);
 
-            if (mostSelectNickname == liarNickname) liarConfirmedText.text = $"{mostSelectNickname}는 라이어가 맞습니다";
-            else liarConfirmedText.text = $"{mostSelectNickname}은 라이어가 아닙니다.\n라이어는 {liarNickname} 입니다";
+            if (mostSelectNickname == liarNickname) liarConfirmedText.text = $"{mostSelectNickname} 님은 라이어가 맞습니다";
+            else liarConfirmedText.text = $"{mostSelectNickname} 님은 라이어가 아닙니다.\n라이어는 {liarNickname} 님입니다";
         }
 
         public void ShowLiarGuessingNotice()
@@ -265,9 +265,9 @@ namespace TeamSH
         {
             HideAllPanels();
             keywordChatPanel.SetActive(true);
-            keywordChatText.text = $"라이어의 키워드 선택은 : {guessedKeyword}";
-            liarKeywordText.text = $"라이어의 키워드는 {liarKeyword} 입니다.";
-            userKeywordText.text = $"플레이어의 키워드는 {normalKeyword} 입니다.";
+            keywordChatText.text = $"라이어가 제출한 키워드는 {guessedKeyword}입니다.";
+            liarKeywordText.text = $"라이어의 키워드 : {liarKeyword}";
+            userKeywordText.text = $"플레이어의 키워드 : {normalKeyword}";
         }
 
         #endregion
@@ -281,7 +281,7 @@ namespace TeamSH
         public void ShowScoreTally()
         {
             scoreTallyPanel.SetActive(true);
-            scoreTallyText.text = "점수 목록\n" + string.Join("\n", client.GetScoreSorted());
+            scoreTallyText.text = "집계 결과\n" + string.Join("\n", client.GetScoreSorted());
         }
 
         public void HideScoreTally() => scoreTallyPanel.SetActive(false);
@@ -302,7 +302,7 @@ namespace TeamSH
         {
             HideAllPanels();
             winOrDefeatPanel.SetActive(true);
-            winOrDefeatText.text = isWinner ? "승리" : "패배";
+            winOrDefeatText.text = isWinner ? "당신의 승리입니다!" : "당신의 패배입니다...";
         }
 
         public void ShowFinalResult(List<string> winnerNicknames)
