@@ -62,13 +62,21 @@ namespace TeamSH
         {
             if (string.IsNullOrEmpty(id) || palette == null || palette.Length == 0)
                 return Color.white;
+            
+            int orderIndex = -1;
+            for (int i = 0; i < LiarClient.Instance.userOrder.Count; i++)
+            {
+                if (LiarClient.Instance.userOrder[i] == id) orderIndex = i;
+            }
+            
+            // userOrder에서 찾지 못했을 경우 폴백 처리 (기본 ID 해시 또는 흰색)
+            if (orderIndex < 0)
+            {
+                return Color.white;
+            }
 
-            int hash = 0;
-            foreach (char c in id) hash = hash * 31 + c;
-
-            // Mathf.Abs(int.MinValue)의 오버플로우 엣지케이스를 피하기 위해
-            // 부호 비트만 제거하는 방식 사용 (항상 0 이상 보장)
-            int idx = (hash & 0x7FFFFFFF) % palette.Length;
+            // 순서(0, 1, 2, 3)를 직접 팔레트 인덱스로 사용
+            int idx = orderIndex % palette.Length;
             return palette[idx];
         }
 
