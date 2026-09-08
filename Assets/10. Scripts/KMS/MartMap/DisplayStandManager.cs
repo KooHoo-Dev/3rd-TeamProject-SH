@@ -242,11 +242,7 @@ public class DisplayStandManager : MonoBehaviour
 
             for (int j = 0; j < area.DisplayStands.Count; j++)
             {
-                for (int k = 0; k < DisplayStand.ItemMaxCount; k++)
-                {
-                    SetCategoryItemInStand(area.DisplayStands[k]);
-
-                }
+                SetCategoryItemInStand(area.DisplayStands[j]);
             }
 
             count++;
