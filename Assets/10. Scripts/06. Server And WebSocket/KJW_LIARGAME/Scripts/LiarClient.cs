@@ -152,9 +152,6 @@ namespace TeamSH
         // 남들. 번호로 찾는다.
         // 리모트 유저의 ID : 리모트 유저의 프리팹
         public readonly Dictionary<string, RemotePlayer> remotes = new Dictionary<string, RemotePlayer>();
-
-        public string genre = "";
-        public string keyWord = "";
         
         // 화면에 그리는 일은 RoomLobby 가 한다. 여기는 선을 타는 일만 한다.
         public int RemoteCount => remotes.Count;
@@ -420,8 +417,6 @@ namespace TeamSH
             NewGameConfig = message.newGameConfig;
             IsGameStarted = true;
             UserScoreInfo = null; // 이전 게임 점수 초기화
-            genre = ""; //장르 초기화
-            keyWord = ""; //키워드 초기화
             LobbyUIManager.Instance?.RefreshRoomInfo(); // 방 시작 시 정보 갱신
         }
 
@@ -444,7 +439,6 @@ namespace TeamSH
         {
             DoSetPhase(TurnMessageType.GenreAssignAndLiarSelectState, timerMs, cycle, round, liarId);
             Genre = DataManager.Instance.GetGenreDef(genreId).GenreName;
-            this.genre = Genre; //장르 사용위해 저장 this는 분별용
             // 매 라운드 시작마다 오는 상태라 여기서도 켜준다.
             // 라운드 끝날 때 로비 경유하면서 HideTimer가 불려서 2라운드부턴 안 켜지던 버그
             CommonUIManager.Instance?.ShowTimer();
@@ -463,7 +457,6 @@ namespace TeamSH
 
             // 메세지로 온 키워드 ID 저장
             Keyword = DataManager.Instance.GetKeyWordDef(keywordId).KeywordName;
-            this.keyWord = Keyword; // 헷갈려서 this붙임
             CommonUIManager.Instance?.ShowKeywordReveal(Genre, Keyword, round, NewGameConfig.MaxRound); // commonUIManager로 옮김
             
             SoundManager.Instance?.PlaySfx(SoundManager.GameSfx.GetGenreKeyword); // 장르 + 키워드 받을 때 생성됨
@@ -488,7 +481,7 @@ namespace TeamSH
             await DisplayStandManager.Instance.SetItemIdBufferForArea(allCategoryItemArrays); // 배치(비동기) 완전 종료까지 대기
             MartQuestManager.Instance.SetPlayerMartQuest(targetItemId);
             MartManager.Instance.SetMartCategoryStand();
-            MartManager.Instance.SetGenreAndKeyword(genre, keyWord);
+            MartManager.Instance.SetGenreAndKeyword(Genre, Keyword);
             
             SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
             SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.Mart); // 마트 BGM 활성화
@@ -1154,18 +1147,6 @@ namespace TeamSH
 
         private void DoResponseAll()
         {
-            AsyncResponseAll();
-        }
-        // 현재 씬(마트/회의실)의 스폰 포인트를 가져와서 접속 순서대로 배치한다.
-        private async UniTask AsyncResponseAll() //스폰좌표가 자꾸 문제생긴다 비동기 처리로 바꾸자
-        {
-            userOrder.Sort((a, b) =>
-            {
-                if (int.TryParse(a, out int idA) && int.TryParse(b, out int idB))
-                    return idA.CompareTo(idB);
-                return string.CompareOrdinal(a, b);
-            }); // userOrder 오름차순 정렬
-
             Transform[] spawnPoints = new Transform[userOrder.Count];
 
             switch (activeContentScene)
