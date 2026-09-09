@@ -335,25 +335,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 490660946704159996, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1441246202570186129, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1441246202570186129, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1441246202570186129, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.95
       objectReference: {fileID: 0}
     - target: {fileID: 3548544798737560072, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_Name
       value: CommonUI
       objectReference: {fileID: 0}
-    - target: {fileID: 3548544798737560072, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+    - target: {fileID: 3928238055327792750, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4894597519621791512, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_Pivot.x
@@ -437,24 +441,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6255092997598913748, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6255092997598913748, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6255092997598913748, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.95
       objectReference: {fileID: 0}
-    - target: {fileID: 7829641515144494131, guid: 04696a2099539414c80644c23c253cfc, type: 3}
-      propertyPath: volumePanel
-      value: 
-      objectReference: {fileID: 1377705471}
-    - target: {fileID: 7829641515144494131, guid: 04696a2099539414c80644c23c253cfc, type: 3}
-      propertyPath: volumeButton
-      value: 
-      objectReference: {fileID: 1682853923}
     - target: {fileID: 8121151374845774182, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -463,6 +459,10 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1492011736}
+    - target: {fileID: 8230558486277504029, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1020,11 +1020,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!1 &1377705471 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4010071322935733122, guid: 04696a2099539414c80644c23c253cfc, type: 3}
-  m_PrefabInstance: {fileID: 791115836}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1492011734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,17 +1337,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
---- !u!114 &1682853923 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6354932617083608646, guid: 04696a2099539414c80644c23c253cfc, type: 3}
-  m_PrefabInstance: {fileID: 791115836}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &2037544792
 GameObject:
   m_ObjectHideFlags: 0
