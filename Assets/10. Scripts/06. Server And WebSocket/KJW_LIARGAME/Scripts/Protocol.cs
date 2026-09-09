@@ -335,7 +335,7 @@ namespace TeamSH
 
  
 
-            public bool IsPushedState { get; set; } // 현재 밀쳐진 상태인가?
+
 
         }
 
