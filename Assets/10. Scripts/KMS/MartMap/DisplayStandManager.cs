@@ -16,6 +16,8 @@ public class DisplayStandManager : MonoBehaviour
     public List<AreaData> Areas = new();
 
     public GameObject ItemBox; //아이템 담을 박스 프리팹 원본
+    public Transform ItemContainer { get; private set; } // 아이템을 실제로 담아 둘 컨테이너 좌표
+
     public int AllStandCount = 0;
     public bool IsReady { get; private set; } = false;
     public bool IsFinishSetItem { get; private set; } = false;
@@ -27,7 +29,11 @@ public class DisplayStandManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-
+            GameObject container = new GameObject("MartItemContainer");
+            ItemContainer = container.transform;
+            ItemContainer.SetParent(null); // 씬 루트에 위치
+            ItemContainer.localScale = Vector3.one;
+            ItemContainer.rotation = Quaternion.identity;
             Init();
         }
         else

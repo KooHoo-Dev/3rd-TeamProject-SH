@@ -168,7 +168,8 @@ public class DisplayStand : MonoBehaviour
         Debug.Log($"[DisplayStand] SetItem : {item?.ItemName} - {martItem?.name}");
         if (martItem == null) return;
         martItem.itemDef = item;
-        martItem?.transform.SetParent(transform);
+        //martItem?.transform.SetParent(transform); //매대에 자식으로 넣으니 스케일문제가 생김
+        martItem.transform.SetParent(DisplayStandManager.Instance.ItemContainer, true);
         MartItems.Add(martItem);
     }
     
@@ -220,6 +221,7 @@ public class DisplayStand : MonoBehaviour
         newBox.AddComponent<MartItem>();
         MartItem box = newBox.GetComponent<MartItem>();
         box.SetItemInfo(this, Items[index], index); //여기 아이템 리스트중 하나 골라 보내기코드 필요
+        box.KillAnimation();
         RequestActiveItem(index);
         return box;
     }
