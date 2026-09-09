@@ -855,6 +855,13 @@ namespace TeamSH
                 Debug.Log($"우승자는 {winner} 입니다.");
             }
 
+            
+            
+            for (int i = 0; i < userOrder.Count; i++)
+            {
+                if (WinnerUserID.Contains(userOrder[i])) DoSetPlayer(userOrder[i], "applyMeeting");
+            }
+
             LightManager.Instance?.TurnOnWinners(GetPointPivot(WinnerUserID)); // 우승자 조명 강조
             MeetingRoomUIManager.Instance?.ShowWinOrDefeat(WinnerUserID.Contains(Me.Id)); // 승리 or 패배
             
@@ -1112,6 +1119,23 @@ namespace TeamSH
             foreach (RemotePlayer remote in remotes.Values)
             {
                 remote.SetPlayerWithScenes(playerState);
+            }
+        }
+
+        private void DoSetPlayer(string userId, string playerState)
+        {
+            // 매개변수 ID가 내 ID와 동일하면 애니메이션 세팅
+            if(Me.Id == userId) localPlayer.SetPlayerWithScenes(playerState);
+
+            // 
+            foreach (string remoteId in remotes.Keys)
+            {
+                if (remoteId == userId)
+                {
+                    remotes.TryGetValue(remoteId, out RemotePlayer remote);
+                    remote.SetPlayerWithScenes(playerState);
+                }
+                
             }
         }
 
