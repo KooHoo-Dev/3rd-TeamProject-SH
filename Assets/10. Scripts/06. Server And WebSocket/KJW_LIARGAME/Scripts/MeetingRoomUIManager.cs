@@ -25,6 +25,7 @@ namespace TeamSH
                 liarOutButtonResultPanel.SetActive(false);
                 scoreTallyPanel.SetActive(false);
                 genreKeywordPanel.SetActive(false); 
+                
             }
             else
             {
@@ -81,6 +82,10 @@ namespace TeamSH
             pointAtResultPanel.SetActive(false);
             debateNoticePanel.SetActive(false);
             debateEndPanel.SetActive(false);
+            
+            // 투표 알림 UI 추가
+            voteLogPanel.SetActive(false);
+            
             liarConfirmedPanel.SetActive(false);
             liarGuessingNoticePanel.SetActive(false);
             keywordChatPanel.SetActive(false);
@@ -227,6 +232,43 @@ namespace TeamSH
             HideAllPanels();
             debateEndPanel.SetActive(true);
             debateEndText.text = "변론이 끝났습니다.";
+        }
+
+        #endregion
+
+        #region MyRegion
+
+        [Header("투표 안내")]
+        [SerializeField] private GameObject voteLogPanel;
+        [SerializeField] private TextMeshProUGUI voteLogText;
+        
+        private List<string> votelog = new List<string>();
+        public void ShowVoteLog(string nickname, string selectNum)
+        {
+            voteLogText.text = ""; // 초기화
+            voteLogPanel.SetActive(true);
+            string voteLog = $"{nickname} 이 " +
+                               $@"{selectNum switch
+                                   { "Liar" => "라이어로 투표했습니다.",
+                                       "DontKnow" => "모르겠다로 투표했습니다.",
+                                       "NotLiar" => "라이어가 아니다로 투표했습니다.",
+                                       _ => "" }}";
+            votelog.Add(voteLog);
+
+            voteLogText.text = $"{string.Join("\n", votelog)}";
+        }
+
+        public void HideVoteLog()
+        {
+            votelog.Clear(); // 리스트 클리어
+            voteLogText.text = "";
+            voteLogPanel.SetActive(false); // 투표 안내 패널 비활성화
+        }
+
+        // 투표 스킵될 때 나오는 텍스트
+        public void VoteSkipText()
+        {
+            voteLogText.text = "투표가 스킵되었습니다.";
         }
 
         #endregion

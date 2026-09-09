@@ -715,7 +715,7 @@ namespace TeamSH
             else Vote_System.Instance?.SetTurnType(Vote_System.TurnType.Wait, timerMs);
 
             // 턴 패널 비활성화
-            MeetingRoomUIManager.Instance?.ClearTurnNotices(); 
+            MeetingRoomUIManager.Instance?.ClearTurnNotices();
             
             SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
             SoundManager.Instance?.PlayBGM(SoundManager.GameBGM.LiarGameVoteOrPoint); // 투표 BGM
@@ -723,12 +723,26 @@ namespace TeamSH
 
         private void OnVoteEndState(float timerMs, int cycle, int round)
         {
+            OnVoteEndStateAsync(timerMs, cycle, round).Forget(); 
+        }
+
+        private async UniTask OnVoteEndStateAsync(float timerMs, int cycle, int round) 
+        {
             DoSetPhase(TurnMessageType.VoteEndState, timerMs, cycle, round);
             //여기가 투표 종료
             Vote_System.Instance?.SetTurnType(Vote_System.TurnType.Wait, timerMs);
             ConferenceManager.Instance?.RequestVoteUI(false);
             //투표 종료할 때 PointTarget 초기화
             Vote_System.Instance?.ResetPointTarget();
+            
+            // 투표 스킵될 때 나오는 텍스트
+            if (RemainingSeconds > 0) MeetingRoomUIManager.Instance.VoteSkipText(); 
+            
+            // 투표 종료 상태 진입할때 투표 로그를 2초동안만 보여주고 비활성화
+            await UniTask.Delay(TimeSpan.FromSeconds(2f), cancellationToken: destroyCancellationToken); 
+            
+            // 투표 알림 UI 비활성화
+            MeetingRoomUIManager.Instance?.HideVoteLog();
         }
 
         private void OnLiarConfirmedState(float timerMs, int cycle, int round, string electedId)
@@ -950,6 +964,9 @@ namespace TeamSH
         {
             string debugMessage = "";
 
+            // 투표 대상자한테만 보임
+            if(Me.Id == MostSelectId)MeetingRoomUIManager.Instance?.ShowVoteLog(GetNickName(message.UserID), message.selectNum);
+            
             switch (message.selectNum)
             {
                 case "Liar":
