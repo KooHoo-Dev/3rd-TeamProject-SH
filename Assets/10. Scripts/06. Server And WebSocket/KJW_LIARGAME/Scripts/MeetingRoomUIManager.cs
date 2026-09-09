@@ -162,11 +162,11 @@ namespace TeamSH
         [SerializeField] private GameObject speechEndPanel;
         [SerializeField] private TextMeshProUGUI speechEndText;
 
-        public void ShowSpeechEndNotice(string speakerNickname, string specialChat)
+        public void ShowSpeechEndNotice(string specialChat)
         {
             HideAllPanels();
             speechEndPanel.SetActive(true);
-            speechEndText.text = $"{(RichTextUtils.ToColoredRichText(speakerNickname + " : " + specialChat, client.colorSet.GetColor(client.Me.Id)))}";
+            speechEndText.text = $"{(RichTextUtils.ToColoredRichText(specialChat, client.colorSet.GetColor(client.Me.Id)))}";
         }
 
         #endregion

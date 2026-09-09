@@ -383,7 +383,7 @@ namespace TeamSH
         private void OnNormalChat(string id, string nickName, string text)
         {
             string mine = Me != null && id == Me.Id ? "(나)" : "";
-            string line = $"[일반] {RichTextUtils.ToColoredRichText(nickName + mine + " : " + text, colorSet.GetColor(id))}"; // 채팅창 로그 표시
+            string line = $"{RichTextUtils.ToColoredRichText(nickName + mine + " : " + text, colorSet.GetColor(id))}"; // 채팅창 로그 표시
             chatLog.Add(line); // 로그에 추가
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
             CommonUIManager.Instance?.AppendChatLine(line); // 채팅창 라인 추가
@@ -618,14 +618,16 @@ namespace TeamSH
             chatLog.Add(line);
             if (chatLog.Count > ChatKeep) chatLog.RemoveAt(0);
             CommonUIManager.Instance?.AppendChatLine(line); // 채팅 라인 추가
-
-            // 단일로 저장
-            SpecialChat = text;
-
+            
             // TAB 정보창용 특수채팅로그
             string itemName = DoGetItem(id, CurrentCategory); 
-            specialChatLog.Add($"[특수] {nickName}({itemName}){mine} : {text}"); // 현재 카테고리의 아이템 이름 시각화
+            
+            // 단일로 저장
+            SpecialChat = RichTextUtils.ToColoredRichText($"{nickName}({itemName}){mine} : {text}", colorSet.GetColor(id));
+            
+            specialChatLog.Add(SpecialChat); // 현재 카테고리의 아이템 이름 시각화
 
+            
             Debug.Log($"[특수] {id} : {text}");
         }
 
@@ -634,7 +636,7 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.SpeechEndState, timerMs, cycle, round);
 
             Debug.Log("현재 발언자의 특수채팅 : " + SpecialChat);
-            MeetingRoomUIManager.Instance?.ShowSpeechEndNotice(GetNickName(CurrentFocusID), SpecialChat); 
+            MeetingRoomUIManager.Instance?.ShowSpeechEndNotice(SpecialChat); 
         }
 
         private void OnPointAtSuspectState(float timerMs, int cycle, int round)
