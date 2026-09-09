@@ -355,6 +355,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1701422917607093535, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3548544798737560072, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_Name
       value: CommonUI
@@ -368,6 +372,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4070875772924800393, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639222376749473772, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
