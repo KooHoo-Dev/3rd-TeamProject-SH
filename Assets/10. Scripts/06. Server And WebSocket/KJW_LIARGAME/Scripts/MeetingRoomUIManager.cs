@@ -31,6 +31,8 @@ namespace TeamSH
                 Destroy(gameObject);
             }
 
+            questResultImage = questResultPanel.GetComponent<Image>();
+
         }
 
         private void OnDestroy()
@@ -122,6 +124,8 @@ namespace TeamSH
         [Header("퀘스트 결과")]
         [SerializeField] private GameObject questResultPanel;
         [SerializeField] private TextMeshProUGUI questResultText;
+        
+        private Image questResultImage; // 퀘스트 성공 / 실패에 따른 색상 분기
 
         // 마트 복귀 씬 로드가 끝난 뒤 LiarClient가 호출한다.
         public void ShowQuestResult(bool isSuccess)
@@ -129,6 +133,8 @@ namespace TeamSH
             HideAllPanels();
             questResultPanel.SetActive(true);
             questResultText.text = isSuccess ? "퀘스트에 성공했습니다!" : "퀘스트에 실패했습니다.";
+            
+            questResultImage.color = isSuccess ? Color.blue : Color.red; // 성공하면 파란색, 실패하면 빨간색
         }
 
         #endregion

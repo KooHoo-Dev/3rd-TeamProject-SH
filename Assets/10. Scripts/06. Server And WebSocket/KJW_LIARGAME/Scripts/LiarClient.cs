@@ -864,8 +864,9 @@ namespace TeamSH
                 if (WinnerUserID.Contains(userOrder[i])) DoSetPlayer(userOrder[i], VICTORYSTATE);
                 else DoSetPlayer(userOrder[i], DEFEATSTATE);
             }
-
-            LightManager.Instance?.TurnOnWinners(GetPointPivot(WinnerUserID)); // 우승자 조명 강조
+            
+            LightManager.Instance?.TurnOnFocusTable(); // 탁자 정중앙에 조명 포커싱
+            
             MeetingRoomUIManager.Instance?.ShowWinOrDefeat(WinnerUserID.Contains(Me.Id)); // 승리 or 패배
             
             SoundManager.Instance?.StopBGM(); // 이전 BGM 초기화
