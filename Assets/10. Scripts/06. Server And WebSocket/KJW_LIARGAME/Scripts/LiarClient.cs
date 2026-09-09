@@ -432,6 +432,8 @@ namespace TeamSH
             DoSetPhase(TurnMessageType.GameStartState, timerMs, cycle, round);
             DoSetPlayer(MEETINGSTATE); // 회의실에 앉은 상태
             CommonUIManager.Instance?.ShowTimer(); // 타이머 보여줌
+            
+            CommonUIManager.Instance?.GameStartUI(); // 게임 시작 알림 UI
         }
 
         private void OnGenreAssignAndLiarSelectState(float timerMs, int cycle, int round, int genreId,
@@ -442,6 +444,8 @@ namespace TeamSH
             // 매 라운드 시작마다 오는 상태라 여기서도 켜준다.
             // 라운드 끝날 때 로비 경유하면서 HideTimer가 불려서 2라운드부턴 안 켜지던 버그
             CommonUIManager.Instance?.ShowTimer();
+            
+            CommonUIManager.Instance?.ReadyToSelectUI(); // 장르 및 키워드 뿌리기 준비 중 UI
 
             Debug.Log($"라이어의 ID는 :{liarId} 입니다.");
 

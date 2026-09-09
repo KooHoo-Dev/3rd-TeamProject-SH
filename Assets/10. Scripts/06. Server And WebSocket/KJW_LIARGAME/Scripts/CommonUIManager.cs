@@ -34,6 +34,12 @@ namespace TeamSH
                 // 볼륨 설정 버튼 추가
                 volumeButton.onClick.AddListener(ActiveVolumePanel);
                 volumePanel.SetActive(false);
+                
+                // 게임 시작 알림 UI 추가
+                gamestartPanel.SetActive(false);
+                
+                // 장르 및 키워드 뿌리기 준비중 UI 추가
+                readytoSelectPanel.SetActive(false);
             }
             else
             {
@@ -122,6 +128,33 @@ namespace TeamSH
 
         #endregion
 
+        #region 게임 시작 알림 UI
+
+        [Header("게임 시작 UI")]
+        [SerializeField] private GameObject gamestartPanel; 
+        [SerializeField] private TextMeshProUGUI gamestartText;
+
+        public void GameStartUI()
+        {
+            gamestartPanel.SetActive(true);
+        }
+        
+        #endregion
+
+        #region 장르 및 키워드 뿌리기 준비중 UI
+
+        [Header("장르 및 키워드 뿌리기 준비중 UI")] 
+        [SerializeField] private GameObject readytoSelectPanel;
+        [SerializeField] private TextMeshProUGUI readytoSelectText;
+
+        public void ReadyToSelectUI()
+        {
+            gamestartPanel.SetActive(false); // 게임 시작 알림 UI 비활성화
+            readytoSelectPanel.SetActive(true);
+        }
+        
+        #endregion
+
         #region 채팅 (로비 / 회의실 공통, 마트에서는 숨김)
 
         [Header("채팅")]
@@ -193,6 +226,8 @@ namespace TeamSH
         // OnKeywordDistributeState에서 LiarClient가 호출한다.
         public void ShowKeywordReveal(string genre, string keyword, int round, int maxRound)
         {
+            readytoSelectPanel.SetActive(false); // 장르 / 키워드 준비중 UI 비활성화
+            
             keywordRevealPanel.SetActive(true);
             keywordRevealText.text = $"장르 : {genre}\n키워드 : {keyword}\n현재 라운드 : {round} / {maxRound}";
         }
