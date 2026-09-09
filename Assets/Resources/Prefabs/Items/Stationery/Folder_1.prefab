@@ -115,7 +115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4100737826419947437}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.02327136, y: 0.023271358, z: 0.70672375, w: 0.70672375}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -8.824, y: 1.476236, z: -3.2730415}
   m_LocalScale: {x: 2.7, y: 2.7, z: 2.7}
   m_ConstrainProportionsScale: 1
@@ -124,7 +124,7 @@ Transform:
   - {fileID: 7764031785351724863}
   - {fileID: 7019948523571141105}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -3.772, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &3557105755166709308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,12 +137,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63b1fd8f6c820294bb3b60f94b692168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MartItem
-  def:
+  itemDef:
     ItemId: 0
     CategoryType: 0
     CategoryName: 
     ItemName: 
     PrefabKey: {fileID: 0}
+  originY: 0
+  moveDistance: 0.5
+  moveDuration: 1.2
+  rotateDuration: 5
 --- !u!1 &8482173825037763811
 GameObject:
   m_ObjectHideFlags: 0
