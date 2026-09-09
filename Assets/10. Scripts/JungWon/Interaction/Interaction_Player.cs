@@ -27,8 +27,8 @@ namespace TeamSH
                 case "GameReady": controller.ApplyReadyPlayer(); break;
                 case "applyMeeting": controller.ApplyMeetingPlayer(); break;
                 case "applyMart": controller.ApplyMartPlayer(); break;
-                case "applyVictory": controller.ApplyVictoryMotion(); break;
-                case "applyDefeat" : controller.ApplyDefeatMotion(); break;
+                case "Victory": controller.ApplyVictoryMotion(); break;
+                case "Defeat" : controller.ApplyDefeatMotion(); break;
                 default: controller.ApplyReadyPlayer(); break;
             }
         }

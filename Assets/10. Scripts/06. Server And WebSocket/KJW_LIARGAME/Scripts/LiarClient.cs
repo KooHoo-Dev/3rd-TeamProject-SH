@@ -858,10 +858,11 @@ namespace TeamSH
             }
 
             
-            
+            // 승리 + 패배 애니메이션 분기처리
             for (int i = 0; i < userOrder.Count; i++)
             {
-                if (WinnerUserID.Contains(userOrder[i])) DoSetPlayer(userOrder[i], "applyMeeting");
+                if (WinnerUserID.Contains(userOrder[i])) DoSetPlayer(userOrder[i], VICTORYSTATE);
+                else DoSetPlayer(userOrder[i], DEFEATSTATE);
             }
 
             LightManager.Instance?.TurnOnWinners(GetPointPivot(WinnerUserID)); // 우승자 조명 강조
