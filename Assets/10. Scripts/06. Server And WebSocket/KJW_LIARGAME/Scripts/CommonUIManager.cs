@@ -31,7 +31,7 @@ namespace TeamSH
                 chatGroup.SetActive(false);
                 keywordRevealPanel.SetActive(false);
                 
-                // 볼륨 설정 버튼 추가
+                // 볼륨 설정 버튼 추가 - 설정 패널과 버튼으로 바뀜(명칭은 추후 수정)
                 volumeButton.onClick.AddListener(ActiveVolumePanel);
                 volumePanel.SetActive(false);
                 
@@ -40,6 +40,11 @@ namespace TeamSH
                 
                 // 장르 및 키워드 뿌리기 준비중 UI 추가
                 readytoSelectPanel.SetActive(false);
+
+                // 튜토리얼 UI
+                InitTutorial();
+                prevButton.onClick.AddListener(OnClickPrevTutorial);
+                nextButton.onClick.AddListener(OnClickNextTutorial);
             }
             else
             {
@@ -236,5 +241,54 @@ namespace TeamSH
         public void HideKeywordReveal() => keywordRevealPanel.SetActive(false);
 
         #endregion
+        
+        # region 튜토리얼 페이지 컨트롤
+
+        [Header("튜토리얼 세팅")]
+        [SerializeField] private TextMeshProUGUI pageCountText;
+        [SerializeField] private Button prevButton;
+        [SerializeField] private Button nextButton;
+        [SerializeField] private List<GameObject> pages = new();
+        private int currentIndex = 0;
+
+        public void InitTutorial()
+        {
+            currentIndex = 0;
+            UpdateTutorialPage();
+        }
+
+        private void OnClickNextTutorial()
+        {
+            if (currentIndex >= pages.Count - 1) return;
+            currentIndex++;
+            UpdateTutorialPage();
+        }
+
+        private void OnClickPrevTutorial()
+        {
+            if (currentIndex <= 0) return;
+            currentIndex--;
+            UpdateTutorialPage();
+        }
+
+        private void UpdateTutorialPage()
+        {
+            currentIndex = Mathf.Clamp(currentIndex, 0, pages.Count - 1);
+            for (int i = 0; i < pages.Count; i++)
+            {
+                if (i == currentIndex) 
+                    pages[i].SetActive(true);
+                else pages[i].SetActive(false);
+            }
+            SetPageCount(currentIndex);
+        }
+
+        private void SetPageCount(int index)
+        {
+            pageCountText.text = $"{index + 1}/{pages.Count}";
+        }
+
+
+        # endregion
     }
 }

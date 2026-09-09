@@ -355,6 +355,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CommonUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3548544798737560072, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3928238055327792750, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -462,6 +466,10 @@ PrefabInstance:
     - target: {fileID: 8230558486277504029, guid: 04696a2099539414c80644c23c253cfc, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583901087711665738, guid: 04696a2099539414c80644c23c253cfc, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1326,7 +1334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5114371377077911393, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5639544802717752955, guid: c6c2aefbaf13f514ca3432b09a640cb9, type: 3}
       propertyPath: m_Name
