@@ -29,11 +29,12 @@ namespace TeamSH
 
         private void Update()
         {
-            if (canMove == false || Controller3D.HasKnockback)
+            if (canMove == false)
             {
-                Controller3D.SetMoveInput(Vector3.zero);
+                Controller3D.ResetApplyKnockback(); 
                 return;
             }
+            if(Controller3D.HasKnockback) Controller3D.SetMoveInput(Vector3.zero);
 
             TryGetItem();
             TryPutDownItem();

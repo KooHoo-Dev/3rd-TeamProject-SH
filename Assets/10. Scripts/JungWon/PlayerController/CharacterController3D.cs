@@ -81,6 +81,13 @@ namespace TeamSH
 
             externalVelocity += direction * power;
         }
+
+        public void ResetApplyKnockback()
+        {
+            moveX = 0.0f;
+            moveZ = 0.0f;
+            externalVelocity = Vector3.zero;
+        }
         
         #endregion
         

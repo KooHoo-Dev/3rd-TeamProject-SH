@@ -8,6 +8,8 @@ namespace TeamSH
         protected static readonly int GET_ITEM = Animator.StringToHash("GetItem");
         protected static readonly int IS_PUSH = Animator.StringToHash("IsPush");
         protected static readonly int IsSitting = Animator.StringToHash("IsSitting");
+        protected static readonly int Victory = Animator.StringToHash("Victory");
+        protected static readonly int Defeat = Animator.StringToHash("Defeat");
         
         public Animator Animator { get; private set; }
         [SerializeField] protected bool canMove = true;
@@ -50,6 +52,18 @@ namespace TeamSH
         {
             canMove = true;
             Animator.SetBool(IsSitting, false);
+        }
+
+        public void ApplyVictoryMotion()
+        {
+            Animator.SetLayerWeight(1, 1);
+            Animator.SetTrigger(Victory);
+        }
+
+        public void ApplyDefeatMotion()
+        {
+            Animator.SetLayerWeight(1, 1);
+            Animator.SetTrigger(Defeat);
         }
         
         public abstract void ApplyKnockback(Vector3 hitDirection, float power);
