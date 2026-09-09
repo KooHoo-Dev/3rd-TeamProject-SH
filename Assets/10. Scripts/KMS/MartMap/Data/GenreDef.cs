@@ -10,6 +10,12 @@ namespace TeamSH
         Animal,
         Movie,
         Game,
+        Vehicle,
+        Country,
+        Subject,
+        Color,
+        Holiday,
+        Zodiac,
         None
     }
     public class GenreDTO
