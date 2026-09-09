@@ -2301,7 +2301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -3059,6 +3059,8 @@ MonoBehaviour:
   debateNoticeText: {fileID: 4227226264172411690}
   debateEndPanel: {fileID: 1040037609507455089}
   debateEndText: {fileID: 4975778980983396909}
+  voteLogPanel: {fileID: 0}
+  voteLogText: {fileID: 0}
   liarConfirmedPanel: {fileID: 5026987172970679346}
   liarConfirmedText: {fileID: 1452849849353624971}
   liarGuessingNoticePanel: {fileID: 717665390050911746}
