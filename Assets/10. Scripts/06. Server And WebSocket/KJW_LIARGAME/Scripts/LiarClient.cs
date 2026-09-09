@@ -181,6 +181,8 @@ namespace TeamSH
         public const string READYSTATE = "GameReady";
         public const string MEETINGSTATE = "applyMeeting";
         public const string MARTSTATE = "applyMart";
+        public const string VICTORYSTATE = "Victory";
+        public const string DEFEATSTATE = "Defeat";
 
         // 지금 추가로 떠 있는 씬 이름
         private string activeContentScene;
